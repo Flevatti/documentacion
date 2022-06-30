@@ -4,7 +4,7 @@ sidebar_position: 2
 # JavaScript Basico 2 
 
 :::tip
-TIP
+
 Preocuparse por la eficiencia puede ser una distracción. Es otro factor más que complica el diseño del programa, y cuando estás haciendo algo que ya es difícil, esa cosa extra de la que preocuparte puede ser paralizante. Por lo tanto, empieza siempre por escribir algo que sea correcto y fácil de entender. Si te preocupa que sea demasiado lento, que normalmente no lo es, ya que la mayoría del código simplemente no se ejecuta con la frecuencia suficiente para llevar una cantidad significativa de tiempo, puedes medirlo después y mejorarlo si es necesario.
 :::
 
@@ -429,12 +429,15 @@ Los parametros con valores por defecto se puede aplicar a los otros tipos de fun
 ## Arrow & forEach()
 
  El método forEach() ejecuta la función indicada una vez por cada elemento del array
- :::tip
+
+
+:::tip
+
  No solo recorre arrays 
 
  forEach puede recorrer NodeList y muchos mas
 
- :::
+:::
 
 El parámetro es una función flecha (la que se va a ejecutar por cada elemento)
 

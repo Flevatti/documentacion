@@ -3,7 +3,7 @@ import Layout from '@theme/Layout';
 import clsx from 'clsx';
 import styles from '../components/HomepageFeatures/styles.module.css';
 import stylesPage from './index.module.css';
-
+import Link from '@docusaurus/Link';
 const FeatureList = [
     {
         title: 'Vanilla',
@@ -17,6 +17,7 @@ const FeatureList = [
     },
     {
         title: 'React',
+        url:'/docs/React',
         Svg: require('@site/static/img/logo_react.svg').default,
         description: (
             <>
@@ -26,6 +27,7 @@ const FeatureList = [
     },
     {
         title: 'Node',
+        url:'/docs/Node',
         Svg: require('@site/static/img/logo_node.svg').default,
         description: (
             <>
@@ -35,6 +37,7 @@ const FeatureList = [
     }, 
     {
         title: 'Vuepress',
+        url:'/docs/Vuepress',
         Svg: require('@site/static/img/logo_vuepress.svg').default,
         description: (
             <>
@@ -43,6 +46,7 @@ const FeatureList = [
         ),
     },    {
         title: 'Vue',
+        url:'/docs/vue',
         Svg: require('@site/static/img/logo_vue.svg').default,
         description: (
             <>
@@ -71,7 +75,7 @@ function Feature({ Svg, title, description , url }) {
                 <Svg className={styles.featureSvg} role="img" />
             </div>
             <div className="text--center padding-horiz--md">
-            <h3><a href={url}>{title}</a></h3>
+            <h3> <Link to={url}>{title}</Link></h3>
                 <p>{description}</p>
             </div>
         </div>

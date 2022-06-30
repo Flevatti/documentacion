@@ -29,8 +29,3 @@ En la consola  de los navegdores aparece los errores.
 •	JS: es un lenguaje de secuencias de comandos que te permite crear contenido de actualización dinámica, controlar multimedia, animar imágenes y prácticamente todo lo demás. (Está bien, no todo, pero es sorprendente lo que puedes lograr con unas pocas líneas de código JavaScript).
 
 
-## [Node](../Node)
-
-## [React](../React)
-
-<!-- ## [Vue](../vue) -->

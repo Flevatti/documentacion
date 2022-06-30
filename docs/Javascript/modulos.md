@@ -48,9 +48,9 @@ Las dos extensiones son de Javascript , pero mjs es para representar un modulo.
   ```js
  const fruta = "🍉";
  ```
- :::warning ERROR
+:::warning ERROR
 Error por sobrescribir una variable const
- :::
+:::
 
  ## IIFE
 
@@ -94,18 +94,15 @@ Como se puede ver, no chocan, no se sobrescriben.
 - No tenemos alcance de nuestras variables y se nos puede salir de las manos. 
 :::tip Solucionar problemas
  Para solucionar estos problemas(desventajas), se deben usar los Módulos.
- :::
+:::
 :::tip Orden de etiqueta script 
-Cuidado con el orden de la etiqueta SCRIPT cuando un archivo depende del otro 
+ Cuidado con el orden de la etiqueta SCRIPT cuando un archivo depende del otro 
 
-Generalmente van del más independiente al más dependiente
-```js
- <script src="js/app.js"></script>
-    <script src="js/fruta.js"></script>
-```
- 
-
-
+ Generalmente van del más independiente al más dependiente
+ ```js
+  <script src="js/app.js"></script>
+     <script src="js/fruta.js"></script>
+ ```
 :::
 
 ## export e import

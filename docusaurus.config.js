@@ -56,6 +56,13 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        appId: '7KL6IQT2TV',
+        apiKey: '0e0214c26197198d4aadaacea20230af',
+        indexName: 'search_documentacion',
+        contextualSearch: true,
+         placeholder:'Busca en la documentacion' ,
+      },
       navbar: {
         title: 'Presentacion',
         logo: {

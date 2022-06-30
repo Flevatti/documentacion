@@ -311,14 +311,14 @@ Hace referencia al objeto en el cual está ubicado.
 
  Hace referencia al objeto contexto(scope) de JavaScript en el cual se está ejecutando el código actual.
 
- :::tip
+:::tip
    
 el this se queda en el ámbito (scope / en el bloque)  (sube un nivel como máximo (un bloque ariba ))
 
 Podes hacer una variable llamada self con el valor  this para tener acceso al objeto en sub funciones
 
 
- :::
+:::
 
  ```js
  const gato = {

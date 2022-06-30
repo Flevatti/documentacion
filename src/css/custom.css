@@ -33,3 +33,11 @@
 svg {
   width:150px !important;
 }
+
+.DocSearch-Hit-icon {
+  display:none !important;
+}
+
+.codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Container-styles-module {
+    overflow:hidden !important;
+}

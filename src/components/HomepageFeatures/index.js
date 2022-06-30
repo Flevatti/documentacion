@@ -1,10 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-
+import Link from '@docusaurus/Link';
 const FeatureList = [
   {
     title: 'HTML',
+    url:'docs/HTML',
     Svg: require('@site/static/img/logo_html.svg').default,
     description: (
       <>
@@ -15,6 +16,7 @@ const FeatureList = [
   },
   {
     title: 'CSS',
+    url:'docs/CSS',
     Svg: require('@site/static/img/logo_css.svg').default,
     description: (
       <>
@@ -36,6 +38,7 @@ const FeatureList = [
     ),
   },  {
     title: 'SQL',
+    url:'docs/SQL',
     Svg: require('@site/static/img/logo_sql.svg').default,
     description: (
       <>
@@ -44,6 +47,7 @@ const FeatureList = [
     ),
   },  {
     title: 'Java',
+    url:'docs/Java',
     Svg: require('@site/static/img/logo_java.svg').default,
     description: (
       <>
@@ -52,6 +56,7 @@ const FeatureList = [
     ),
   }, {
     title: 'Git ',
+    url:'docs/Git',
     Svg: require('@site/static/img/logo_git.svg').default,
     description: (
       <>
@@ -68,7 +73,7 @@ function Feature({Svg, title, description , url}) {
         <Svg className={styles.featureSvg} role="img"  />
       </div>
       <div className="text--center padding-horiz--md">
-        <h3><a href={url}>{title}</a></h3>
+      <h3> <Link to={url}>{title}</Link></h3>
         <p>{description}</p>
       </div>
     </div>

@@ -108,10 +108,12 @@ Validar Email:
 - Antes de enviar datos al servidor, es importante asegurarse de que se completan todos los controles de formulario requeridos, y en el formato correcto.
 - Esto se denomina validación de formulario en el lado del cliente y ayuda a garantizar que los datos que se envían coinciden con los requisitos establecidos en los diversos controles de formulario.
 :::tip 
-En el lado del cliente las validaciones son vulnerables, pero son mas para ayudar al usuario.
-
-¡la validación en el lado del cliente no debe considerarse una medida de seguridad exhaustiva! Tus aplicaciones siempre deben realizar comprobaciones de seguridad de los datos enviados por el formulario en el lado del servidor.
+ En el lado del cliente las validaciones son vulnerables, pero son mas para ayudar al usuario.
+ 
+ ¡la validación en el lado del cliente no debe considerarse una medida de seguridad exhaustiva! Tus aplicaciones siempre deben realizar comprobaciones de seguridad de los datos enviados por el formulario en el lado del servidor.
 :::
+
+
 	
 ### Hay dos tipos diferentes de validación por parte del cliente que encontrarás en la web:
 
