@@ -7,11 +7,15 @@ sidebar_position: 3
 -	Un objeto es una colección de propiedades, y una propiedad es una asociación entre una clave(nombre)  y un valor. (CLAVE Y VALOR)
 -	El valor de una propiedad puede ser una función, en cuyo caso la propiedad es conocida como un método.
 -	Además de los objetos que están predefinidos en el navegador, puedes definir tus propios objetos.
--	Los objetos son similares a los arreglos (arrays), excepto que en lugar de usar índices para acceder y modificar sus datos, accedes a los datos en objetos a través de propiedades (properties).
+-	Los objetos son similares a los arreglos (arrays), excepto que en lugar de usar índices para acceder y modificar sus datos, accedes a los datos de un objeto a través de  sus propiedades (properties).
 
+
+:::tip 
+- La "clave" se suele llamar "Propiedad" en el mundo de la progamación.
+- Entonces , se utiliza la clave para acceder y modificar los datos de un objeto.
+:::
 
 ### A tener en cuenta 
-- Se puede añadir una propiedad entre comillas Ej. "propiedad" : valor
 - Se puede utilizar el  punto o  los corchetes para  manipular las propiedades de un objeto.
 - Con los corchetes podes usar variables , espacios en blancos , caracteres especiales , etc
 
@@ -28,6 +32,7 @@ Para poner mas propiedades, lo separas con , (coma).
 
 Las propiedades pueden contener cualquier tipo de dato.
 
+Sintaxis: propiedad : valor
 ```js
 const gato = {
     nombre: 'Valiente',
@@ -108,7 +113,7 @@ console.log(gato);
 
 ```
 ## hasOwnProperty
-A veces es útil comprobar si existe o no la propiedad de un objeto dado. Podemos utilizar el método hasOwnProperty(propname) para determinar si un objeto tiene una propiedad con ese nombre .
+A veces es útil comprobar si existe o no la propiedad de un objeto dado. Podemos utilizar el método hasOwnProperty(parametro) para determinar si un objeto tiene una propiedad con ese nombre .
 
  Parametro  = El nombre de la propiedad a buscar
 
@@ -190,7 +195,7 @@ console.log(amigos.length);
 
 
 ```
-### metodos
+## Metodos
 
 push() es un método del array .
 
@@ -203,7 +208,7 @@ console.log(amigos.push());
 
 ```
 
-## Metodos
+## ¿Que es un Metodo?
 Es una funcion dentro del objeto
 
 ```js
@@ -305,19 +310,14 @@ gato.comer("pez");
 
 2. Usando el this
 ## This
-Hace referencia al scope que se está utilizando.
-
-Hace referencia al objeto en el cual está ubicado.
-
- Hace referencia al objeto contexto(scope) de JavaScript en el cual se está ejecutando el código actual.
-
-:::tip
-   
-el this se queda en el ámbito (scope / en el bloque)  (sube un nivel como máximo (un bloque ariba ))
-
-Podes hacer una variable llamada self con el valor  this para tener acceso al objeto en sub funciones
+- Hace referencia al scope que se está utilizando.
+- Hace referencia al objeto actual.
 
 
+:::tip THIS
+- El this se queda en el ámbito/scope/en el bloque.
+- Sube un nivel como máximo (un bloque arriba ).
+- Podes hacer una variable llamada self  que contenga el valor de  this para tener acceso al objeto en sub funciones.
 :::
 
  ```js
@@ -336,9 +336,67 @@ Podes hacer una variable llamada self con el valor  this para tener acceso al ob
 gato.comer("pez");
 
  ```
+- En JavaScript, la palabra clave this se refiere a un objeto (contiene la referencia de un objeto)
+- Se refiere a diferentes objetos dependiendo de donde se use:
 
+| Contexto  | Valor de This  |
+| - | - |
+|  En un método  | Se refiere al objeto    |
+|  En un ámbito/scope global | Se refiere al objeto window    |
+|  En una funcion en modo estricto| Es undefined   |
+|  En un evento | Se refiere al elemento que recibió el evento   |
+
+- El valor de this depende del contexto/scope.
+
+#### Scope de un método.
+- El valor de this es el objeto que invoca el método.
+```js
+  const objeto = {
+      color : "verde" ,
+      tamaño: "XL" ,
+      obtenerThis(){
+        console.log(this);
+      }
+
+    }
+    // This = Objeto
+    objeto.obtenerThis();
+
+```
+:::tip
+El valor de this es el objeto que se usa para llamar el método.
+:::
+#### Scope  de una clase
+- El valor de this es la “nueva instancia” que se crea.
+- El valor de this es el objeto, con el cual se accedió al método.
+- Los métodos estáticos no son propiedades de this. Son propiedades de la clase misma. Por lo tanto, se podría decir que this es una subclase.
+- This se utiliza para inicializar/crear las propiedades-valores de la “nueva instancia”, en la función constructor.
+```js
+      class Letra {
+     constructor(letra) {
+      this.letra = letra;
+     }
+}
+
+const c = new Letra("C");
+console.log(c.letra)
+
+```
+:::tip Observación
+Con el constructor, estamos creando la propiedad letra en la nueva instancia.
+:::
+#### Contexto global
+- En el contexto/scope de ejecución global (fuera de cualquier función o clase; puede estar dentro de bloques o funciones de flecha definidas en el ámbito global) , this tiene la referencia del objeto window (objeto global) .
+```js
+   console.log(this);
+```
+:::tip info
+[info](
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this#try_it
+)
+:::
 ## arrow function
-Funciona pero No tiene this o super y no se debe usarla como métodos.
+Funciona pero No tiene this o super y no se debe usar como método.
 
 Da como undefined ya que la función flecha no tiene this.
 
@@ -380,7 +438,7 @@ gato.listarEnemigos();
 
 ### for in
 
-La instrucción for-in itera sobre todas las propiedades enumerables de un objeto que está codificado por cadenas
+La instrucción for-in itera sobre todas las propiedades enumerables de un objeto
 
 
 Recorrer el nombre de todas las propiedades:
@@ -429,13 +487,11 @@ for (let propiedad in gato) {
 
 ```
 
-:::tip
-¿Por qué usar for...in?
-•	Dado que for...in está construido para iterar propiedades de objeto, no se recomienda su uso con arreglos y opciones como Array.prototype.forEach() y existe for...of, ¿cuál podría ser el uso de for...in?
-
-•	Es posible que se utilice de forma más práctica con fines de depuración, ya que es una forma fácil de comprobar las propiedades de un objeto (mediante la salida a la consola o de otro modo)
-
-•	Aunque los arreglos suelen ser más prácticos para almacenar datos, en situaciones en las que se prefiere un par clave-valor para trabajar con datos (con propiedades que actúan como la "clave"), puede haber casos en los que desees comprobar si alguna de esas claves cumple un valor particular.
+:::tip ¿Por qué usar for...in?
+ 
+- Dado que for...in está construido para iterar propiedades de objeto, no se recomienda su uso con arreglos y si existen opciones como Array.prototype.forEach() y o  for...of para que se usa este?.
+- Es posible que se utilice de forma más práctica con fines de depuración, ya que es una forma fácil de comprobar las propiedades de un objeto (mediante la salida a la consola o de otro modo)
+- Aunque los arreglos suelen ser más prácticos para almacenar datos, en situaciones en las que se prefiere un par clave-valor para trabajar con datos (con propiedades que actúan como la "clave"), puede haber casos en los que desees comprobar si alguna de esas claves cumple un valor particular.
 :::
 
 ## Object.values()

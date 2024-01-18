@@ -6,21 +6,18 @@ sidebar_position: 8
 ## JS - FETCH 
 
 Vive en el navegador.
--	fetch : La API Fetch proporciona una interfaz para recuperar recursos.
+-	fetch : La API Fetch proporciona una interfaz para recuperar/eliminar/eliminar/crear recursos.
 -	Fetch es una interfaz para hacer solicitudes AJAX en JavaScript. Es usado generalmente para hacer una solicitud a un API.
--	El método fetch() toma un argumento obligatorio, la ruta de acceso al recurso que desea recuperar.
+-	El método fetch() toma un argumento obligatorio, la ruta de acceso al recurso que desea recuperar (se puede configurar para editar/eliminar/crear un recurso).
 
 ## Ajax 
-- Significa  JavaScript Asíncrono + XML (XML viejito ahora utilizamos JSON)
-
+- Significa  JavaScript Asíncrono + XML (XML es viejito ahora utilizamos JSON)
 - AJAX no es una tecnología por sí misma, es un término que describe un nuevo modo de utilizar conjuntamente varias tecnologías existentes.
 
 :::tip AJAX 
-Es un conjunto de elementos(tecnología) que utilizamos para hacer javascript mas asíncrono y dinamico.
-
-Esto incluye: HTML, CSS, JavaScript, DOM, JSON y lo más importante, el objeto XMLHttpRequest (XMLHttpRequest viejito ahora Fetch)
-
-Cuando estas tecnologías se combinan es un modelo AJAX, 
+- Es un conjunto de elementos(tecnología) que utilizamos para hacer javascript mas asíncrono y dinamico.
+- Esto incluye: HTML, CSS, JavaScript, DOM, JSON y lo más importante, el objeto XMLHttpRequest (XMLHttpRequest es viejito ahora se usa Fetch)
+- Cuando estas tecnologías se combinan es un modelo AJAX, 
 
 :::
 
@@ -36,10 +33,10 @@ Cuando estas tecnologías se combinan es un modelo AJAX,
 
 ## Fetch API
 
-Proporciona una interfaz JavaScript para hacer peticiones HTTP así como sus respuestas.
+- Proporciona una interfaz JavaScript para hacer peticiones HTTP y obtener respuestas del servidor.
 -	También provee un método para obtener recursos de forma asíncrona por la red.
--	[fetch parámetros](https://developer.mozilla.org/en-US/docs/Web/API/fetch): inicia el proceso de obtener un recurso de la red mediante una url, devolviendo una promesa con  la respuesta.
-- 	Este tipo de funcionalidad se conseguía previamente haciendo uso de XMLHttpRequest.
+-	[Fetch parámetros](https://developer.mozilla.org/en-US/docs/Web/API/fetch): Si solo se usa un parametro, iniciamos el proceso de obtener un recurso de la red mediante una url, devolviendo una promesa con  la respuesta. Con el segundo parametro podemos editar/eliminar/crear un recurso.
+- Este tipo de funcionalidad se conseguía previamente haciendo uso de XMLHttpRequest.
 
 ```js
 fetch('http://example.com/movies.json')
@@ -49,19 +46,20 @@ fetch('http://example.com/movies.json')
 ```
 ## Conceptos  al realizar PETICIONES HTTP
 ### HTTP
-Hypertext Transfer Protocol (HTTP) (o Protocolo de Transferencia de Hipertexto en español) es el nombre de un protocolo el cual nos permite realizar una petición de datos y recurso. 
+- Hypertext Transfer Protocol (HTTP) (o Protocolo de Transferencia de Hipertexto en español) es el nombre de un protocolo el cual nos permite realizar una petición.
+- Esta petición puede ser para obtener un recurso , crear un recurso , etc.
 
 ### Ruta (PATH)
-Es la dirección de donde queremos obtener los recursos (URL)
+- Es una dirección(url) para realizarle una petición al servidor y  obtener/eliminar/crear/editar  un recurso .
+- En pocas palabra con el path hacemos una petición y recibimos una respuesta del servidor.
+- Es conocida como endpoint , url , path y Uri.
 ### Métodos Http
-HTTP define un conjunto de métodos de petición para indicar la acción que se desea realizar para un recurso determinado. (GET, POST, PUT, PATCH, DELETE) . 
-
-Todos los métodos hacen acciones diferentes pero nosotros lo configuramos.
-
-GET = Obtener/Enviar datos por la url. Viene por defecto con fetch .  (Es la url con la que chequeamos los datos)
+- HTTP define un conjunto de métodos de petición para indicar la acción que se desea realizar. (GET, POST, PUT, PATCH, DELETE) . 
+- Todos los métodos hacen acciones diferentes pero nosotros lo configuramos.
+- GET = Obtener/Enviar datos por la url. Viene por defecto con fetch . 
 
 ### Cabeceras (headers)
-Cabeceras HTTP opcionales, que pueden aportar información adicional a los servidores.
+Cabeceras HTTP opcionales,  pueden aportar información adicional a los servidores.
 ### Códigos de respuestas (Response Codes)
 Un código de estado, indicando si la petición ha sido exitosa, o no, y debido a que. 
 
@@ -79,8 +77,8 @@ Es el formato estandar para recibir/enviar información.
 
 ## Estructura del JSON
 
-- Como se describió previamente, un JSON es una cadena cuyo formato recuerda al de los objetos literales JavaScript.
-- 	Es posible incluir los mismos tipos de datos básicos dentro de un JSON que en un objeto estándar de JavaScript - cadenas, números, arreglos, booleanos, y otros  objeto.
+- Como se describió previamente, un JSON es una cadena(texto/string) cuyo formato recuerda al de los objetos literales JavaScript.
+- Es posible incluir los mismos tipos de datos básicos dentro de un JSON que en un objeto estándar de JavaScript - cadenas, números, arreglos, booleanos, y otros  objeto.
 
 Esto permite construir una jerarquia de datos - [como esta](https://pokeapi.co/api/v2/pokemon/ditto
 )
@@ -88,6 +86,9 @@ Esto permite construir una jerarquia de datos - [como esta](https://pokeapi.co/a
 ### [Format para chrome](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa)
 
 ## Volviendo a Fetch
+:::tip
+Podes usar la pestaña Network(Red) de la herramienta del navegador Chrome(Devtools) para ver las peticiones que se realizaron y sus respuestas.
+:::
 ```js
 const url = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -111,9 +112,7 @@ LAS API GRATIS Y PUBLICAS (SIN API KEY) A VECES SE CAEN
 :::
 
 
-:::tip Observacion 
-- La respuesta sin el archivo JSON contiene propiedades como el ok (Si la solicitud se realizo) , el status , la cabecera, etc
-:::
+
 ```js
 //fetch(path/uri)
 fetch("https://pokeapi.co/api/v2/pokemon/ditto")
@@ -124,7 +123,9 @@ fetch("https://pokeapi.co/api/v2/pokemon/ditto")
 }).then((data) => console.log(data.forms[0]));
 
 ```
-
+:::tip Observacion 
+- La respuesta sin el formato JSON contiene propiedades como el ok (Si la solicitud se realizo) , el status , la cabecera, etc
+:::
 ```js
 //fetch(path/uri)
 fetch("https://pokeapi.co/api/v2/pokemon/ditto")
@@ -139,14 +140,15 @@ fetch("https://pokeapi.co/api/v2/pokemon/ditto")
 ## Parametros de fetch
 
 ### 1- resource
-Esto define el recurso que desea recuperar (path/url)
+- Define el path
+- Por ahora solo especificamos la ruta del  recurso que queremos recuperar
 ### 2- init (opcionales)
 Un objeto que contiene cualquier configuración personalizada que desee aplicar a la solicitud. Las posibles opciones son:
 
 - method: El método de la petición, por ejemplo, GET, POST. Por defecto esta en GET.
 -	headers: Cualquier encabezado que desee agregar a su solicitud.
 -	body: Cualquier cuerpo que desea agregar a su solicitud: esto puede ser una Blob, BufferSource, FormData, URLSearchParams, USVString, o ReadableStreamobjeto. Tenga en cuenta que una solicitud que utiliza el método GET no puede tener un cuerpo.
--	mode: El modo en el que desea utilizar para la solicitud, por ejemplo, cors, no-cors, o same-origin.
+-	mode: El modo  que se utiliza para la solicitud, por ejemplo, cors, no-cors, o same-origin.
 -	credentials: Controla lo que hacen los navegadores con las credenciales.
 
 ## setAttribute()

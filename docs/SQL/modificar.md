@@ -162,11 +162,11 @@ No vamos a profundizar demasiado en las restricciones de la tabla en esta lecci�
 | Restricción      | Descripcion     
 | :-------------: |:-------------:| 
 | PRIMARY KEY     | Esto significa que los valores de esta columna son únicos y cada valor se puede utilizar para identificar una sola fila en esta tabla. |
-| AUTOINCREMENT | Para valores enteros, esto significa que el valor se completa e incrementa automaticamente con cada inserción de fila. No es compatible con todas las bases de datos |
+| AUTO_INCREMENT | Para valores enteros, esto significa que el valor se completa "SOLO" e incrementa automaticamente con cada inserción de fila. No es compatible con todas las bases de datos |
 | UNIQUE | Esto significa que los valores en está columna deben ser únicos , por lo que no puede insertar una fila con el mismo valor de otra fila (valor de la columna). |
 |NOT NULL | Esto significa que el valor insertado no puede ser NULL|
 | CHECK (expression) | Esto le permite ejecutar una expresión mas compleja para probar si los valores insertados son válidos . Por ejemplo , puede verificar que los valores sean positivos o mayores que un tamaño especifico , o comenzar con un prefijo determinado , etc. |
-| FOREIGN KEY| Se trata de una comprobación de coherencia que garantiza que cada valor de esta columna se corresponda con otro valor de una columna de otra tabla. -- Por ejemplo, si hay dos tablas, una que enumera todos los Empleados por ID y otra que enumera la información de la nómina , la "FOREIGN KEY" puede garantizar que cada fila en la tabla de nómina corresponda a un empleado válido en la lista de Empleados.
+| FOREIGN KEY| Se trata de una comprobación de coherencia que garantiza que cada valor de esta columna se corresponda con otro valor de una columna de otra tabla. -- Por ejemplo, si hay dos tablas, una que enumera todos los Empleados por ID y otra que enumera la información de la nómina , la "FOREIGN KEY" puede garantizar que cada fila en la tabla de nómina corresponda a un empleado válido en la lista de Empleados. |
 
 ```sql
 CREATE TABLE movies (

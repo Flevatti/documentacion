@@ -352,7 +352,7 @@ module.exports = router;
 
  POST http://localhost:3001/api/user/register
 
- Body  - JSON - raw – json
+ Body  - Raw – JSON
 
  ```json
  {

@@ -128,7 +128,7 @@ findPostById(1, (err, post) => {
 
 Para solucionar el callback hell , aparecieron las promesas.
 
-Es una promesa, donde el otro espera dos cosas , que  cumpla la promesa o que no la cumpla.
+Es una promesa, cuando se espera dos cosas , que  cumpla la promesa o que no la cumpla.
 
 En caso de que se cumpla la promesa sucede algo y en caso que no, sucede otra cosa.
 
@@ -243,9 +243,8 @@ setTimeout(() => {
 
 ## async await
 
-Vamos a suponer que demora un tiempo tratar una base de datos.
-
-Para eso usaremos la función setTimeout().
+- Vamos a suponer que demora un tiempo tratar una base de datos.
+- Para eso usaremos la función setTimeout():
 ```js
 const findPostById = (id) =>
     new Promise((resolve, reject) => {
@@ -264,12 +263,10 @@ findPostById(1)
 
 ```
 
-Las promesas son asíncronas. Se empiezan a ejecutar sin detener el código.
-
-No me voy a quedar esperando a que el otro cumpla la promesa o no.
-
-Mientras se espera una respuesta (de la promesa), se sigue ejecutando el resto.
-
+- Las promesas son asíncronas. Se empiezan a ejecutar sin detener el código.
+- No me voy a quedar esperando a que el otro cumpla la promesa o no.
+- Mientras se espera una respuesta (de la promesa), se sigue ejecutando el resto.
+- Ejemplo:
 ```js
 const findPostById = (id) =>
     new Promise((resolve, reject) => {
@@ -289,15 +286,16 @@ findPostById(1)
 console.log("fin del codigo");
 
 ```
-
-:::tip Regla 1
-Hay que utilizar funciones async.
+:::warning ¿Te devolvio el post?
+- La respuesta es NO , porque no esperamos a que se termine de ejecutar la promesa.
+- Mientras se muestra el console.log , la promesa se sigue ejecutando.
 :::
-:::tip 
-el await no puede funcionar sin un async.
+#### Solución
+ - Hay que utilizar funciones async y la palabra clave await . 
+ - El await no puede funcionar sin un async.
+- Con la palabra await se espera a que se ejecute la instrucción(promesa) para luego seguir con el resto del código.
 
-con la palabra await se espera a que se ejecute la instrucción(promesa) para luego seguir con el resto del código.
-:::
+
 
 ```js
 const buscar = async (id) => {
@@ -314,7 +312,7 @@ console.log("fin del codigo");
 el await debe estar adentro de un async para funcionar.
 
 
-el async y el await funciona solo con promesas
+el async y el await funciona solo con promesas.
 
 
 :::
@@ -336,7 +334,7 @@ Si falla lo que contiene el try, se ejecuta esto
 ```
 se puede usar el finally a lo ultimo para ejecutar un código al final (se ejecuta si o si)
 
-Se usa para la barra de cargar
+Se usa para la barra de cargando
 
 ```js
 const buscar = async (id) => {
@@ -374,6 +372,50 @@ const buscar = async () => {
 buscar();
 
 ```
+## Lanzar un error (throw)
+:::tip  Aclaracion
+ - Los errores , si no son tan graves y no interrumpen la ejecucion del progama , se suelen llamar excepciones
+:::
+-  throw Lanza una excepción definida por el usuario.
+```js
+throw valor;
+```
+- Utilice la sentencia throw para lanzar una excepción. Cuando lanza una excepción,  especifica el valor de la excepción. Cada uno de los siguientes ejemplos lanza una excepción:
+```js
+throw "Error2"; // genera una excepción con un valor String
+throw 42; // genera una excepción con un valor numerico
+throw true; // genera una excepción con un valor booleano
+```
+:::tip
+- Los valores luego son accedido a traves del objeto error que contiene el catch.
+:::
+- La excepcion puede tener un objeto como valor
+### Ejemplo 
+- Puede especificar un objeto cuando lanza una excepción. Puede entonces usar las propiedades del objeto en el bloque catch. El siguiente ejemplo crea un objeto miExcepcionUsuario del tipo ExceptionUsuario y la utiliza usándola en una sentencia throw.
+
+```js
+function ExceptionUsuario(mensaje) {
+   this.mensaje = mensaje;
+   this.nombre = "ExceptionUsuario";
+}
+try {
+  miExcepcionUsuario = new ExceptionUsuario("NumeroMesNoValido");
+      throw miExcepcionUsuario;
+} catch (error) {
+   registrarMisErrores(error.mensaje, error.nombre); 
+}
+```
+:::tip  Conclusion
+El valor de una excepción puede ser un objeto tambien.
+:::
+
+#### Otro ejemplo de como lanzar un objeto como excepcion
+- Se lanza un objeto con la propiedad code (puede haber mas propiedades) como excepción.
+```js
+// Enviamos un objeto como error
+throw ({code : 11000})
+```
+
 ## Promise.all
 Pero si quieres que demore menos, cuando estas esperando promesa que no dependen entre ellas.
 
@@ -417,13 +459,13 @@ Si uno falla, va a saltar al catch y no va a seguir con el código en cuestión 
 
 ## fetch API
 
-La API Fetch proporciona una interfaz para recuperar recursos (incluso a través de la red). Resultará familiar a cualquiera que haya usado XMLHttpRequest, pero la nueva API ofrece un conjunto de características más potente y flexible.
--	El método fetch() toma un argumento obligatorio, la ruta de acceso al recurso que desea recuperar.
+La API Fetch proporciona una interfaz para recuperar/eliminar/editar/crear  recursos (incluso a través de la red). Resultará familiar a cualquiera que haya usado XMLHttpRequest, pero la nueva API ofrece un conjunto de características más potente y flexible.
+-	El método fetch() toma un argumento obligatorio, la ruta de acceso(Uri/Endpoint/Url) que se utiliza para obtener un recurso. 
 -	Devuelve una Promise que contiene la Response
 -	Una vez que Response es recuperada, hay varios métodos disponibles para definir cuál es el contenido del cuerpo y como se debe manejar.
 	
 
-    [API que vamos a usar en los ejemplos](https://jsonplaceholder.typicode.com/)
+[API que vamos a usar en los ejemplos](https://jsonplaceholder.typicode.com/)
 
 ```js
 // lA url CON TODOS LOS POST
@@ -453,7 +495,7 @@ fetch(url)
 
 ### Completo 
 
-Tiene el catch(maneja los errores) y el finally(se ejecuta al final)
+- En la promesa podemos usar un catch(maneja los errores) y el finally(se ejecuta al final)
 
 ```js
 //El fetch recibe la url del recurso y devuelve una promesa
@@ -466,11 +508,9 @@ fetch(url)
 
 ```
 :::tip
-
-Podemos acceder a la url porque es una petición GET.
-
-Podes configurar las cabeceras, métodos, verbos, etc con fetch pero por defecto lo hace GET.
-
+- Por defecto es una peticion GET , este tipo de peticiones es para obtener un recurso . Si desea crear/eliminar/modificar un recurso necesitas otras configuraciones.
+- Podemos acceder a la url en el navegador porque es una petición GET. Todo lo que puedas ver en el navegador web es una petición Get.
+- Podes configurar las cabeceras, métodos, verbos, etc con fetch pero por defecto utiliza GET.
 :::
 ```js
 const url = 'https://jsonplaceholder.typicode.com/posts/1';
@@ -512,20 +552,17 @@ buscarID(2);
 
 ## ¿Qué son las APIs?
 
-Interfaces de Programacion de Aplicaciones (APIs por sus siglas en inglés)
+- Interfaces de Programacion de Aplicaciones (APIs por sus siglas en inglés)
+- API son construcciones (herramientas) disponibles en los lenguajes de programación que permiten a los desarrolladores crear funcionalidades complejas de una manera simple. Estas abstraen el código más complejo para proveer una sintaxis más fácil de usar en su lugar.	
+- Si quisieras programar gráficos 3D, sería mucho más facil hacerlo usando una API  en un lenguaje de alto nivel como JavaScript o Python, en lugar de intentar escribir código de bajo nivel (por ejemplo: C o C++) que controle directamente la GPU del equipo u otras funciones gráficas
 
-API son construcciones disponibles en los lenguajes de programación que permiten a los desarrolladores crear funcionalidades complejas de una manera simple. Estas abstraen el código más complejo para proveer una sintaxis más fácil de usar en su lugar.
-	
-Si quisieras programar gráficos 3D, sería mucho más facil hacerlo usando una API escrita en un lenguaje de alto nivel como JavaScript o Python, en lugar de intentar escribir código de bajo nivel (por ejemplo: C o C++) que controle directamente la GPU del equipo u otras funciones gráficas
+
 :::tip API
-Es cuando queremos conectarnos a un recurso.
-
-A través del “recurso”, obtenemos funcionalidades que pueden estar escrito en otro lenguaje.
-
-Esas funcionalidades puede usar utilizar Google maps , habilitar la cámara del teléfono , brindar información o manipularla  , etc.
-
-API es una forma de comunicar dos recursos con un estándar.
-
+- Se utilizan para conectarnos a un recurso. 
+- Podemos obtener/modificar/eliminar/crear un recurso a traves de la API.
+- A través del “recurso”, obtenemos funcionalidades que pueden estar escrito en otro lenguaje.
+- Esas funcionalidades puede usar utilizar Google maps , habilitar la cámara del teléfono , brindar información o manipularla  , etc.
+- Una API es una forma de comunicar dos aplicaciones con diferentes lenguajes de programación (o puede ser el mismo).
 :::
 
 ## APIs en JavaScript del lado cliente
@@ -534,8 +571,7 @@ JavaScript del lado cliente, particularmente, tiene muchas APIs disponibles — 
 -	Las APIs de navegador: están integradas en tu navegador web, Por ejemplo, la API de Geolocalización proporciona algunas construcciones simples de JavaScript para obtener datos de ubicación con los que, por ejemplo, trazar tu ubicación en un mapa de Google. Realmente, el navegador está haciendo uso de códigos de bajo nivel complejos en segundo plano (por ejemplo, C++) para comunicarse con el hardware GPS del dispositivo (o lo que esté disponible para determinar los datos de posición), recuperar datos de posición y devolverlos al entorno del navegador para su uso en tu código. Pero una vez más, la API se encarga de abstraer esta complejidad.
 Ej: fetch API , DOM , para acceder a la cámara , etc.
 -	Las APIs de terceros: no están incluídas por defecto en el navegador, y por lo general es necesario obtener el código e información desde algún lugar de la Web. Por ejemplo, la API de Twitter permite hacer cosas como mostrar tus últimos tweets en un sitio web.
-Es la que accedemos a sus recursos
-Ej: La url que usamos, 
+
 
 ## APIs de navegador más comunes
 
@@ -555,27 +591,21 @@ Ej: La url que usamos,
 ##  ¿Que es API REST?
 
 :::tip REST
-Es un estándar
-
-Un paso a paso que hay que seguir para que sea una API REST.
+- Es un estándar
+- Un paso a paso que hay que seguir para que sea una API REST.
 :::
 
-REST: "Representational State Transfer" o traducido a "Transferencia de presentación de estado".
-
-Cuando queremos comunicar nuestro mundo del Frontend con el Backend (por ejemplo con Node.js), necesitamos alguna técnica. 
-
-Aquí es donde nosotros podemos construir nuestra propia API para que nuestras aplicaciones se comuniquen de manera efectiva.
-
-Para que la comunicación no sea un despelote existe el término de REST, que es un estandar para la construcción de APIS. una técnica de arquitectura de software usada para construir APIs que permitan comunicar a nuestro servidor con sus clientes usando el protocolo HTTP mediante URIs lo suficientemente inteligentes para poder satisfacer la necesidad del cliente.
-
-Por ende API REST en simples palabras sería: Una forma de entregar recursos para su utilización (comunicación) estandarizado y basado en arquitectura REST.
-
-Para que sea REST:
-
--	REST es STATELESS: TOKEN para cada petición realizada a la API. (trabaja con token)
--	Crea URIs únicas que permiten al cliente entender y utilizar lo que está exponiendo. api.anexsoft.com/users (tiene uris únicas)
--	Tiene que responder a verbos Http: GET, POST, PUT, DELETE (trabajo con los verbos conocidos)
-
+- REST: "Representational State Transfer" o traducido a "Transferencia de presentación de estado".
+- Cuando queremos comunicar nuestro mundo del Frontend con el Backend (por ejemplo con Node.js), necesitamos alguna técnica. 
+- Aquí es donde nosotros podemos construir nuestra propia API para que nuestras aplicaciones se comuniquen de manera efectiva.
+- Para que la comunicación no sea un despelote existe el término de REST, que es un estandar para la construcción de APIS. 
+- Es una técnica de arquitectura de software usada para construir APIs que permitan comunicar a nuestro servidor con sus clientes usando el protocolo HTTP mediante URIs (Urls/Endpoints) lo suficientemente inteligentes para poder satisfacer la necesidad del cliente.
+- Por ende API REST en simples palabras sería: Una forma de entregar(o modificar) recursos para su utilización (comunicación). 
+- Para que sea REST:
+  -	REST es STATELESS: TOKEN para cada petición realizada a la API(trabaja con token).
+  -	Crea URIs(Urls/Endpoints) únicas que permiten al cliente entender y utilizar lo que está exponiendo. api.anexsoft.com/users (tiene uris únicas)
+  -	Tiene que responder a verbos Http: GET, POST, PUT, DELETE (trabajar con los verbos conocidos)
+  
 ## ¿Qué es Restful?
 REST es el concepto, RESTFul es la implementación y al crear un RESTFul creamos una API, la cual una API es un conjunto de funciones o procedimientos para que sea utilizado por otro software.
 

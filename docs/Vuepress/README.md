@@ -177,17 +177,21 @@ Descargar plugin
 
 yarn build 
 ```
-Es para compilarlo.
-
+- Es para compilarlo.
+- Si lo hiciste bien , se crea una carpeta con el mismo nombre que especificaste en la opcion dest
+- La carpeta nueva contiene archivos estaticos (HTML , CSS , JAVASCRIPT) 
+- Los archivos estaticos se deben subir al hosting
 ## Subilo a github
 
-1. Compilarlo
-2. Creamos un repositorio en github con el mismo nombre que pusimos en base
+1. Lo compilamos (con el comando yarn build)
+2. Creamos un repositorio en github con el mismo nombre que pusimos en base(Sin los //).
 3. Hacemos un init en el proyecto(carpeta docs)
-4. Fijarse que la carpeta dist y node modules este ignorado
-5. en Source de page te fijas que esta en la ruta que especificaste en el comando dest
-
-
+4. Nos fijamos que la carpeta dist y node modules esten ignorados
+5. Hacemos un push (git push).
+6. en la opcion Branch del apartado pages de github , deberas  verificar que  esta la carpeta que especificaste en la opcion dest
+:::tip 
+Por cada deploy , se debe hacer un push
+:::
 :::tip
 Las carpetas deben estar al mismo nivel que el README.md (index)
 :::

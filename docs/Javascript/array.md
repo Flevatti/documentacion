@@ -6,6 +6,9 @@ sidebar_position: 5
 
 Los arrays son objetos similares a una lista cuyo prototipo proporciona métodos para efectuar operaciones de recorrido y de mutación. Tanto la longitud como el tipo de los elementos de un array son variables.
 
+[Métodos y Propiedades de un Array](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
+
 En javascript son dinámicos, no hace falta declarar la dimensión(tamaño).
 
 En javascript podes mezclar datos . Un array puede tener String , números , etc.
@@ -187,8 +190,8 @@ La programación funcional es otro enfoque común en el desarrollo de software (
 ###  	Estos métodos no mutan el array original, sino que nos devuelven uno nuevo.
 
 ## Map()
-El método map iterará sobre cada elemento de un arreglo y devuelve un nuevo arreglo que contiene los resultados de  la función callback en cada elemento. Esto lo hace sin mutar el arreglo original.
-
+- El método map iterará sobre cada elemento de un arreglo y devuelve un nuevo arreglo que contiene los resultados(lo que retorna) de  la función callback en cada elemento. Esto lo hace sin mutar el arreglo original.
+- Devuelve todos los elementos del array
 :::tip
 Una función de callback es una función que se pasa a otra función como un argumento.
 :::
@@ -196,7 +199,7 @@ Una función de callback es una función que se pasa a otra función como un arg
 1. Funcion (Callback)
 El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
 
-La función callback siempre debe retornar algo.
+La función callback siempre debe retornar algo (un nuevo valor del array)
 
 Ejemplo: 
 ```js
@@ -269,7 +272,7 @@ El método filter() crea un nuevo array con todos los elementos que cumplan la c
 1. Funcion (Callback)
 El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
 
-La función callback siempre debe retornar algo.
+La función callback siempre debe retornar algo ( true si cumple la condicion , false si no la cumple)
 
 el filter debe devolver true (si pasa el filtro) o false (si no pasa)
 
@@ -439,6 +442,25 @@ const arrayNuevo = arr.slice(1,3);
 console.log(arrayNuevo);
 
 ```
+
+## Splice()
+- El método splice() cambia el contenido de un array eliminando elementos existentes y/o agregando nuevos elementos.
+- [info](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+```js
+array.splice(start, deleteCount , ...elemento]
+```
+### start
+- Índice donde se comenzará a cambiar el array (con 0 como origen). 
+- Si es mayor que la longitud del array, el punto inicial será la longitud del array. Si es negativo, empezará  contando desde el final.
+
+### deleteCount
+- Un entero indicando el número de elementos a eliminar del array antiguo.
+- Si deleteCount se omite, o si su valor es mayor que arr.length - start (esto significa, si es mayor que el número de elementos restantes del array, comenzando desde start), entonces todos los elementos desde start hasta el final del array serán eliminados.
+- Si deleteCount es igual a 0 o negativo, no se eliminará ningún elemento. En este caso, se debe especificar al menos un nuevo elemento (ver más abajo).
+### ...elemento
+- Los elementos que se agregarán al array, empezando en el índice start. Si no se especifica ningún elemento, splice() solamente eliminará elementos del array.
+
+
 ## concat()
  El método concat() se usa para unir dos o más arrays. Este método no cambia los arrays existentes, sino que devuelve un nuevo array.
  ### Parametros:
@@ -531,7 +553,7 @@ Funciona de igual manera con array y objetos
 :::
 ## REST OPERATOR
 - Es un parámetro (…parámetro) de una funcion
-- Te convierte todos los valores de la lista(spread) que se pasa como argumento en un array.
+- Te convierte todos los valores  que se pasa como argumento en un array.
 - Es lo contrario a SPREAD.
 
 ```js
@@ -584,6 +606,10 @@ const soloNumeros = arrayNumeros.reduce(
 console.log(soloNumeros);
 
 ```
+:::tip 
+- [documentacion de Reduce](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+
+:::
 Otro Ejemplo para hacer lo mismo:
 
 ```js
@@ -782,5 +808,27 @@ const pintarCarrito = (array) => {
 agregar.forEach((boton) => boton.addEventListener("click", agregarCarrito));
 
 
+
+```
+
+## Desestructurar por posiciones
+
+#### ¿Sabías que en JavaScript puedes desestructurar un Array apuntando directamente a sus posiciones?
+
+
+Además, puedes renombrar el índice por el nombre de variable que necesites:
+
+```js
+      const nombres = ['Fede' , 'Miguel' , 'Andrea' , 'Santi' , 'Daniela']
+
+      // Accedemos a la posicion 0 (Fede) y a la Posicion 2(Andrea)
+      const {
+        // Le asignamos el valor de nombres[indice] a nombreVariable
+        // indice : nombreVariable
+        0:variableFede ,
+        2:variableAndrea
+      } = nombres;
+
+      console.log(variableFede , variableAndrea)
 
 ```

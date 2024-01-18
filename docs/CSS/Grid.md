@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 10
 ---
 # Grid
 Es un valor de la propiedad display
@@ -53,26 +53,10 @@ Row line = las líneas que son lados para definir las filas. (lineas horizontale
 ## Por defecto
 Por defecto cuando creamos una grilla, solo se crea una columna. Y cada item es una fila.
 
-## Grid-template-rows
-grid-template-rows funciona exactamente igual que grid-template-columns.
 
-```css
-grid-template-rows: 12.5px 12.5px 12.5px 12.5px 1fr
-```
-Sirve para añadir filas (horizontal)
-
-Dar por medida: (de alto)
-
-La medida que le das es la altura
-
-```css
-/* La cantidad de medidas es la cantidad de filas */
-grid-template-rows: 150px 150px 150px ;
-```
 ## Grid-template-columns
 Sirve para añadir columnas (vertical)
 
-Dar por medida (De ancho)
 
 La medida que le das es el ancho
 
@@ -89,6 +73,22 @@ grid-template-columns  al igual que grid-template-rows no acepta solo valores po
 grid-template-columns: 100px 3em 40%;
 
  ```
+
+ ## Grid-template-rows
+grid-template-rows funciona exactamente igual que grid-template-columns.
+
+```css
+grid-template-rows: 12.5px 12.5px 12.5px 12.5px 1fr
+```
+Sirve para añadir filas (horizontal)
+
+
+La medida que le das es la altura
+
+```css
+/* La cantidad de medidas es la cantidad de filas */
+grid-template-rows: 150px 150px 150px ;
+```
 ### Practica
 
 has tenido un jardín formado por cinco columnas, cada una ocupando el 20% de la anchura total, y cinco filas, cada una ocupando el 20% de la altura total.
@@ -106,7 +106,7 @@ LOS MARGENES NO SE APLICA EN LOS BORDE DEL CONTENEDOR
 :::
 
 ## Propiedades para Grid-Item
-## grid-column-start
+### grid-column-start
 Para especificar en que columna(column line) empieza el item.
 ```css
 /* el 3er borde vertical contando desde la izquierda de la cuadrícula. */
@@ -117,7 +117,7 @@ Cuando grid-column-start se usa solo, la expansión por defecto del elemento en 
 No obstante, puedes extender el elemento varias columnas añadiendo la propiedad grid-column-end.
 :::
 
-## grid-column-end
+### grid-column-end
 Para especificar en que columna(column line) termina el item.
 :::tip
 Al emparejar grid-column-start y grid-column-end, podrías asumir que el valor final tiene que ser mayor que el valor inicial. ¡Pero no es el caso!
@@ -127,9 +127,13 @@ Al emparejar grid-column-start y grid-column-end, podrías asumir que el valor f
  puedes dar a grid-column-start y grid-column-end valores negativos. Por ejemplo, puedes establecerlos a -1 para indicar la primera línea comenzando por la derecha.
 :::
 
-## palabra span
+### palabra span
 En lugar de definir un elemento en la cuadrícula basado en la posicion inicial y final,
  puedes definirlo basado en la longitud de columnas deseada usando la palabra clave span. Ten presente que span solo funciona con valores positivos.
+
+
+Sirve para especificar cuantas "celdas" va a ocupar
+
  ```css
  grid-column-end: span 2;
  ```
@@ -141,7 +145,7 @@ En lugar de definir un elemento en la cuadrícula basado en la posicion inicial 
 Se puede utilizar tanto para las columnas como las filas , comienzo o final.
 
 :::
-## Grid-column
+### Grid-column
 Escribir ambos grid-column-start y grid-column-end cada vez puede resultar cansado. Afortunadamente, 
 grid-column es una propiedad abreviada que acepta ambos valores a la vez, separados por una barra oblicua.
 ```css
@@ -183,14 +187,14 @@ Podes usar la palabra span para especificar cuantas columnas va a ocupar
 grid-column: 1/span 3;
 
 ```
-## grid-row-start
+### grid-row-start
 Una de las cosas que diferencia las cuadrículas de CSS de flexbox es que puedes posicionar los elementos fácilmente en 2 dimensiones:
  columnas y filas. grid-row-start funciona de manera semejante a grid-column-start pero a lo largo del eje vertical.
  ```css
  grid-row-start:3;
  ```
 
-## Grid-row
+### Grid-row
 Que el item ocupe mas espacio(la altura) (row line)
 
 Como valor tiene los numeros(row line) que va a ocupar
@@ -301,7 +305,7 @@ Por defecto los ítems que forman parte del grid implicito se crean como filas. 
 :::
 ## Propiedades para el grid implicito (se aplica en el container)
 
-## Grid-auto-rows
+### Grid-auto-rows
 Funciona igual que el template( grid-template-rows) , solamente que es para progamar el grid implicito
 :::warning
 NO PUEDEN USAR EL REPEAT
@@ -317,7 +321,7 @@ grid-auto-rows: 200px;
 Porque no estamos definiendo la cantidad de filas a crear, estamos especificando cuanto va a medir la fila que se va a crear.
 :::
 
-## Grid-auto-columns
+### Grid-auto-columns
 Funciona igual que el template( grid-template-columns) , solamente que es para progamar el grid implicito.
 :::warning
 NO PUEDEN USAR EL REPEAT
@@ -333,9 +337,9 @@ grid-auto-columns: 200px;
 Porque no estamos definiendo la cantidad de columnas a crear, estamos especificando cuanto va a medir la columna que se va a crear.
 :::
 
-## Grid-auto-flow
+### Grid-auto-flow
 
-### Valores
+#### Valores
 #### column
 El valor column es para que se empieze a comportar como columnas los ítems del grid implicito.
 
@@ -367,7 +371,7 @@ Para hacer dinamico  se utiliza los valores Min-content – Max Content – MinM
 Todos los valores se ponen en la función repeat 
 
 
-##  Min-content
+###  Min-content
 Va en la medida de la funcion REPEAT
 
 Es el contenido minimo (el tamaño mas chico)
@@ -382,7 +386,7 @@ Después del espacio en blanco, se considera un contenido diferente y por lo tan
 grid-template-columns: repeat(3,min-content);
 ```
 
-##  Max-content
+###  Max-content
 Va en la medida de la funcion REPEAT
 
 No considera el espacio en blanco (como min-content) .
@@ -398,11 +402,11 @@ Es el máximo contenido (el tamaño mas grande)
 grid-template-columns: repeat(3,max-content);
 ``` 
 
-## mixmax()
+### mixmax()
 Va en la medida de la funcion REPEAT , es una funcion.
 
 Para especificar lo minimo y lo máximo que va a medir la columna/fila.
-### Parametros
+#### Parametros
 1. Medida Minima que va a medir el elemento
 2. Medida maxima que va a medir el elemento
 
@@ -423,7 +427,7 @@ grid-template-columns: repeat(3,minmax(min-content,200px));
 grid-template-columns: repeat(3,minmax(100px,1fr));
 ``` 
 
-## Auto-Fill
+### Auto-Fill
 
 Va en la cantidad de columnas/filas de la funcion REPEAT 
 
@@ -442,7 +446,7 @@ Se puede aplicar a las filas
 grid-template-columns: repeat(auto-fill,minmax(100px,150px));
 ``` 
 
-## Auto-fit
+### Auto-fit
 Va en la cantidad de columnas/filas de la funcion REPEAT 
 
 Rellena todo el contenedor con los ítems.
@@ -477,10 +481,10 @@ La alineación de columnas y filas : Se aplica al grid-container
 La alineación partícular por elemento individual : Se aplica al item
 
 ## Propiedades del grid container
-## Alinear todos los items
-## Justify-items
+### Alinear todos los items
+### Justify-items
 Para alinear horizontalmente
-### Valores
+#### Valores
 #### center
 Cada item va a estar centrado horizontalmente de su propia celda
 
@@ -508,9 +512,9 @@ justify-items: flex-end;
 justify-items: stretch;
 ``` 
 
-## Align-item
+### Align-item
 Para alinear verticalmente
-### Valores
+#### Valores
 #### center
 Para centrar verticalmente cada item de su propia celda
 #### end o flex-end
@@ -525,13 +529,13 @@ align-items: center;
 align-items: flex-end;
 align-items: stretch;
 ``` 
-## Alinear columnas y filas
+### Alinear columnas y filas
 
 :::tip
 Se trabaja cuando el grid no es flexible. (no ocupa todo)
 :::
 
-## Justify-Content
+### Justify-Content
 Es para alinear las columnas (toma efecto cuando las columnas no son flexibles, hay espacio para más columnas)
 
 
@@ -544,7 +548,7 @@ justify-content: center;
 justify-content: end;
 justify-content: start;
 ``` 
-## Align-content
+### Align-content
 
 Es para alinear las filas (toma efecto cuando las filas no son flexibles, hay espacio para mas filas)
 
@@ -560,7 +564,7 @@ align-content: end;
 :::warning
 LAS TRANSICIONES NO FUNCIONAN MUY BIEN EN GRID
 :::
-## Mas valores de JUSTIFY-CONTENT Y ALIGN-CONTENT
+### Mas valores de JUSTIFY-CONTENT Y ALIGN-CONTENT
 Justify-content y align-content tienen space-around , space-between y space-evenly
 ```css
 justify-content: space-around;
@@ -568,9 +572,10 @@ justify-content: space-between;
 justify-content: space-evenly;
 align-content: space-evenly;
 ``` 
-## alineación partícular
+## Propiedades del item
+### alineación partícular
 
-## Align-self
+### Align-self
 Trabajamos el eje vertical
 
 Tiene los mismos valores que flexbox
@@ -581,7 +586,7 @@ Los valores son: flex-end , flex-start , stretch , center , baseline , etc.
 ```css
 align-self: start;
 ``` 
-## Justify-self
+### Justify-self
 Trabajamos el eje horizontal
 
 Tiene los mismos valores que flexbox (end,start,center,etc)
@@ -589,7 +594,7 @@ Tiene los mismos valores que flexbox (end,start,center,etc)
 justify-self: start;
 ``` 
 
-## Place-self
+### Place-self
 Tiene como valor align-self y justify-self (shorthand)
 ```css
 place-self: start start;
@@ -598,7 +603,7 @@ place-self: start start;
 stretch viene como valor por defecto de justify-self y align-self
 :::
 
-## Propiedad order
+### Propiedad order
 Igual que flexbox
 
 El valor mas alto se va al ultimo lugar.
@@ -680,7 +685,7 @@ Un área es un conjunto consecutivo de celdas. (se puede en diagonal).
 
 Minimo debe tener dos celdas para un área.
 
-## Grid-template-areas
+### Grid-template-areas
 Es para crear un área, a dicha área se le asigna un nombre
 
 Se usa en el container
@@ -703,7 +708,7 @@ grid-template-areas: "header header header" ;
 "footer footer footer";
  ```
  
- ## Grid-Area
+ ### Grid-Area
  Es para asignar el área a un elemento del grid(item)
  
 Se aplica en el item
@@ -713,13 +718,13 @@ grid-area: header;
 grid-area: aside;
 grid-area:main;
  ```
- ### Lugo de crear y asignar las areas:
+ ### Luego de crear y asignar las areas:
  
  Hay que asignar el tamaño a las filas con grid-template-rows
  
 Ejemplo: Basado en el ejemplo anterior:
   ```css
-grid-template-rows: 1fr 1fr 1fr 1fr;  
+grid-template-rows: 1fr 1fr 1fr;  
   ```
 
  ### grid-area tambien  admite cuatro valores separados por barras oblicuas: 

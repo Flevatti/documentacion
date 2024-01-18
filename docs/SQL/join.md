@@ -5,8 +5,7 @@ sidebar_position: 5
 
 ## Normalizacion
 
-Normalización = Los datos de una entidad  se dividen en partes y se almacenan en múltiples tablas ortogonales 
-
+- Es cuando los datos de una entidad se dividen en partes y se almacenan en múltiples tablas independientes 
 
 ### Normalización de la base de datos
 
@@ -22,11 +21,11 @@ Cada fila de una tabla debe tener una clave principal que identifique esa entida
 
 
 :::tip cláusula ON
-Al usar la cláusula JOIN en una consulta, podemos combinar filas de dos tablas separadas usando esta clave única. 
+Al usar la cláusula JOIN en una consulta, podemos combinar filas de dos tablas (o más) separadas usando esta clave única. 
 
 :::
 :::tip Uniones
-Se hace hacer dos join a la misma tabla pero con diferente relación. (el país de un empleado y de un cliente)
+Se puede  hacer dos join a la misma tabla pero con diferente relación (el país de un empleado y de un cliente).
 :::
 
 
@@ -34,14 +33,14 @@ Se hace hacer dos join a la misma tabla pero con diferente relación. (el país 
 SELECT column, another_table_column, …
 FROM mytable
 INNER JOIN another_table 
-    ON mytable.id = another_table.id
+    ON mytable.fk = another_table.pk
 WHERE condition(s)
 ORDER BY column, … ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 
 ```
 
-El INNER JOIN es un proceso que hace coincidir las filas de la primera tabla y las filas de la segunda tabla que tienen la misma clave (según lo definido por la restricción ON) para crear una fila por coincidencia con las columnas combinadas de ambas tablas. Después de unir las tablas, se aplican las otras cláusulas.
+El INNER JOIN es un proceso que hace coincidir las filas de la primera tabla y las filas de la segunda tabla que tienen  una columna (cada una de las tablas) con el mismo valor (Las columnas que deben tener el mismo valor la establece la restricción ON) para crear una fila  con las columnas combinadas de ambas tablas. Después de unir las tablas, se aplican las otras cláusulas.
 
 
 :::tip ¿Sabías?
@@ -81,7 +80,7 @@ LIMIT num_limit OFFSET num_offset;
 ```
 ## Left / Right / Full
 Al igual que INNER JOIN
-estas tres nuevas uniones, deben especificar en qué columna se unirán los datos(clave principal/clave primaria).
+estas tres nuevas uniones, deben especificar en qué columna se unirán los datos(que columnas (una de cada tabla) tendran el mismo valor).
 
 Al unir la tabla A a la tabla B,  LEFT JOIN simplemente incluye filas de A independientemente de si se encuentra una fila coincidente en B. RIGHT JOIN es lo mismo, pero invertido, incluyendo filas en B independientemente de si se encuentra una coincidencia en A. Finalmente tenemos,  FULL JOIN en donde  las filas de ambas tablas se mantienen, independientemente de si existe una fila coincidente en la otra tabla.
 

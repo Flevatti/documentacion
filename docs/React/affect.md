@@ -517,9 +517,11 @@ const Post = () => {
 export default Post
 
 ```
-## Parámetros de búsqueda
--	React Router hace que sea fácil  leer y manipular los parámetros de búsqueda (parámetros de la url para filtrar datos) con useSearchParams
--	Funciona de manera muy similar a React.useState() pero almacena y establece el estado en los parámetros de  la URL (establece el estado en la url)en lugar de en la memoria.
+## Parámetros de búsqueda (query)
+-	React Router hace que sea fácil  leer y manipular los parámetros de búsqueda (query) con useSearchParams
+- Las parametros de busquedas(query) son los datos que se suelen enviar por la url con el metodo GET . Ej. http://localhost:3000/blog?variable=valor. 
+- Con useSearchParams podemos manipular los parametros de busquedas(query).
+-	Funciona de manera muy similar a React.useState() pero almacena y establece el estado en los parámetros de  la URL(query) (establece el estado en la url)en lugar de en la memoria.
 
 ```js
 

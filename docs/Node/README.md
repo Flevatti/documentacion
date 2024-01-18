@@ -4,8 +4,7 @@ sidebar_position: 1
 # Lo Basico de Node
 
 ## ¿Qué es node?
-- [Info en español](https://nodejs.org/es/about/)
-- [Info en Ingles](https://nodejs.dev/learn/introduction-to-nodejs)
+- [Info en Ingles](https://nodejs.org/en/about)
 -	Es para ejecutar javascript en el servidor.
 
 -	Node.js® es un entorno de ejecución para JavaScript construido con V8, motor de JavaScript de Chrome.
@@ -24,7 +23,7 @@ V8 es el entorno de ejecución para JavaScript creado para Google Chrome. Es sof
 
 ## Instalación
  
- - [Link](https://nodejs.org/es/)
+ - [Link](https://nodejs.org/en/download)
  - Reiniciar computadora (recomendado)
  - Ejecutar el comando : 
  ```powershell
@@ -109,23 +108,50 @@ console.log(dinero);
 
 :::
 
+### require().default
+- Cuando se utilizan exportaciones por defecto de ES6 (export default ) , la “funcionalidad“ exportada por defecto , tiene el formato {“default” : funcionalidad} .
+- La declaración “import X from archivo” maneja esto, pero si lo hace desde los modulos (require/exports ) , se debe realizar “require(archivo).default”.
+- Para evitar esto, debe utilizar module.exports en lugar de export default.
+
+#### Ejemplo
+Fruta.js
+```js
+const manzana = "Manzana";
+export default manzana;
+
+//  Tiene el siguiente formato (es un objeto):
+// {“default” : manzana}
+
+```
+App.js
+```js
+const fruta = require("./fruta").default;
+
+console.log(fruta);
+
+```
+
 ## package.json
+- [package.json](https://docs.npmjs.com/cli/v10/configuring-npm/package-json)
 -	Sirve para mantener un orden de los paquetes.
 -	Contiene información de nuestro proyecto 
 -	Tiene un listado de los paquetes (y sus versiones) que utiliza el proyecto 
 -	Tiene información sobre nuestro proyecto, lo más relevante en estos momentos serán sus dependencias y scripts
 -	npm y yarn almacena los nombres y versiones de todos los paquetes instalados.
-- [guia](https://nodejs.dev/learn/the-package-json-guide)
+
 
 Para crear el archivo: 
 ```powershell
 npm init -y
 ```
-### Archivo package.json
+#### Archivo package.json
 - name = Nombre del proyecto
 - versión = versión del proyecto
 - description = descripción del proyecto
+- type (no está, pero lo puedes añadir) : Especifica que [sistema de módulo ](https://lenguajejs.com/automatizadores/introduccion/commonjs-vs-es-modules/) usar.  Con el valor "module" usa ESM, en caso contrario usa CommonJS.
 - el objeto scripts sirve para añadir lineas de comando 
+
+
 
  Ejemplo de scripts: 
  ```js
@@ -144,13 +170,11 @@ npm init -y
 
 :::tip script 
 
--	Estos scripts son aplicaciones de línea de comandos. Puede ejecutarlos llamando npm run XXXX, donde "XXXX" está el nombre del comando. Ejemplo: npm run dev
+-	Estos scripts son aplicaciones de línea de comandos. Puede ejecutarlos llamando npm run XXXX, donde "XXXX" es el nombre del comando. Ejemplo: npm run dev
 -	Puede usar el nombre que desee para un comando y los scripts pueden hacer literalmente cualquier cosa que desee.
--	Configuremos nodemon para que ejecute nuestro index.js
   ```js
   // cómo se puede ver , escribir node index.js es lo mismo que escribir npm run start
   "scripts": {
-  "dev": "nodemon index.js",
   "start": "node index.js"
 }
   ```
@@ -164,12 +188,12 @@ npm init -y
   },
 
   ```
-
+- El comando con el nombre "start" es el unico que no necesita la palabra run para ejecutarlo.
 :::
  - El objeto dependencies tiene las dependencias que necesitan su proyecto.
  - El objeto devDependencies tiene las dependencias que son de desarrollo (herramientas para el desarrollador) .
 
- ## NPM
+## NPM
  - Cuando instalamos Node, instalamos [NPM](https://www.npmjs.com/)
 -	Es el administrador de paquetes o dependecias estándar de Node.js.
 -	Repositorio de código de un solo idioma más grande de la Tierra.
@@ -356,8 +380,8 @@ npx cowsay javascript
 
 -	En la versión 5, npm introdujo el archivo package-lock.json.
 -	El objetivo del package-lock.json es realizar un seguimiento de la versión exacta de cada paquete que se instala.
--	package-lock.json sencillamente evita este comportamiento general de actualizar versiones  por notación ([iconos](https://nodejs.dev/learn/semantic-versioning-using-npm)) de modo que cuando alguien clona nuestro repositorio y ejecuta npm install en su equipo, npm examinará package-lock.json e instalará la versión exacta de los paquete que nosotros habíamos instalado, ignorando así los ^ y ~ de package.json.
--	Realmente npm install no ignora las versiones de package.json así como no ignora package-lock.json.  Lo que hace es verificar que package.json y package-lock.json esten en sincronía.  Esto es, si las notaciones ([iconos](https://nodejs.dev/learn/semantic-versioning-using-npm)) descritas en package.json concuerdan con las versiones fijadas en package-lock.json, npm install usará estas última completamente
+-	package-lock.json sencillamente evita este comportamiento general de actualizar versiones  por notación ([iconos](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)) de modo que cuando alguien clona nuestro repositorio y ejecuta npm install en su equipo, npm examinará package-lock.json e instalará la versión exacta de los paquete que nosotros habíamos instalado, ignorando así los ^ y ~ de package.json.
+-	Realmente npm install no ignora las versiones de package.json así como no ignora package-lock.json.  Lo que hace es verificar que package.json y package-lock.json esten en sincronía.  Esto es, si las notaciones ([iconos](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)) descritas en package.json concuerdan con las versiones fijadas en package-lock.json, npm install usará estas última completamente
 -	Si se modifica el package.json manualmente , npm considera al package.json la verdad absoluta , de modo que instala dicha versión y actualiza el package-lock.json.
 -	cuando ejecute npm install, será capaz de reproducir el mismo árbol que el de su compañero sin problemas asociados (la misma versión)
 
@@ -371,7 +395,7 @@ npx cowsay javascript
 
 ## Actualizaciones de modulo
 - [npm-update 1 ](https://docs.npmjs.com/cli/v7/commands/npm-update#description)
-- [semantica](https://nodejs.dev/learn/semantic-versioning-using-npm)
+- [semantica](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)
 -	~1.2.3 Actualiza las versiones parches, por ende actualizará menor > 1.3.0
 -	^1.2.3 Actualiza versiones menores incluyendo parches, por ende actualizará menor > 2.0.0
 - [versionlens ](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) te ayuda a visualizar los paquetes actualmente utilizados.
@@ -455,11 +479,11 @@ npm install --save-dev nodemon
 
 ```
 :::tip
- [nodemon](https://www.npmjs.com/package/nodemon) es una herramienta que ayuda a desarrollar aplicaciones basadas en node.js al reiniciar automáticamente la aplicación de nodo cuando se detectan cambios de archivo en el directorio.
+ [nodemon](https://www.npmjs.com/package/nodemon) es una herramienta que ayuda a desarrollar aplicaciones basadas en node.js al reiniciar automáticamente la aplicación de node cuando se detectan cambios de archivo en el directorio.
 :::
 
 ## Servidor HTTP
-- [Link](https://nodejs.dev/learn/build-an-http-server)
+- [Link](https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module)
 -	Hypertext Transfer Protocol: El Protocolo de transferencia de hipertexto es el protocolo de comunicación que permite las transferencias de información en la World Wide Web.
 -	Intercambia  información entre cliente y servidor.
 -	El servidor queda a la espera de alguna solicitud HTTP ejecutada por el cliente y proporciona una respuesta.
@@ -474,6 +498,7 @@ npm init -y
 ```
 - la -y es para que sea todo automatico.
 - No hace falta poner la extensión.js
+- Esta es la configuración del package.json:
 ```js
 {
   "name": "practica",
@@ -573,7 +598,7 @@ Podemos conectarnos a BD y pintar información en un HTML.
 -	Con miles de métodos programado para HTTP y un middleware a su disposición, la creación de una API sólida es rápida y sencilla.
 -	Express proporciona una delgada capa de características de aplicación web básicas, que no ocultan las características de Node.js que tanto ama y conoce.
 
-### Instalacion:
+### Instalacion
 ```powershell
 npm i express
 ```
@@ -798,7 +823,7 @@ app.post('/formulario' , (req,res)=> {
 
 ```
 ## fs
-- [Tutorial](https://ourcodeworld.co/articulos/leer/297/como-crear-un-archivo-usando-el-modulo-del-sistema-de-archivos-fs-en-nodejs)
+- [Tutorial](https://kinsta.com/es/base-de-conocimiento/nodejs-fs/)
 - [Opciones](https://nodejs.org/api/fs.html#filehandlewritefiledata-options)
 - Es un módulo incorporado
 

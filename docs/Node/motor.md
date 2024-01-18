@@ -10,7 +10,7 @@ sidebar_position: 2
 
 ## EJS y Express
 - Utilizaremos [Ejs](https://ejs.co/) 
-- 	No perdemos nuestro html clásico y agregamos lógica con EJS.
+- No perdemos nuestro html clásico y agregamos lógica con EJS.
 - Vamos a hacer que HTML sea mas dinamico
 
 ### Instalacion 

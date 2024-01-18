@@ -89,7 +89,7 @@ con ReactDOM  y su método render renderizamos un componente(App).
 :::
 #### App.js
 - Es el componente que se renderiza
--   Es una función que devuelve algo
+-   Un componente es una función que devuelve algo
 - Dicha función se exporta
 - Lo que devuelve(en el return)  parece código HTML
 ```js
@@ -135,19 +135,76 @@ Modificalo y ejecuta la app
 -  Es una función que devuelve algo.
 - Dicha función se exporta
 - Lo que devuelve(en el return)  parece código HTML pero en realidad es JSX
--  Lo que se retorna va entre paréntesis
- - Sintaxis para renderizar un componente:
+- Lo que se retorna va entre paréntesis
+- Sintaxis para renderizar un componente (es identico a una etiqueta HTML):
  ```js
  <NombreComponente/>
  ```
- - [Componentes](https://es.reactjs.org/docs/components-and-props.html )
-- 	Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada.
+- Aunque tambien se puede renderizar asi:
+  ```js
+   <NombreComponente > </NombreComponente>
+ ```
+
+:::tip
+- El nombre de la función , es el nombre del componente
+- El nombre del componente SIEMPRE debe empezar en Mayuscula
+:::
+
+
+:::tip Info
+- [Components and Props](https://reactjs.org/docs/components-and-props.html)
+- [Your First Component](https://beta.reactjs.org/learn/your-first-component)
+- [Passing Props to a Component](https://beta.reactjs.org/learn/passing-props-to-a-component)
+- [JSX In Depth](https://reactjs.org/docs/jsx-in-depth.html)
+:::
+
+- Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada.
+### Dom Elements
+-  React implementa un sistema DOM independiente del navegador para el rendimiento y la compatibilidad entre navegadores.
+- Este “DOM independiente” tiene algunas diferencias con respecto al que usa el navegador.
+- Por ejemplo:
+   - Todas las propiedades y atributos del DOM deben ser camelCase (Existen algunas excepciones como aria-* o data-*)
+
+### Diferencia en atributos
+#### Atributo checked
+- Este atributo es compatible con &lt;input> de tipo checkbox y radio.
+- Es útil para construir componentes controlados.
+- El atributo defaultchecked establece si se marca cuando se monta por primera vez, y es para componentes no controlados.
+#### Nombres de las clases
+- Para especificar una clase CSS, utilice el atributo className. Esto se aplica a todos los elementos regulares DOM y SVG como &lt;div>, &lt;a> y otros.
+- Si usa React con componentes web (lo cual es poco común), use el  atributo class en su lugar.
+#### Atributo dangerouslySetInnerHTML
+- dangerouslySetInnerHTML es el remplazo de React para usar innerHTML.
+- Debe pasar un objeto con la propiedad __html para recordar que es peligroso (te expones a ataques de secuencias de comandos)
+#### Atributo htmlFor
+- Dado que for es una palabra reservada en JavaScript, se utilizan elementos htmlFor en su lugar.
+#### Estilo CSS
+- Tienen el atributo style que acepta un objeto Javascript con propiedades camelCase.
+- Las propiedades CSS están en camelCase para ser coherentes con el acceso a las propiedades en los nodos DOM desde JS (por ejemplo, node.style.backgroundImage). 
+- Los prefijos de navegadores que no sean ms deben comenzar con una letra mayúscula. Es por eso que WebkitTransition tiene una "W" mayúscula.
+- React agregará automáticamente un sufijo "px" a ciertas propiedades de estilo numérico en línea. Si desea utilizar unidades que no sean "px", especifique el valor como un String con la unidad deseada.
+#### suppressContentEditableWarning
+- Normalmente, hay una advertencia cuando un elemento con hijos también se marca como contentEditable, porque no funcionará. Este atributo suprime esa advertencia.
+#### Todos los atributos HTML admitidos
+- React siempre ha proporcionado una API centrada en JavaScript para el DOM. Dado que los componentes de React a menudo toman accesorios personalizados y relacionados con DOM, React usa la convención camelCase al igual que las API de DOM
+```js
+<div tabIndex={-1} />      // Just like node.tabIndex DOM API
+<div className="Button" /> // Just like node.className DOM API
+<input readOnly={true} />  // Just like node.readOnly DOM API
+
+```
+:::tip info
+- [DOM Elements](https://reactjs.org/docs/dom-elements.html)
+- [Listado de atributos, eventos, etc   que puede tener un componente común (elemento HTML).](https://beta.reactjs.org/reference/react-dom/components/common )
+:::
+
 
 ## Ejecutar aplicacion 
 Ubicada en la carpeta con el nombre de la app:
 ```powershell
 npm run start  
 ```
+
 
 ## Crear Componente Principal
 
@@ -322,7 +379,7 @@ export default App
 
 - [Lista](https://es.reactjs.org/docs/lists-and-keys.html)
 -	Al crear una lista a partir de una matriz con JSX, se debe agregar un key a cada elemento secundario (ej. etiqueta li).
--	React usa el key prop para crear una relación entre el componente y el elemento DOM.
+-	React usa la prop key  para crear una relación entre el componente y el elemento DOM.
 -	La biblioteca utiliza esta relación para determinar si el componente debe volver a renderizarse o no.
 -	No se recomienda utilizar el índice de la matriz como key si sabe que la matriz no será estática(fija)
 -	La key debe ser única en cada elemento.
@@ -357,6 +414,24 @@ export default App
 :::tip Observacion 
 Cada li se retorna (entre paréntesis esta)
 :::
+#### Keys
+- La props key sirve para identificar un elemento en una lista
+- Tambien sirve para crear "Componentes unicos"  , que no compartan el  estado.
+
+
+Ejemplo:
+
+Tenemos un componente que renderiza un perfil de Usuario
+
+Y Queremos que cada perfil sea "unico" , osea que el estado de uno sea diferente al otro . Tambien necesitamos lograr que al modificar  uno , el otro se mantenga intacto (no se modifique ni se vuelva a renderizar).
+
+Para solucionar este problema , se utiliza la props key en el componente que renderiza el perfil.
+
+Con esto le estamos indicando a React que cada componente  es unico y tiene una ID que lo identifica.
+
+React utiliza la ID para detectar que "Perfil" se modifico para volver a renderizarlo.
+
+
 
 ## Manejando eventos
 - [link](https://es.reactjs.org/docs/handling-events.html)
@@ -464,8 +539,7 @@ root.render(
 
 ## Crear componente (NO PRINCIPAL)
 - [Componentes](https://es.reactjs.org/docs/components-and-props.html )
-- 	Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada.
-
+- Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada.
 - Creamos la carpeta components en src
 - Todos los componentes se van a renderizar en App.jsx(componente principal)
 

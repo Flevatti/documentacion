@@ -1672,11 +1672,13 @@ export default ExampleRef;
 
 ```
 :::tip Observacion 
-- Al comienzo, ref es null  ya que cuando se inicializa todavia no existe ningún elemento. 
-- Al renderizarse el componente, el valor de ref es una referencia al input.
-- Con el atributo(props) ref asignamos el valor de ref.
+- Al comienzo, ref(inputEl) es null  ya que cuando se inicializa todavia no existe ningún elemento. 
+- Al renderizarse el componente, el valor de ref(inputEl) es una referencia al input. 
+- &lt;elemento ref={variableRef}>&lt;/elemento> -- En esta linea de codigo se asigna una referencia del elemento a la variableRef(se creo con el useRef)
+- &lt;input type="text" ref={inputEl} /> -- En esta linea de codigo se asigna una referencia del input(elemento) a la variable inputEl(se creo con el useRef)
+- Con el atributo(props) ref asignamos el valor(referencia de un elemento/componente) de ref.
 - Con la referencia al input, podemos manipularla (como el focus del ejemplo).
-- El valor lo contiene la propiedad current del ref.
+- El valor(referencia) lo contiene la propiedad current del ref.
 :::
 
 ## forwardRef
@@ -1684,9 +1686,10 @@ export default ExampleRef;
 -	El Reenvío de refs es una característica opcional que permite a algunos componentes tomar una ref que reciben, y pasarla (en otras palabras, “reenviarla”) a un hijo.
 -	Como react no te permite mandar ref a través de props , se utiliza forwardRef  para enviar un ref  a un hijo
 -	Se suele utilizar cuando el componente implementa bibliotecas (como el useForm)
--	forwardRef es un método que recibe como parámetro TODO EL COMPONENTE (todo el componente se encierra entre paréntesis)
-- El componente que tiene como parámetro tiene acceso a los props y a la referencia (ref).
-
+-	forwardRef es un método que recibe como parámetro un COMPONENTE.
+- El componente que tiene como parámetro , tiene acceso a los props y a la referencia (ref) que se le pasa como si fuera una props mas.
+- el metodo forwardRef devuelve un componente(el mismo que recibio como parametro ) el cual se exporta para su posterior utilizacion.
+  
 Ejemplo:
 
 ```js
@@ -1715,6 +1718,11 @@ const ExampleRef = () => {
 export default ExampleRef;
 
 ```
+:::tip Observacion
+- El componente InputText(lo crea la funcion forwardRef) tiene acceso a las props y a una referencia(ref)
+- Cuando lo renderizamos , le pasamos una variable de referencia llamada inputEl
+- La variable de referencia inputEl es la que se le  pasa  al parametro ref del componente
+:::
 ## forwardRef Proyecto
 
 :::tip Explicacion 

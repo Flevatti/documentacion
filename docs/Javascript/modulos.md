@@ -478,10 +478,7 @@ if(localStorage.getItem("frutas")) {
 :::
 :::tip trim
 - trim límpia los caracteres en blanco del comienzo o del final.
-
-- Y si se hace la negación(!todo.trim()) , devuelve true si no hay un String en su interior (si solo hay espacio en blanco).
-
-
+- Y si se hace la negación(!todo.trim()) devuelve true si no hay un String en su interior (si solo hay espacio en blanco).
 :::
 
 :::tip return 

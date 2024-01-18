@@ -1068,7 +1068,7 @@ export const requireToken = (req , res , next) => {
 
 ```
 :::tip Prueba 
-Prueben enviando en– authorization -- Bearer Token , el token.
+Prueben enviando en  Authorization con el Type en Bearer Token , el token.
 :::
 
 ### Quitarle el formato bearer 
@@ -1420,7 +1420,10 @@ protected.html
 ## Formas de guardar el token 
 
 ### localStorage 
-
+:::tip Alternativa
+- Se puede guardar el token en la sessionStorage
+- Es parecido al localStorage , solo que se guarda en la sesion(pestaña)
+:::
 index.html 
 ```js
 console.log(res.ok, res.status);
@@ -2666,13 +2669,14 @@ node_modules
 - Utilizaremos  Heroku CLI  para el deploy
 
 Pasos:
-1. Iniciamos sesion
+1. Iniciamos sesion en  Heroku
 2. Creamos una aplicación (todo por defecto)
-3. Iniciamos sesion 
+3. Nos logueamos en la  consola(cmd , powershell , etc) (en la ubicacion del proyecto) , con el comando:
 ```powershell
 Heroku login
 ```
-4. 	Inicializamos el proyecto
+
+4. Inicializamos el proyecto , con los comandos:
 
 - En la ubicación del proyecto:
 
@@ -2688,6 +2692,9 @@ Git commit -m “mensaje”
 git push heroku X
 X = master/main dependiendo de que rama principal tenga.
 ```
+:::tip 
+Por cada deploy , se debe hacer un push
+:::
 6. Configuramos las variables de entorno (config -- config VARS -- Reveal config vars)
 - Copiamos todas las variables de .env menos el modo.
 

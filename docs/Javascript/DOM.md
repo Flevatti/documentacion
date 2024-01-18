@@ -48,9 +48,9 @@ console.log(document.domain);
 ```
 
 :::tip
-Se puede usar la propiedad classlist para manipular las clases (eliminar , añadir)
+- Se puede usar la propiedad classlist para manipular las clases (eliminar , añadir)
 
-ClassList manipula todas las clases (como un todo), classlist las separa antes de manipularla (podes manipular la clase activo sin necesidad de afectar la clase inactivo).
+- [className manipula todas las clases (como un todo), classlist las separa antes de manipularla (podes manipular la clase activo sin necesidad de afectar la clase inactivo).](https://stackoverflow.com/questions/69361432/difference-between-classname-and-classlist#:~:text=Using%20%22classList%22%2C%20you%20can,wipe%20out%20all%20of%20them).)
 :::
 
 ## getElementById()
@@ -231,7 +231,12 @@ console.log(document.querySelectorAll(".container .text-danger"));
 - [mas info](https://beamtic.com/getelementbyid-vs-queryselector)
 
 ## Element
-[mas info](https://developer.mozilla.org/es/docs/Web/API/Element)
+
+:::tip Info
+- [link](https://developer.mozilla.org/es/docs/Web/API/Element)
+- Propiedades de los elementos === Propiedades de Instancia
+- Metodos de los elementos === Metodos de instancia
+:::
 ### Algunas propiedades:
 
 ```js
@@ -261,7 +266,7 @@ h1.style.color = "white";
 -	addEventListener: Registra un controlador de evento para un tipo de evento específico en un elemento.
 -	appendChild: Inserta un nodo así como el último nodo hijo de este elemento.
 -	hasAttributes: Verifica si el elemento tiene o no algún atributo.
-- [Algunos metodos](https://developer.mozilla.org/es/docs/Web/API/Element#m.c3.a9todos)
+
 
 
 

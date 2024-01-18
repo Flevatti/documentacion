@@ -60,14 +60,18 @@ Pueden omitir el comando “run”
 ## Formulario no controlado
 - [link](https://es.reactjs.org/docs/uncontrolled-components.html)
 -	La alternativa a los componente controlado son los componentes no controlados, donde los datos del formulario son manejados por el propio DOM.
-- 	Para escribir un componente no controlado, puedes usar una referencia para que obtengas los valores del formulario desde el DOM.
- ### refs
+- Para escribir un componente no controlado, puedes usar una referencia para que obtengas los valores del formulario desde el DOM.
+### refs
  - [link](https://es.reactjs.org/docs/refs-and-the-dom.html)
  - Las referencias proporcionan una forma de acceder a los nodos del DOM o a elementos React creados en el método de renderizado.
 
 ### useRef 
-- [link](https://es.reactjs.org/docs/hooks-reference.html#useref)
+- [Reactjs.org](https://es.reactjs.org/docs/hooks-reference.html#useref)
+- [Nueva documentación](https://beta.es.reactjs.org/reference/react/useRef)
 - useRef devuelve un objeto ref mutable cuya propiedad .current se inicializa con el argumento pasado (initialValue). El objeto devuelto se mantendrá persistente durante la vida completa del componente.
+- A traves de una prop llamada "ref" , podes asignarle un nuevo valor al objeto ref mutable.
+-  Sirve para obtener una referencia del elemento/componente 
+-  Sería como el document.getElementById , ósea es la forma de seleccionar un elemento en Reacts
 :::tip 
 React utiliza un virtual DOM para renderizar 
 :::
@@ -96,34 +100,21 @@ const App = () => {
 export default App
 
 ```
-component/FormNoControlado.jsx
-```js
-import React from 'react'
 
-const FormNoControlado = () => {
-  return (
-    <>
-     <h2>No controlado</h2>
-    </>
-  )
-}
 
-export default FormNoControlado
-
-```
 FormNoControlado.jsx
 ```js
 
 import React, { useRef } from 'react'
 
 const FormNoControlado = () => {
-    // Seria como seleccionar el formulario(form) con  getElementById  o querySelector 
+    // Creamos un objeto ref mutable , que empieza con null
     const formulario = useRef(null);
      
     const handleSubmit = e => {
         e.preventDefault();
-        // Para llamar al elemento usamos la propiedad current
-        // formulario.current = devuelve el formulario(form)
+        //  la propiedad current contiene el valor del objeto ref mutable
+        // formulario.current = Contiene el formulario(form)
         const datos = new FormData(formulario.current);
         // Convierto un array en un objeto 
         // Todas las keys se transforman en una propiedad del objeto con su valor correspondiente
@@ -140,6 +131,10 @@ const FormNoControlado = () => {
   return (
     <>
      <h2>No controlado</h2>
+     /* Con la props "ref" le asignamos una referencia del  componente actual 
+     (en este caso <form></form>) al objeto ref mutable.*/
+     /* Cuando se renderice/ejecute el codigo de abajo , formulario 
+     tendra una referencia de la etiqueta form */
      <form ref={formulario} onSubmit={handleSubmit}>
      <input
        type="text" 
@@ -172,19 +167,23 @@ export default FormNoControlado
 ```
 :::tip Observaciones 
 - En React el textarea tiene el atributo value y lo manejamos como si fuera un input.
-- ref =  Para seleccionar un elemento en lugar de usar la id o la clase(getElementById ,
-querySelector, etc), usamos una referencia(ref).
-- useRef =  es un hook para las referencias
+:::
+:::tip Como se usa el ref
+- La variable formulario  es de tipo ref ya que se creo con useRef.
+- Con la props(atributo) ref , le asignamos la referencia del elemento actual una variable de tipo ref (en este caso  a la variable formulario)
+- &lt;form ref={formulario} onSubmit={handleSubmit}> -- En esta linea se le asigna una referencia de la etiqueta form a la variable formulario
+- La props ref :  Sirve para  seleccionar un elemento/componete . Su valor es una variable de tipo ref. Es el equivalente a usar   getElementById o querySelector.
+- useRef :  es un hook para crear variables de referencias (de tipo ref) . Estas variables se le asignan al atributo(props) ref para asignarle alguna referencia.
 - No abusar de useRef, que consume memoria.
 - getElementById y querySelector pueden generar problemas ya que REACT trabaja con un VIRTUAL DOM.
-:::
 
+:::
 :::warning desventajas
 - No podemos mostrar mensajes de validaciones.
 - No usamos todo el potencial de REACT.
 :::
 ## Formulario controlado
-- 	En la mayoría de los casos, te recomendamos usar Componentes controlados para implementar formularios.
+- En la mayoría de los casos, te recomendamos usar Componentes controlados para implementar formularios.
 -	En un componente controlado, los datos del formulario son manejados por un componente React.
 - [link](https://es.reactjs.org/docs/forms.html#controlled-components)
 -	Los componentes React que rendericen un formulario también controlan lo que pasa en ese formulario con las subsecuentes entradas del usuario.
@@ -560,6 +559,10 @@ const FormControlado = () => {
 export default FormControlado
 
 ```
+:::tip 
+- En lugar de usar el atributo for , usamos el atributo htmlFor
+- Esto se debe a que for es una palabra  clave reservada en Javascript
+:::
 Lo abreviamos:
 ```js
 const handleChange = (e) => {

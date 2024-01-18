@@ -1,61 +1,66 @@
 ---
-sidebar_position: 2
+sidebar_position: 6
 ---
 #  CMD VS  POWERSHELL
 ## CMD
-- Mas antiguo
-- Mas limitado
-- Reconoce los espacios en blancos
+- Mas antiguo.
+- Mas limitado.
+- Reconoce los espacios en blancos.
 ## POWERSHELL
-- Tiene mas comandos que CMD
-- Es para uso avanzado
-- No reconoce los espacios en blancos
-- Algunos comandos que reconoce son MV , PWD , CLEAR y NI 
+- Tiene mas comandos que CMD.
+- Es para uso avanzado.
+- No reconoce los espacios en blancos.
+- Algunos comandos que reconoce son MV , PWD , CLEAR y NI.
 
 ## Ambos
- - No distinguen  mayuscula y minuscula 
- Por ejemplo : OK == ok
+ - No distinguen  mayuscula y minuscula .
+ - Por ejemplo : OK == ok es false.
 
 ## Comandos
+- Sirve para moverte entre carpetas:
 ``` powershell
 CD
 ```
-Sirve para moverte entre carpetas
 
-Trucos:
-- Arrastrar una carpeta a la consola para saber la ubicacion 
-- En el explorador de archivo , escribis cmd en la barra de navegacion y se abrira una consola con la ubicacion.
+:::tip Trucos
+- Arrastra una carpeta a la consola para saber la ubicación.
+- En el explorador de archivo, escribí cmd en la barra de navegación y se abrirá una consola con la ubicación.
+:::
+- Para Retroceder un nivel de tu ubicacion actual:
 ``` powershell
 CD ..
 ```
-Retrocedes un nivel de tu ubicacion actual
+
 
 :::tip
- Evita poner espacios en blanco en archivos/carpetas , en caso contrario para especificarlo usa las comillas doble("")
+- Evita poner espacios en blanco en archivos/carpetas , en caso contrario para especificarlo usa las comillas doble("").
 :::
+- Muestra los directorios:
 ``` powershell
 DIR
 ```
-Muestra los directorios
+- Limpia la consola:
 ``` powershell
 CLS
 ```
-limpia
+Para crear carpetas:
 ``` powershell
 MKDIR / MD
 ```
-Creas carpeta
+:::tip
+- Puedes crear muchas carpetas en una línea, separando las carpetas con espacios.
+:::
 
-Podes crear muchas carpetas en una linea , separando las carpetas con espacios
+- Sirve para mover los archivos a otras carpetas (cortar - pegar):
 ``` powershell
 MOVE   ubicacion_archivo   ubicacion_destino
 ```
-Sirve para mover los archivos a otras carpetas (cortar - pegar)
+- Sirve para cancelar las ejecuciones:
 ``` powershell
 CTRL + C
 ```
-Sirve para cancelar las ejecuciones
+
 :::tip
-  Podes usar ambas y configurarlas en visual studio code (En la opcion Configure Terminal Setting / Configurar valores de terminal)
+- Podés usar ambas y configurarlas en visual studio code (En la opción Configure Terminal Setting / Configurar valores de terminal).
 :::
 

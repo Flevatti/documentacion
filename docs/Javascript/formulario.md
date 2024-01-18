@@ -13,6 +13,10 @@ sidebar_position: 6
 - Todos los lenguajes de progamacion tiene expresiones regulares.
 - Los patrones no son String
 
+:::tip Aprende a crear tus Expresiones Regulares
+- [Developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Regular_Expressions)
+- [Wikipedia](https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular)
+:::
 ```js
 //    /Patron/
 // Notacion Literal
@@ -52,8 +56,8 @@ console.log(expresionObjeto.test("no hay palabra"));
 
 ```
 ## Carácteres especiales
-- [ ] Rango de carácteres. Cualquiera de los caracteres del interior de los corchetes.
-- 	| Establece una alternativa: lo que está a la izquierda o lo que está a la derecha.
+- [] Rango de carácteres. Cualquiera de los caracteres del interior de los corchetes.
+- | Establece una alternativa: lo que está a la izquierda o lo que está a la derecha.
 
 ```js
 	const expresionRegular = /[ua]/i
@@ -198,7 +202,13 @@ Cada input/textarea debe contener el atributo name para luego poder identificar 
 Ya aprendimos que podemos capturar eventos a través de Javascript utilizando addEventListener , hoy conoceremos algunos para procesar formularios.
 
 ### Submit
-
+- El evento submit se activa cuando el formulario es enviado, normalmente se utiliza para validar el formulario antes de ser enviado al servidor o bien para abortar el envío y procesarlo con JavaScript.
+- Mayormente un formulario puede enviarse de dos maneras:
+    - La primera – Haciendo click en &lt;input type="submit"> o en &lt;input type="image">.
+    - La segunda – Pulsando la tecla Enter en un campo del formulario.
+- Ambas acciones causan que el evento submit sea activado en el formulario.
+- El método form.submit() permite iniciar el envío del formulario mediante JavaScript. Podemos utilizarlo para crear y enviar nuestros propios formularios al servidor.
+- 
 :::warning
 POR ESO ES IMPORTANTE QUE EL BOTON/INPUT QUE ENVIE LOS DATOS SEA DE TYPE SUBMIT.
 :::
@@ -402,9 +412,13 @@ Para Validar no usar return , sino un array de errores.
 :::
 
 :::tip
-el método trim() limpia los caracteres en blanco (espacio en blanco) , devuelve true si hay espacio en blanco.
+el método trim() limpia los caracteres en blanco (espacio en blanco) 
 
-Devuelve true si existe solo espacios.
+el trim() devuelve false si hay espacio en blanco.
+
+
+La negación de String.trim() devuelve true si contiene espacio en blancos.
+
 
 
 :::
@@ -514,3 +528,62 @@ formulario.addEventListener("submit", (e) => {
 });
 
 ```
+:::tip
+- Como  el constructor  FormData() [devuelve lo mismo que devuelve el metodo entries(X)](./basico3.md#entriesx) , se puede utilizar junto con el metodo [fromEntries(X)](./basico3.md#fromentriesx) para obtener los datos del formulario.
+
+:::
+
+## String.match() 
+- El método match() se usa para obtener todas las ocurrencias de una expresión regular dentro de un String.
+- Sintaxis:
+```js
+cadena.match(regexp)
+```
+- regexp : Un objeto de expresión regular (Lo que devuelve el constructor RegExp). Si se pasa un String (notación literal), se convierte implícitamente a RegExp usando new RegExp()
+
+Ejemplo:
+
+Todas las letras de A hasta E y de a hasta e son devueltas, en su propio elemento dentro del array.
+
+```js
+
+  var cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+var expresion = /[A-E]/gi;
+var array_emparejamientos = cadena.match(expresion);
+console.log(array_emparejamientos);
+
+```
+
+:::tip info 
+
+[developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#ejemplos)
+:::
+
+## RegExp.prototype.exec()
+
+- El método exec() ejecuta una busqueda sobre las coincidencias de una expresión regular en una cadena especifica. 
+- Devuelve el resultado como array, o null.
+```js
+regexObj.exec(cadena)
+```
+- cadena : String sobre la cual se quiere aplicar la expresión regular
+
+
+- El método test() realiza una búsqueda de la coincidencia especificada en la cadena dada. La diferencia entre el método exec() y test() es que el método exec() devolverá la coincidencia especificada si está presente o nulo si no está presente en la cadena dada, mientras que el método test() devuelve un resultado booleano, es decir, verdadero si el la coincidencia especificada está presente o devuelve falso si no está presente.
+
+Ejemplo
+```js
+      // Busca "quick brown" seguido de "jumps", ignorando los caracteres que se
+      // encuentren entre medias.
+      // Recuerda "brown" y "jumps"
+      // Ignora mayusculas y minusculas
+      var re = /quick\s(brown).+?(jumps)/gi;
+      var result = re.exec("The Quick Brown Fox Jumps Over The Lazy Dog");
+      console.log(result);
+
+```
+
+:::tip Mas info
+- [developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#sintaxis)
+- [test vs exec](https://www.tutorialspoint.com/difference-between-test-and-exec-methods-in-javascript)
+:::

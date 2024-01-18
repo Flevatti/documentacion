@@ -24,6 +24,15 @@ const FeatureList = [
               React es una biblioteca(library) Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página
             </>
         ),
+    }, {
+        title: 'React Native',
+        url:'/docs/React-Native',
+        Svg: require('@site/static/img/react-native.svg').default,
+        description: (
+            <>
+              React Native, es un framework .​ Se utiliza para desarrollar aplicaciones para Android, ​ Android TV, ​ iOS, macOS, ​ tvOS, Web, ​ Windows​ y UWP​ al permitir que los desarrolladores usen React con las características nativas de estas plataformas.​
+            </>
+        ),
     },
     {
         title: 'Node',

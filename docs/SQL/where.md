@@ -8,6 +8,12 @@ Si tuviera una tabla con cien millones de filas de datos, leer todas las filas s
 
 Para filtrar ciertos resultados, necesitamos usar la cláusula WHERE en la consulta. La cláusula se aplica a cada fila de datos. Si la condición se cumple, la fila se incluye, de lo contrario se descarta.
 
+:::tip
+- Las condiciones son [operadores relacionales](https://fedeleva.github.io/documentacion/docs/Javascript/basico#operadores-relacionales)
+
+:::
+
+
 ```sql
 SELECT column, another_column, …
 FROM mytable
@@ -16,7 +22,16 @@ WHERE condition
     AND/OR …;
 ```
 
-Más cláusulas complejas pueden construirse uniendo numerosos ANDo ORlógicos palabras clave (es decir. Num_wheels> = 4 y puertas de <= 2). Y a continuación se muestran algunos operadores útiles que puede usar para datos numéricos (es decir, entero o punto flotante):
+Más cláusulas complejas pueden construirse usando las palabras clave  AND o OR   (es decir: Ruedas >= 4 y puertas  <= 2). Y a continuación se muestran algunos operadores útiles que puede usar para datos numéricos (es decir, entero o punto flotante):
+
+
+:::tip AND Y OR
+- [¿Cómo se usa AND?](https://fedeleva.github.io/documentacion/docs/Javascript/basico4#-and)
+- [¿Cómo se usa OR?](https://fedeleva.github.io/documentacion/docs/Javascript/basico4#-or)
+
+:::
+
+
 
 | Operador      | Condicion     | Ejemplo  |
 | :-------------: |:-------------:| :-----:   |
@@ -61,6 +76,11 @@ Al escribir cláusulas WHERE, SQL admite una serie de operadores útiles para ha
 | _      | Se usa en cualquier lugar de una cadena para que coincida con un solo caracter (funciona con el LIKE o NOT LIKE) | col_name LIKE "AN_" |
 | IN (...)      | La cadena existe en una lista | col_name IN ("a","b" , "c") |
 | NOT IN (...)      | La cadena  no existe en una lista | col_name NOT IN ("a","b" , "c") |
+
+
+:::tip
+Para optimizar el LIKE, trata que no arranque con un comodín (% o _)
+:::
 
 
 :::tip ¿Sabías?

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 11
 ---
 # Flexbox
 
@@ -38,7 +38,7 @@ Va al contenedor para que se comporte como flexbox
 display:flex
 ```
 ## Propiedades del contenedor
-## flex-direction
+### flex-direction
 Con esta propiedad podemos cambiar la dirección del main axis
 
 Si cambiamos el main axis, automáticamente el cross axis se cambia.
@@ -49,7 +49,7 @@ Flex-direction cambia la dirección del main axis.
 
  Define la dirección de los elementos en el contenedor, y acepta los siguientes valores:
 
-### Valores 
+#### Valores 
 #### row
 Los Elementos son colocados en la misma dirección del texto. (de izquierda a derecha
 
@@ -76,8 +76,8 @@ El Main axis Va de abajo para arriba en el eje Y
  Nota que cuando es una columna, justify-content cambia a vertical y align-items a horizontal.
 :::
 
-## flex-grap
-### valores
+### flex-grap
+#### valores
 #### wrap
 Respeta el ancho especifico de los flex-item y los items que sigan alado van a ir para abajo si es necesario
 
@@ -95,18 +95,18 @@ Respeta el ancho especifico de los flex-item y los ítems que sigan alado van a 
  
 Cada elemento se ajusta en una sola línea. (Todos los elementos estan en una linea)
 
-## flex-flow
+### flex-flow
  es la fusion de flex-direction y flex-wrap
 
 ```css
 flex-flow: column wrap;
 ```
-## justify-content
+### justify-content
 Alinea elementos horizontalmente
 
 Sirve para alinear en el main axis
 
-### valores
+#### valores
 #### center
 Se centran los flex-item
 
@@ -142,7 +142,7 @@ flex-end: Alinea elementos al lado derecho del contenedor (final del contenedor)
 flex-start y flex-end pueden cambiar si el flex-direction tiene algun valor inverse
 :::
 
-## align-items y align-content
+### align-items y align-content
 
 alinea elementos verticalmente 
 
@@ -163,7 +163,7 @@ Puedes usar align-content para establecer como múltiples líneas están separad
 Ambas propiedades usan los mismos valores.
 
 
-### valores
+#### valores
 
 #### flex-start
  Las líneas se posicionan en la parte superior del contenedo (comienzo)
@@ -194,7 +194,7 @@ Ambas propiedades usan los mismos valores.
 
 
 ## Propiedades para los  items
-## align-self
+### align-self
  Es la alineacion en el cross axis,se aplica a los items que quieras
  
 Tienen los mismos valores que align-items y align-content
@@ -202,7 +202,7 @@ Tienen los mismos valores que align-items y align-content
 Los valores son: flex-end , flex-start , stretch , center , baseline.
 
  Esta propiedad acepta los mismos valores de align-items y sus valores son usados para un elemento específico
-### valores
+#### valores
 
 #### flex-start
  Las líneas se posicionan en la parte superior del contenedo (comienzo)
@@ -231,7 +231,7 @@ Los valores son: flex-end , flex-start , stretch , center , baseline.
  
  Sirven para el efecto de que a medida que achicamos la pantalla, van subiendo para arriba los item-hijo.
 
-## flex-glow
+### flex-glow
 Agarra el espacio que sobra y lo reparte entre las cajas que están.
 
 - lo podes poner en solo un  flex-item y solo ese item se va a llevar todo el espacio que sobra.
@@ -253,7 +253,7 @@ flex-grow:2;
 }
 ```
 
-## flex-basis
+### flex-basis
 Es como el width 
 
 :::tip
@@ -263,7 +263,7 @@ Tiene mas prioridad que el width
 flex-basis: 500px;
 ```
 
-## flex-shrink
+### flex-shrink
 
 :::warning
 Aunque tenga width, los item-flex no van a tener el width especifico(generalmente tiene menos, a menos que se llegue al espacio adecuado del contenedor donde entren todos los ítems con sus width especifico y ahí si todas van a tener al mismo tiempo el width que se especifico) .
@@ -291,7 +291,7 @@ flex-shrink: .5;
 flex-shrink: 0;
 ```
 
-## flex
+### flex
 
 Es una fusion de  flex-grow , flex-shrink y flex-basis
 :::warning
@@ -305,7 +305,7 @@ flex: 1 0 350px
 flex: 1;
 ```
 
-## order
+### order
 
 La propiedad CSS order especifica el orden utilizado para disponer los elementos en su contenedor flexible.
 

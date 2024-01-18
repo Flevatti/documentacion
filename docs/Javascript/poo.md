@@ -27,10 +27,10 @@ const estudiantoUno = {
 ```
 
 :::
-Por eso vamos a hacer un constructor de eso (Estudiante).
+Por eso vamos a hacer un constructor para crear estudiantes.
 
-A través del constructor, podemos asignar los métodos.
-### Paso 1 (Plantilla o Clase)
+A través del constructor, podemos crear varios objetos que compartan los mismos metodos pero que tengan diferentes datos (propiedades).
+### Paso 1 - Crear una Plantilla/Clase/Constructor
 
 Todos los las personas tienen datos en común (nombre, identificador, edad) y también métodos específicos. 
 
@@ -39,9 +39,9 @@ Para eso son los constructores.
 A través de un constructor creamos objetos literales.
 
 
-Clase "Persona": (que define los datos generales y funcionalidades de una persona)
--	datos generales (propiedades): nombre, edad, género e intereses
--	funcionalidades (métodos): que sea capaz de saludar.
+- La Clase "Persona" contiene: 
+  -	Datos generales (propiedades): nombre, edad, género e intereses
+  -	Funcionalidades (métodos): que sea capaz de saludar.
 
 Esto es conocido como abstracción — crear un modelo simple de algo complejo que represente sus aspectos más importantes y que sea fácil de manipular para el propósito de nuestro programa.
 
@@ -55,15 +55,17 @@ Esto es conocido como abstracción — crear un modelo simple de algo complejo q
  La plantilla nos permite crear objetos.
 :::
 
-### Paso 2 (Creando objetos) 
-Partiendo de nuestra clase, podemos crear instancias de objetos — objetos que contienen los datos y funcionalidades definidas en la clase. Teniendo a nuestra clase Persona, ahora podemos crear gente con características más específicas:
+### Paso 2  - Crear objetos
+- Partiendo de nuestra clase, podemos crear instancias de objetos — son objetos que contienen los datos y funcionalidades definidas en la clase. 
+- Teniendo a nuestra clase Persona, ahora podemos crear gente con características más específicas
 
 :::tip
--	Cuando una instancia del objeto es creada a partir de una clase, se ejecuta la función constructora.
--	El proceso de crear una instancia del objeto desde una clase se llama instanciación.
+-	El proceso de crear una instancia  desde una clase se llama instanciación.
+- La  instanciación equivale a crear un objeto literal a partir de una clase
+- En la instanciación , se ejecuta la funcion constructora
 :::
 
-### Paso 3 (Clases especializadas - Heredar)
+### Paso 3 - Clases especializadas/Heredar
 
 -	En este caso nosotros no queremos personas genéricas — queremos docentes y estudiantes, que son los dos tipos más específicos de personas.
 -	En POO, podemos crear nuevas clases basadas en otras clases, estas nuevas clases secundarias pueden heredar los datos y métodos de su clase primaria.
@@ -82,7 +84,7 @@ JavaScript, utiliza funciones especiales llamadas funciones constructoras para d
 :::
 
 -	Los constructores proporcionan los medios para crear tantos objetos como necesites de una manera efectiva, adjuntando datos y funciones a ellos según sea necesario.
--	Cuando se crea una nueva instancia del objeto a partir de una función constructora, su funcionalidad central no se copia en el nuevo objeto como lenguajes POO "clásicos", sino que la funcionalidad está vinculada a través de una cadena de referencia llamada cadena de prototipos.
+-	Cuando se crea una nueva instancia del objeto a partir de una función constructora, su funcionalidad central (metodos y/o propiedades) no se copia en el nuevo objeto como lenguajes POO "clásicos", sino que la funcionalidad está vinculada a través de una cadena de referencia llamada cadena de prototipos. Para acceder a la "funcionalidad central" , se utiliza una referencia a la clase , que la contiene una propiedad(tiene muchos nombres ,  se suele encontrar como \__proto__ o prototype ) que tienen todos los objetos , esta referencia en Javascript se llama prototipo.
 - Javascript usa una cadena de prototipos por instancia.
 -	Así que esto no es una verdadera instanciación, estrictamente hablando, JavaScript usa un mecanismo diferente para compartir funcionalidad entre objetos.
 
@@ -124,8 +126,11 @@ A través de la plantilla construimos objetos.
 -	Más adelante veremos que si se puede utilizar class
 -	Tiene todas las características que esperas en una función, aunque no devuelve nada.
 -	Básicamente sólo define propiedades y métodos.
--	this es básicamente decir que cuando se crea una de estas instancias de objeto, la propiedad "nombre" del objeto será igual al valor del nombre pasado a la llamada del constructor, y el método saludar() usará también el valor del nombre pasado a la llamada del constructor.
--	new se usa para indicarle al navegador que queremos crear una nueva instancia del objeto, seguida del nombre de la función con sus parámetros requeridos entre paréntesis, y el resultado se almacena en una variable.
+- this sirve para:
+   -  Crear las propiedades del nuevo objeto (instancia) en el constructor 
+   -  Obtener una  referencia de la  instancia en los metodos
+-	new se usa para indicarle al navegador que queremos crear una nueva instancia(objeto)  a partir de la clase , la palabra new va seguida del nombre de la función constructora (esta debe tener los parametros que se especifico)
+-  new funcionConstructora() : Invoca a la funcionConstructora() y devuelve una nueva instancia(objeto).
 :::tip
 Un nombre de función constructora generalmente comienza con una letra mayúscula — esta convención se utiliza para hacer que las funciones constructoras sean más fáciles de reconocer en el código.
 :::
@@ -163,16 +168,27 @@ Javascript no instancia  objetos.
 ### Prototipo (En consola del navegador)
 ![Proto1](https://bluuweb.github.io/desarrollo-web-bluuweb/img/proto1.png)
 
--	En esta lista, podra ver los miembros definidos en el objeto prototipo de personaUno, que es un objeto literal del constructor Persona()
--	(Persona() es el constructor) - nombre, saludar.
--	Sin embargo, también verá algunos otros miembros - watch, valueOf, etc 
--	Que están definidos en el objeto prototipo de Persona(), que a su vez es un Objeto (Object). Esto significa que Persona() hereda lo que contiene el prototipo Object
+-	En esta imagen, podras ver lo que contiene  el objeto prototipo de personaUno, que es un objeto literal del constructor Persona()
+-	Ademas de lo que contiene la clase Persona , se encuentran  otras propiedades/metodos como  watch, valueOf, etc  . Estas  están definidas en el objeto prototipo de Persona(), que a su vez es un Objeto (Object). Esto significa que Persona() hereda lo que contiene el prototipo Object
 -	Esto demuestra que el prototipo cadena funciona.
 
 ![proto2](https://bluuweb.github.io/desarrollo-web-bluuweb/img/MDN-Graphics-person-person-object-2.png)
+
+:::tip Info
+- [freecodeCamp](https://www.freecodecamp.org/espanol/news/prototipo-javascript-expliacado-con-ejemplos/)
+- [Prototype](https://cosasdigitales.com/articulos-diseno-web/prototype-en-javascript-una-vision-practica/)
+- [Javascript Prototype](https://arielfuggini.com/javascript-prototypes/)
+- [Un vistazo a los prototipos](https://ricardogeek.com/un-vistazo-a-los-prototipos-de-javascript/)
+- [prototype methods](https://es.javascript.info/prototype-methods)
+- [prototipos en js](https://anamartinezaguilar.medium.com/prototipos-en-js-a3c36e16a1bd)
+:::
+:::tip
+- La propiedad \__proto__  contiene una referencia del prototype.
+- Con la propiedad \__proto__ podemos manipular(modificar) el prototipo.
+:::
 ###  hasOwnProperty
 
-Busca el constructor en la función constructora y si no lo encuentra sube un nivel hasta encontrarlo.
+Busca una propiedad en la función constructora y si no lo encuentra sube un nivel hasta encontrarlo.
 
 :::tip Explicación de prototipo
 Todas las propiedades y métodos de un objeto no se copian y pegan de la función constructora, sino que Javascript lo busca en su cadena de prototipos.
@@ -277,8 +293,8 @@ En el frontend todo es publico , en el backend NO.
 
 ## class
 -	Las clases de javascript, introducidas en ECMAScript 2015, son una mejora sintáctica sobre la herencia basada en prototipos de - JavaScript.
--	La sintaxis de las clases no introduce un nuevo modelo de herencia orientada a objetos en JavaScript.
-- 	Las clases de JavaScript proveen una sintaxis mucho más clara y simple para crear objetos y lidiar con la herencia.
+- La sintaxis de las clases no introduce un nuevo modelo de herencia orientada a objetos en JavaScript.
+- Las clases de JavaScript proveen una sintaxis mucho más clara y simple para crear objetos y lidiar con la herencia.
 - Todos los métodos están la cadena de prototipo.
 
 ```js
@@ -305,7 +321,10 @@ const personaUno = new Persona("Ignacio");
 console.log(personaUno.saludarIngles());
 ```
 
+:::tip
+- [Los "metodos" se pueden abreviar](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#metodos-1)
 
+:::
 ## get y setter
 -	El encapsulamiento simplemente encapsula las propiedades de un objeto para que no sean accesibles de manera publica y si deseas acceder a ellos externamente tendrás que usar metodos get y set (los cuales se definen con anterioridad)
 -	Los get no reciben parámetros y siempre devuelven algo.
@@ -380,7 +399,8 @@ console.log(juanito.getNombre);
 
 ## Static
 -	La palabra clave static define un método estático para una clase.
--	Los métodos estáticos son llamados sin instanciar su clase y no pueden ser llamados mediante una instancia de clase.
+-	Los métodos estáticos  no pueden ser llamados mediante una instancia de la clase.
+- Son llamados directamente de la clase.
 -	Los métodos estáticos son a menudo usados para crear funciones de utilidad para una aplicación.
 - No utiliza this
 
@@ -499,8 +519,8 @@ console.log(juanito.saludar());
 
 ## Super
 
-[La palabra clave super es usada para llamar funciones del objeto padre](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Classes#llamadas_a_s%C3%BAperclases_con_super)
-
+- [La palabra clave super es usada para llamar funciones del objeto padre](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Classes#llamadas_a_s%C3%BAperclases_con_super)
+- La palabra clave super , se utiliza para acceder a la "funcionalidad central (metodos/propiedades)" del padre.
 ```js
 // Funcion constructora = Plantilla = Class
 
@@ -548,14 +568,15 @@ console.log(juanito);
 
 ```
 
-Dos formas de poner un valor por defecto en la propiedad notas
+### Dos formas de poner un valor por defecto en la propiedad notas
 
 ```js
 class Estudiante extends Persona {
-   // Dos formas de poner el 0 como valor por defecto
+   // 1 forma - Un parametro con valor por defecto en el constructor
    constructor(nombre,edad , notas = 0) {
        // Invocando al constructor de la clase padre con el super()
        super(nombre , edad)
+       // 2 forma - Asignandolo  en caso que "notas" no exista.
        this.notas = notas || 0
        }
 
@@ -596,10 +617,11 @@ get getNombre() { return this.nombre}
 // Una clase que va a heredar todo lo que contiene la clase Persona 
 
 class Estudiante extends Persona {
-   // Dos formas de poner el 0 como valor por defecto
+
    constructor(nombre,edad , notas = 0 ) {
        // Invocando al constructor de la clase padre con el super()
        super(nombre , edad)
+   
        this.notas = notas || 0
        }
      
@@ -629,7 +651,7 @@ console.log(juanito.getNotas);
 
 
 -	Las propiedades de la clase son públicas de forma predeterminada y se pueden examinar o modificar fuera de la clase.
--	Sin embargo, existe una propuesta experimental para permitir la definición de campos(propiedades) de clase privados utilizando un #.
+-	Sin embargo, existe una propuesta experimental para permitir la definición de campos(propiedades) de clases privados utilizando un #.
 
 ```js
 	class Estudiante extends Persona {

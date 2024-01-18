@@ -90,3 +90,6 @@ Finalmente, las filas que caen fuera del rango especificado por LIMITy OFFSET se
 No todas las consultas deben tener todas las partes que enumeramos anteriormente, pero una parte de por qué SQL es tan flexible es que permite a los desarrolladores y analistas de datos manipular rápidamente los datos sin tener que escribir código adicional, todo simplemente usando las cláusulas anteriores.
 
 :::
+
+## Cheatsheet
+- [SQL CHEATSHEET](../../static/img/SQL.jpg)

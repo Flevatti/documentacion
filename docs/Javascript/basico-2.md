@@ -64,10 +64,9 @@ ${estado ? 'Bienvenido!' : 'Adiós!'} ${nombreUsuario}
 ```
 ## var vs let vs const
 
-var = todo lo hace de manera global. (no recomendado).
-
-Uno de los mayores problemas al declarar variables con var, es que puede sobrescribir las declaraciones de variables sin errores.
-
+#### var 
+- Todo lo hace de manera global (no recomendado).
+- Uno de los mayores problemas al declarar variables con var, es que puedes sobrescribir las  variables sin errores.
 ```js
 var estado = true;
 var estado = false;
@@ -75,13 +74,13 @@ console.log(estado);
  
 
 ```
+- Tambien podes sobrescribir el valor
 :::tip
 En una aplicación pequeña, es posible que no se encuentre con este tipo de problema, pero cuando su código se agrande, puede sobrescribir accidentalmente una variable que no tenía la intención de sobrescribir.
 :::
-
-let: Una variable con el mismo nombre solo se puede declarar una vez.
-
-No se permite declarar dos veces la misma variable.
+#### Let
+- Una variable con el mismo nombre solo se puede declarar una vez.
+- No se permite declarar dos veces la misma variable.
 
 Tira error:
 
@@ -109,8 +108,9 @@ if (estado) {
 console.log(estado)
 
 ```
-Da false ya que la variable es global
-
+:::tip Observación
+- Devuelve false ya que la variable es global.
+:::
 
 
 ```js
@@ -121,11 +121,17 @@ if (estado) {
 console.log(estado)
 
 ```
-Da true ya que en este ejemplo hay dos variable estado(uno en cada bloque)
+:::tip Observación
+- Devuelve true ya que en este ejemplo hay dos variable estado (una en cada bloque).
+:::
 
-bloque = {  código }
+#### Bloque
+- Todo lo que este entre llaves ({}) pertenece a un bloque.
+- bloque = {  código }.
+- El Bloque es "donde vive" una variable.
 
-Tenemos un scope.
+
+Tenemos un scope:
 
 ```js
 
@@ -136,15 +142,14 @@ Tenemos un scope.
 ```
 
 :::tip
-TIP
-En simples palabras el "scope de una variable" hace referencia al lugar donde esta va a vivir o podrá ser accesible.
+- El "scope de una variable" hace referencia al lugar donde esta va a vivir o donde podrá ser accesible.
+- Generalmente el scope es el bloque en donde vive una variable.
+- Puede ser llamado "contexto".
 :::
 
-El scope de un var es global
-
-El scope de un let esta limitado al bloque.
-
-en for siempre es un let asi respeta el scope (solo existe en el for).
+- El scope de un var es global (es accesible la variable desde cualquier bloque).
+- El scope de un let esta limitado al bloque (no se puede acceder a la variable fuera del bloque).
+- En un  for siempre se usa un let asi se respeta el scope (solo existe en el for).
 
 ```js
 for (let i = 0; i < 10; i++) {
@@ -181,9 +186,21 @@ console.log(estado)
 
 Algunos desarrolladores prefieren asignar todas sus variables usando const de forma predeterminada (me incluyo), a menos que sepan que necesitarán reasignar el valor. Solo en ese caso, usan let
 :::
+### Inicializar variable
+- Los valores de las variables let y var se pueden cambiar, por lo tanto, se pueden declarar sin inicializarla (asignarle un valor).
+- La variable Const se debe declarar con un valor especifico al crearla. Por lo tanto, no se puede declarar sin inicializarla (asignarle un valor).
+
+```js
+const myVariable;
+let myVariable2;
+var myVariable3;
+
+```
+
+
 
 ### Array vs const
-Es importante comprender que los objetos (incluidos los arreglos y las funciones) asignados a una variable mediante el uso const siguen siendo mutables. El uso de const solo evita la reasignación del identificador de variable.
+Es importante comprender que los objetos (incluidos los arreglos y las funciones) asignados a una variable mediante el uso const siguen siendo mutables. El uso de const solo evita la reasignación de la "referencia" que contiene.
 
 Puede modificar lo que hay en el interior.
 
@@ -336,7 +353,7 @@ const miNumero =  (min, max) => {
 console.log(miNumero(1,10));
 
 ```
-### Abreviaciones:
+### Abreviaciones
 Si se retorna en una línea , podemos quitar las llaves ({}) y la palabra return.
 
 De esta forma el interpretre sabe que hay que retornar un valor
@@ -419,13 +436,44 @@ console.log(miNumero(undefined , 50));
 
 Los parametros con valores por defecto se puede aplicar a los otros tipos de funciones.
 
-### Limitantes:
+### Limitantes
 -	No tiene sus propios enlaces a this o super y no se debe usar como métodos. (No se puede acceder a this o super).
--	No tiene argumentos o palabras clave new.target.
+-	No tiene argumentos o la  palabra clave new.target.
 -	No apta para los métodos call, apply y bind, que generalmente se basan en establecer un ámbito o alcance
 -	No se puede utilizar como constructor
 
+#### This y la funcion flecha
 
+```js
+  window.age = 10; 
+function Person() {
+  this.age = 42; 
+  setTimeout(() => {
+    console.log("this.age", this.age); 
+  }, 100);
+}
+
+var p = new Person();
+```
+:::tip Observación
+- Devuelve 42  porque "la funcion flecha usa el contexto/scope del padre (un bloque superior)  como su propio contexto/scope"
+- La funcion flecha **NO TIENE SU PROPIO CONTEXTO/SCOPE**
+- Esto se explicara en la sección de JS POO
+:::
+
+#### Otros ejemplos
+```js
+window.age = 42;
+ 
+  setTimeout(() => {
+    console.log("this.age", this.age); 
+  }, 100);
+```
+
+
+:::tip info
+- [Link](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+:::
 ## Arrow & forEach()
 
  El método forEach() ejecuta la función indicada una vez por cada elemento del array
@@ -467,3 +515,77 @@ frutas.forEach((fruta , index , array) => {
 
 
 ```
+## Console.log  Con Estilo
+- Podes añadirle css al mensaje del console.log
+- Sintaxis: console.log(“%cmensaje” , “código css”);
+- Si añadis %c al comienzo del String del primer parámetro, podes usar un segundo parámetro.
+- Este segundo parámetro equivale al css que se le añade al mensaje.
+
+Ejemplos:
+```js
+
+       console.log('%cHola' , "color:red");
+console.log('%cHola' , "color:red;font-size:2rem;");
+
+
+```
+## Primitivo vs Objeto
+:::warning
+- Hay un apartado dedicado exclusivamente a los Objetos , te recomiendo leerlo para entender esta sección.
+:::
+
+#### Diferencias
+- [Los tipos primitivos siempre se pasan por valor, mientras que los objetos se pasan por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Los tipos primitivos se copian por valor mientras que los objetos se copian por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Los tipos primitivos se comparan por valor mientras que los objetos se comparan por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+
+#### ¿Que es un dato primitivo?
+- En JavaScript, un primitive (valor primitivo, tipo de dato primitivo) son datos que no son un objeto y no tienen métodos.
+- Hay 6 tipos de datos primitivos: string, number, bigint, boolean, undefined y symbol. 
+- Los tipos primitivos en JavaScript son aquellos valores que no son un objeto y tampoco tienen métodos. Además, los tipos primitivos son valores inmutables (no se pueden modificar porque no tienen una referencia).
+
+
+
+#### Un primitivo como objeto
+
+- Aquí el dilema que enfrentó el creador de JavaScript:
+  -	Hay muchas cosas que uno querría hacer con los tipos primitivos, como un string o un number. Sería grandioso accederlas usando métodos.
+  -	Los Primitivos deben ser tan rápidos y livianos como sea posible.
+- La solución es algo enrevesada, pero aquí está:
+   -	Los primitivos son aún primitivos. Con un valor único, como es deseable.
+   -	El lenguaje permite el acceso a métodos y propiedades de strings, numbers, booleans y symbols.
+   -	Para que esto funcione, se crea una envoltura especial, un “object wrapper” (objeto envoltorio) que provee la funcionalidad extra y luego es destruido.
+- Los “object wrappers” son diferentes para cada primitivo y son llamados: String, Number, Boolean, Symbol y BigInt. Así, proveen diferentes sets de métodos.
+
+
+#### Ejemplo
+- String tiene el método toUpperCase() que devuelve un String en mayúscula.
+
+
+```js
+  const myVariable = "hola";
+      console.log(myVariable.toUpperCase());
+
+```
+:::tip Simple, ¿no es así? Lo que realmente ocurre en str.toUpperCase()
+1.	El string  myVariable es primitivo. Al momento de acceder a su  metodo, un objeto especial es creado, uno que conoce el valor del string y tiene métodos útiles como toUpperCase().
+2.	Ese método se ejecuta y devuelve un nuevo string (mostrado con  console.log).
+3.	El objeto especial es destruido, dejando solo el primitivo  myVariable.
+
+
+:::
+
+- Así los primitivos pueden proveer métodos y aún permanecer livianos.
+- El motor JavaScript optimiza este proceso enormemente. Incluso puede saltarse la creación del objeto extra por completo. Pero aún se debe adherir a la especificación y comportarse como si creara uno.
+- De igual forma, también existen las clases String/Number/Boolean/etc. Estas sirven para “instanciar” valores primitivos y tienen algunos métodos estáticos.
+
+
+#### null/undefined no poseen métodos
+- Los primitivos especiales null y undefined son excepciones. No tienen “wrapper objects” correspondientes y no proveen métodos. En ese sentido son “lo más primitivo”.
+
+
+:::tip info
+- [Diferencias entres tipos primitivos y objetos](https://www.neoguias.com/diferencia-tipos-primitivos-objetos-javascript/#:~:text=Diferencias%20entres%20tipos%20primitivos%20y%20objetos&text=Los%20tipos%20primitivos%20se%20comparan,referencia%2C%20pudiendo%20modificar%20su%20valor)
+- [¿Qué son los tipos primitivos en JavaScript?](https://keepcoding.io/blog/tipos-primitivos-en-javascript/#Que_son_los_tipos_primitivos_en_JavaScript)
+- [Métodos en tipos primitivos](https://es.javascript.info/primitives-methods)
+:::

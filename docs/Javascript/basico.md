@@ -134,19 +134,20 @@ Windows + punto = Para poner iconos.
 
 Javascript tiene 9 tipos de datos (Lo define el ECMAScript)
 
-CMAScript 🤷‍♂️
+:::tip ECMAScript 🤷‍♂️
 
-ECMAScript es una especificación de lenguaje de programación publicada por ECMA International. El desarrollo empezó en 1996 y estuvo basado en el popular lenguaje JavaScript propuesto como estándar por Netscape Communications Corporation. Actualmente está aceptado como el estándar.
+- ECMAScript es una especificación de lenguaje de programación publicada por ECMA International. El desarrollo empezó en 1996 y estuvo basado en el popular lenguaje JavaScript.
+- Fue propuesto como estándar por Netscape Communications Corporation. Actualmente está aceptado como el estándar de Javascript.
+- Conclusión: Determina cómo emplear el lenguaje Javascript, que permite a los fabricantes de software (navegadores) desarrollar las herramientas adecuada para interpretarlo correctamente (interpretar correctamente js).
+:::
 
-Conclusión: determina cómo emplear el lenguaje Javascript, que permite a los fabricantes de software (navegadores) desarrollar las herramientas adecuada para interpretarlo correctamente (interpretar correctamente js).
 
-[es6](http://kangax.github.io/compat-table/es6/)
 
-String: se utiliza para representar datos textuales.
 
-Number: valores numéricos.
 
-Boolean: representa una entidad lógica y puede tener dos valores: true y false.
+- String: se utiliza para representar datos textuales. 
+- Number: valores numéricos.
+- Boolean: representa una entidad lógica y puede tener dos valores: true y false.
 
 ```js
 console.log("un valor de tipo texto");	
@@ -165,26 +166,42 @@ console.log(false);
 ```
 
 :::warning
-  “String” – ‘String’   --- ‘Es un “string”’
+  “String” Es lo mismo que  ‘String’  
 :::
 
 :::warning
 ; = Finaliza una instruccion – Puede estar o puede que no (Lo interpreta el lenguaje).
 :::
 
+
+:::tip Info
+- [Estos son los objetos base que representan números, fechas y cálculos matemáticos (Buscar números y fechas)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects#n%C3%BAmeros_y_fechas)
+- [Estos objetos representan cadenas y soporte para manipularlos (Buscar Procesamiento de texto)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects#procesamiento_de_texto )
+- [Un listado con todos los tipos de datos, valores, etc.](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects )
+
+:::
+
+:::warning
+Por defecto , Javascript se encarga de hacer las conversaciones , pero hay muchos tipos de datos.
+
+:::
 ## Variable
-•	En programación una variable es un espacio de memoria el cual nos servirá para almacenar un tipo de dato con un valor correspondiente.
+-	En programación una variable es un espacio de memoria el cual nos servirá para almacenar un tipo de dato con un valor correspondiente.
+-	Imagina como una caja que guarda un tipo de dato/valor.
 
-•	Imagina como una caja que guarda un tipo de dato/valor.
+
+ JavaScript tiene tres tipos de declaraciones de variables.
+  1.	var
+  2.	let
+  3.	const
 
 
-JavaScript tiene tres tipos de declaraciones de variables.
-1.	var
-2.	let
-3.	const
-
+- Sintaxis: var/let/const nombreVariable = valor
+- Las variables son espacios donde se puede guardar información y asociarla a un determinado nombre.
+- De esta forma, cada vez que se consulte ese nombre posteriormente, te devolverá la información que contiene. 
+- La primera vez que se realiza este paso se suele llamar inicializar una variable.
 ```js
-  let x = 10
+let x = 10
 let y = false
 let z = x
 let n = 'Juanito'
@@ -222,7 +239,10 @@ tipovariable nombre = valor;
 - Se puede utilizar el signo $ ej: var $anio = 2021; (Evitar para evitar conflictos con jquery).
 - Debe ser descriptiva
 
+:::tip info
+- [Variables](https://lenguajejs.com/javascript/fundamentos/variables/#:~:text=En%20Javascript%2C%20si%20una%20variable,no%20le%20asociamos%20ning%C3%BAn%20contenido)
 
+:::
 
 ## Concatenacion
 
@@ -318,7 +338,7 @@ Existen diferentes tipos de operadores
 * Operadores de Comparación / Relacionales.
 * Operadores lógicos
 
-  ### Operadores Aritmeticos
+### Operadores Aritmeticos
 En programación y matemáticas, los operadores aritméticos son aquellos que manipulan los datos de tipo numérico, es decir, permiten la realización de operaciones matemáticas (sumas, restas, multiplicaciones, etc.).
 Operaciones matemáticas con números (enteros , decimales , etc).
 
@@ -395,7 +415,7 @@ let resultado = !false;
 console.log(resultado);
 
 ```
-
+#### [Todos los operadores, expresiones y palabras clave del lenguaje JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators).
 ## Estructuras de control
 En lenguajes de programación, las estructuras de control permiten modificar el flujo de ejecución de las instrucciones de un programa.
 
@@ -567,7 +587,7 @@ let mensaje = (numeroMaquina > numeroUsuario) ? ‘El numero es mayor’ : ‘El
 
 
 ## Array
-Los arrays son objetos similares a una lista cuyo prototipo proporciona métodos para efectuar operaciones de recorrido y de mutación. Tanto la longitud como el tipo de los elementos de un array son variables.
+Los arrays son objetos similares a una lista cuyo prototipo proporciona métodos  que nos permite efectuar operaciones de recorrido y de mutación. 
 
 En javascript son dinámicos, no hace falta declarar la dimensión(tamaño).
 
@@ -580,7 +600,7 @@ Con una coma separas los elementos(valores) del array.
 
 Cada valor corresponde a un índice [Numero]
 
-Los índice empiezan con 0.
+Los índice empiezan en 0 y por cada elemento aumenta 1.
 
 Para  llamar a un elemento del array
 
