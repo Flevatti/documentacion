@@ -62,7 +62,16 @@ const FeatureList = [
             Vue.js es un framework de JavaScript de código abierto para la construcción de interfaces de usuario y aplicaciones de una sola página
             </>
         ),
-    },
+    },  {
+        title: 'Typescript',
+        url:'/docs/typescript',
+        Svg: require('@site/static/img/logo_typescript.svg').default,
+        description: (
+            <>
+             TypeScript es un lenguaje de programación que se basa en JavaScript, pero con la adición de tipos estáticos y objetos. Esto significa que, a diferencia de JavaScript, que es un lenguaje dinámico, TypeScript verifica los tipos de variables y parámetros en tiempo de compilación.
+            </>
+        ),
+    }
 
 ];
 function HomepageHeader() {

@@ -87,10 +87,13 @@ index.html
 :::tip Observacion
 - Estamos montando la aplicacion (componente principal , en el ejemplo se llama holaMundo)  en el div cuya id es #app.
 - Estamos renderizando la aplicacion(componente principal)  en el div.
-- Estamos creando la aplicación en el DIV 
+- Estamos creando la aplicación en el DIV.
 - La aplicacion (componente) utiliza los datos que se le asignaron en el data.
 - Con las dobles llaves {{código javascript}} podemos utilizar variables, objetos , operadores ternario( para que devuelva algún valor ) , metodos y muchas expresiones más de javascript.
 - Nombre = ‘fede’
+- Lo que esta adentro del DIV representa el "template" del componente principal.
+-  La logica y los datos que utiliza el componente principal lo contiene el objeto que especificamos en el parametro del metodo createApp().
+- Debajo del CAPÓ se ejecuta Javascript para crear los elementos HTML necesarios para renderizar los componentes adentro del elemento HTML que se especifico en el parametro del metodo mount().
 :::
 
 ## Contador con el metodo mounted 
@@ -1599,7 +1602,7 @@ Otro ejemplo:
 ## Props
 - Es una forma de enviarle datos al componente.
 - Es para pasar datos del componente “padre” al componente “hijo”
-- Parecen atributos que estamos creando.
+- A la prop se le asigna un valor como si fuera un atributo.
 - Se definen con la propiedad props cuyo valor es un objeto.
 - Cada propiedad del objeto representa el nombre de la prop y su valor es el tipo de dato que admite.
 - Sintaxis:
@@ -1693,7 +1696,7 @@ Ejemplo
 - Le pasamos la prop(le pasamos un dato) al componente-uno  a través de una especie de “atributo”.
 - Para pasar props:           v-bind:nombreprops=”valor”.
 - Desde el componente padre (holamundo) , le estamos pasando información al componente hijo(componente-uno)
-- El componente hijo maneja la información que le pasamos (una prop) como una variable.
+- El nombre de la prop se usa como variable y contiene la información que le pasamos.
 - Los atributos dinámicos tienen acceso a la variable item.
 :::
 

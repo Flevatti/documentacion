@@ -29,13 +29,13 @@ const addTodoAction = {
 ### Dispatcher
 - Ejecuta una acción que actualizara el State
 -  Sirve para enviar acciones
-- La tienda(store) Redux tiene un método llamado dispatch. La única forma de actualizar el estado es llamar a store.dispatch() y pasarle un objeto de acción . La tienda ejecutará su función de reducción y guardará el nuevo valor de estado dentro, y podemos llamar getState()para recuperar el valor actualizado:
+- La tienda(store) Redux tiene un método llamado dispatch. La única forma de actualizar el estado es llamar a store.dispatch() y pasarle un objeto de acción . La tienda ejecutará su función de reducción y guardará el nuevo valor de estado dentro, y podemos llamar getState() para recuperar el valor actualizado:
 - Puede pensar en enviar acciones como "desencadenar un evento" en la aplicación. Algo sucedió y queremos que la tienda lo sepa. Los reductores actúan como oyentes de eventos, y cuando escuchan una acción que les interesa, actualizan el estado en respuesta.
 ### Store
 - Contiene el state(estado) de la aplicacion que a su vez puede tener varios estados
 - Solo puede existir UN store por aplicación.
-- El estado actual de la aplicación Redux vive en un objeto llamado store 
-- La tienda se crea pasando un reductor y tiene un método llamado getStateque devuelve el valor del estado actual
+- El estado actual de la aplicación  vive en un objeto llamado store 
+- La tienda se crea pasando un reductor y tiene un método llamado getState() que devuelve el valor del estado actual
 ###  Subscriber
 - Es un manejador de eventos para el State
 ### Reducers

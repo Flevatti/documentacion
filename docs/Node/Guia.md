@@ -629,8 +629,8 @@ password: contraseña
 - Un cluster es como un servidor y puede tener varias BD
 - En un cluster podemos tener muchas colecciones.
 :::
-4.Database – Connect – Connect your app
-- Copiamos el uri
+4. Database – Connect – Connect your app -- Drivers
+- Copiamos el uri (puede variar)
 ```js
 mongodb+srv://<username>:<password>@cluster.xcibc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 

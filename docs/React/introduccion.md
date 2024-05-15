@@ -119,16 +119,15 @@ Modificalo y ejecuta la app
 ## JSX: JavaScript + XML
 -	Como ha visto, hemos estado usando lo que parece HTML en nuestro código React, pero no es HTML del todo. Esto es JSX , que significa JavaScript XML.
 -	El uso de JSX no es obligatorio para escribir React.
--	Debajo del capó(por atrás), se está ejecutando createElement, lo que toma la etiqueta, las propiedades , etc  y lo muestra.
--	JSX está más cerca de JavaScript, no de HTML, por lo que hay algunas diferencias clave a tener en cuenta al escribirlo.
-    - className se usa en lugar de class para agregar clases CSS, ya
-     que class es una palabra clave reservada en JavaScript.
-    - Las propiedades y métodos en JSX son camelCase.
-    - Las etiquetas de cierre automático deben terminar en una barra inclinada. 
-    ```html
+-	Debajo del capó(por atrás), se está ejecutando createElement, lo que toma la etiqueta, las propiedades , etc  y lo muestra. En otras palabras, se ejecuta Javascript para crear los elementos HTML necesarios para renderizar los componentes.
+-	JSX está más cerca de JavaScript, no de HTML, por lo que hay algunas diferencias clave a tener en cuenta al escribirlo:
+     - className se usa en lugar de class para agregar clases CSS, ya
+      que class es una palabra clave reservada en JavaScript.
+     - Las propiedades y métodos en JSX son camelCase.
+     - Las etiquetas de cierre automático deben terminar en una barra inclinada. 
+  ```html
          <img />
-    ```
-
+  ```
 - Las expresiones de JavaScript también se pueden incrustar dentro de JSX usando llaves, incluidas variables, funciones y propiedades.
 
 ## Componente
@@ -484,8 +483,8 @@ export default App
 
 :::tip Explicacion 
 - onClick es un tipo de evento
-- Sintaxis : tipo de Evento = {función} 
-- Sintaxis :  onTipoEvento = función
+- Sintaxis : onTipoEvento = {función} 
+- Sintaxis :  onTipoEvento = {nombre función}
 - La función se ejecutará cada vez que se active el evento.
 - La función va sin paréntesis.
 :::

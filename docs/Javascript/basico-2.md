@@ -535,9 +535,9 @@ console.log('%cHola' , "color:red;font-size:2rem;");
 :::
 
 #### Diferencias
-- [Los tipos primitivos siempre se pasan por valor, mientras que los objetos se pasan por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
-- [Los tipos primitivos se copian por valor mientras que los objetos se copian por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
-- [Los tipos primitivos se comparan por valor mientras que los objetos se comparan por referencia](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Los tipos primitivos siempre se pasan por valor, mientras que los objetos se pasan por referencia](https://flevatti.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Los tipos primitivos se copian por valor mientras que los objetos se copian por referencia](https://flevatti.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Los tipos primitivos se comparan por valor mientras que los objetos se comparan por referencia](https://flevatti.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
 
 #### ¿Que es un dato primitivo?
 - En JavaScript, un primitive (valor primitivo, tipo de dato primitivo) son datos que no son un objeto y no tienen métodos.
@@ -549,7 +549,7 @@ console.log('%cHola' , "color:red;font-size:2rem;");
 #### Un primitivo como objeto
 
 - Aquí el dilema que enfrentó el creador de JavaScript:
-  -	Hay muchas cosas que uno querría hacer con los tipos primitivos, como un string o un number. Sería grandioso accederlas usando métodos.
+  -	Hay muchas cosas que uno quiere hacer con los tipos primitivos, como un string o un number. Sería grandioso  usar métodos en datos primitivos.
   -	Los Primitivos deben ser tan rápidos y livianos como sea posible.
 - La solución es algo enrevesada, pero aquí está:
    -	Los primitivos son aún primitivos. Con un valor único, como es deseable.

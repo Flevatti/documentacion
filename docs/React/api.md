@@ -23,8 +23,13 @@ cd consumir-api
 -	Sirven para estar pendiente de cierto elemento del  componente y que cuando cambie , ejecute algo.
 
 :::tip 
-Si estás familiarizado con el ciclo de vida de las clases de React y sus métodos, el Hook useEffect equivale a componentDidMount, componentDidUpdate y componentWillUnmount combinados.
+- Si estás familiarizado con el ciclo de vida de las clases de React y sus métodos, el Hook useEffect equivale a componentDidMount, componentDidUpdate y componentWillUnmount combinados.
+- Los métodos que corresponden al ciclo de vida solo se pueden usar en las [clases de React.](https://flevatti.github.io/documentacion/docs/React/otros2#reactcomponent) ya que en la actualidad fueron remplazados por los hooks.
 :::
+
+
+
+
 ### Efectos sin saneamiento
 -	En ciertas ocasiones, queremos ejecutar código adicional después de que React haya renderizado el DOM. Peticiones de red, mutaciones del DOM y registros, son ejemplos comunes de efectos que no requieren una acción de saneamiento.
 -	Decimos esto porque podemos ejecutarlos y olvidarnos de ellos inmediatamente. 

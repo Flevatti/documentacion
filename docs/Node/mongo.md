@@ -442,16 +442,11 @@ module.exports = router;
 ### Guardar/insertar documento - metodo 1:
 - [info](https://mongoosejs.com/docs/models.html)
 
-:::tip Observacion 
-- La nueva instancia del modelo contiene el documento que se va a guardar
-- Lo que recibe en el momento de la instancia es el documento(objeto) que se va a  crear/insertar en la BD
-- La instancia tiene acceso al metodo save() para guardarse en la BD
-- el metodo save() crea la coleccion (si no existe) y el documento
-:::
+
 
 
 :::tip 
-Se crea utilizando el modelo
+Se crea utilizando una instancia del  modelo
 
 Si no se respeta la estructura del  esquema cuando se crea el objeto , se genera un error
 :::
@@ -472,6 +467,12 @@ router.post('/' , async(req,res) => {
 })
 
 ```
+:::tip Observacion 
+- La nueva instancia del modelo contiene el documento que se va a guardar
+- Lo que recibe el constructor del modelo es el documento(objeto) que se va a  crear/insertar en la BD
+- La instancia tiene acceso al metodo save() para guardarse en la BD
+- el metodo save() crea la coleccion (si no existe) y el documento
+:::
 :::tip
 usamos redirect(“ruta”) para direccionar a otra ruta.
 :::
@@ -493,15 +494,11 @@ router.post('/' , async(req,res) => {
 
 ```
 ### Guardar/insertar documento - metodo 2:
-- Se crea utilizando el modelo:
+- Se crea utilizando el modelo.
 - Se crea y se guarda en la misma línea.
 
 
-:::tip Observacion 
-- Se utiliza el modelo y no una instancia de el.
-- Lo que recibia la nueva instancia del modelo ( ejemplo anterior) , lo recibe el metodo create()
 
-:::
 ```js
 router.post('/' , async(req,res) => {
     const body = req.body;
@@ -520,7 +517,11 @@ router.post('/' , async(req,res) => {
 })
 
 ```
+:::tip Observacion 
+- Se utiliza el modelo y no una instancia de el.
+- Lo que recibia la nueva instancia del modelo ( ejemplo anterior) , lo recibe el metodo create()
 
+:::
 ## Get único documento
 router/Mascota.js
 - Utilizamos una url dinámica

@@ -6,8 +6,8 @@ sidebar_position: 9
 
 
 ## Iniciamos el proyecto con vite 
-- [¿que es vite?](https://fedeleva.github.io/aprendizaje/React/proyecto.html#vite)
-
+- [¿que es vite?](http://localhost:3000/documentacion/docs/React/proyecto#vite)
+- Iniciamos un proyecto de vue con el siguiente comando:
 ```powershell
 npm create vite@latest my-vue-app -- --template vue
 ```
@@ -269,7 +269,8 @@ src/stores/user.js
 - Todas las tiendan tienen un nombre que las identifica y un objeto con las configuraciones.
 - En las configuraciones se encuentra el estado, las acciones (permite modificar el estado) y los getter (permite obtener el estado de forma computada).
 - Todo lo que contiene el estado se comparte con todos los componentes.
-
+- El estado es una propiedad llamada state cuyo valor es una función que devuelve un objeto.
+- Este objeto se comparte con todos los componentes y por los tantos todos tienen acceso a este.
 ```js
 import { defineStore } from 'pinia'
 
@@ -311,14 +312,14 @@ Para escribir variables dentro de vue(template) es con:
 ```
 ## GETTER
 
-- Los captadores son solo propiedades computadas detrás de escena, por lo que no es posible pasarles ningún parámetro (solo el State)
+- Los captadores son solo propiedades computadas, por lo que no es posible pasarles ningún parámetro (solo el State)
 - Sin embargo, puede devolver una función del getter para aceptar cualquier argumento: [link](https://pinia.vuejs.org/core-concepts/getters.html#passing-arguments-to-getters)
 
 Login.vue
 
-- Utilizamos los getter(computed) para modificar un valor del estado.
-- El valor modificado no se guardará en la Store. (no modificara el estado)
-- Es un getter que puede modificar el valor devuelto. Ej. te devuelve la información en mayúscula.
+- Utilicemos las propiedades computadas de Vue para modificar un valor del estado.
+- El valor modificado no se guardará en la Store (no modificara el estado). 
+- Modifica el valor devuelto. Ej. te devuelve la información en mayúscula.
 - Hace un cálculo, pero no lo modifica.
 
 ```js
