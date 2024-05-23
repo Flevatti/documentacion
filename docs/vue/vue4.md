@@ -132,6 +132,110 @@ App.vue
 </script>
 
 ```
+## Vue Router - Query
+- Con el objeto Route obtenemos toda la información de la ruta, entre ellas las query.
+- Para obtener el objeto Route usamos useRoute() o this.$route
+
+
+- Ejemplo con Options API:
+
+
+```html
+<template>
+  <div>
+    <h1>This is an about page</h1>
+    <p>Query: {{ query }}</p>
+    <button
+      @click="
+        set({
+          name: 'Pedro'
+        })
+      "
+    >
+      Cambiar query
+    </button>
+  </div>
+</template>
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      query: this.$route.query
+    }
+  },
+  methods: {
+    set(search) {
+      this.query = search
+      this.$router.replace({
+        query: search
+      })
+    }
+  }
+}
+</script>
+
+```
+:::tip Observación
+- Aparte de usar el objeto Route, usamos el objeto Router para manipular el enrutador.
+- El enrutador se obtiene usando useRouter() o this.$router
+:::
+
+- Ejemplo con Composition API:
+```html
+<template>
+  <div>
+    <h1>This is an about page</h1>
+    <p>Query: {{ query }}</p>
+    <button
+      @click="
+        set({
+          name: 'Pedro'
+        })
+      "
+    >
+      Cambiar query
+    </button>
+  </div>
+</template>
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
+
+<script setup>
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+const query = ref(route.query)
+
+const set = (search) => {
+  query.value = search
+  router.replace({
+    query: search
+  })
+}
+</script>
+```
+
 
 ## Vue Router – Params(Variable en la URL)
 
@@ -227,7 +331,7 @@ Codigo de creación de un Router
 ```
 - Un Router viene con muchos métodos(addRoute , afterEach , back , etc).
 
-### beforeEach 
+#### beforeEach 
 
 - Es un metodo del Router
 - Ejecuta un callback antes de cada navegación/url.

@@ -1001,7 +1001,21 @@ http://localhost:5000/api/protected
 - El que mas se usa es el Bearer Token.
 - Bearer Token: Envía información(token) a la cabecera(header)
 
-
+### Bearer Token
+- Un Bearer token es un tipo de token de acceso que se utiliza en la autenticación de API RESTful. Es un token que se genera después de que un usuario se autentica con éxito en una aplicación y se utiliza para acceder a recursos protegidos en la API.
+- El propósito principal de un Bearer token es proporcionar una forma segura de autenticar a los usuarios y permitir el acceso a recursos protegidos en una API RESTful.
+- Cuando un usuario se autentica en una aplicación, el servidor genera un token de acceso (Bearer token) y lo devuelve al cliente. El cliente almacena el token y lo envía en la cabecera de autorización de cada solicitud HTTP a la API.
+- El servidor verifica la validez del token y, si es válido, permite el acceso a los recursos protegidos. Esto permite que la API se comunique con el cliente sin necesidad de almacenar información de autenticación en el lado del cliente, lo que mejora la seguridad y reduce el riesgo de ataques de suplantación de identidad.
+- Además, los Bearer tokens pueden tener una duración limitada, lo que significa que expirarán después de un período de tiempo específico. Esto ayuda a prevenir el uso no autorizado de tokens robados y mejora aún más la seguridad de la API.
+- El Bearer token se envía en la cabecera de la solicitud HTTP como un valor de autorización. La cabecera de autorización se establece en la siguiente forma:
+```javascript
+Authorization: Bearer <token>
+```
+:::tip Observación
+- Donde &lt;token> es el valor del token de acceso generado después de la autenticación.
+:::
+- El servidor verifica la validez del token y, si es válido, permite el acceso a los recursos protegidos. Si el token es inválido o ha expirado, el servidor devuelve un código de estado HTTP 401 (No autorizado).
+- El uso de Bearer tokens es una forma común de autenticación en API RESTful y se utiliza en muchas aplicaciones modernas.
 ### Middleware 
 - Vamos a crear un middleware para preguntar sobre el token.
 - Si el token es válido, le damos acceso a la información de la ruta protected.

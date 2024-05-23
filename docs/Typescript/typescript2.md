@@ -803,6 +803,62 @@ type SymbolKeys = keyof symbol;
 - [Más información](https://blog.logrocket.com/how-to-use-keyof-operator-typescript/)
 :::
 
+
+## Modulos
+- La palabra clave "declare module" se utiliza en TypeScript para definir un módulo que no existe en el código fuente, pero que se espera que esté disponible en tiempo de ejecución. Esto es útil cuando se trabaja con bibliotecas de terceros que no tienen tipos de TypeScript definidos, o cuando se trabaja con archivos que no son de TypeScript, como archivos .js o .css.
+- La sintaxis de "declare module" es similar a la de import y export, pero en lugar de importar o exportar elementos de código, se utiliza para definir el tipo de un módulo. Por ejemplo, si se está trabajando con una biblioteca de terceros llamada miBiblioteca que no tiene tipos de TypeScript definidos, se puede definir un módulo de la siguiente manera:
+```typescript 
+declare module 'miBiblioteca' {
+  export function sumar(a: number, b: number): number;
+}
+```
+- Esto le dice a TypeScript que el módulo miBiblioteca tiene una función llamada sumar que toma dos números como argumentos y devuelve un número. Ahora se puede importar y utilizar la función sumar en otro archivo de la siguiente manera:
+
+```js
+import { sumar } from 'miBiblioteca';
+
+const resultado = sumar(2, 3);
+console.log(resultado); // 5
+```
+- En resumen, la palabra clave declare module se utiliza en TypeScript para definir un módulo que no existe en el código fuente, pero que se espera que esté disponible en tiempo de ejecución. Esto es útil cuando se trabaja con bibliotecas de terceros que no tienen tipos de TypeScript definidos, o cuando se trabaja con archivos que no son de TypeScript, como archivos .js o .css. La sintaxis de "declare module" es similar a la de import y export, pero en lugar de importar o exportar elementos de código, se utiliza para definir el tipo de un módulo.
+
+
+#### Ejemplo para Vue
+```typescript
+declare module '*.vue' {
+  import { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+
+```
+
+:::tip Observación
+- La línea import { DefineComponent } from 'vue' importa el tipo DefineComponent de la biblioteca de Vue.js. Este tipo se utiliza para definir componentes de Vue.js.
+- La línea const component: DefineComponent<{}, {}, any> define una variable component de tipo DefineComponent, lo que significa que es un componente de Vue.js. Los tres parámetros genéricos de DefineComponent especifican el tipo de las props, el tipo de los datos y el tipo de los métodos del componente, respectivamente. En este caso, se especifica que el componente no tiene props ({}), que no tiene datos ({}) y que tiene métodos de cualquier tipo (any). Con esto especificamos el componente como si usaramos Options API.
+- La línea export default component exporta el componente como el valor predeterminado del módulo, lo que significa que se puede importar de la siguiente manera:
+
+```js
+import MiComponente from './MiComponente.vue';
+```
+- En resumen, este código de TypeScript describe el tipo de un archivo .vue de Vue.js, especificando que es un componente de Vue.js sin props, sin datos y con métodos de cualquier tipo. El componente se exporta como el valor predeterminado del módulo, lo que significa que se puede importar fácilmente en otros archivos de la aplicación.
+:::
+
+
+:::tip ¿POR QUÉ se importa adentro el tipo de dato?
+- Si usamos el siguiente código funciona igual:
+```typescript
+import { DefineComponent } from 'vue'
+declare module '*.vue' {
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+```
+- En este código, el tipo DefineComponent se importa fuera del bloque declare module '*.vue', lo que significa que se importa en el ámbito global del archivo. Luego, dentro del bloque declare module '*.vue', se utiliza el tipo DefineComponent importado previamente para definir el tipo de la constante component.
+- En el otro código, el tipo DefineComponent se importa dentro del bloque declare module '*.vue', lo que significa que se importa solo dentro del ámbito de ese módulo. En otras palabras, el tipo DefineComponent solo está disponible dentro del bloque declare module '*.vue' y no se exporta fuera de él.
+- Ambos códigos  funcionan correctamente, pero hay una pequeña diferencia en la forma en que se manejan las importaciones. En este código, el tipo DefineComponent se importa en el ámbito global, lo que podría causar conflictos si se utiliza el mismo nombre de importación en otros lugares del archivo. En el segundo código, el tipo DefineComponent se importa solo dentro del bloque declare module '*.vue', lo que reduce el riesgo de conflictos.
+:::
+
 ## Seguir aprendiendo
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Cursos de Typescript](https://learn.microsoft.com/es-es/training/browse/?terms=typescript)

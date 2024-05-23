@@ -37,7 +37,7 @@ de esta forma elegimos que caracteristicas instalar
 8.	Seleccionamos NPM
 
 #### Si lo hiciste bien , se creo una carpeta con el nombre del proyecto.
-- Entramos en la carpeta y ejecutamos npm run serve para ejecutar el servidor de desarrollo.
+- Entramos en la carpeta y ejecutamos **npm run dev** para ejecutar el servidor de desarrollo.
 
 ## Estructura de archivos
 ### index.html
@@ -83,7 +83,7 @@ de esta forma elegimos que caracteristicas instalar
 ### Script
 - Contiene las importaciones de los componentes que utiliza.
 - Contiene expresiones de javascript. En este apartado va la logica.
-- Lo que se exporta por defecto [equivale al objeto que utilizamos para crear el componente holaMundo (que luego le implementamos los methods ,   propiedades calculadas , etc)](./README.md#creamos-nuestra-primera-app)
+- Lo que se exporta por defecto equivale al objeto que contiene el componente holaMundo (que luego le implementamos los methods ,   propiedades calculadas , etc), [representa las Options API](vueVersion.md#options-api)
 
 :::tip Componente hola mundo 
 ```js

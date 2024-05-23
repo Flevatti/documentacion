@@ -32,7 +32,8 @@ setTimeout(() => {
 - No se vuelve a renderizar la parte afectada
 - No hay reactividad
 :::
-### ref()
+
+#### ref()
 - Convierte un valor primitivo en reactivo.
 - El método ref() recibe un valor primitivo.
 - En los valores reactivos, se aplica la reactividad. (Vuelve a renderizarse la parte afectada en el &lt;template>)

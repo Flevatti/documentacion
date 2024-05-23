@@ -339,11 +339,17 @@ El margen no se cuenta para el tamaño real de la caja; por supuesto, afecta al 
 - Ancho = Width
 - Altura = Height 
 #### Propiedad box-sizing
+- La propiedad box-sizing (tamaño de caja) establece como se calcula el ancho y alto total de un elemento. 
+- Recuerda que en HTML todos los elementos son una caja y tienen un tamaño.
+- La propiedad box-sizing tiene dos valores posibles: content-box y border-box. El primero es el valor por defecto así que no es necesario colocarlo.
+
+
 - Con la propiedad box-sizing modificamos  el modelo que va a utilizar el elemento.
 - Sus valores son:
-  - box-sizing : Utiliza el modelo de caja alternativo. En este valor , el tamaño de la caja es el de  width y height.
-  - border-box : Utiliza el modelo de caja estándar. En este valor el tamaño de la caja varia segun el width , height , padding y border.
-
+  - content-box : Utiliza el modelo de caja estándar. En este valor el tamaño de la caja varia segun el width , height , padding y border. El comportamiento por defecto de los navegadores al calcular el ancho y alto de un elemento es aplicar la anchura y altura al área de contenido, sin tener en cuenta el borde y padding.
+  - border-box : Utiliza el modelo de caja alternativo. En este valor , el tamaño de la caja es el de  width y height. En lugar de sumar, el padding y border se restan del ancho y del alto para que después la suma total sean las medidas exactas.
+- Las diferencias entre content-box y border-box se pueden ver con la siguiente imagen. En el content box el padding y border del elemento se dibujan por fuera de la anchura y altura (se suman), mientras que en border-box, el padding y border se dibujan dentro del ancho y alto (se restan):
+![Diferencia entre content-box y border-box](https://res.cloudinary.com/practicaldev/image/fetch/s--kV-IdEHC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/88hwiwderf9uk6ildd7w.jpg)
 
 
 :::tip info
@@ -352,6 +358,7 @@ El margen no se cuenta para el tamaño real de la caja; por supuesto, afecta al 
 - [¿Que es el Box Model?🤔](https://codigofacilito.com/articulos/que-es-el-box-model)
 - [CSS Box Model](https://www.w3schools.com/css/css_boxmodel.asp)
 - [Como funciona el box-model ](https://dev.to/lupitacode/que-es-el-box-model-4mnj)
+- [¿Qué es el Box Sizing en CSS? 🤔](https://dev.to/lupitacode/que-es-el-box-sizing-en-css-2pi9)
 :::
 
 #### Imagenes

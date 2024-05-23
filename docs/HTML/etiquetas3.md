@@ -295,3 +295,194 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores reiciendis d
 - [Semántica](https://programacionfacil.org/cursos/html_avanzado/capitulo_2_semantica_html5.html)
 - [¿Qué es HTML semántico?](https://platzi.com/clases/2467-frontend-developer/40832-que-es-html-semantico/)
 :::
+
+## SVG
+- SVG (Scalable Vector Graphics)  es un formato de imagen que se utiliza en la web y en dispositivos móviles para crear gráficos vectoriales escalables. Esto significa que las imágenes SVG se pueden agrandar o reducir sin perder calidad, a diferencia de las imágenes rasterizadas (como JPEG o PNG), que pueden volverse borrosas o pixeladas cuando se agrandan.
+- SVG es un lenguaje de marcado, lo que significa que se utiliza código para describir la forma y el color de los gráficos. Esto permite una mayor flexibilidad y control sobre el aspecto de las imágenes, y también hace que sea más fácil modificarlas o animarlas.
+- En resumen, SVG es un formato de imagen ideal para crear gráficos vectoriales escalables que se vean bien en diferentes tamaños y dispositivos.
+
+:::tip gráficos vectoriales escalables
+- Los gráficos vectoriales escalables son imágenes que se pueden agrandar o reducir sin perder calidad. Esto se debe a que están compuestos por líneas y formas geométricas, en lugar de píxeles individuales como en las imágenes rasterizadas (como JPEG o PNG).
+- Cuando se agranda una imagen rasterizada, los píxeles se vuelven más grandes y pueden volverse borrosos o pixelados. En cambio, cuando se agranda una imagen vectorial, las líneas y formas se redibujan automáticamente para mantener su aspecto original.
+- Esto hace que los gráficos vectoriales escalables sean ideales para crear imágenes que se vean bien en diferentes tamaños y dispositivos, como en la web o en dispositivos móviles.
+
+:::
+
+#### Estructura básica de un archivo SVG
+- Un archivo SVG básico se estructura de la siguiente manera:
+
+```html
+<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" >
+  <title>Estructura básica del SVG</title>
+  <style>
+    .circle {fill: blue}
+  </style>
+  <circle class="circle" cx="5" cy="5" r="5" />
+</svg>
+
+```
+:::tip Observación
+- En este ejemplo, se define un elemento &lt;svg> con un atributo viewBox que establece el tamaño del gráfico, y un atributo xmlns que especifica el namespace del lenguaje SVG. Dentro del elemento &lt;svg>, se define un título, un estilo para un elemento &lt;circle>, y el propio elemento &lt;circle> que se dibuja en la posición (5, 5) con un radio de 5.
+:::
+
+#### Tipos de objetos gráficos
+- Los objetos gráficos en SVG se clasifican en tres categorías:
+  - Elementos geométricos vectoriales: Estos son los objetos básicos que se utilizan para crear gráficos vectoriales en SVG. Incluyen líneas, rectángulos, círculos, elipses, polígonos y curvas. Estos elementos se definen utilizando coordenadas y atributos como el color, el grosor de la línea y el relleno.
+  - Imágenes de mapa de bits (imágenes rasterizadas): Estas son imágenes que se pueden incrustar en un gráfico SVG. A diferencia de los elementos vectoriales, las imágenes de mapa de bits están compuestas por píxeles y no se pueden escalar sin perder calidad.
+  - Texto: SVG también permite agregar texto a los gráficos vectoriales. El texto se puede formatear utilizando diferentes fuentes, tamaños y estilos, y se puede colocar en cualquier parte del gráfico.
+#### DATA URI
+- Además, es posible generar un archivo SVG en línea utilizando un Data URI. Por ejemplo:
+
+```css
+.box {
+  width: 100px;
+  height: 100px;
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><path d="M0,0 V50 L50,0 Z" fill="black"/></svg>');
+}
+
+```
+:::tip DATA URIS
+-  Es una forma de incrustar pequeños elementos de datos directamente en documentos HTML y CSS. Permiten incluir datos como imágenes sin que el navegador tenga que solicitarlos desde Internet. La estructura general de un DATA URI es:
+```html
+data:[<mediatype>][;base64],<data>
+```
+- Aquí, &lt;mediatype> es una cadena de tipo MIME, como 'image/jpeg' para un archivo de imagen JPEG. Si se omite, se establece en text/plain;charset=US-ASCII. Cuando los datos contienen caracteres reservados según la norma RFC 3986 o espacios, debes codificar esos datos utilizando el token base64.
+
+- Ejemplo:
+
+```html
+<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" style="width:36pt;height:36pt" />
+```
+
+- Es un concepto avanzado, le recomiendo investigar más!
+
+:::
+#### Incorporar SVG en HTML
+- SVG y HTML son dos tecnologías relacionadas pero independientes, que se utilizan juntas para crear contenido en la web.
+- Hay varias formas de incorporar SVG en HTML:
+1. Inline SVG: Se puede incluir el código SVG directamente en el código HTML, utilizando la etiqueta &lt;svg>.
+
+```html
+<html>
+  <body>
+    <svg width="100" height="100">
+      <circle cx="50" cy="50" r="40" fill="blue" />
+    </svg>
+  </body>
+</html>
+```
+2. Imagen SVG externa: Se puede cargar un archivo SVG externo utilizando la etiqueta &lt;img>.
+
+```html
+<html>
+  <body>
+    <img src="mi_imagen.svg" alt="Imagen SVG">
+  </body>
+</html>
+```
+
+3.  Se puede utilizar la etiqueta &lt;object> para cargar un archivo SVG externo.
+
+```html
+<html>
+  <body>
+    <object data="mi_imagen.svg" type="image/svg+xml">
+      <!-- Contenido de fallback para navegadores que no soportan SVG -->
+    </object>
+  </body>
+</html>
+```
+
+4. Uso de CSS: Se puede utilizar CSS para cargar un archivo SVG como fondo o como contenido de un elemento.
+
+
+```css
+.box {
+  background: url('mi_imagen.svg');
+}
+
+```
+
+
+
+#### sistema de coordenadas del elemento SVG
+-  El sistema de coordenadas en SVG es como una pizarra o un lienzo en blanco donde se dibujan los objetos y puntos.
+-  El sistema de coordenadas en SVG funciona de manera similar a un sistema de coordenadas cartesianas, donde el origen (0,0) se encuentra en la esquina superior izquierda y las coordenadas x e y aumentan hacia la derecha y hacia abajo, respectivamente.
+- Los objetos y puntos en una imagen SVG se representan utilizando coordenadas en este sistema de coordenadas, como si se estuvieran dibujando en una pizarra. Por ejemplo, una línea se puede dibujar especificando las coordenadas de sus dos extremos, o un círculo se puede dibujar especificando su centro y su radio.
+- Además, el sistema de coordenadas en SVG se puede transformar y escalar utilizando diferentes técnicas, como el atributo transform o el atributo viewBox. Estas transformaciones permiten cambiar la posición y el tamaño de los objetos en la imagen, como si se estuvieran borrando y volviendo a dibujar en una pizarra.
+
+
+
+
+
+#### Atributo viewBox
+- Imagina que el viewBox es como una ventana que se utiliza para ver una parte específica de una imagen grande. La ventana tiene un tamaño y una posición específicos, y solo muestra la parte de la imagen que cabe dentro de esa ventana.
+- En el mundo de SVG, el viewBox es una ventana que se utiliza para mostrar una parte específica del sistema de coordenadas del elemento SVG. El viewBox tiene cuatro valores: min-x, min-y, width y height.
+- min-x y min-y son las coordenadas del punto superior izquierdo de la ventana , es decir, el punto donde comienza a mostrarse el sistema de coordenadas dentro de la ventana.
+- width y height son el ancho y la altura de la ventana,  y determinan cuánta parte del sistema de coordenadas se mostrará dentro de la ventana.  La ventana se extiende hacia abajo y hacia la derecha desde ese punto.
+- Ejemplo:
+
+
+```html
+<svg width="200" height="200" viewBox="50 50 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="100%" height="100%" fill="white" />
+  <g stroke="black" stroke-width="1">
+    <rect x="0" y="0" width="50" height="50" fill="red" />
+    <rect x="150" y="150" width="50" height="50" fill="blue" />
+  </g>
+</svg>
+
+```
+:::tip Observación
+- En este ejemplo, el atributo viewBox tiene los valores 50 50 200 200, lo que significa que la ventana comienza en el punto (50,50) del sistema de coordenadas y tiene un ancho y una altura de 200 unidades.
+- Dentro de la ventana, se dibujan dos rectángulos en las posiciones (0,0) y (150,150) del sistema de coordenadas.
+- El atributo width y height del elemento svg especifican el tamaño de la ventana en el lienzo SVG, y el atributo fill especifica el color de relleno de los rectángulos.
+
+:::
+#### Atributo xmlns
+- El atributo xmlns es como una etiqueta especial que le dice al navegador web qué tipo de lenguaje está utilizando el documento SVG. Es como decirle al navegador: "Hola, este documento está escrito en el lenguaje SVG, así que por favor, muéstralo correctamente".
+- En resumen, el atributo xmlns es una etiqueta importante que le dice al navegador web cómo interpretar el documento SVG y mostrar la imagen vectorial correctamente.
+- Ejemplo:
+```html
+<svg width="160" height="230" xmlns="http://www.w3.org/2000/svg">
+  <!-- Contenido SVG aquí -->
+</svg>
+```
+:::tip Observación
+- En este ejemplo, el atributo xmlns especifica que el documento SVG utiliza el modulo definido por la W3C para SVG 1.0. Este es el espacio de nombres estándar para documentos SVG. Esto permite que el navegador identifique correctamente los elementos &lt;svg>, &lt;circle>, y los atributos cx, cy, r, y fill.
+- En otras palabras, el atributo xmlns con el valor http://www.w3.org/2000/svg es una forma de decirle al navegador que el documento sigue las reglas y estándares establecidos por la W3C para SVG 1.0. Esto permite que el navegador interprete y muestre correctamente los elementos y atributos SVG en el documento.
+
+:::
+
+#### Atributo stroke
+- El contorno de una forma SVG es el borde exterior de la forma. Se puede definir un color y un ancho para el contorno utilizando los atributos stroke y stroke-width, respectivamente.
+- El atributo stroke especifica el color del contorno, mientras que el atributo stroke-width especifica el ancho del contorno. El contorno se dibuja alrededor  de la forma y puede ser de un color diferente al del fondo de la forma.
+- El contorno se puede utilizar para resaltar una forma, para separarla de otras formas o para crear efectos visuales interesantes. Por ejemplo, se puede utilizar un contorno de un color diferente al del fondo para hacer que una forma se destaque en un fondo ocupado. También se puede utilizar un contorno de ancho variable para crear efectos de sombra o de iluminación.
+-  El color de fondo o de la figura se establece con el atributo fill.
+- Ejemplo:
+
+```html
+<svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" height="80" width="80"
+    fill="RosyBrown" stroke="RoyalBlue" stroke-width="5" />
+</svg>
+```
+
+:::tip
+- En este ejemplo, el atributo fill se establece en "RosyBrown", lo que hace que el fondo del rectángulo sea de ese color. El atributo stroke se establece en "RoyalBlue", lo que hace que el contorno del rectángulo sea de ese color. El atributo stroke-width se utiliza para establecer el ancho del contorno.
+
+:::
+
+
+
+#### Ventajas de utilizar SVG en HTML
+- Escalabilidad: Los gráficos SVG se escalan perfectamente sin perder calidad, lo que los hace ideales para diseños responsivos.
+- Accesibilidad: Los gráficos SVG pueden ser accesibles para usuarios con discapacidades, ya que se pueden describir con texto alternativo.
+- Interactividad: Los gráficos SVG pueden ser interactivos, permitiendo a los usuarios interactuar con ellos mediante eventos de mouse y teclado.
+- Compatibilidad: Los gráficos SVG son compatibles con la mayoría de los navegadores modernos, incluyendo Chrome, Firefox, Safari, Edge y Opera.
+
+
+#### Desventajas de utilizar SVG en HTML
+- Compatibilidad con versiones antiguas: Los gráficos SVG no son compatibles con versiones antiguas de Internet Explorer (IE 8 y anteriores).
+- Rendimiento: Los gráficos SVG pueden requerir más recursos del navegador que los gráficos rasterizados, lo que puede afectar el rendimiento en dispositivos móviles o con recursos limitados.

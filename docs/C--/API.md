@@ -88,6 +88,16 @@ sidebar_position: 11
 - Ambos tienen encabezado y contenido.
 - La solicitud tiene un verbo y la respuesta tiene un código de estado.
 
+
+## Swagger
+- Swagger es una herramienta que genera automáticamente la documentación de una API RESTful para tu aplicación. Su principal ventaja es que te permite no solo consultar todos los endpoints de la aplicación, sino también probarlos inmediatamente enviando una solicitud y recibiendo una respuesta.
+- Con Swagger, puedes acceder a una lista de endpoints disponibles y sus métodos asociados. Algunas solicitudes solo están disponibles para grupos de usuarios autorizados, y un Token de Bearer puede ser necesario para acceder a ellas.
+- Ventajas de utilizar Swagger:
+    - Documentación automática: Swagger genera la documentación de la API de manera automática, lo que ahorra tiempo y esfuerzo.
+    - Pruebas interactivas: Permite probar los endpoints de la API de manera interactiva, lo que facilita la depuración y el desarrollo.
+    - Acceso fácil: Proporciona una interfaz fácil de usar para acceder a la documentación de la API y probar los endpoints.
+- Por lo general la plantilla de ASP.NET Core te crea y configura swagger de manera automática.
+- [Documentación](https://swagger.io/)
 ## Empezamos a desarrollar
 
 #### Progamas requeridos

@@ -5,8 +5,7 @@ sidebar_position: 10
 # Proyecto 2 -- ShortUrl
 
 ## API a consumir 
-- [Guia de la Api -- 1](https://fedeleva.github.io/aprendizaje/Node/apiRest.html)
-- [Guia de la Api -- 2](https://fedeleva.github.io/documentacion/docs/Node/apiRest)
+- [Guia de la Api ](https://flevatti.github.io/documentacion/docs/Node/apiRest)
 
 1.	Clonamos el repositorio que contiene la Api
 2.	Ejecutamos el comando npm install

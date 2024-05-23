@@ -68,10 +68,10 @@ como enviar el user (useState) al src/components/Navbar.js
 :::
 
 ## createContext
--	Crea un objeto Context. Cuando React renderiza un componente que se suscribe a este objeto Context, este leerá el valor de contexto actual del Provider más cercano en el árbol.
--	Cada objeto Context viene con un componente Provider de React que permite que los componentes que lo consumen se suscriban a los cambios del contexto.
--	El componente Provider acepta una prop value que se pasará a los componentes consumidores que son descendientes de este Provider.
-
+-	Crea un objeto Context. Cuando React renderiza un componente que se suscribe a este objeto Context, este leerá el valor del Provider (es una propiedad de Context) más cercano en el árbol.
+-	Cada objeto Context viene con un componente Provider de React que permite que los componentes que lo consuman se suscriban a los cambios del contexto y accedan a valores que contenga su prop value.
+-	El componente Provider acepta una prop value que se pasará a los componentes consumidores.
+- Los componentes consumidores son los descendientes del Provider.
 
 src/context/UserProvider.jsx
 - Estructura basica de un componente
@@ -79,7 +79,6 @@ src/context/UserProvider.jsx
 :::tip Observacion 
 - Hay que exportar un createContext()
 - Esa exportación la utiliza los componentes que requieren ese dato/valor.
-- Puede tener toda la lógica del usuario el componente.
 :::
 
 ```js
@@ -108,7 +107,7 @@ export default UserProvider
 
 index.js
 
-- Para tener acceso a la variable user y a las funciones signIn y signOut , usaremos el context(createContext)
+- Para tener acceso a la variable user y a las funciones signIn y signOut ,  tenemos que encerrar a los componentes que van a utilizar los datos del Provider en el componente UserProvider  (es el que creamos, es  el componente Provider del context que creamos).
 
 ```js
 import React from 'react';
@@ -152,14 +151,15 @@ root.render(
 - Todos los children tienen acceso al  props value de Provider.
 :::
 ## useContext
-- Acepta un objeto de contexto (el valor devuelto de React.createContext) y devuelve el valor del contexto actual. El valor actual del contexto es determinado por la propiedad value del MyContext.Provider ascendentemente más cercano en el árbol al componente que hace la llamada.
+- Acepta un objeto de contexto (el valor devuelto de React.createContext) y devuelve el valor del contexto actual. 
+- El valor actual del contexto es determinado por la prop value del MyContext.Provider ascendentemente más cercano en el árbol al componente que hace la llamada.
 
 src/routes/Inicio.jsx
 
 :::tip Diferencias
-- Para tener acceso a las dos funciones y a la variable , hay que usar el context ( que creamos con createContext)
+- Para tener acceso a las dos funciones y a la variable (prop value) , hay que usar el context ( el que creamos con createContext).
 - El provider es para especificar quien tienen acceso a los datos.
-- El context es al que llamamos para tener acceso a los datos , el context nos devuelve los datos.
+- El context es al que llamamos para tener acceso a los datos (prop value) , el context nos devuelve los datos.
 :::
 
 ```js
@@ -223,6 +223,12 @@ export default Navbar
 :::tip Observacion 
 Se puede tener acceso a todos los datos como en el Inicio.jsx o solo a uno de los datos como en el Navbar.jsx
 :::
+
+:::tip
+- [Documentación](https://es.react.dev/learn/passing-data-deeply-with-context)
+
+:::
+
 
 ## Extra Ruta Protegida
 - [explicacion](https://reactrouter.com/docs/en/v6/examples/auth)

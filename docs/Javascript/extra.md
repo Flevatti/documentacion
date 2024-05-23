@@ -49,7 +49,7 @@ Es decir que JSON es un formato común para serializar y deserializar objetos en
 -	Requiere usar comillas dobles para las cadenas y los nombres de propiedades. Las comillas simples no son válidas.
 -	Una coma o dos puntos mal ubicados pueden producir que un archivo JSON no funcione.
 -	A diferencia del código JavaScript, en el que las propiedades del objeto pueden no estar entre comillas, en JSON solo los Strings entre comillas pueden ser utilizadas como propiedades.
-
+- El ultimo valor no debe tener coma.
 #### Sintaxis
 - Un objeto JSON comienza y termina con llaves {}
 - Hay dos elementos centrales en un objeto JSON: claves (Keys) y valores (Values).
@@ -61,12 +61,12 @@ Es decir que JSON es un formato común para serializar y deserializar objetos en
     {
         “key”:“value”,
         “key”:“value”,
-        “key”:“value”.
+        “key”:“value”
       }
 
 ```
 - La sintaxis de JSON funciona de modo similar a JavaScript. Por ejemplo:
-  -	El arreglo de información se hace mediante claves (keys).
+  -	Se usan claves(keys)/valores.
   -	La información se separa por comas.
   -	Las llaves agrupan objetos.
   -	Los corchetes agrupan arreglos de datos (array).

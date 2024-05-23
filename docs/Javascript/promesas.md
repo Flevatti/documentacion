@@ -319,6 +319,14 @@ el async y el await funciona solo con promesas.
 
 -	async : La declaración de función async define una función asíncrona
 -	await: El operador await es usado para esperar a una Promise. Sólo puede ser usado dentro de una función async function.
+## Excepción
+- En programación, una excepción es como un evento que se activa cuando algo sale mal durante la ejecución de un programa. Esto puede suceder por diferentes razones, como errores de escritura en el código, problemas de lógica o fallas en la entrada o salida de datos. Cuando se activa una excepción, el flujo normal del programa se interrumpe y se busca una solución especial para manejar el problema. De esta manera, las excepciones ayudan a que el programa se comporte mejor y evite colapsar por completo cuando se encuentra con un error.
+- Por otro lado, un error se refiere a un problema o fallo en el código que impide que el programa se ejecute correctamente. Un error puede ser causado por una variedad de factores, como errores de sintaxis, errores de lógica, errores de entrada/salida, entre otros.
+- La relación entre una excepción y un error es que una excepción es una forma de manejar errores en un programa. Cuando ocurre un error, se puede generar una excepción que interrumpe el flujo normal de la ejecución del programa. El programa entonces puede manejar esta excepción mediante mecanismos como el bloque try...catch, que permite capturar la excepción y ejecutar código específico para manejar el error.
+- En otras palabras, un error es el problema en sí mismo, mientras que una excepción es la forma en que el programa responde a ese error. El programa puede generar una excepción cuando se produce un error, y luego manejar esa excepción para evitar que el programa se detenga o se produzcan resultados inesperados.
+- Por ejemplo, si un programa intenta dividir un número entre cero, se produce un error de división por cero. En este caso, el programa puede generar una excepción que interrumpe el flujo normal de la ejecución, y luego manejar esa excepción mediante un bloque try...catch para mostrar un mensaje de error al usuario, por ejemplo.
+- En resumen, una excepción es una forma de manejar errores en un programa, mientras que un error es el problema en sí mismo que causa la excepción.
+- Una excepción en JavaScript es un objeto que representa un error que ocurre durante la ejecución de un programa. Puedes manejar excepciones usando la sentencia try...catch para especificar un bloque de código que se probará y una respuesta en caso de que ocurra un error.
 
 ## Try catch
 ### Manejar Errores
@@ -332,6 +340,10 @@ Si falla lo que contiene el try, se ejecuta esto
 }
 
 ```
+:::tip Observación
+- El parametro de catch() contiene la excepción (objeto).
+
+:::
 se puede usar el finally a lo ultimo para ejecutar un código al final (se ejecuta si o si)
 
 Se usa para la barra de cargando

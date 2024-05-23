@@ -6,17 +6,20 @@ sidebar_position: 1
 ## ¿Qué es node?
 - [Info en Ingles](https://nodejs.org/en/about)
 -	Es para ejecutar javascript en el servidor.
-
 -	Node.js® es un entorno de ejecución para JavaScript construido con V8, motor de JavaScript de Chrome.
 -	Node.js es un entorno de ejecución multiplataforma, de código abierto, para la capa del servidor (pero no limitándose a ello) basado en el lenguaje de programación JavaScript.
--	Al contrario que la mayoría del código JavaScript, no se ejecuta en un navegador
+-	Al contrario que la mayoría del código JavaScript, no se ejecuta en un navegador, NODE FUNCIONA EN EL SERVIDOR.
 -	Ideado como un entorno de ejecución de JavaScript orientado a eventos asíncronos, Node.js está diseñado para crear aplicaciones network escalables.
 -	HTTP es un elemento destacado en Node.js. Esto hace que Node.js sea muy adecuado para la base de una librería o un framework web.
--	En términos simples node no bloquea las operaciones, no queda a la espera de por ejemplo una solicitud a la base de datos, dejando la cpu trabajando en ello, node reanudará las operaciones cuando vuelva la respuesta. Esto permite que Node.js maneje miles de conexiones simultáneas con un solo servidor sin introducir la carga de administrar la concurrencia de subprocesos, lo que podría ser una fuente importante de errores.
+-	En términos simples node no bloquea las operaciones, no queda a la espera de por ejemplo una solicitud a la base de datos, node reanudará las operaciones cuando vuelva la respuesta. Esto permite que Node.js maneje miles de conexiones simultáneas con un solo servidor sin introducir la carga de administrar la concurrencia de subprocesos, lo que podría ser una fuente importante de errores.
 -	En Node.js, los nuevos estándares de ECMAScript se pueden usar sin problemas, ya que no tiene que esperar a que todos sus usuarios actualicen sus navegadores.  
 -	NPM: Cuenta con más de 1 millón de paquetes, módulos o bibliotecas disponibles para su utilización.
 -	Se puede hacer aplicaciones de escritorio , lineas de comandos , etc.
 
+:::tip entorno de ejecución
+- Un entorno de tiempo de ejecución es un código que proporciona los recursos y servicios necesarios para ejecutar aplicaciones que fueron creadas con un determinado lenguaje de programación.
+- Actúan como un pequeño sistema operativo y proporcionan toda la funcionalidad que los programas necesitan para ejecutarse.
+:::
 :::tip
 V8 es el entorno de ejecución para JavaScript creado para Google Chrome. Es software libre desde 2008, está escrito en C++ y compila el código fuente JavaScript en código de máquina en lugar de interpretarlo en tiempo real.
 :::
@@ -43,14 +46,44 @@ frutas.forEach((fruta) => {
 });
 
 ```
+- Luego ejecutamos el siguiente comando:
 ```powershell
 node app.js
 ```
 :::tip 
+- Ejecutamos el archivo app.js en el servidor.
 - Se ejecuta en la consola.
 - Se ejecuta en nuestra maquina/servidor.
 :::
+## Comando node
+- El comando node se utiliza para ejecutar archivos JavaScript en el entorno de Node.js. Cuando se utiliza el comando "node nombre_archivo.js", el comando node lee el archivo y ejecuta el código JavaScript que contiene.  
+- Por ejemplo, si creas un archivo llamado hola_mundo.js con el siguiente código:
+```js
+console.log('¡Hola, Mundo!');
+```
+- Puedes ejecutar el archivo utilizando el comando node de la siguiente manera:
 
+```powershell
+node hola_mundo.js
+```
+:::tip Observación
+- Esto imprimirá el mensaje "¡Hola, Mundo!" en la consola.
+:::
+
+- El comando node también se puede utilizar para ejecutar código JavaScript directamente en la línea de comandos, sin necesidad de crear un archivo. Por ejemplo, el siguiente comando imprimirá el mensaje "¡Hola, Mundo!" en la consola:
+
+```powershell
+node -e "console.log('¡Hola, Mundo!')"
+```
+- El comando node también tiene varias opciones que se pueden utilizar para configurar el entorno de ejecución de Node.js. Por ejemplo, la opción --experimental-permissions se utiliza para habilitar características experimentales relacionadas con los permisos y la seguridad en Node.js. La opción --allow-fs-read se utiliza para permitir el acceso de lectura al sistema de archivos a archivos o directorios específicos. La opción --allow-fs-write se utiliza para permitir el acceso de escritura al sistema de archivos a archivos o directorios específicos.
+- Por ejemplo, el siguiente comando permite el acceso de lectura al sistema de archivos al archivo hola_mundo.js:
+```powershell
+node --experimental-permissions --allow-fs-read=/ruta/a/hola_mundo.js hola_mundo.js
+```
+:::tip
+- El comando node también tiene otras opciones que se pueden utilizar para configurar el entorno de ejecución de Node.js. Para obtener más información sobre estas opciones, puedes consultar la documentación de Node.js.
+
+:::
 ## Modulos 
 -	Node tiene un sistema de módulos incorporado.
 -	Un archivo Node.js puede importar la funcionalidad expuesta por otros archivos Node.js.
@@ -133,6 +166,21 @@ console.log(fruta);
 
 ## package.json
 - [package.json](https://docs.npmjs.com/cli/v10/configuring-npm/package-json)
+- El archivo package.json es un archivo de metadatos que contiene información sobre un proyecto Node.js, como su nombre, versión, dependencias y scripts. Se utiliza para gestionar las dependencias y scripts del proyecto, lo que facilita su instalación y manejo.
+- Algunas de sus propiedades son:
+  - name: el nombre del proyecto.
+  - version: la versión del proyecto.
+  - description: una descripción breve del proyecto.
+  - main: el punto de entrada del proyecto.
+  - scripts: un conjunto de scripts que se pueden ejecutar utilizando el comando npm run.
+  - dependencies: una lista de dependencias de producción y sus versiones.
+  - devDependencies: una lista de dependencias de desarrollo y sus versiones.
+  - author: el autor del proyecto.
+  - license: la licencia bajo la cual se distribuye el proyecto.
+  - repository: el repositorio donde se aloja el proyecto.
+  - bugs: la URL para reportar errores.
+  - homepage: la URL de la página de inicio del proyecto.
+- Estas propiedades proporcionan información importante sobre el proyecto y facilitan su gestión y distribución.
 -	Sirve para mantener un orden de los paquetes.
 -	Contiene información de nuestro proyecto 
 -	Tiene un listado de los paquetes (y sus versiones) que utiliza el proyecto 
@@ -170,7 +218,7 @@ npm init -y
 
 :::tip script 
 
--	Estos scripts son aplicaciones de línea de comandos. Puede ejecutarlos llamando npm run XXXX, donde "XXXX" es el nombre del comando. Ejemplo: npm run dev
+-	Estos scripts son comandos. Puede ejecutarlos llamando npm run XXXX, donde "XXXX" es el nombre del comando. Ejemplo: npm run dev
 -	Puede usar el nombre que desee para un comando y los scripts pueden hacer literalmente cualquier cosa que desee.
   ```js
   // cómo se puede ver , escribir node index.js es lo mismo que escribir npm run start
@@ -192,6 +240,9 @@ npm init -y
 :::
  - El objeto dependencies tiene las dependencias que necesitan su proyecto.
  - El objeto devDependencies tiene las dependencias que son de desarrollo (herramientas para el desarrollador) .
+
+
+
 
 ## NPM
  - Cuando instalamos Node, instalamos [NPM](https://www.npmjs.com/)
@@ -250,6 +301,37 @@ npm install --save-dev nombre-paquete
 
 
 ```
+
+
+#### Opcion --save
+- La opción --save en Node.js se utiliza para instalar un paquete y guardarlo como una dependencia en el archivo package.json. Esto significa que el paquete se agregará a la sección "dependencias" del archivo package.json.
+- Por ejemplo, si deseas instalar el paquete "express" y guardarlo como una dependencia, puedes usar el siguiente comando:
+```powershell
+npm install express --save
+```
+- Este comando instalará el paquete "express" y lo agregará a la sección "dependencias" del archivo package.json.
+- Aquí hay un ejemplo de cómo se vería el archivo package.json después de ejecutar el comando anterior:
+
+```json
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "My app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+:::tip
+- A partir de la versión 5.0.0 de npm, la opción --save ya no es necesaria, ya que npm guardará automáticamente el paquete como una dependencia cuando se instale.
+
+:::
 ## Locales vs Globales
 -	Existen paquetes o dependencias que se instalan en nuestro proyecto (como lo hemos trabajado hasta ahora) . 
 - Para los locales se utiliza: npm install nombre-paquete y crea la carpeta node_modules
@@ -356,8 +438,12 @@ cowsay javascript
  ``` 
 Independiente de la carpeta que nos encontremos, podemos ejecutar estos comando que utilizan dependencias globales.
 
-
-
+## Node_modules
+- El directorio node_modules es donde se instalan los paquetes de npm (Node Package Manager) en un proyecto de Node.js. Cuando instalas un paquete usando npm, se descarga y guarda en este directorio.
+- Por ejemplo, si ejecutas npm install express, se descargará y guardará el paquete express en el directorio node_modules. Luego, puedes requerir el paquete en tus archivos de código usando la función require de Node.js.
+- El directorio node_modules es donde se instalan las dependencias de tu proyecto Node.js. Cuando ejecutas npm install, npm busca en el archivo package.json las dependencias especificadas y las instala en el directorio node_modules.
+- Cada dependencia se instala en su propia carpeta dentro de node_modules. Cada carpeta contiene los archivos de la dependencia, incluyendo el archivo package.json de la dependencia.
+- Es importante mencionar que no se recomienda subir el directorio node_modules a GitHub porque puede aumentar significativamente el tamaño del repositorio y además, cada desarrollador puede tener diferentes versiones de las dependencias. En su lugar, se recomienda especificar las dependencias en el archivo package.json y ejecutar npm install en cada máquina donde se vaya a ejecutar el proyecto.
 ## NPX
 - Ejecuta un código sin necesidad de instalarlo de forma global.
 - Ejecuta algo que no esta instalado en nuestra computadora, pero simula lo que hubiéramos hecho de forma global.
@@ -481,6 +567,34 @@ npm install --save-dev nodemon
 :::tip
  [nodemon](https://www.npmjs.com/package/nodemon) es una herramienta que ayuda a desarrollar aplicaciones basadas en node.js al reiniciar automáticamente la aplicación de node cuando se detectan cambios de archivo en el directorio.
 :::
+## Nodemon
+- Nodemon es una herramienta que  reinicia automáticamente el servidor cuando se detectan cambios en los archivos de la aplicación. Es útil ya que evita tener que reiniciar manualmente el servidor cada vez que se realizan cambios en el código.
+- Nodemon es una herramienta útil para desarrolladores de Node.js que puede ahorrar tiempo y aumentar la productividad.
+- Aquí te muestro un ejemplo de cómo usar Nodemon para ejecutar una aplicación Node.js básica:
+1. Primero, instala Nodemon globalmente con npm:
+
+```powershell
+npm install -g nodemon
+```
+2. Crea una nueva aplicación Node.js o abre una existente.
+3. En lugar de ejecutar la aplicación con el comando node, usa nodemon:
+```powershell
+nodemon app.js
+```
+4. Realiza cambios en tu código y guárdalos. Nodemon detectará los cambios y reiniciará automáticamente el servidor.
+
+
+:::tip
+- Nodemon puede tener un archivo de configuración llamado nodemon.json
+- Sirve para especificarle que carpeta tiene que vigilar, que archivos ignorar o seguir , el delay antes de reiniciar el servidor , etc.
+:::
+
+
+
+
+
+
+
 
 ## Servidor HTTP
 - [Link](https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module)
@@ -593,7 +707,6 @@ server.listen(puerto , () => {
 -  Nos permite hacer nuestro servidor HTTP de una manera sencilla.
 - Nos permite gestionar las solicitudes que nos hacen los - clientes.
 Podemos conectarnos a BD y pintar información en un HTML.
-
 -	Infraestructura web rápida, minimalista y flexible para Node.js
 -	Con miles de métodos programado para HTTP y un middleware a su disposición, la creación de una API sólida es rápida y sencilla.
 -	Express proporciona una delgada capa de características de aplicación web básicas, que no ocultan las características de Node.js que tanto ama y conoce.
@@ -619,6 +732,7 @@ const port = 5000;
 //Una peticion get a la raiz del sitio web
 // req = requirimiento(peticion)   res = respuesta
 app.get('/', (req, res) => {
+      // con el metodo send enviamos una respuesta
       res.send('visitaste la pagina de inicio(raiz)')
 })
 
@@ -629,7 +743,7 @@ app.listen(port , () => console.log('Funciona'))
 
 ## Rutas
 - [Info](https://expressjs.com/es/starter/basic-routing.html)
-- 	El direccionamiento hace referencia a cómo responde una aplicación a una solicitud de cliente en un determinado punto final, que es un URI (o una vía de acceso) y un método de solicitud HTTP específico (GET, POST, etc.).
+- El direccionamiento hace referencia a cómo responde una aplicación a una solicitud de cliente en un determinado punto final, que es un URI o una vía de acceso (sea uno o el otro se parece a una url) y un método de solicitud HTTP específico (GET, POST, etc.).
 
 index.js:
 ```js
@@ -641,16 +755,20 @@ const app = express()
 const port = 5000;
  
 
+// La URI es la raiz del sitio web
 //Una peticion get a la raiz del sitio web
 // req = requirimiento(peticion)   res = respuesta
 app.get('/', (req, res) => {
       res.send('visitaste la pagina de inicio(raiz) http://localhost:5000/')
 })
+
+ // La URI es /contacto
  // Otra ruta /contacto
   // Para que responda , se debe enviar una peticion get a la url
 app.get('/contacto', (req, res) => {
       res.send('visitaste la pagina de contacto http://localhost:5000/contacto')
 })
+ // La URI es /contacto
  // Otra ruta /contacto
 // Para que responda , se debe enviar una peticion post a la url
 app.post('/contacto', (req, res) => {
@@ -687,7 +805,7 @@ app.listen(port , () => console.log('Funciona'))
 :::tip Middleware 
 - En palabras simples es una acción que se ejecuta antes de nuestra función de ruta(el servidor responda a la peticion)
 - El middleware  intercepta/atrapa la peticion antes que llegue al servidor.
-- Cuando el cliente envía una petición, el middleware detiene la petición, lo analiza y luego le envía algo.
+- Cuando el cliente envía una petición, el middleware detiene la petición, lo analiza y si esta todo bien ejecuta el método que gestiona solicitud o el proximo middleware.
 - Express viene con su middleware
 -	La palabra use representa el middleware
 :::
@@ -795,8 +913,8 @@ app.post('/formulario' , (req,res)=> {
 
 ```
 -	Desde el formulario HTML se está enviando datos a través del cuerpo o body, pero por defecto express no lee este tipo de datos.
--	Por lo tanto para indicarle a express que lea y analice los req.body (datos a través del cuerpo POST o PUT), se necesita configurar un middleware apropiado para dicho trabajo.
--	El middleware leerá el cuerpo de la solicitud, lo analizará y colocará los resultados analizados en el  req.body para que esté allí cuando se llame a su controlador de solicitudes.
+-	Por lo tanto para indicarle a express que lea y analice los req.body (datos a través del cuerpo/body), se necesita configurar un middleware apropiado para dicho trabajo.
+-	El middleware leerá el cuerpo de la solicitud, lo analizará y colocará los resultados analizados en el  req.body.
 -	Express tiene un middleware como este incorporado para varios tipos de contenido.
 - [info](https://expressjs.com/en/4x/api.html#express.json)
 
@@ -993,7 +1111,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 ## [Generador de aplicaciones con express](https://expressjs.com/es/starter/generator.html)
- - express –view=nombremotorplantilla nombreapp
+ - express –-view=nombremotorplantilla nombreapp
  - Hay muchos motores de plantilla (pug ,ejs,etc).
 
 
@@ -1030,8 +1148,8 @@ Esto es una explicacion(teoria) , para ver ejemplos  , te recomiendo ver las pra
 
 :::tip Middlewares de expresss
 
-- El metodo use() de express es para ejecutar/utilizar un middleware.
-- Lo que recibe es el middleware a ejecutarse
+- El metodo use() de express es para ejecutar/utilizar un middleware de manera global (intercepta  todas las solicitudes) , aunque hay excepciones como express.static().
+- Lo que recibe es el middleware que va a interceptar todas las solicitudes , aunque tambien se puede especificar un middleware que intercepte solo algunas rutas.
 
 Ejemplo:
 
@@ -1164,15 +1282,16 @@ module.exports = verifyToken;
 
 
 
-## Status
-- Cada respuesta tiene un status
-- El Status es el codigo de respuesta
--  Indica si la petición ha sido exitosa, o no, y debido a que.
+## Status / Tipo de respuesta
+- Cada respuesta tiene un status.
+- El Status es el código de respuesta.
+- Indica si la petición ha sido exitosa, o no, y debido a que.
 - [link1](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
 - [link2](https://http.cat/)
 
-La respuesta tiene el status 400
+- La respuesta tiene el status 400:
 ```js
+// Con el metodo status especificamos el código de respuesta
 res.status(400).json({error: 'token no es válido'})
 ```
-Por defecto , la respuesta tiene el status 200
+- Por defecto , la respuesta tiene el status 200.

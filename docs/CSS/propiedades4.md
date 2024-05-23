@@ -172,3 +172,100 @@ Es lo mismo que:
 - [opacity](https://developer.mozilla.org/es/docs/Web/CSS/opacity)
 
 :::
+
+## Propiedades  overflow - overflow-wrap - word-break
+
+#### Propiedad overflow-wrap
+- La propiedad overflow-wrap en CSS permite  dividir líneas de texto dentro de un elemento  para evitar que el texto se desborde de su contenedor cuando una palabra es demasiado larga para caber en una línea.
+- Por ejemplo, puedes utilizar overflow-wrap de la siguiente manera:
+
+```html
+<p class="overflow-wrap-anywhere">
+  This is a very very very very very very very very very very very very very very very very long word that will not fit in its container.
+</p>
+```
+
+
+```css
+.overflow-wrap-anywhere {
+  width: 150px;
+  margin: auto;
+  padding: 15px 15px;
+  color: white;
+  background-color: green;
+  font-size: 20px;
+  width: 150px;
+  overflow-wrap: anywhere;
+}
+
+```
+:::tip Observación
+- Esto permitirá al navegador dividir palabras largas en varias líneas si se desbordan del contenedor.
+- Al utilizar overflow-wrap, puedes evitar que el texto se desborde de su contenedor y mejorar la apariencia y la legibilidad de tu página web.
+:::
+- Los valores para overflow-wrap son:
+   - normal: Las palabras no se dividirán, incluso si se desbordan del contenedor. (Este es el valor predeterminado)
+   - break-word: Las palabras demasiado largas para caber en un contenedor se dividirán en dos líneas.
+   - anywhere: Permite que el navegador divida una palabra en  dos o más líneas.
+
+
+#### Propiedad word-break
+- La propiedad CSS word-break especifica cuando  se deben romper(dividir) las palabras.
+- La propiedad word-break puede tomar los siguientes valores:
+   - normal: Utiliza las reglas de salto de línea predeterminadas.
+   - break-all: Rompe las palabras en cualquier carácter para prevenir el desbordamiento.
+   - keep-all: No se deben realizar saltos de línea dentro de las palabras, excepto en los espacios en blanco. Este valor no debe utilizarse para texto CJK (chino, japonés, coreano).
+   - break-word: Rompe las palabras en puntos arbitrarios para prevenir el desbordamiento. (Ya no se usa)
+   - auto-phrase: Tiene el mismo efecto que  word-break: normal excepto que se realiza un análisis específico del idioma para mejorar los saltos de palabras al no colocarlos en medio de frases naturales. (Experimental)
+
+
+   - Ejemplo:
+
+
+```html
+<p class="word-break-break-all">
+  GeeksforGeeksGeeksGeeks. Un portal de ciencias de la computación para geeks.
+</p>
+
+```
+
+```css
+.word-break-break-all {
+  width: 142px;
+  border: 1px solid #000000;
+  word-break: break-all;
+}
+
+```
+
+#### Diferencias entre overflow-wrap y word-break
+-  La propiedad overflow-wrap se utiliza para especificar si el navegador debe insertar saltos de línea para evitar que el texto se desborde de su contenedor. Enfatiza cómo manejar el desbordamiento.
+- La propiedad word-break  se utiliza para especificar cómo el navegador debe dividir una palabra al final de una línea. Enfatiza cómo dividir palabras.
+- La principal diferencia entre overflow-wrap y word-break es que overflow-wrap solo rompe una palabra si es más larga que el ancho máximo de la caja de línea, mientras que word-break puede romper una palabra en cualquier carácter, incluso en medio de una palabra.
+- En resumen, overflow-wrap se utiliza para evitar el desbordamiento de texto, mientras que word-break se utiliza para dividir palabras al final de una línea. 
+
+#### Propiedad overflow
+- La propiedad overflow en CSS se utiliza para controlar qué sucede cuando el contenido de un elemento excede el tamaño de la caja. Se especifica si se debe recortar el contenido, mostrar barras de desplazamiento(scroll) o mostrar el contenido excedente fuera de la caja del elemento.
+- La propiedad overflow tiene dos subpropiedades: overflow-x y overflow-y, que controlan el desbordamiento en las direcciones horizontal y vertical, respectivamente.
+- La propiedad overflow-y puede tomar uno de los siguientes valores:
+   - visible: El valor predeterminado, que permite que el contenido excedente sea visible fuera de la caja del elemento.
+   - hidden: Oculta el contenido excedente.
+   - scroll: Agrega una barra de desplazamiento (scroll) al elemento, lo que permite al usuario desplazarse y ver el contenido excedente.
+   - auto: Similar a scroll, pero solo agrega una barra de desplazamiento si el contenido excede las dimensiones del elemento.
+- Ejemplo:
+
+
+```html
+<div class="container">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+</div>
+```
+
+```css
+.container {
+  width: 200px;
+  height: 100px;
+  border: 1px solid black;
+  overflow: auto; /* Agregamos la propiedad overflow */
+}
+```

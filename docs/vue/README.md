@@ -37,8 +37,9 @@ sidebar_position: 0
 :::
 
 :::warning
-- En estos ejemplos/explicaciones, creamos un componente llamado hola Mundo.
+- En estos ejemplos/explicaciones, crearemos un componente llamado hola Mundo.
 - Luego vamos a explicar los componentes pero es necesario crear como minimo uno para crear una app.
+- Se denomina "componete principal" al que representa a la aplicación y es el parametro del método createApp().
 - Cuando decimos aplicacion , nos referimos a un componente
 :::
 
@@ -85,13 +86,15 @@ index.html
 
 ```
 :::tip Observacion
+- La variable holaMundo es el componente principal.
+- Los componentes son objetos que contienen varias propiedades, entre ellas se encuentra la propiedad data que es un método que devuelve la información que se va a usar en el template del componente.
+- Tambien existe la propiedad template cuyo valor es lo que se va a renderizar cuando se llama al componente. Lo que esta adentro del DIV representa el "template" del componente principal.
 - Estamos montando la aplicacion (componente principal , en el ejemplo se llama holaMundo)  en el div cuya id es #app.
 - Estamos renderizando la aplicacion(componente principal)  en el div.
 - Estamos creando la aplicación en el DIV.
 - La aplicacion (componente) utiliza los datos que se le asignaron en el data.
 - Con las dobles llaves {{código javascript}} podemos utilizar variables, objetos , operadores ternario( para que devuelva algún valor ) , metodos y muchas expresiones más de javascript.
 - Nombre = ‘fede’
-- Lo que esta adentro del DIV representa el "template" del componente principal.
 -  La logica y los datos que utiliza el componente principal lo contiene el objeto que especificamos en el parametro del metodo createApp().
 - Debajo del CAPÓ se ejecuta Javascript para crear los elementos HTML necesarios para renderizar los componentes adentro del elemento HTML que se especifico en el parametro del metodo mount().
 :::
@@ -221,8 +224,9 @@ Se ejecuta cuando la aplicacion(componente) es montada (renderizado)
 
 ```
 :::tip Observacion 
-- Como habrá notado, accedemos a los datos que utiliza el componente con el this.
-- Al hacer click en el button detener , se activaría el evento click , que a su vez ejecutaría el método stopInterval 
+- Como habrá notado, accedemos a la información de la propiedad data  con el this.
+- Al hacer click en el button detener , se activaría el evento click , que a su vez ejecutaría el método stopInterval.
+- "v-on:click" es un "atributo" que  registra el evento "click"  al elemento/componente y cuyo valor es el método que se ejecutaria al invocarse el evento.
 - El método stopInterval está definido en la lista de métodos que utiliza el componente.
 - La lista de métodos es el valor de la propiedad methods , que como se puede observar es un objeto que contiene adentros los métodos que va a utilizar el componente.
 
@@ -280,6 +284,7 @@ Los métodos pueden ser asíncronos (async)
 
 ```
 :::tip Observacion 
+- La palabra clave "v-bind" seguida de los dos puntos ":" nos permite hacer que un atributo pueda recibir una "variable" como valor haciendo que esta sea dinamica.
 - El valor del atributo title es la variable título.
 - Por lo tanto el atributo title depende del valor de la variable titulo.
 - Si el valor de la variable cambia , el valor del atributo cambia.
@@ -343,6 +348,11 @@ Los métodos pueden ser asíncronos (async)
 ```js
 :atributo = “valor”.
 ```
+
+:::tip Observación
+- Se suele eliminar la palabra "v-bind" y dejar los dos puntos ":".
+
+:::
 ### Propiedades Booleanas de etiquetas HTML 
 - Existen atributos que reciben un valor booleano y que, si no le asignas ningún valor, por defecto es true.
 ```html
@@ -513,7 +523,7 @@ No RECOMENDADO
 Si condición es true, se le añade la clase rounded al elemento.
 :::
 ### Style 
-####  Usar como valor de :style un objeto
+####  Se puede usar como valor de :style un objeto
 
 :::tip ¿Como escribir una propiedad css en caso de tener mas de una palabra?
 -	Usar las  comillas . Quedaria: ‘font-size’
@@ -531,7 +541,7 @@ Si condición es true, se le añade la clase rounded al elemento.
 
 ```
 :::tip Observacion 
-- Se utiliza la sintaxis: PropiedadCSS : ‘valor’
+- Se utiliza la siguiente sintaxis en las propiedades del objeto: PropiedadCSS : ‘valor’
 - Si la PropiedadCSS tiene dos palabras o más, puede escribirse entre comillas (‘’) o utilizando cammelCase. En caso contrario, se trataría como una simple propiedad de un objeto.
 :::
 

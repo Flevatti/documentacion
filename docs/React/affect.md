@@ -3,9 +3,15 @@ sidebar_position: 6
 ---
 # React Router v6
 ## Router v6
-- [link](https://reactrouter.com/docs/en/v6/getting-started/tutorial)
+- [Documentación](https://reactrouter.com/en/main)
 -	React Router es una biblioteca de enrutamiento del lado del servidor y del cliente con todas las funciones para React.
 -	React Router se ejecuta en cualquier lugar donde se ejecute React; en la web, en el servidor con node.js y en React Native.
+
+:::warning
+- Esta guía esta desactualizada pero los conceptos que se aplican son los mismos.
+- Lea la documentación para actualizarse.
+
+:::
 
 
 ### En la carpeta raiz
