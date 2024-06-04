@@ -230,14 +230,10 @@ app.listen(PORT, () => console.log("server andando 🔥 http://localhost:5000"))
 :::
 
 ## main.hbs
-Como se ve, se muestra la plantilla (el archivo main.hbs) y no el home.hbs.
-
-Esto es porque , Se lee de forma automática el main.hbs
-
-La plantilla main.hbs se utiliza en todas las paginas
-
-
-Por lo tanto podemos hacer que lo que está en el home.hbs  aparezca adentro del body del main.hbs
+- Como se ve, se muestra la plantilla (el archivo main.hbs) y no el home.hbs.
+- Esto es porque , Se lee de forma automática el main.hbs
+- La plantilla main.hbs se utiliza en todas las paginas
+- Por lo tanto podemos hacer que lo que está en el home.hbs  aparezca adentro del body del main.hbs
 
 home.hbs:
 ```hbs
@@ -296,7 +292,7 @@ app.get("/", (req, res) => {
     res.render('home')
 });
 app.get("/login", (req, res) => {
-    // Como respuesta renderiza(convierte en HTML) el archivo home.hbs
+    // Como respuesta renderiza(convierte en HTML) el archivo login.hbs
     // Se puede quitar el .hbs
     res.render('login')
 });
@@ -3364,7 +3360,54 @@ app.use((req, res, next) => {
 
 ```
 ## CORS
-- modulo [cors]( https://expressjs.com/en/resources/middleware/cors.html)
+- Las CORS (Cross-Origin Resource Sharing) es un mecanismo que permite a una página web realizar solicitudes HTTP a un servidor que no es el mismo que el servidor desde el que se cargó la página. Esto es útil cuando se necesita acceder a recursos de un servidor diferente al que se está utilizando actualmente.
+- Imagina que tienes una página web en https://foo.example y necesitas acceder a un recurso en https://bar.other. Sin CORS, el navegador no permitiría esta solicitud porque viola la política de same-origin (misma origen), que establece que una página web solo puede acceder a recursos del mismo servidor.
+- Para permitir esta solicitud, el servidor https://bar.other debe incluir cabeceras CORS en su respuesta. Estas cabeceras indican al navegador que la solicitud es segura y que se permite el acceso desde un origen diferente.
+- Aquí hay un ejemplo de cómo se vería la solicitud y la respuesta con CORS:
+```js
+// Solicitud desde https://foo.example
+GET /resources/public-data/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: https://foo.example
+
+// Respuesta desde https://bar.other
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://foo.example
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Headers: Content-Type
+```
+:::tip Observación
+- En este ejemplo, el servidor https://bar.other incluye la cabecera Access-Control-Allow-Origin con el valor https://foo.example, lo que indica que se permite el acceso desde ese origen. También incluye las cabeceras Access-Control-Allow-Methods y Access-Control-Allow-Headers para especificar qué métodos y cabeceras se permiten.
+
+:::
+
+- En cuanto a la autenticación, CORS también permite que se incluyan credenciales en la solicitud, como cookies o tokens de autenticación. Para hacer esto, se debe establecer la marca withCredentials en la solicitud y el servidor debe incluir la cabecera Access-Control-Allow-Credentials en su respuesta.
+- Aquí hay un ejemplo de cómo se vería la solicitud con credenciales:
+```js
+fetch('https://bar.other/resources/public-data/', {
+  credentials: 'include'
+})
+
+```
+- Y la respuesta del servidor:
+```js
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://foo.example
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Headers: Content-Type
+Access-Control-Allow-Credentials: true
+```
+
+
+
+
+
+- [Modulo cors]( https://expressjs.com/en/resources/middleware/cors.html)
 - Sirve para especificar que dominios van a consumir esta aplicación/sitio web / etc.
 ```powershell
 npm install cors
@@ -3404,11 +3447,12 @@ const app = express();
 // Configuramos el cors
 const corsOptions = {
   credentials: true,
-  // Que persona(servicios) van a consumir esta app
-  // "*" = Todas las personas
-  // Si NO existe la variable de entorno , todas las persona pueden consumir esta app
+  // Que dominios van a consumir esta app
+  // "*" = Todos las dominios
+  // Si NO existe la variable de entorno , todas los dominios pueden consumir esta app
   origin: process.env.PATHOSTING || "*",
-  // Los metodos HTTP que utilizamos 
+  // Los metodos HTTP que tienen autorizado 
+  // En este caso solo se va a poder hacer solcitudes GET Y POST
   methods: ['GET' , 'POST']
 };
 // Usamos el cors con la configuracion que especificamos

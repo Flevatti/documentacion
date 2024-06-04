@@ -150,3 +150,62 @@ UNION ocurre antes de ORDER BY y LIMIT. No es común usar UNION, pero si tiene d
 De manera similar a UNION, el operador  INTERSECT se asegurará de que solo se devuelvan las filas que sean idénticas en ambos conjuntos de resultados, y el  operador EXCEPT se asegurará de que solo se devuelvan las filas del primer conjunto de resultados que no están en el segundo.
 
 Ambos INTERSECT y EXCEPT también descartan filas duplicadas después de sus respectivas operaciones, aunque algunas bases de datos también admiten INTERSECT ALL y EXCEPT ALL permiten que los duplicados no se descarten.
+
+## Join Lateral
+- Una unión lateral en PostgreSQL es como ese amigo que siempre trae otro amigo a la fiesta. En términos de SQL, permite que una subconsulta en la cláusula FROM haga referencia a columnas  de las filas de la tabla anterior en la cláusula FROM. Esto es muy útil cuando deseas generar una serie de valores para cada fila de una tabla.
+- En otras palabras, LATERAL JOIN te permite crear una subconsulta que se evalúa por cada fila de la tabla anterior, lo que significa que la subconsulta puede utilizar valores de la fila actual de la tabla anterior en su consulta.
+- Esto es útil en situaciones en las que necesitas realizar una consulta compleja que depende de los valores de la fila actual de la tabla anterior.
+- La sintaxis de LATERAL JOIN es la siguiente:
+
+```sql
+SELECT *
+FROM table1,
+     LATERAL (
+       SELECT *
+       FROM table2
+       WHERE table2.column = table1.column
+     ) AS subquery_alias;
+```
+:::tip Observación
+- En este ejemplo, table1 es la tabla anterior y table2 es la tabla que se une a table1 utilizando una subconsulta. La subconsulta se evalúa por cada fila de table1, y la cláusula WHERE se utiliza para relacionar las filas de table1 y table2.
+- El AS se utiliza para asignar un alias a la subconsulta. En este caso, el alias es subquery_alias. El alias se utiliza para referirse a la subconsulta en la cláusula SELECT o en otras partes de la consulta.
+- Entonces sería como: FROM table1 , [Resultado de la subconsulta]. Él [Resultado de la subconsulta] cambia por cada fila de table1. Por lo tanto, es como si se nos permitiera especificar dos tablas en el FROM.
+:::
+
+- Aquí hay otro ejemplo de un joint lateral en PostgreSQL:
+
+```sql
+SELECT main.id, sub.sub_value
+FROM main_table AS main
+JOIN LATERAL (
+  SELECT sub_value
+  FROM sub_table
+  WHERE sub_table.main_id = main.id
+) AS sub ON TRUE;
+```
+:::tip observación
+- En este ejemplo, la subconsulta en la cláusula FROM (sub) hace referencia a la columna id de la tabla main_table (main). La palabra clave LATERAL permite que esta referencia sea válida.
+- El joint lateral puede ser útil en situaciones en las que necesita realizar una subconsulta correlacionada, que es una subconsulta que depende de valores de la consulta exterior. Al utilizar un joint lateral, puede evitar la necesidad de repetir la misma subconsulta para cada fila de la consulta exterior.
+:::
+
+
+
+- LATERAL JOIN es una característica que PostgreSQL  implemento, sin embargo, luego surgieron otros motores de base de datos también la han adoptado.
+- Es posible que otros motores de base de datos, como SQL Server, admitan características similares, aunque no necesariamente con el mismo nombre.
+- aquí hay un ejemplo de una característica similar en SQL Server, llamada "APPLY":
+
+
+```sql
+SELECT *
+FROM main_table m
+CROSS APPLY (
+  SELECT sub_value
+  FROM sub_table
+  WHERE sub_table.main_id = m.id
+) sub;
+```
+
+:::tip
+- Aunque el LATERAL JOIN se originó en PostgreSQL, no es exclusivo de este motor de base de datos y otros motores de base de datos también lo han adoptado o tienen características similares.
+- Es importante destacar que LATERAL JOIN solo está disponible en algunos sistemas de bases de datos, como PostgreSQL y SQL Server. Si estás utilizando otro sistema de base de datos, como MySQL o Oracle, deberás utilizar una subconsulta tradicional o una consulta más compleja para lograr el mismo resultado.
+:::

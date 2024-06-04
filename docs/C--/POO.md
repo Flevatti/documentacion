@@ -590,8 +590,8 @@ En C# se crean objetos con la palabra reservada new
 - Para determinar la visibilidad el lenguaje cuenta con las siguientes palabras clave como “modificadores”:
   -	public: la clase puede ser utilizada en cualquier proyecto.
   -	internal: la clase está limitada al proyecto en el cual está definida.
-  -	private: la clase sólo puede usarse en el módulo en la que está definida.
-  -	protected: la clase sólo puede ser utilizada  en el módulo en la que está definida o en una subclase. Es decir sólo se puede utilizar protected para una clase declarada en otra clase.
+  -	private: la clase sólo puede usarse en el módulo(clase) en la que está definida.
+  -	protected: la clase sólo puede ser utilizada  en el módulo(clase) en la que está definida o en una subclase. Es decir sólo se puede utilizar protected para una clase declarada en otra clase.
   -	protected internal: lo mismo que internal + protected.
   -	abstract: no permite crear instancias de esta clase, sólo sirve para ser heredada como clase base. 
   -	sealed: cuando una clase es la última de una jerarquía, por lo que no podrá ser utilizada como base de otra clase.

@@ -859,6 +859,75 @@ declare module '*.vue' {
 - Ambos códigos  funcionan correctamente, pero hay una pequeña diferencia en la forma en que se manejan las importaciones. En este código, el tipo DefineComponent se importa en el ámbito global, lo que podría causar conflictos si se utiliza el mismo nombre de importación en otros lugares del archivo. En el segundo código, el tipo DefineComponent se importa solo dentro del bloque declare module '*.vue', lo que reduce el riesgo de conflictos.
 :::
 
+## Firmas de índice
+- A veces no se conocen de antemano todos los nombres de las propiedades de un tipo, pero sí se conoce el tipo de valor que se usara.
+- En esos casos, puede utilizar una firma de índice para describir los tipos de valores posibles, por ejemplo:
+```typescript
+interface StringArray {
+  [index: number]: string;
+}
+ 
+const myArray: StringArray = getStringArray();
+const secondItem = myArray[1];
+
+```
+:::tip Observación
+- Esta firma de índice establece que cuando un StringArray tiene un indice number, devolverá un string
+- El índice es lo que usamos para acceder a una propiedad, o sea generalmente usamos obj.indice   o obj["indice"].
+- Se  utilizan corchetes [] para especificar el tipo de dato del indice. Aunque los tipos que podemos especificar son bastante limitados: string , number , symbol , template string patterns y union types.
+:::
+
+:::warning
+- El tipo devuelto por un indexador numérico debe ser un subtipo del tipo devuelto por el indexador de string.
+- Esto se debe a que al indexar con un number, JavaScript en realidad lo convertirá en un string. Eso significa que el índice [100] es lo mismo que el índice ["100"] , por lo que ambos deben coincidir.
+- Adivina el error del siguiente código:
+```typescript
+interface Animal {
+  name: string;
+}
+ 
+interface Dog extends Animal {
+  breed: string;
+}
+ 
+
+interface NotOkay {
+  [x: number]: Animal;
+ //'number' index type 'Animal' is not assignable to 'string' index type 'Dog'.
+  [x: string]: Dog;
+}
+```
+:::
+
+
+- Otro ejemplo:
+
+
+```typescript
+interface NumberOrStringDictionary {
+  [index: string]: number | string;
+  length: number; // ok, length is a number
+  name: string; // ok, name is a string
+}
+```
+:::tip Observación
+- Se usa una union type en el index para luego poder especificar correctamente el valor de cada propiedad que “conocemos”.
+
+:::
+
+- En los ejemplos anteriores usamos [index : tipo de dato] para especificar el tipo de dato del índice, pero podemos remplazar la palabra index por cualquier otra, ya que solo es un placeholder, un nombre de variable que se utiliza para indicar que la propiedad es indexada, pero no tiene un valor específico.
+- Entonces se puede utilizar  cualquier nombre de variable en lugar de index, como key, prop, x, y, etc. Lo importante es que la sintaxis [nombre: tipo] indica que la propiedad es indexada y que el tipo de la clave es el especificado , por ejemplo:
+
+```typescript
+export interface HistoryState {
+  [x: number]: HistoryStateValue
+  [x: string]: HistoryStateValue
+}
+
+```
+
+
+
 ## Seguir aprendiendo
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Cursos de Typescript](https://learn.microsoft.com/es-es/training/browse/?terms=typescript)

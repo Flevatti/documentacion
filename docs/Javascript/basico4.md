@@ -1176,3 +1176,51 @@ var miVariable = null;
 - [¿Cuál es la diferencia entre Null y Undefined en JavaScript?](https://lasfi.to/blog/js-undefined-vs-null/)
 :::
 
+## Instanceof
+- En JavaScript, instanceof es un operador que se utiliza para verificar si un objeto es una instancia de una clase o función constructora específica. Devuelve true si el objeto es una instancia de la clase o función constructora y false en caso contrario.
+- Aquí hay un ejemplo de cómo usar instanceof en JavaScript:
+
+
+```js
+class Animal {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+}
+
+const miAnimal = new Animal('Fido');
+
+console.log(miAnimal instanceof Animal); // true
+console.log(miAnimal instanceof Object); // true
+console.log(miAnimal instanceof Array); // false
+```
+
+:::tip Observación
+- En el ejemplo anterior, definimos una clase llamada Animal con un constructor que toma un parámetro nombre. Luego creamos una nueva instancia de la clase Animal y la asignamos a la variable miAnimal.
+- Luego usamos el operador instanceof para verificar si miAnimal es una instancia de la clase Animal, la clase Object (que es la clase base para todos los objetos en JavaScript) y la clase Array. Las dos primeras pruebas devuelven true, mientras que la tercera prueba devuelve false.
+:::
+
+- Tenga en cuenta que el operador instanceof verifica la cadena de prototipos de un objeto para determinar si es una instancia de una clase o función constructora específica. Esto significa que también se puede usar para probar relaciones de herencia entre clases. Por ejemplo:
+
+```js
+class Mamífero extends Animal {
+  constructor(nombre, especie) {
+    super(nombre);
+    this.especie = especie;
+  }
+}
+
+const miMamifero = new Mamífero('Fido', 'Perro');
+
+console.log(miMamifero instanceof Mamífero); // true
+console.log(miMamifero instanceof Animal); // true
+console.log(miMamifero instanceof Object); // true
+console.log(miMamifero instanceof Array); // false
+
+```
+
+:::tip Observación
+- En el ejemplo anterior, definimos una clase llamada Mamífero que hereda de la clase Animal utilizando la palabra clave extends. Luego creamos una nueva instancia de la clase Mamífero y la asignamos a la variable miMamifero.
+- Luego usamos el operador instanceof para verificar si miMamifero es una instancia de la clase Mamífero, la clase Animal, la clase Object y la clase Array. Las tres primeras pruebas devuelven true, mientras que la cuarta prueba devuelve false. Esto demuestra que miMamifero es una instancia de la clase Mamífero, que a su vez es una instancia de la clase Animal, que a su vez es un objeto de JavaScript.
+
+:::

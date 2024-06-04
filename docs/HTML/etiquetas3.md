@@ -486,3 +486,72 @@ data:[<mediatype>][;base64],<data>
 #### Desventajas de utilizar SVG en HTML
 - Compatibilidad con versiones antiguas: Los gráficos SVG no son compatibles con versiones antiguas de Internet Explorer (IE 8 y anteriores).
 - Rendimiento: Los gráficos SVG pueden requerir más recursos del navegador que los gráficos rasterizados, lo que puede afectar el rendimiento en dispositivos móviles o con recursos limitados.
+
+## Etiqueta canva
+- Canva en inglés significa “lienzo”.
+- El elemento HTML canvas (&lt;canvas>) se puede utilizar para dibujar gráficos a través de  de código (por lo general JavaScript ). Por ejemplo, puede usarse para dibujar gráficos, hacer composiciones de fotos o incluso realizar animaciones.
+- Proporciona un espacio donde puedes escribir, dibujar gráficos, crear juegos o cualquier otra cosa en 2D o incluso 3D.
+
+
+#### Contexto
+- El código HTMLCanvasElement.getContext() en español se utiliza para obtener el contexto de un elemento &lt;canvas> en HTML. Este contexto es un objeto que contiene métodos y propiedades para dibujar gráficos y otras formas en el lienzo. En resumen, esta línea de código permite acceder a las funciones de dibujo del elemento &lt;canvas>.
+- El método HTMLCanvasElement.getContext() puede recibir un parámetro opcional, que especifica el tipo de contexto que deseas obtener. El parámetro más comúnmente utilizado es "2d", que devuelve un objeto CanvasRenderingContext2D para dibujar en 2D. También existe el contexto "webgl" para trabajar con gráficos 3D y otros tipos de contextos especializados.
+
+
+#### Ejemplo
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      canvas {
+        background-color: #fff;
+        border: 2px solid #222;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+
+    <script>
+      // Obtener el elemento canvas
+      const canvas = document.getElementById("myCanvas");
+      // Obtener su contexto 2D (sirve para dibujar en 2D)
+      const ctx = canvas.getContext("2d");
+      console.log(ctx);
+      // Dibujar un rectángulo
+      // Establecer el color de relleno a rojo
+      ctx.fillStyle = "red";
+      // Posiciona y dimensiona el rectangulo
+      ctx.fillRect(50, 50, 150, 100);
+      // Dibujar un círculo
+      // Iniciar un nuevo trazo
+      ctx.beginPath();
+      // Definir un arco (círculo en en este caso)
+      ctx.arc(300 , 100 , 50 , 0 , 2 * Math.PI)
+      // Establecer el color de relleno a verde
+      ctx.fillStyle = 'green'
+      // Rellenar el circulo
+      ctx.fill();
+      // Establecer el color de contorno a negro
+      ctx.strokeStyle = 'black';
+      // Dibujar el contorno del círculo
+      ctx.stroke();
+    </script>
+  </body>
+</html>
+```
+:::tip método beginPath()
+- Imagina que estás dibujando en un papel con un lápiz. Cuando quieres empezar a dibujar una nueva figura, necesitas levantar el lápiz del papel y moverlo a un nuevo lugar antes de empezar a dibujar de nuevo. La función ctx.beginPath(); es como levantar el lápiz del papel en el canvas.
+- Cuando dibujas una figura en el canvas, el contexto del canvas guarda la información sobre esa figura en una lista. La función beginPath vacía esa lista, por lo que si dibujas una nueva figura después de llamar a beginPath, no estará conectada a las figuras anteriores.
+:::
+:::tip
+
+- Esto es un vistazo a Canva, le recomiendo investigar si le interesa el tema.
+
+:::

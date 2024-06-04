@@ -540,8 +540,9 @@ Register.vue
 ```
 ## ref 
 - Nos permite acceder a todas las propiedades de un elemento del template.
-- [Casi lo mismo que useRef de react](https://fedeleva.github.io/aprendizaje/React/proyecto.html#useref)
+- [Casi lo mismo que useRef de react](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)
 - Se le asigna v-model a un elemento/componente del template cuyo valor es la constante que contiene un ref (v-model = “variable const”)
+- Una ref se crea con el método ref() de vue
 - A través de v-model se le asigna la referencia a la variable.
 - Esa constante tendría una referencia a ese elemento “HTML”  , por lo tanto se podría decir que es igual a  document.getElementById…. de javascript.
 

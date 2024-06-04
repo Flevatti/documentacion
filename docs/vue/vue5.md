@@ -638,3 +638,72 @@ Ya explicamos la mayoria en esta guia
 
 
 :::
+
+
+## Prop ref
+- La prop "ref" se utiliza para crear una referencia a un elemento del DOM o a un componente hijo. 
+- Es similar a  document.getElementById en vanilla JavaScript. Ambos permiten acceder a un elemento DOM específico en el árbol de elementos de la página.
+- Hay algunas diferencias importantes entre ref y document.getElementById:
+  - Seguridad: ref es más seguro que document.getElementById porque Vue garantiza que la referencia sea única y no se pueda acceder a ella desde fuera del componente.
+  - Reactividad: ref se integra con el sistema de reactividad de Vue, lo que significa que cuando se actualiza el elemento DOM, la referencia se actualiza automáticamente.
+  - Componentes: ref se puede utilizar para acceder a componentes hijos, no solo elementos DOM.
+  - Virtual DOM: ref se aplica al Virtual DOM de Vue, lo que significa que se puede acceder a elementos que no necesariamente existen en el DOM real.
+- Se puede utilizar en el template para acceder al elemento o componente referenciado.
+- En resumen, ref es una forma de acceder a elementos DOM o componentes hijos en Vue, similar a document.getElementById, pero con características adicionales de seguridad, reactividad y integración con el sistema de componentes de Vue.
+- Aquí hay un ejemplo de cómo se puede usar la prop "ref" en un componente:
+
+```javascript
+<template>
+  <div>
+    <input ref="input" type="text">
+    <button @click="focusInput">Focus input</button>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    focusInput() {
+      this.$refs.input.focus()
+    }
+  }
+}
+</script>
+
+```
+:::tip Observación
+- En este ejemplo, se crea una referencia a un elemento input utilizando la prop "ref".
+- El valor de la prop ref es el "nombre de una variable" (no hace falta que exista, luego vue la crea con la referencia del elemento que especificamos) que contendra la referencia. Luego, en el método focusInput, se utiliza la propiedad $refs que es una especie de objeto que contiene todas las variables que se crearon con la prop ref, para acceder al input y llama al método focus para enfocarlo.
+- Resumiendo: Se crea una referencia del componente / elemento HTML que tenga la prop "ref" 
+:::
+
+- Con composition API
+
+```javascript
+<template>
+  <div>
+    <input ref="input" type="text">
+    <button @click="focusInput">Enfocar input</button>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const input = ref(null)
+
+const focusInput = () => {
+  input.value.focus()
+}
+
+onMounted(() => {
+  input.value.focus()
+})
+</script>
+```
+:::tip Observación
+- El código crea un componente que:
+  - Crea un input y un botón
+  - Establece el enfoque en el input cuando se monta el componente
+  - Establece el enfoque en el input cuando se hace clic en el botón
+:::

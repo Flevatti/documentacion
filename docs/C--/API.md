@@ -88,7 +88,36 @@ sidebar_position: 11
 - Ambos tienen encabezado y contenido.
 - La solicitud tiene un verbo y la respuesta tiene un código de estado.
 
+## Controlador (Teoria)
+- En el contexto de una API (Application Programming Interface), un controlador (también conocido como controller) es un componente que se encarga de manejar las solicitudes entrantes y enviar respuestas correspondientes.
+- Un controlador en una API es responsable de:
+    - Recibir solicitudes: El controlador recibe solicitudes HTTP (como GET, POST, PUT, DELETE, etc.) desde la aplicación cliente.
+    - Procesar solicitudes: El controlador procesa la solicitud, verifica la autenticación y autorización, y llama a los métodos necesarios para obtener o modificar los datos.
+    - Llamar a servicios o modelos: El controlador llama a servicios o modelos para obtener o modificar los datos necesarios para procesar la solicitud.
+    - Devolver respuestas: El controlador devuelve una respuesta HTTP correspondiente a la solicitud, que puede incluir datos en formato JSON, XML, etc.
+- Un controlador en una API se encarga de:
+    - Autenticar y autorizar solicitudes
+    - Validar datos de entrada
+    - Llamar a servicios o modelos para obtener o modificar datos
+    - Manejar errores y excepciones
+    - Devolver respuestas HTTP
+- En una API, los controladores son fragmentos de código que se encargan de gestionar tareas específicas. Por ejemplo, en una API para una tienda en línea, podrías tener controladores para:
+    - Manejar pedidos (ordenar, cancelar, obtener detalles)
+    - Manejar productos (crear, leer, actualizar, eliminar)
+    - Manejar usuarios (autenticar, registrar, obtener perfil)
+- Entonces, por lo general se crea un controlador por cada entidad (tabla en la base de datos).
 
+## DTO (teoria)
+- Un DTO (Data Transfer Object) es un objeto que se utiliza para transferir datos entre diferentes partes de un sistema, como entre una capa de presentación y una capa de negocio, o entre un cliente y un servidor.
+- Un DTO es un objeto que contiene solo los datos necesarios para una operación específica, sin incluir lógica de negocio ni comportamiento. Su propósito es transportar los datos de una parte del sistema a otra, sin procesarlos ni modificarlos.
+- Los DTOs se utilizan comúnmente en aplicaciones que siguen el patrón de diseño de arquitectura en capas, como por ejemplo:
+    - En una aplicación web, un DTO puede ser utilizado para transferir datos desde el servidor al cliente, como por ejemplo, una lista de productos.
+    - En una aplicación de negocio, un DTO puede ser utilizado para transferir datos entre diferentes capas de la aplicación, como por ejemplo, desde la capa de presentación hasta la capa de negocio.
+- Los DTOs tienen varias ventajas, como:
+    - Simplifican la comunicación entre diferentes partes del sistema, ya que solo se necesitan transferir los datos necesarios.
+    - Reducen la complejidad de la lógica de negocio, ya que la lógica se encuentra separada de los datos.
+    - Mejoran la escalabilidad y el rendimiento, ya que los datos se pueden transferir de manera eficiente.
+- No es necesario crear un DTO específico para cada operación (crear, modificar, eliminar). Un solo DTO puede ser utilizado para representar los datos necesarios para cualquiera de estas operaciones. Sin embargo en algunos casos, puede ser útil crear diferentes DTOs para cada operación, especialmente si los datos necesarios para cada operación son diferentes. Por ejemplo, un DTO para crear un nuevo recurso puede requerir diferentes datos que un DTO para actualizar un recurso existente.
 ## Swagger
 - Swagger es una herramienta que genera automáticamente la documentación de una API RESTful para tu aplicación. Su principal ventaja es que te permite no solo consultar todos los endpoints de la aplicación, sino también probarlos inmediatamente enviando una solicitud y recibiendo una respuesta.
 - Con Swagger, puedes acceder a una lista de endpoints disponibles y sus métodos asociados. Algunas solicitudes solo están disponibles para grupos de usuarios autorizados, y un Token de Bearer puede ser necesario para acceder a ellas.
@@ -98,6 +127,9 @@ sidebar_position: 11
     - Acceso fácil: Proporciona una interfaz fácil de usar para acceder a la documentación de la API y probar los endpoints.
 - Por lo general la plantilla de ASP.NET Core te crea y configura swagger de manera automática.
 - [Documentación](https://swagger.io/)
+
+
+
 ## Empezamos a desarrollar
 
 #### Progamas requeridos

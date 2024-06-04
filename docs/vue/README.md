@@ -1738,7 +1738,7 @@ Ejemplo
 - Sirve para referenciar componentes
 
 :::tip warning 
-El código que se utiliza para los ejemplos corresponde a la [Actividad Separación de componentes](./actividadbasica##separacion--de-componentes)
+El código que se utiliza para los ejemplos corresponde a la [Actividad Separación de componentes](./actividadbasica.md#separacion--de-componentes)
 :::
 
 #### Explicacion:
@@ -1855,3 +1855,27 @@ Index.html
         </div>
 
   ```
+
+
+  ## Inyeccion de dependencias
+- Las propiedades que comienzan con $ en Vue.js pueden ser propiedades especiales agregadas por Vue.js o propiedades agregadas por bibliotecas o frameworks de terceros que se integran con Vue.js. No se recomienda utilizar propiedades que comienzan con $ o _ en el código del usuario.
+- Por ejemplo, la propiedad $refs es una propiedad especial agregada por Vue.js para permitir el acceso a elementos o componentes específicos en la plantilla de un componente. Por otro lado, las propiedades que comienzan con $ y son agregadas por terceros, como por ejemplo $store en Vuex, son propiedades agregadas por bibliotecas o frameworks de terceros que se integran con Vue.js.
+
+
+#### Inyeccion de dependencias
+- Los frameworks o bibliotecas pueden utilizar inyección de dependencias para proporcionar propiedades o métodos que comienzan con $ a los componentes de Vue.js.
+- La inyección de dependencias es un patrón de diseño que permite a los componentes recibir objetos o servicios que necesitan para funcionar, en lugar de crearlos ellos mismos. De esta manera, los componentes se vuelven más flexibles y fáciles de testear.
+- En el caso de Vue.js, los frameworks o bibliotecas como Vuex, Vue Router o Axios pueden utilizar la inyección de dependencias para proporcionar propiedades o métodos que comienzan con $ a los componentes. Por ejemplo, Vuex proporciona la propiedad $store para acceder al estado de la aplicación, mientras que Vue Router proporciona la propiedad $router para acceder a la instancia del router.
+
+##### ¿Que és?
+- La inyección de dependencias es un patrón de diseño que permite proporcionar a un objeto o componente los recursos o servicios que necesita para funcionar, en lugar de que el objeto o componente los cree o busque por sí mismo.
+- En otras palabras, la inyección de dependencias consiste en pasar como argumentos o propiedades los objetos o servicios que un componente necesita para funcionar, en lugar de crearlos o instanciarlos dentro del propio componente.
+- Este patrón de diseño ofrece varias ventajas, como por ejemplo:
+  - Flexibilidad: Los componentes se vuelven más flexibles y reutilizables, ya que pueden recibir diferentes implementaciones de los servicios que necesitan.
+  - Pruebas: Los componentes se vuelven más fáciles de testear, ya que se pueden proporcionar implementaciones simuladas o de prueba de los servicios que necesitan.
+  - Separación de responsabilidades: La inyección de dependencias ayuda a separar las responsabilidades de los componentes, ya que cada componente se enfoca en una tarea específica y delega las tareas secundarias a otros servicios o componentes.
+- En el contexto de Vue.js, la inyección de dependencias se puede realizar mediante diferentes técnicas, como por ejemplo:
+  - Propiedades: Se pueden proporcionar propiedades a los componentes para inyectar dependencias.
+  - Opciones: Se pueden proporcionar opciones de configuración a los componentes para inyectar dependencias.
+  - Métodos: Se pueden proporcionar métodos a los componentes para inyectar dependencias.
+- Además, los frameworks o bibliotecas que se integran con Vue.js, como Vuex o Vue Router, suelen utilizar la inyección de dependencias para proporcionar propiedades o métodos especiales a los componentes.

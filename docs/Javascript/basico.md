@@ -484,10 +484,92 @@ if (parseInt(numUsuario) <= 10) {
 }
 
 ```
+### If else
+- También se puede añadir una condición en un else con "else if":
 
+
+```js
+let n = 5;
+
+if (n === 5) {
+    console.log("n es igual a 5!");
+} else if (n > 5) {
+    console.log("n es mayor que 5!");
+}
+```
+:::tip Observación
+- En este ejemplo, la declaración if comprueba si la variable n es igual a 5. Si la condición es verdadera, el código dentro de las llaves ({}) se ejecuta, y el mensaje "n es igual a 5!" se imprime en la consola. Si la condición es falsa, la declaración else if se comprueba. Si la condición en la declaración else if es verdadera, el código dentro de sus llaves se ejecuta. Si ambas condiciones son falsas, no se ejecuta ningún código y el programa continúa con la siguiente declaración después del bloque if else.
+:::
+
+- Puedes combinar else if con un else en JavaScript. El else se utiliza cuando necesitas ejecutar una acción si ninguna de las condiciones en las declaraciones if o else if es verdadera:
+
+```js
+let n = 5;
+
+if (n === 5) {
+    console.log("n es igual a 5!");
+} else if (n > 5) {
+    console.log("n es mayor que 5!");
+} else {
+    console.log("n es diferente de 5!");
+}
+```
+:::tip Observación
+- En este ejemplo, la declaración if comprueba si la variable n es igual a 5. Si la condición es verdadera, el código dentro de las llaves ({}) se ejecuta, y el mensaje "n es igual a 5!" se imprime en la consola. Si la condición es falsa, la declaración else if se comprueba. Si la condición en la declaración else if es verdadera, el código dentro de sus llaves se ejecuta. Si ambas condiciones son falsas, el código dentro del bloque else se ejecuta y el mensaje "n es diferente de 5!" se imprime en la consola.
+- La declaración else es opcional y no es necesario incluirla si no necesitas ejecutar ninguna acción cuando ninguna de las condiciones en las declaraciones if o else if es verdadera.
+:::
+
+
+- No hay un límite específico en el número de declaraciones else if que puedes utilizar en JavaScript. Puedes encadenar tantas declaraciones else if como necesites para verificar diferentes condiciones. Sin embargo, es importante tener en cuenta que el uso excesivo de declaraciones else if puede hacer que tu código sea más difícil de leer y mantener.
+- Ejemplo:
+
+```js
+let n = 5;
+
+if (n === 1) {
+  console.log("n es igual a 1!");
+} else if (n === 2) {
+  console.log("n es igual a 2!");
+} else if (n === 3) {
+  console.log("n es igual a 3!");
+} else {
+  console.log("n no es igual a 1, 2 o 3!");
+}
+
+```
+:::tip Observación
+- En este ejemplo, utilizamos una serie de declaraciones if y else if para verificar si el valor de la variable n es igual a 1, 2 o 3. Si el valor de n es igual a 1, se imprime el mensaje "n es igual a 1!". Si el valor de n es igual a 2, se imprime el mensaje "n es igual a 2!". Si el valor de n es igual a 3, se imprime el mensaje "n es igual a 3!". Si el valor de n no es igual a ninguno de estos valores, se ejecuta el bloque else y se imprime el mensaje "n no es igual a 1, 2 o 3!".
+
+:::
+
+- Si tienes muchas condiciones que verificar, es posible que quieras considerar el uso de una declaración switch en su lugar. Una declaración switch te permite verificar una variable contra varios valores posibles y ejecutar diferentes bloques de código según el valor de la variable. Aquí hay un ejemplo de cómo usar una declaración switch en JavaScript para el mismo ejemplo:
+
+
+```js
+let n = 5;
+
+switch (n) {
+  case 1:
+    console.log("n es igual a 1!");
+    break;
+  case 2:
+    console.log("n es igual a 2!");
+    break;
+  case 3:
+    console.log("n es igual a 3!");
+    break;
+  default:
+    console.log("n no es igual a 1, 2 o 3!");
+}
+```
+:::tip Observación
+- En este ejemplo, la declaración switch verifica el valor de la variable n y ejecuta diferentes bloques de código según el valor de n. Si el valor de n es 1, se imprime el mensaje "n es igual a 1!". Si el valor de n es 2, se imprime el mensaje "n es igual a 2!". Si el valor de n es 3, se imprime el mensaje "n es igual a 3!". Si el valor de n no es 1, 2 o 3, se ejecuta el bloque default y se imprime el mensaje "n no es igual a 1, 2 o 3!".
+- La declaración switch puede ser más legible y fácil de mantener que una serie de declaraciones else if cuando tienes muchas condiciones que verificar. Sin embargo, la declaración switch solo funciona bien cuando estás comparando una variable contra un conjunto de valores fijos. Si necesitas verificar una condición más compleja, es posible que debas utilizar una serie de declaraciones if y else if.
+
+:::
 ### Switch
 
-La declaración switch evalúa una expresión, comparando el valor de esa expresión con una instancia case, y ejecuta declaraciones asociadas a ese case, así como las declaraciones en los case que siguen.
+La declaración switch evalúa una expresión, comparando el valor de esa expresión con una o varias instancias case.
 
 Compara un valor  con un conjunto de valores(case) , si es igual a uno , se ejecuta dicho case .
 
@@ -519,7 +601,29 @@ switch (opcionUser) {
 }
 
 ```
+### While
+- Crea un bucle que ejecuta un bloque de código mientras cierta condición se evalúe como verdadera. Dicha condición es evaluada antes de ejecutar el código.
+- Mientras se cumpla una condición, va a ejecutar X código constantemente. Cuando la condición no se cumpla, se deja de ejecutar y sigue con el resto del código que tiene abajo.
+- Cuidado con generar un bucle infinito
 
+```js
+let numero = 0;
+while (numero <= 10) {
+    console.log(numero);
+    numero++; //numero = numero + 1;
+}
+console.log("FIN: " + numero);
+
+```
+:::tip
+numero++; es un incrementador y suele ser normal en un bucle.
+:::
+
+:::tip do while
+- Existe el "do while" que hacemo lo mismo que "while" solo que condición se evalua despues de ejecutar el código.
+- Con el "do while" el código siempre se va a ejecutar al menos una vez.
+
+:::
 ## \`String ${variable/codigo}`
 :::tip
  Con \`Texto` (el signo se hace con alt + 96) -- Te lee el texto tal como esta (reconoce los espacios en blanco , etc). Tambien te permite concatenar con ${variable o codigo}
@@ -535,26 +639,6 @@ no ${2 * a + b}.`);
 
 ```
 
-### While
-
-Crea un bucle que ejecuta una sentencia especificada mientras cierta condición se evalúe como verdadera. Dicha condición es evaluada antes de ejecutar la sentencia.
-
-Se ejecuta la sentencia cada vez que la condición es verdadera.
-
-Cuidado con generar un bucle infinito
-
-```js
-let numero = 0;
-while (numero <= 10) {
-    console.log(numero);
-    numero++; //numero = numero + 1;
-}
-console.log("FIN: " + numero);
-
-```
-:::tip
-numero++; es un incrementador y suele ser normal en un bucle.
-:::
 
 ## Math.random(): 
 La función Math.random() retorna un punto flotante, un número pseudo-aleatorio dentro del rango [0, 1).
@@ -721,14 +805,14 @@ for (let fruta in frutas) {
 
 ## function
 
-Las funciones son uno de los bloques de construcción fundamentales en JavaScript. Una función en JavaScript es similar a un procedimiento — un conjunto de instrucciones que realiza una tarea o calcula un valor, pero para que un procedimiento califique como función, debe tomar alguna entrada y devolver una salida donde hay alguna relación obvia entre la entrada y la salida.
+Las funciones son fundamentales en JavaScript. Una función en JavaScript es similar a un procedimiento — un conjunto de instrucciones que realiza una tarea o calcula un valor, pero para que un procedimiento califique como función, debe tomar alguna entrada y devolver una salida donde hay alguna relación obvia entre la entrada y la salida.
 
 Características:
--	El nombre de la función.
--	Una lista de parámetros de la función, entre paréntesis y separados por comas.
--	Las declaraciones de JavaScript que definen la función, encerradas entre llaves, { ... }
-
-Los parámetros son opcionales
+-	El nombre de la función. Se utiliza el nombre de la función para llamar a la función y ejecutar el código que contiene.
+-	Una lista de parámetros de la función, entre paréntesis y separados por comas. Representa los valores de “entrada” que puede tener.
+-	El código JavaScript que contiene la función, esta encerrado entre llaves, { ... }
+-  Para invocar a la función se utiliza el nombre del método seguido de paréntesis, entre estos van los argumentos que se les puede pasar a un método (son opcionales): nombreFunción(parametros).
+- Los parámetros son opcionales:
 ```js
 // Declarar funcion
 function nombrefuncion (parámetros) {
@@ -747,9 +831,239 @@ function nombrefuncion (parámetros) {
 saludar();
 
  ```
-Es un bloque de código que se puede reutilizar . (en ese ejemplo function saludar() {codigo})
+- Es un bloque de código que se puede reutilizar  (en ese ejemplo function saludar() {codigo}).
 
-Cada ves que llames al método se ejecuta. (en ese ejemplo saludar())
+- Cada ves que llames al método se ejecuta (en ese ejemplo saludar()).
+
+#### Parametros
+- En JavaScript, los parámetros se utilizan para pasar datos a las funciones. Se definen en la declaración de la función y se pueden acceder dentro del cuerpo de la función. 
+- Son como variables que se asignan un valor en el momento de invocar la función a través de los paréntesis.
+- Aquí hay un ejemplo:
+```js
+function saludar(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+saludar("Alice"); // Imprime: "Hola, Alice"
+
+```
+:::tip Observación
+- En este ejemplo, nombre es un parámetro de la función saludar. Cuando se llama a la función con un argumento ("Alice"), el valor del argumento se asigna al parámetro y se puede utilizar dentro de la función.
+:::
+
+
+- Los parámetros también pueden tener valores predeterminados, que se utilizan si no se proporciona ningún argumento cuando se llama a la función. Aquí hay un ejemplo:
+
+```js
+function saludar(nombre = "Mundo") {
+  console.log("Hola, " + nombre);
+}
+
+saludar(); // Imprime: "Hola, Mundo"
+
+```
+:::tip Observación
+- En este ejemplo, nombre tiene un valor predeterminado de "Mundo". Si se llama a la función sin argumentos, se utiliza el valor predeterminado.
+:::
+
+- Los parámetros también se pueden utilizar para pasar múltiples valores a una función. Aquí hay un ejemplo:
+```js
+function sumar(a, b) {
+  return a + b;
+}
+
+let suma = sumar(3, 4); // suma es 7
+
+```
+:::tip Observación
+- En este ejemplo, a y b son parámetros de la función sumar. Cuando se llama a la función con argumentos (3 y 4), los valores de los argumentos se asignan a los parámetros y se pueden utilizar dentro de la función.
+:::
+
+
+-   Los valores de los parámetros se asignan en orden. Cuando se llama a una función con argumentos, los valores de los argumentos se asignan a los parámetros en el orden en que se declaran.
+- Por ejemplo, considera la siguiente función:
+
+
+```js
+function saludar(nombre, apellido, edad) {
+  console.log(`Hola, ${nombre} ${apellido}. Tienes ${edad} años.`);
+}
+
+```
+- Si se llama a esta función con los siguientes argumentos:
+
+```js
+saludar("Juan", "Pérez", 30);
+
+```
+
+
+:::tip Observación
+- Los valores de los argumentos se asignarán a los parámetros en el siguiente orden:
+  - nombre = "Juan"
+  - apellido = "Pérez"
+  - edad = 30
+
+:::
+
+:::tip Parametros y argumentos significan lo mismo
+- En JavaScript, los parámetros son las variables que se declaran en la lista de parámetros de una función, mientras que los argumentos son los valores que se pasan a la función cuando se llama.
+
+:::
+
+
+
+- Es importante tener en cuenta que si se proporcionan menos argumentos de los que se declaran parámetros, los parámetros restantes tendrán un valor de undefined. Por ejemplo:
+
+```js
+saludar("Juan", "Pérez");
+```
+
+:::tip Observación
+- En este caso, el parámetro edad tendría un valor de undefined, ya que no se proporcionó un tercer argumento.
+
+:::
+
+- Por otro lado, si se proporcionan más argumentos de los que se declaran parámetros, los argumentos adicionales se ignorarán. Por ejemplo:
+
+```js
+saludar("Juan", "Pérez", 30, "programador");
+
+```
+
+:::tip Observación
+- En este caso, el cuarto argumento "programador" se ignora, ya que la función saludar solo declara tres parámetros.
+
+:::
+
+
+- Los parámetros son opcionales y se puede llamar a una función sin proporcionar argumentos para todos sus parámetros. En este caso, los parámetros no proporcionados tendrán un valor de undefined. Aquí hay un ejemplo:
+
+```js
+function saludar(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+saludar(); // Imprime: "Hola, undefined"
+
+```
+:::tip Observación
+- En este ejemplo, la función saludar se llama sin argumentos. Dado que el parámetro nombre no se proporciona, tiene un valor de undefined.
+:::
+
+- Los parámetros también se pueden utilizar para pasar objetos a las funciones. Aquí hay un ejemplo:
+
+
+```js
+function saludar(persona) {
+  console.log("Hola, " + persona.nombre);
+}
+
+let alice = { nombre: "Alice" };
+saludar(alice)
+
+```
+
+#### Palabra clave return
+- La palabra clave return en programación se utiliza para finalizar la ejecución de una función y devolver un valor al lugar desde donde fue llamada. La función puede realizar ciertas operaciones y cálculos, y el resultado de esos cálculos puede ser enviado de vuelta al código que hizo la llamada mediante la instrucción return. El valor devuelto por return puede ser de cualquier tipo de datos, dependiendo de la naturaleza de la función.
+- La palabra clave return se utiliza en la mayoría de los lenguajes de programación para devolver un valor desde una función o un método. Cuando una función o un método alcanza una instrucción return, el flujo de control se interrumpe y se devuelve el valor especificado a la llamada de la función o el método.
+- La palabra clave return se utiliza para devolver un valor desde una función o un método, interrumpiendo/deteniendo su ejecución.
+- La sintaxis básica de la palabra clave return en JavaScript es la siguiente:
+```js
+function nombreFuncion(parametros) {
+  // código de la función
+  return valor;
+}
+
+```
+:::tip Observación
+- En este ejemplo, valor es el valor que se devuelve cuando se llama a la función nombreFuncion.
+
+:::
+
+:::tip
+- La palabra clave return también se puede utilizar sin un valor especificado, lo que significa que la función no devuelve ningún valor. En este caso, la función simplemente detiene su ejecución y devuelve undefined.
+:::
+
+- La palabra clave return es especialmente útil cuando se necesita devolver un valor calculado o generado dentro de una función. Por ejemplo, considera la siguiente función que calcula el área de un círculo:
+```js
+function calcularAreaCirculo(radio) {
+  const PI = 3.14159;
+  const area = PI * Math.pow(radio, 2);
+  return area;
+}
+```
+:::tip Observación
+- En este ejemplo, la función calcularAreaCirculo toma un parámetro radio y devuelve el área del círculo utilizando la fórmula PI * r^2. La palabra clave return se utiliza para devolver el valor calculado de la variable area.
+:::
+
+- Devolver un valor desde una función o un método es útil cuando necesitas utilizar el resultado de la función en otra parte del código. Cuando una función devuelve un valor, puedes asignarlo a una variable o utilizarlo directamente en una expresión.
+- Por ejemplo, considera la siguiente función que calcula el factorial de un número:
+
+
+```js
+function factorial(n) {
+  if (n === 0) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
+  }
+}
+
+```
+- En este ejemplo, la función factorial devuelve el resultado del cálculo del factorial de un número n. Puedes utilizar esta función en tu código para calcular el factorial de un número y asignar el resultado a una variable:
+
+```js
+const numero = 5;
+const factorialNumero = factorial(numero);
+console.log(`El factorial de ${numero} es ${factorialNumero}`);
+
+```
+:::tip Observación
+- En este caso, la variable factorialNumero contiene el resultado del cálculo del factorial de numero, y se imprime en la consola.
+:::
+
+- Devolver un valor también es útil cuando necesitas encapsular la lógica de una operación compleja en una función y utilizar el resultado en diferentes partes del código. Por ejemplo, considera una función que calcula el IVA de un importe:
+```js
+function calcularIVA(importe) {
+  const IVA = 0.21;
+  return importe * IVA;
+}
+
+```
+- En este caso, la función calcularIVA devuelve el resultado del cálculo del IVA de un importe. Puedes utilizar esta función en diferentes partes del código para calcular el IVA de diferentes importes:
+
+```js
+const importe1 = 100;
+const IVA1 = calcularIVA(importe1);
+console.log(`El IVA de ${importe1} es ${IVA1}`);
+
+const importe2 = 200;
+const IVA2 = calcularIVA(importe2);
+console.log(`El IVA de ${importe2} es ${IVA2}`);
+
+```
+
+#### Otro ejemplo
+
+```js
+
+function suma(a, b) {
+    var resultado = a + b;
+    return resultado;
+}
+
+// Llamada a la función y captura del valor devuelto
+var resultadoSuma = suma(3, 5);
+console.log(resultadoSuma);  // Imprimirá 8
+
+```
+:::tip Observación
+- En este ejemplo, la función suma realiza una operación específica (suma de dos números) y devuelve el resultado mediante la palabra clave return. 
+- La variable resultadoSuma captura el valor devuelto al llamar a la función, permitiendo que ese valor se utilice en otras partes del programa.
+
+
+:::
 
 ## hoisting
 
