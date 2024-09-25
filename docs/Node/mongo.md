@@ -209,7 +209,9 @@ module.exports = router;
 ```
 
 ## Varibles de entorno
-- Son para ocultar información sensible.
+-  Las variables de entorno se utilizan para almacenar información de configuración que puede variar entre diferentes entornos (desarrollo, pruebas, producción). Ejemplos típicos incluyen claves de API, URLs de bases de datos, y configuraciones específicas del entorno.
+- Las variables de entorno son valores que pueden influir en el comportamiento de la aplicación. Estas variables se utilizan para configurar y personalizar la aplicación. Algunas de las funciones comunes de las variables de entorno incluyen la especificación de rutas de directorios, la configuración de opciones de software y la definición de preferencias de usuario.
+- Son para almacenar información sensible.
 - Se configuran en el servidor.
 - [Utilizamos este modulo](https://www.npmjs.com/package/dotenv ) 
 
@@ -223,9 +225,10 @@ npm install dotenv
 require('dotenv').config()
 ```
 2. Crear archivo .env 
-- Si se desea cambiar el  nombre del archivo, se deberá configurar el path (ver documentacion)
-- En este archivo van las variables de entorno
-- Le podés asignar un valor (PORT = 3001) o dejar que el hosting le asigne un valor (USUARIO = xxx)
+- Si se desea cambiar el  nombre del archivo, se deberá configurar el path (ver documentacion).
+- En este archivo van las variables de entorno.
+- Le podés asignar un valor (PORT = 3001) o dejar que el hosting le asigne un valor (USUARIO = xxx).
+- La sintaxis por cada reglón es: NOMBREVARIABLE = VALOR
 ```env
 PORT=3001
 USUARIO=xxx
@@ -283,6 +286,16 @@ mongoose.connect(uri)
 - Todos esos Ejemplos tienen las variables de entorno en un entorno local (están ubicada en nuestra PC).
 - el archivo .env se debe ignorar junto con el node_modules en git.
 :::
+
+:::tip
+- Puedes definir una variable de entorno temporalmente al ejecutar un comando. Esto es útil para pruebas rápidas.
+- Ejemplo:
+```powershell
+NODE_ENV=production node app.js
+```
+- Para definir variables de entorno de manera persistente, puedes utilizar archivos como .env
+:::
+
 Ejemplo en un entorno de producción (subido a un hosting):
  1. Se crean las variables (como si fuera un .env) en el hosting (Configurar el hosting)
 2. el index.js sigue igual , no se modifica

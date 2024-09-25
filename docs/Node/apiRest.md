@@ -2571,7 +2571,7 @@ export const redirectLink = async (req, res) => {
 - Pero con Moongose nosotros hicimos un esquema, por ende, como definimos los campos como String, estos serán interpretados como tal, por ende, no se ejecutará el objeto en cuestión.
 
 ## Cors
-- Sirven para interferir con la respuesta.
+- CORS (Cross-Origin Resource Sharing) es un mecanismo de seguridad que permite a las aplicaciones web hacer solicitudes HTTP a recursos que están alojados en un dominio diferente al del de la aplicación. En otras palabras, si tu aplicación se ejecuta en "dominio-a.com" y necesitas acceder a una API en "dominio-b.com", CORS permite que se realicen esas solicitudes de manera controlada y segura. Sin este mecanismo, los navegadores modernos bloquearían las solicitudes entre diferentes dominios debido a restricciones de seguridad, lo que se conoce como política de mismo origen (Same-Origin Policy).   
 - La petición siempre llega al servidor, pero en base del dominio que realiza la solicitud, le devuelve o no una respuesta. (A un intruso no le devuelve una respuesta)
 - Sirve para especificar que dominios pueden consumir la APP (en este caso la API REST). Seria una lista blanca de dominios.
 
@@ -2603,10 +2603,9 @@ app.use(cors())
 
 #### Propiedad Origin 
 - Especifica Los dominios que tienen acceso a la APP (en este caso la API REST)
-- La propiedad origin recibe una funcion con dos parametros (origin y callback)
-- Origin : function(origin,callback)
-- El parámetro origin es quien está haciendo la solicitud (el  dominio que hace la petición)
-- [El callback es una función ](https://fedeleva.github.io/aprendizaje/Javascript/promesas.html#callback) que como primer argumento recibe el error y en el segundo argumento la respuesta satisfactoria (funciono correctamente).
+- La propiedad origin recibe una funcion con dos parametros (origin y callback). `Origin : function(origin,callback)`.
+    - El parámetro origin es quien está haciendo la solicitud (el  dominio que hace la petición)
+    - [El callback es una función ](https://flevatti.github.io/documentacion/docs/Javascript/promesas#callback) que como primer argumento recibe el error y en el segundo argumento la respuesta satisfactoria (funciono correctamente).
 
 ```js
 import cors from "cors";
@@ -2629,7 +2628,10 @@ app.use(cors({
 
 ```
 :::tip Observacion 
-Cuando se hace una solicitud desde el mismo dominio que contiene la app, el origin es undefined
+- Cuando se hace una solicitud desde el mismo dominio que contiene la app, el origin es undefined
+- Si en el callback especificamos un error, el servidor no le devolvera una respuesta.
+- Si en el segundo parametro del callback se pasa el dominio (origen),  es porque el dominio tiene acceso a la API y se le puede mandar una respuesta.
+- callback es  es una función que se debe llamar para especificar si el origen está autorizado o no.
 :::
 
 

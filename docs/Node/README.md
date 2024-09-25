@@ -462,6 +462,20 @@ cowsay javascript
 ```powershell
 npx cowsay javascript
 ```
+- El comando NPX sirve para ejecutar paquetes locales o remotos:
+  -  Ejecución de Paquetes Locales: Cuando usás npx, busca el paquete en el directorio node_modules de tu proyecto (donde está instalado localmente). Si encuentra el paquete allí, lo ejecuta directamente.
+  -  Ejecución de Paquetes Remotos: Si el paquete no está instalado localmente, npx puede descargar y ejecutar el paquete directamente desde el registro de npm sin necesidad de instalarlo en tu sistema o proyecto.
+- NPX nos permite ejecutar paquetes de manera local o remota:
+  -  Instalación Local:
+      -	Ventaja: Si instalás Prisma localmente con npm install prisma --save-dev, el paquete ya está disponible en el directorio node_modules de tu proyecto. Al ejecutarlo con npx, npx ejecutará el comando directamente desde la instalación local, lo cual es rápido ya que no necesita descargar nada adicional.
+  -  Sin Instalación Local:
+      -	Primer Uso: Si no tenés prisma instalado localmente y usás npx prisma init, npx descargará temporalmente el paquete desde el registro de npm para ejecutar el comando.
+      -	Desventaja: Este proceso puede ser un poco más lento, ya que npx necesita descargar el paquete y ejecutarlo en esa instancia.
+
+
+
+
+
 ## package-lock.json
 
 -	En la versión 5, npm introdujo el archivo package-lock.json.
@@ -600,7 +614,7 @@ nodemon app.js
 - [Link](https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module)
 -	Hypertext Transfer Protocol: El Protocolo de transferencia de hipertexto es el protocolo de comunicación que permite las transferencias de información en la World Wide Web.
 -	Intercambia  información entre cliente y servidor.
--	El servidor queda a la espera de alguna solicitud HTTP ejecutada por el cliente y proporciona una respuesta.
+-	El servidor queda a la espera de alguna solicitud HTTP  que le envie el cliente para proporcionar una respuesta.
 -	Cuando visitamos un sitio web, hacemos una solicitud GET de HTTP, y el servidor nos devuelve por ejemplo un index.html con el sitio web.
 -	Nosotros configuraremos estas respuestas en nuestro "servidor web o servidor http" con node.js
 
@@ -651,12 +665,13 @@ const port = 5000;
 // createServer tiene como parametro un callback(requerimiento(req) , respuesta(res))
 const server = http.createServer((req, res) => {
 
-    // Por cualquier peticion(requirimiento)
+    // Para cualquier solicitud/peticion del cliente le enviamos esta respuesta.
+    // res tiene metodos para devolver una respuesta
     res.end("esta es la respuesta");
 });
 
 //El servidor escucha en el puerto especificado
-//listen(puerto , funcion)
+//listen(puerto , funcion que se ejecuta cuando el servidor inicia (empieza a escuchar))
 server.listen(port, () => {
     console.log("servidor andando 🚀");
 });
@@ -695,21 +710,21 @@ server.listen(puerto , () => {
 
 ## Verbos o métodos HTTP
 - [Info](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)
--	HTTP define un conjunto de métodos de petición para indicar la acción que se desea realizar para un recurso determinado.
+-	HTTP define un conjunto de métodos/verbos HTTP para indicar la acción que se desea realizar para un recurso determinado.
 -	Los más populares son: GET, POST, PUT, DELETE.
 -	En el siguiente apartado crearemos nuestro servidor web (con express) y pondremos en práctica cada uno de estos métodos.
 -	Si entramos a una URL y nos devuelve una página web es con el método GET.
-- Get = Servicios que exponemos
-- Post = Crear algo
+- Get = Obtener un recurso
+- Post = Crear un recurso
 
 ## Express
 - [Info](https://expressjs.com/es/)
 -  Nos permite hacer nuestro servidor HTTP de una manera sencilla.
 - Nos permite gestionar las solicitudes que nos hacen los - clientes.
 Podemos conectarnos a BD y pintar información en un HTML.
--	Infraestructura web rápida, minimalista y flexible para Node.js
--	Con miles de métodos programado para HTTP y un middleware a su disposición, la creación de una API sólida es rápida y sencilla.
--	Express proporciona una delgada capa de características de aplicación web básicas, que no ocultan las características de Node.js que tanto ama y conoce.
+-	Nos permite crear una infraestructura web rápida, minimalista y flexible para Node.js
+-	Con miles de métodos  HTTP y un middleware a su disposición, la creación de una API sólida es rápida y sencilla.
+
 
 ### Instalacion
 ```powershell
@@ -729,7 +744,7 @@ const app = express()
 const port = 5000;
  
 
-//Una peticion get a la raiz del sitio web
+//Gestionamos las peticiones get a la raiz del sitio web
 // req = requirimiento(peticion)   res = respuesta
 app.get('/', (req, res) => {
       // con el metodo send enviamos una respuesta

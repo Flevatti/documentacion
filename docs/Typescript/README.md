@@ -667,6 +667,12 @@ console.log(myEnum)
 - Pero si el ENUM lo va a consumir alguien de afuera que no sabe nada de tu código, pues se recomienda no usar const.
 - [Más información](https://www.typescriptlang.org/docs/handbook/enums.html)
 :::
+
+## Especificar tipo de dato
+- Los tipos de datos no se compilan en el sentido que no se incluyen en el código Javascript resultante.
+- Los tipos de datos en TypeScript se usan para realizar verificaciones y garantizar que el código es correcto en términos de tipos durante la compilación. Ayudan a detectar errores y proporcionar una mejor experiencia de desarrollo con características como autocompletado y documentación en el editor.
+- Al compilar el código TypeScript usando el compilador (tsc), el compilador transforma el código TypeScript en código JavaScript. Durante este proceso, los tipos se eliminan y solo el código JavaScript resultante se mantiene. Esto se debe a que JavaScript no tiene un sistema de tipos integrado; los tipos en TypeScript son solo para el desarrollo.
+
 ## Aserciones de tipo
 - Hay algunos métodos de javascript que devuelven un elemento especifico en base al parámetro, ósea no siempre devuelven lo mismo y esto Typescript lo suele manejar con un tipo de dato general que lo implementan todo, pero esto hace que no podamos usar los métodos específicos de X tipo de dato.
 - Typescript no puede predecir el tipo de dato porque no funciona en tiempo de ejecución.

@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <Layout
       title={``}
-      description="Documentacion de Federico Levatti">
+      description="Documentación de varios lenguajes de programación">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

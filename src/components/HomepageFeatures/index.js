@@ -80,6 +80,16 @@ const FeatureList = [
     ),
   },
   {
+    title: "Docker ",
+    url: "docs/Docker",
+    Svg: require("@site/static/img/docker.svg").default,
+    description: (
+      <>
+ Docker es una plataforma de software que le permite crear, probar e implementar aplicaciones rápidamente. 
+      </>
+    ),
+  },
+  {
     title: "Herramientas",
     url: "docs/Herramientas",
     Svg: require("@site/static/img/logo_herramienta.svg").default,

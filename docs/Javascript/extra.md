@@ -304,3 +304,195 @@ observable.subscribe(observer)
 - En otras palabras, el underscore (_) se utiliza aquí para ignorar el parámetro que se le pasa a la función complete, ya que no se necesita procesar información adicional cuando el observable ha terminado de emitir valores.
 
 :::
+
+
+## Decoradores
+- Es un concepto que se aplica a varios lenguajes.
+- No es lo mismo que patrón decorador.
+- Te permite “extender/modificar” las clases, con nuevos (y si existe remplazarlo) campos, métodos, getters, setters , etc.. Por lo tanto, se podría decir que sirve para añadir/modificar/remplazar funcionalidades.
+- El decorador se define con una AROBBA (@) al comienzo. 
+- El decorador es una función.
+- Ejemplo de decorador que modifica toda una clase:
+```js
+@defineElement("my-class")
+class C extends HTMLElement {
+  @reactive accessor clicked = false;
+}
+```
+- Los decoradores se pueden aplicar en:
+  - Clases
+  - Campos de clase 
+  - Métodos de clases
+  - Accesores de clases
+
+
+#### Ejemplo
+```js
+function logger(value , context) {
+ console.log('decorator called!')
+ console.log("value" , value)
+ console.log("context" , context)
+}
+
+@logger
+class Persona {
+}
+
+
+```
+:::tip Observación
+- Un decorador es una función que contiene dos parámetros:
+  - value: Contiene lo que estamos decorando, el elemento al que se aplica el decorador. En el ejemplo contiene una función constructora (clase).
+  - context : Nos da información sobre que es lo que estamos decorando (el elemento).
+- El decorador se aplica siguiendo la sintaxis: @NombreDecorador
+- Los decoradores se ejecutan en el momento en el que se evalúa la clase. Por lo tanto, lo que contiene la función se va a ejecutar cuando se evalué ese código y no cuando se instancie un objeto.
+:::
+
+#### Modificamos el ejemplo anterior
+```js
+function logger(value , context) {
+ console.log('decorator called!')
+ console.log("value" , value)
+ console.log("context" , context)
+}
+
+@logger // type = class
+class Persona {
+
+    @logger
+    weight = 75 // kind = field
+    
+    @logger
+    getWeight() { // kind = method
+     return this.weight
+    }
+    
+    
+    @logger
+    get peso() {  // kind = getter
+      return this.weight;
+    }
+    
+    @logger
+    set setPeso(value) {  // kind = setter
+         this.weight = value;
+    }
+
+}
+
+
+```
+:::tip Observación
+- En el field, el value es undefined ya que los decoradores se ejecutan cuando “se evalúa el código, no cuando se ejecuta” y por lo tanto todavia no se sabe el valor del campo.
+
+:::
+
+#### Extender método
+- El código del decorador puede ser:
+```js
+function logger(value , {name, kind}) {
+   console.log('Decorated called')
+  if (kind === 'method') {
+     return function(...args) {
+      console.log(`Logging ${name} execution with arguments ${args.join(',')}`)
+      const returnedValue = value.call(this , ...args);
+      console.log(`End execution after returning ${returnedValue}`);
+     }
+  }
+}
+
+```
+:::tip Observación
+- En este ejemplo modificamos todos los métodos de la clase (que solo hay uno llamado getWeight).
+- This en la complicación no tiene valor porque no está asociado a ninguna clase, pero en tiempo de ejecución se refiere a la instancia que invoco el método.
+- Sin embargo, cuando se evalué el método: El primer console.log se mostrará, pero la función que devolvemos no se ejecutará hasta que invoquemos al método en una instancia.
+- Para resumir:
+  - El console.log    console.log('Decorated called') se ejecuta al evaluar el elemento “decorado”.
+  - La función que se devuelve se ejecuta cuando de verdad se llame al método. 
+:::
+
+- Ejecutamos el método modificado:
+
+```js
+const p = new Persona();
+p.getWeight();
+```
+:::tip Observación
+Al ejecutar getWeight() invocamos el método que devolvimos en el decorador
+:::
+
+#### Decorator Factory
+- Podes añadirle parámetros al decorador poniéndole argumentos a la función:
+```js
+const logger = (logerName) => function (value , {name, kind}) {
+   console.log('Decorated called')
+  if (kind === 'method') {
+     return function(...args) {
+      console.log(`Logging ${logerName} execution with arguments ${args.join(',')}`)
+      const returnedValue = value.call(this , ...args);
+      console.log(`End execution after returning ${returnedValue}`);
+     }
+  }
+}
+
+
+
+class Persona {
+
+
+    weight = 75 // kind = field
+    
+    @logger('metodos')
+    getWeight() { // kind = method
+     return this.weight
+    }
+    
+    
+
+    get peso() {  // kind = getter
+      return this.weight;
+    }
+    
+  
+    set setPeso(value) {  // kind = setter
+         this.weight = value;
+    }
+
+}
+
+const p = new Persona();
+p.getWeight();
+
+
+```
+:::tip Observación
+- Al decorador le podés pasar un parámetro.
+- Se llama Decorator Factory porque el método devuelve un decorador, ósea lo crea. 
+:::
+
+:::tip info
+- [Decorators](https://github.com/tc39/proposal-decorators)
+- [Decorator Metadata](https://github.com/tc39/proposal-decorator-metadata)
+
+:::
+
+## Patron decorador
+- El patrón decorador es un patrón de diseño estructural que permite añadir funcionalidades a un objeto de manera dinámica sin alterar su estructura original. Se utiliza para "envolver" un objeto con otro objeto decorador que agrega nuevas responsabilidades.
+
+:::tip Patron
+- Un patrón de diseño es una solución general y reutilizable a un problema común. Estos patrones no son código específico, sino guías o enfoques que pueden ser adaptados y aplicados a diferentes situaciones de programación para resolver problemas de diseño recurrentes.
+- Un patrón estructural se enfoca en cómo se relacionan y se organizan las clases y los objetos para formar estructuras más grandes. Estos patrones ayudan a garantizar que, si cambias la estructura interna de un sistema, el impacto en otras partes del sistema sea mínimo.
+
+
+:::
+
+- En este patrón, tienes una clase base y una serie de clases decoradoras que implementan la misma interfaz o heredan de la misma clase base. Cada decorador agrega o modifica el comportamiento del objeto al que envuelve. Puedes encadenar varios decoradores para añadir múltiples capas de funcionalidad.
+- El patrón decorador es una forma de componer objetos para extender su funcionalidad de manera dinámica y flexible, permitiendo múltiples combinaciones de comportamiento.
+
+
+:::danger
+- Es diferente a un decorador en Typescript que es una característica del lenguaje que permite añadir meta-información o modificar la definición de clases, métodos, propiedades, o parámetros mediante una función especial.
+- En un patrón decorador se puede utilizar un decorador en el sentido de que se puede envolver un objeto con otros objetos que añaden funcionalidades adicionales. Sin embargo, el uso de decoradores en el sentido de la programación orientada a objetos (como en TypeScript) no es necesario para implementar el patrón decorador. 
+
+
+:::

@@ -83,10 +83,19 @@ Los estudiantes pueden tener notar y los profesores materias asignadas.
 JavaScript, utiliza funciones especiales llamadas funciones constructoras para definir objetos y sus características.
 :::
 
--	Los constructores proporcionan los medios para crear tantos objetos como necesites de una manera efectiva, adjuntando datos y funciones a ellos según sea necesario.
--	Cuando se crea una nueva instancia del objeto a partir de una función constructora, su funcionalidad central (metodos y/o propiedades) no se copia en el nuevo objeto como lenguajes POO "clásicos", sino que la funcionalidad está vinculada a través de una cadena de referencia llamada cadena de prototipos. Para acceder a la "funcionalidad central" , se utiliza una referencia a la clase , que la contiene una propiedad(tiene muchos nombres ,  se suele encontrar como \__proto__ o prototype ) que tienen todos los objetos , esta referencia en Javascript se llama prototipo.
-- Javascript usa una cadena de prototipos por instancia.
--	Así que esto no es una verdadera instanciación, estrictamente hablando, JavaScript usa un mecanismo diferente para compartir funcionalidad entre objetos.
+- Los constructores en JavaScript permiten crear múltiples objetos de manera eficiente, asociando datos y funciones a cada uno según sea necesario.
+- Cuando se crea una nueva instancia de un objeto a partir de una función constructora, su funcionalidad principal (métodos y/o propiedades) no se copia directamente en el nuevo objeto, como ocurre en los lenguajes de programación orientados a objetos "clásicos". En lugar de copiar la funcionalidad (métodos y propiedades) en cada nuevo objeto que se crea, JavaScript crea una conexión entre el objeto y su prototipo. Esta conexión permite que el objeto pueda "ver" y usar las funciones y datos definidos en el prototipo sin que estos se dupliquen.
+- Para acceder a esta "funcionalidad principal", se utiliza una referencia a la clase que contiene una propiedad, comúnmente denominada __proto__ o prototype, que está presente en todos los objetos. Esta referencia en JavaScript se llama prototipo.
+- JavaScript no realiza una instanciación en el sentido estricto de "POO", sino que utiliza un mecanismo diferente para compartir funcionalidades entre objetos a través de una cadena de prototipos por instancia.
+
+#### No confundir propiedades de instancia con funcionalidad principal
+##### Propiedades de instancias
+- Específicas de la instancia: Cada vez que creas una nueva instancia, las propiedades definidas en el constructor (como edad o nombre) se crean y se asignan solo a esa instancia. Esto significa que cada objeto tiene su propia copia de estas propiedades.
+- No compartidas: Como estas propiedades no se almacenan en el prototipo, no se comparten entre las instancias.
+##### Funcionalidad principal
+- Compartida entre instancias: Los métodos o propiedades definidos en el prototipo son compartidos por todas las instancias del objeto. Esto es parte de lo que llamamos la "funcionalidad principal" porque todas las instancias pueden acceder a estas sin tener que duplicar el código.
+- Eficiencia: Como estas funcionalidades se definen en el prototipo, JavaScript no necesita duplicarlas para cada objeto, lo que ahorra memoria.
+
 
 :::tip TIP
 No ser "POO clásica" no es necesariamente algo malo; la POO puede ser muy compleja rápidamente, y JavaScript tiene algunas agradables formas de aprovechar las características de la POO sin tener que profundizar demasiado en ello.
@@ -159,17 +168,18 @@ console.log(personaUno.saludar());
 Javascript no instancia  objetos.
 :::
 ## ¿Un lenguaje basado en prototipos?
--	JavaScript es a menudo descrito como un lenguaje basado en prototipos - para proporcionar mecanismos de herencia, los objetos pueden tener un objeto prototipo, el cual hereda métodos y propiedades.
--	Un objeto prototipo del objeto puede tener a su vez otro objeto prototipo, el cual hereda métodos y propiedades, y así sucesivamente. Esto es conocido con frecuencia como la cadena de prototipos, y explica por qué objetos diferentes pueden tener disponibles propiedades y métodos definidos en otros objetos.
--	Para ser exactos, los métodos y propiedades son definidos en la propiedad prototype, que reside en la función constructora del objeto, no en la instancia misma del objeto.
--	En JavaScript, se establece un enlace entre la instancia del objeto y su prototipo (su propiedad \__proto__, la cual es derivada de la propiedad prototype del constructor), y las propiedades y metodos son encontrados recorriendo la cadena de prototipos.
-- Todas las propiedades y métodos del objeto, están en el prototipo.
+- JavaScript es comúnmente descrito como un lenguaje basado en prototipos. Esto significa que, en lugar de copiar métodos y propiedades de una clase a otra, los objetos en JavaScript están vinculados a un prototipo. Este prototipo contiene métodos y propiedades que los objetos pueden usar directamente, sin que estas características se dupliquen en cada objeto.
+- Un prototipo a su vez, puede tener el prototipo de otro constructor (clase), creando una cadena de prototipos. Esta cadena explica cómo diferentes objetos pueden acceder a métodos y propiedades definidos en otros objetos.
+-	Para ser exactos, En JavaScript, los métodos y propiedades que son compartidos entre objetos no se definen en la instancia del objeto, sino en una propiedad especial llamada prototype, que pertenece a la función constructora del objeto. Cuando creas una instancia de un objeto, esta instancia tiene acceso al prototype a través de una referencia interna conocida como __proto__, que apunta al prototype del constructor.
+- Gracias a esta conexión, cuando intentas acceder a un método o propiedad en un objeto, JavaScript primero busca en la instancia. Si no lo encuentra allí, sigue la cadena de prototipos hasta encontrarlo en algún prototipo relacionado. De esta manera, todas las instancias pueden acceder a los métodos y propiedades definidos en su prototipo, sin necesidad de duplicarlos en cada objeto.
+
+
 
 ### Prototipo (En consola del navegador)
 ![Proto1](https://bluuweb.github.io/desarrollo-web-bluuweb/img/proto1.png)
 
--	En esta imagen, podras ver lo que contiene  el objeto prototipo de personaUno, que es un objeto literal del constructor Persona()
--	Ademas de lo que contiene la clase Persona , se encuentran  otras propiedades/metodos como  watch, valueOf, etc  . Estas  están definidas en el objeto prototipo de Persona(), que a su vez es un Objeto (Object). Esto significa que Persona() hereda lo que contiene el prototipo Object
+-	En esta imagen, podras ver lo que contiene  el  prototipo del constructor Persona.
+-	Ademas de lo que contiene la clase Persona , se encuentran  otras propiedades/metodos como  watch, valueOf, etc  . Estas  están definidas en el  prototipo de Persona(), ya que este contiene el prototipo de Object. Esto significa que Persona() hereda lo que contiene el prototipo Object
 -	Esto demuestra que el prototipo cadena funciona.
 
 ![proto2](https://bluuweb.github.io/desarrollo-web-bluuweb/img/MDN-Graphics-person-person-object-2.png)
@@ -214,16 +224,15 @@ No se copian y pegan los métodos y propiedades, sino que se busca en la cadena 
 ## Modificando prototipos
 
 :::warning problema 
-No todas las personas pueden hablar en ingles	
+- Todas las instancias NO pueden usar el método saludarIngles, osea que solo algunos hablan ingles : 
 
-No todas las instancias pueden usar el método saludarIngles
- ```js
+```js
  
 this.saludarIngles = function() {
         return `${this.nombre} says hi!`;
     }
 
- ```
+```
 
 :::
 
