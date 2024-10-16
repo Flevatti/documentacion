@@ -30,14 +30,23 @@ Console.WriteLine(nameof(numbers.Add));  // output: Add
 ## Record
 - Antes solo podíamos trabajar con dos tipos de estructuras para almacenar información: class y struct.
 - Con C# 9 o posterior disponemos de un tercer elemento para almacenar información: record, también conocido como registro.
+- Los records son una característica introducida en C# 9.0 que permiten crear tipos de datos inmutables de una manera concisa y clara. Se utilizan principalmente para representar datos en aplicaciones donde la comparación de valores y la inmutabilidad son importantes.
+
+
+
+#### Características de los Records
+1.	Inmutabilidad: Por defecto, las propiedades de un record son inmutables. Esto significa que una vez que se crea un objeto de tipo record, sus propiedades no se pueden cambiar.
+2.	Comparación de Valores: A diferencia de las clases, los records comparan sus valores en lugar de sus referencias en memoria. Esto significa que dos instancias de un record con los mismos valores son consideradas iguales.
+3.	Sintaxis Concisa: La declaración de records es más simple y menos verbosa que la de clases. Puedes definir propiedades y el constructor en una sola línea utilizando parámetros posicionales.
+4.	Descomposición: Los records permiten descomponer objetos de manera fácil, lo que es útil para patrones como el de desestructuración.
 
 #### ¿Y cuál es la diferencia con los dos anteriores que seguramente ya conoces?
 
 - Con las clases y las estructuras tenemos el problema de que pueden ser alterados. Los objetos de tipo clase son tipos por referencia, mientras que las estructuras son tipos por valor, que lo más que se podían acercar a un objeto inmutable era declarándolas como readonly.
 - Los objetos de tipo record, son objetos por referencia que vienen a solucionar el problema existente a la hora de generar objetos inmutables, esto es, objetos que no pueden variar. Por otro lado están "a caballo" entre clases y estructuras, puesto que tienen características de los dos.
 - Las similitudes con ambos elementos, los vemos inmediatamente al realizar una comparación entre dos registros:
-   -	Podremos emplear el operador de igualdad ==, puesto que al ser tipos por referencia nos va a indicar si se tratan de objetos con la misma referencia o no.
-   -	Al igual que con las estructuras, el método Equals nos va a decir si son iguales o no, en función de los valores que tiene.
+   - Podremos emplear el operador de igualdad ==, puesto que al ser tipos por referencia nos va a indicar si se tratan de objetos con la misma referencia o no.
+   - Al igual que con las estructuras, el método Equals nos va a decir si son iguales o no, en función de los valores que tiene.
 - Los records son datos inmutables que básicamente se usan como transporte de datos.
 - Vienen a sustituir a los objetos conocidos como DTOs que básicamente no tienen comportamiento solamente traen las propiedades  para transportar datos.
 - Puedes establecer miembros estáticos en un Record.
@@ -171,6 +180,86 @@ Console.WriteLine ($"Persona 1: {persona1}");
 Console.WriteLine ($"Persona 2: {persona2}");
 
 ```
+
+
+#### Ejemplo de un record
+
+```csharp
+public record Persona(string Nombre, int Edad);
+
+class Programa
+{
+    static void Main()
+    {
+        Persona persona1 = new Persona("Juan", 30);
+        Persona persona2 = new Persona("Juan", 30);
+        
+        // Comparación de valores
+        Console.WriteLine(persona1 == persona2); // Imprime 'True'
+    }
+}
+
+
+```
+
+#### Herencia en Records
+- Los records en C# admiten la herencia, similar a las clases. Sin embargo, hay algunas reglas y características específicas que debes tener en cuenta:
+    1.	Herencia de Records: Puedes crear un record que herede de otro record. Esto permite que un record hijo tenga las propiedades del record padre y también defina nuevas propiedades.
+    2.	Overrides: Cuando creas un record que hereda de otro, puedes sobreescribir métodos como ToString(), Equals(), y GetHashCode(). Esto puede ser útil si deseas personalizar el comportamiento del record hijo.
+    3.	Propiedades Inmutables: En un record derivado, las propiedades que se heredan son también inmutables a menos que las declares como propiedades en el record hijo.
+- Aquí tienes un ejemplo que ilustra la herencia con records:
+```csharp
+public record Persona(string Nombre, int Edad);
+
+// Un record que hereda de Persona
+public record Empleado(string Nombre, int Edad, string Cargo) : Persona(Nombre, Edad);
+
+class Programa
+{
+    static void Main()
+    {
+        Empleado empleado = new Empleado("Ana", 28, "Desarrolladora");
+
+        // Mostrando información
+        Console.WriteLine($"Nombre: {empleado.Nombre}, Edad: {empleado.Edad}, Cargo: {empleado.Cargo}");
+    }
+}
+
+```
+:::tip Observación
+-  Definición de Herencia: `public record Empleado(string Nombre, int Edad, string Cargo) : Persona(Nombre, Edad);` define un record Empleado que hereda de Persona. Aquí, se pasan Nombre y Edad al constructor del record padre.
+-  Acceso a Propiedades: Empleado puede acceder a las propiedades Nombre y Edad definidas en Persona, así como tener su propia propiedad Cargo.
+-  Comparación: Los records en la jerarquía de herencia también mantienen la comparación de valores, lo que significa que puedes comparar instancias de Empleado y Persona en función de sus propiedades.
+:::
+
+- Las propiedades de un record son mutables:
+```csharp
+public record Persona(string Nombre, int Edad);
+
+// Un record que hereda de Persona
+public record Empleado(string Nombre, int Edad, string Cargo) : Persona(Nombre, Edad)
+{
+    public string? Departamento { get; set; } // Propiedad mutable
+}
+
+class Programa
+{
+    static void Main()
+    {
+        // Creando una instancia de Empleado
+        Empleado empleado = new Empleado("Ana", 28, "Desarrolladora");
+
+        // Mostrando información
+        Console.WriteLine($"Nombre: {empleado.Nombre}, Edad: {empleado.Edad}, Cargo: {empleado.Cargo}");
+
+        // Modificando una propiedad mutable
+        empleado.Departamento = "IT";
+        Console.WriteLine($"Departamento: {empleado.Departamento}");
+    }
+}
+
+```
+
 
 :::tip info
 - [C# Records](https://aspnetcoremaster.com/csharp/csharp-records.html)
@@ -1776,21 +1865,20 @@ else
 ## Out
 - Se puede llamar palabra clave out o parámetro out
 - out es una palabra clave en C# que se utiliza para pasar parámetros a métodos como tipo de referencia. Generalmente se usa cuando un método devuelve múltiples valores.
-- Cuando un parámetro se pasa con la palabra clave/parámetro Out en el método, ese método funciona con el mismo valor de variable que se pasa en la llamada al método. Si el valor de la variable cambia, el valor del parámetro del método también cambia. Si el método modifica el valor, el valor de la variable que le pasamos como parámetro out cambia.
-- 'out' es una palabra clave en C#, que se utiliza para pasar argumentos a un método como tipo de referencia. Las variables pasadas a un método como parámetros externos no necesitan declararse ni inicializarse antes de pasarse a la llamada al método. Se requiere que el método llamado asigne valores a las variables de los parámetros antes de que el control abandone el método llamado y antes de que el método llamado devuelva cualquier valor al método que llama.
+- Cuando un parámetro se pasa con la palabra clave/parámetro Out en el método, ese método utiliza  el mismo valor de variable que se pasa en la llamada al método. Si el valor de la variable cambia, el valor del parámetro del método también cambia. Si el método modifica el valor, el valor de la variable que le pasamos como parámetro out cambia.
+- 'out' es una palabra clave en C#, que se utiliza para pasar argumentos a un método como tipo de referencia. Las variables pasadas a un método como parámetros externos no necesitan declararse ni inicializarse antes de pasarse a la llamada al método. Se requiere que el método llamado asigne valores a las variables de los parámetros antes de que el control abandone el método llamado y antes de que el método llamado devuelva cualquier valor.
 -  Es posible pasar múltiples parámetros a un método y el método devuelve múltiples valores.
 
 #### Puntos importantes
 -	Es similar a la palabra clave ref. Pero la principal diferencia entre la palabra clave ref y out es que ref necesita que la variable se inicialice antes de pasar al método. Pero nuestro parámetro out no requiere que las variables se inicialicen antes de pasar al método. Pero antes de que devuelva un valor el método que llama, la variable debe inicializarse en el método llamado.
 -	También es similar a la palabra clave in, pero la palabra clave in no permite que el método que llamó cambie el valor del argumento, pero ref lo permite.
--	Para usar la palabra clave out como parámetro, tanto la definición del método como el método de llamada deben usar la palabra clave out explícitamente.
+-	Para usar la palabra clave out como parámetro, tanto la definición del método como en la llamada al método, deben usar la palabra clave out explícitamente.
 -	No se permite el uso de parámetros out en métodos asincrónicos.
 -	No se permite el uso de parámetros out en métodos iteradores.
 -	Puede haber más de un parámetro out en un método.
--	En el momento de la llamada al método, el parámetro out se puede declarar en línea. Pero solo se puede acceder a los parámetros out en línea en el mismo bloque de código donde se llama.
+-	En el momento de la llamada al método, el parámetro out se puede declarar en la misma línea. Pero solo se puede acceder a los parámetros out en el mismo bloque de código de donde se llama. Hasta C# 6.0, un usuario primero declara la variable y luego solo puede pasarla como argumento out. Pero a partir de C# 7.0, a excepción de una declaración de variable separada, el usuario también puede declarar la variable out en la lista de argumentos de la llamada al método.
 -	La sobrecarga de métodos también se puede realizar utilizando estos parámetros.
 -	Las propiedades no se pueden pasar como parámetros out ya que no son variables.
--	Hasta C# 6.0, un usuario primero declara la variable y luego solo puede pasarla como argumento out. Pero a partir de C# 7.0, a excepción de una declaración de variable separada, el usuario también puede declarar la variable out en la lista de argumentos de la llamada al método.
 
 #### Sintaxis
 - Al llamar al método usando el parámetro out, la sintaxis será la siguiente:
@@ -1811,18 +1899,18 @@ nombre_método(out  tipo_dato nombre_variable);
 especificador_acceso  return_type Method_name(out data_type variable_name);
 ```
 :::tip Observación
-- Aquí, especificador_acceso puede ser cualquier especificador de acceso entre los cinco especificadores de acceso admitidos por C#, como público o privado. Luego, return_type es el tipo de datos que devuelve este método seguido del nombre del método y la lista de parámetros "out".
+- Aquí, especificador_acceso puede ser cualquier especificador de acceso entre los cinco especificadores de acceso admitidos por C#, como public o private. Luego, return_type es el tipo de datos que devuelve este método seguido del nombre del método y la lista de parámetros "out".
 
 :::
 
 #### Resumen
 - La diferencia entre las palabras clave 'out' y 'in' es que los valores de los parámetros 'out' se pueden modificar dentro del método llamado, mientras que los valores de los parámetros 'in' no se pueden modificar dentro del método llamado.
 - Un método puede tener más de un parámetro "out", como por ejemplo: Display(out x, out y);.
-- Para trabajar con parámetros 'out', el usuario debe usar explícitamente la palabra clave 'out' en la definición del método y también en el método de llamada. Al mismo tiempo, no es necesario que los nombres dados a los parámetros 'out' en la definición y llamada del método sean los mismos.
-- Los parámetros 'out' se pasan por referencia a un método, por lo tanto, no crean una nueva ubicación de almacenamiento en la memoria y utilizan la misma ubicación de almacenamiento ocupada por las variables en la invocación del método. Como el método que utiliza los parámetros 'out' puede devolver múltiples valores, ayuda al usuario a obtener múltiples valores procesados del método llamado. Pero antes de que el método devuelva cualquier valor al método que lo llama, a los parámetros 'out' se les deben asignar alguno valor en el método.
+- Para trabajar con parámetros 'out', el usuario debe usar explícitamente la palabra clave 'out' en la definición del método y también en la llamada al método. Al mismo tiempo, no es necesario que los nombres dados a los parámetros 'out' en la definición y llamada del método sean los mismos.
+- Los parámetros 'out' se pasan por referencia a un método, por lo tanto, no crean una nueva ubicación de almacenamiento en la memoria y utilizan la misma ubicación de almacenamiento  que usan las variables que contienen la misma referencia. Como el método que utiliza los parámetros 'out' puede devolver múltiples valores, ayuda al usuario a obtener múltiples valores procesados del método llamado. Pero antes de que el método devuelva cualquier valor al método que lo llama, a los parámetros 'out' se les deben asignar alguno valor en el método.
 - No podemos trabajar con parámetros 'out' en todos los tipos de métodos, como no podemos usar parámetros 'out' en métodos asincrónicos que definimos usando el modificador 'async' y tampoco podemos usar parámetros 'out' en métodos 'iteradores'. Como las propiedades no son variables, no podemos pasarlas como parámetros 'out’  a un método.
 - El parámetro 'out' se puede definir utilizando un tipo genérico.
-- Junto con esto, el parámetro 'out' se utiliza en los métodos TryParse() para diferentes tipos de datos en C#. El método TryParse() devuelve un valor booleano que especifica el éxito o el fracaso y, en caso de éxito, el resultado viene dado por el parámetro 'out'.
+- El parámetro 'out' se utiliza en el método TryParse(). El método TryParse() devuelve un valor booleano que especifica el éxito o el fracaso y, en caso de éxito, el resultado viene dado por el parámetro 'out'.
 
 
 #### Abreviación
@@ -1929,14 +2017,16 @@ void InArgExample(in int number)
 
 
 :::tip
-- Además, la palabra clave in puede usarse con un parámetro de tipo genérico para especificar que el parámetro de tipo es contravariante (contravariance), parte de una instrucción foreach o de una cláusula join de una consulta de LINQ. 
+- Además, la palabra clave in puede usarse con un parámetro de tipo genérico para especificar que el parámetro de tipo es contravariante (contravarianza), parte de una instrucción foreach o de una cláusula join de una consulta de LINQ. 
 :::
 
 
 :::tip Covarianza y contravarianza en genéricos
-- Covarianza y contravarianza son términos que hacen referencia a la capacidad de usar un tipo más derivado (más específico) o menos derivado (menos específico) que el indicado originalmente.
+- Covarianza: Permite que un tipo genérico sea más específico. En otras palabras, puedes usar un subtipo donde se espera un tipo base. Por ejemplo, si tienes una clase Animal y una subclase Perro, la covarianza permite que un objeto genérico de Animal pueda ser sustituido por Perro. Esto es común en los tipos de retorno de métodos.
+- Contravarianza: Es lo opuesto, permite que un tipo genérico acepte un tipo más genérico. Es útil en los parámetros de los métodos. En este caso, podrías pasar un tipo base donde se espera un subtipo.
 - [Mas información](https://learn.microsoft.com/es-es/dotnet/standard/generics/covariance-and-contravariance#generic-interfaces-with-contravariant-type-parameters)
 :::
+
 
 
 - Las variables que se han pasado como argumentos in deben inicializarse antes de pasarse en una llamada de método. Sin embargo, es posible que el método llamado no asigne ningún valor o modifique el argumento.
@@ -1974,8 +2064,8 @@ class InOverloads
 :::
 
 ## Ref
-- La palabra clave ref hace que un argumento se pase por referencia, no por valor. El efecto de pasar por referencia es que cualquier cambio en el parámetro del método llamado se refleja en el método que llama.
-- Esto significa que si pasamos cualquier parámetro de método (ya sea tipo de valor o tipo de referencia) usando el parámetro ref, cualquier cambio en el valor del parámetro dentro del método se reflejará en el valor real del parámetro.
+- La palabra clave ref hace que un argumento se pase por referencia, no por valor. El efecto de pasar por referencia es que cualquier cambio en la variable que se le pase al método llamado se refleja en el método.
+- Esto significa que, si pasamos un valor al método (ya sea de tipo valor o tipo referencia) utilizando el parámetro ref, cualquier cambio que se haga en el valor dentro del método afectará directamente al valor original del parámetro ( y por lo tanto a la variable que lo contiene).
 
 #### Ejemplo
 - Tenemos un método llamado GetData que toma un parámetro entero. Dentro del método, actualizaremos este valor. Luego, llamamos a este método e imprimimos el valor del parámetro: antes de la llamada al método, dentro del método y después de la ejecución del método. Entonces, el código se verá así:
@@ -2091,7 +2181,9 @@ public class TestClass
    -	Después de la llamada al método, el nombre es: usuario de prueba y el ID es: 1   
 
 
-- Como sabemos que las variables de tipo de referencia contienen un puntero a los datos y no los datos reales, cuando pasamos el parámetro al método, en realidad compartimos una copia del puntero con el método y no el puntero real. Cuando el parámetro se reinicializa dentro del método, creamos un nuevo puntero que reemplaza la copia del puntero (recibida en la llamada al método). Entonces, los datos cambiaron dentro del método pero permanecieron iguales después de la ejecución del método. Ahora cambiemos el método para pasar el puntero de dato usando la palabra clave ref:
+- Las variables de tipo referencia contienen una dirección (puntero) que apunta a los datos, en lugar de contener los datos directamente. Cuando pasamos una variable de este tipo a un método sin la palabra clave ref, lo que en realidad se pasa es una copia de la dirección, no la dirección original.
+- Si dentro del método reasignamos esa variable, lo que hacemos es cambiar la copia de la dirección para que apunte a otro objeto, pero la dirección original fuera del método sigue apuntando al mismo objeto. Como resultado, cualquier cambio hecho al nuevo objeto dentro del método no afecta al objeto original fuera del método.
+- Si ahora cambiamos el método para usar la palabra clave ref, en lugar de pasar una copia de la dirección, pasamos la dirección original. Esto significa que cualquier cambio que hagamos en el puntero dentro del método, como reasignarlo a otro objeto, también afectará fuera del método:
 
 
 ```csharp
@@ -2125,10 +2217,10 @@ public static void GetData(ref TestClass testClass)
 
 
 :::tip Observación
-- Esta vez, los valores también cambiaron después de la ejecución del método. La razón es que esta vez compartimos el puntero real con el método y no su copia. 
-- Entonces, los cambios en el puntero (mediante la reinicialización de TestClass dentro del método) actualizaron el puntero original (instancia de testClass en el método principal).
-- Entonces se imprimieron nuevos valores después de la ejecución del método. Esto es lo que dice msdn, es decir, la palabra clave ref hace que un argumento se pase por referencia, no por valor.
-- El efecto de pasar por referencia es que cualquier cambio en el parámetro del método llamado se refleja en el método que llama.
+- Esta vez, los valores también cambiaron después de la ejecución del método. La razón es que, al usar la palabra clave ref, compartimos el puntero real con el método, no una copia del mismo.
+- Por lo tanto, cuando el puntero se modifica dentro del método (por ejemplo, al reinicializar un objeto TestClass), esa modificación afecta al puntero original. Esto significa que los cambios realizados dentro del método se reflejan en la instancia original de TestClass en el método principal.
+- Al final, se imprimieron nuevos valores porque, al pasar el argumento con ref, cualquier cambio hecho en el método se refleja en el valor original.
+- Como explica la documentación de MSDN, la palabra clave ref hace que un argumento se pase por referencia, no por valor. Pasar un argumento por referencia significa que cualquier cambio hecho en el parámetro dentro del método será visible también fuera del método.
 :::
 
 
@@ -2153,9 +2245,8 @@ public static void GetData(ref TestClass testClass)
 
 
 #### 3- ¿Cuándo es útil?
-- Debe utilizar los parámetros ref cuando desee pasar algunos valores a la función y espera que la función modifique o actualice los valores y se los devuelva. 
-- Debo utilizar los parámetros out, cuando no queremos pasar ningún valor a la función y esperamos que la función actualice la variable y devuelva un valor.
-- Entonces la palabra clave ref se usa para pasar datos en forma bidireccional y la palabra clave out se usa para pasar los datos de forma  unidireccional, es decir, devolver los datos.
+- Debes utilizar los parámetros ref cuando quieras pasar valores a una función y esperar que la función los modifique o actualice y te los devuelva. En este caso, la palabra clave ref permite una comunicación bidireccional, es decir, los datos se pueden enviar al método y también recibir de vuelta, modificados.
+- Por otro lado, debes utilizar los parámetros out cuando no quieras pasar ningún valor inicial a la función, pero esperes que la función asigne un valor a la variable y lo devuelva. Aquí, la palabra clave out se usa para pasar datos de forma unidireccional, ya que solo se espera que la función devuelva un valor.
 
 #### Resumen
 

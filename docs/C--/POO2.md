@@ -759,7 +759,7 @@ var p2 = new Person() { FirstName = "Grace", LastName = "Hopper" };
 - Imagina que estás en una tienda de zapatos que sólo vende una talla. Este enfoque de talla única no sería muy popular, ¿verdad? Afortunadamente, los zapatos vienen en tallas variadas para adaptarse a todos.
 - Del mismo modo, en el mundo de la programación, necesitamos herramientas que puedan adaptarse a diferentes tipos de datos, y ahí es donde entran las clases genéricas.
 - En el sentido más básico, una clase genérica en C# es una clase que puede trabajar con varios tipos de datos, sin tener que ser reescrita para cada uno.
-- Las clases genéricas nos permiten definir clases, interfaces y métodos con los llamados "parámetros de tipo”, que indican los tipos de datos reales que se usarán.
+- Las clases genéricas nos permiten definir clases, interfaces y métodos con "parámetros de tipo", que funcionan como variables que almacenan tipos de datos. Esto nos permite trabajar con diferentes tipos de datos sin duplicar código, lo que hace que nuestro código sea más flexible y reutilizable.
 - Una clase genérica en C# establece una estructura básica que puede usarse con diferentes tipos de datos. Por ejemplo, podrías tener una clase genérica "Lista" que puede manejar listas de enteros, listas de cadenas, listas de objetos de una clase personalizada, y así sucesivamente.
   
 #### Estructura de una clase genérica.
@@ -774,11 +774,9 @@ public class NombreClase<T>
 
 :::tip Observación
 - En este ejemplo, NombreClase es el nombre de la clase y &lt;T> es el parámetro de tipo.
-- Puedes pensar en T como una especie de variable que indica que tipo de dato se va a usar. 
+- Puedes pensar en T como una especie de variable que va a almacenar un tipo de dato.
 - En lugar de especificar un tipo de dato específico como int, string o double, usamos T para mantener nuestro código flexible. 
-- Cuando creamos una instancia de la clase genérica, sustituimos T con el tipo de datos que queremos utilizar.
-
-
+- Cuando creamos una instancia de la clase genérica, le asignamos un valor (tipo de dato) a T.
 :::
 
 #### Ejemplo
@@ -797,8 +795,8 @@ public class Caja<T>
 
 ```
 :::tip Observación
-- En este ejemplo, hemos creado una clase genérica llamada Caja que puede contener cualquier tipo de datos. El tipo de datos es representado por T, que se utiliza en todo el cuerpo de la clase.
-- Luego, cuando creamos una instancia de Caja, podemos especificar el tipo de datos que queremos que contenga.
+- En este ejemplo, hemos creado una clase genérica llamada Caja que puede contener cualquier tipo de dato. El tipo de dato es representado por T, que se utiliza en todo el cuerpo de la clase.
+- Luego, cuando creamos una instancia de Caja, podemos especificar el tipo de dato que queremos que contenga.
 
 :::
 
@@ -824,10 +822,10 @@ public class Caja<T>
 
 ```
 :::tip Observación
-- La clase tiene una propiedad "Contenido" que puede contener cualquier tipo de datos y un método "MostrarContenido" que imprime el contenido de la caja en la consola.
+- La clase tiene una propiedad "Contenido" que puede contener cualquier tipo de dato y un método "MostrarContenido" que imprime el contenido de la caja en la consola.
 :::
 
-- Cuando creamos una instancia de "Caja", especificamos el tipo de datos que queremos que contenga. Por ejemplo, podríamos crear una "Caja" para almacenar un string de esta manera:
+- Cuando creamos una instancia de "Caja", especificamos el tipo de datos que va a tener "T". Por ejemplo, podríamos crear una "Caja" para almacenar un string de esta manera:
 
 
 ```csharp
@@ -838,9 +836,17 @@ cajaDePalabras.MostrarContenido();  // Salida: El contenido de la caja es: Hola,
 ```
 
 :::tip  Observación
-- Dentro del símbolo “&lt;>” especificamos los tipos de datos  que van a ser los parámetros de tipos.
+- Dentro del símbolo “&lt;>” especificamos los tipos de datos  que van a almacenar los parámetros de tipos. En este caso "T" contiene el tipo de dato "string".
 - Luego del símbolo “&lt;>” vienen los paréntesis para invocar al constructor.
-
+- En este ejemplo la clase generica se volveria en algo como:
+```csharp
+private string contenido
+   public string Contenido
+    {
+        get { return contenido; }
+        set { contenido = value; }
+    }
+```
 
 :::
 
@@ -854,7 +860,7 @@ cajaDeNumeros.MostrarContenido();  // Salida: El contenido de la caja es: 42
 ```
 #### Múltiples tipos de datos
 
-- Las clases genéricas no se limitan a un solo tipo de datos. Pueden ser tan diversas como un equipo de superhéroes, cada uno con su propia habilidad especial.
+- Las clases genéricas no se limitan a un solo tipo de dato. Pueden ser tan diversas como un equipo de superhéroes, cada uno con su propia habilidad especial.
 - Puedes definir clases genéricas que trabajen con múltiples tipos de datos al mismo tiempo.
 - Aquí tienes un ejemplo de cómo podrías hacer esto:
 

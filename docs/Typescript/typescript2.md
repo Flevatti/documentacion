@@ -1508,6 +1508,61 @@ class Example {
 - [Definite Assignment Assertions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html#definite-assignment-assertions)
 
 :::
+
+## Promesa 
+- En TypeScript (y JavaScript), una promesa es un objeto que representa el resultado (o la falla) de una operación asíncrona. Las promesas permiten manejar código asíncrono de forma más organizada que los callbacks, facilitando la lectura y el manejo de errores.
+
+:::tip Código asíncrono o operación asíncrona
+- El código asíncrono es aquel que permite realizar tareas sin bloquear la ejecución del programa. En otras palabras, el programa puede continuar ejecutándose mientras una operación (como una solicitud a un servidor, una lectura de archivo, etc.) se está llevando a cabo en segundo plano. Cuando esa operación asíncrona termina, el programa es notificado y puede actuar sobre el resultado.
+:::
+
+#### ¿Cómo funcionan las promesas?
+- Una promesa puede estar en uno de estos tres estados:
+  -	Pendiente (Pending): La operación asíncrona aún no ha terminado.
+  -	Cumplida (Fulfilled): La operación terminó con éxito.
+  -	Rechazada (Rejected): La operación falló.
+- Una promesa es creada con un constructor que recibe una función con dos parámetros:
+  -	Resolve(value): Esta función se usa para cambiar el estado de la promesa a "resuelta". Cuando se invoca resolve(), se indica que la operación se completó con éxito, y el valor que se pasa a resolve será el resultado de la promesa. Ese valor luego puede ser accedido por un then().
+  -	Reject(reason): Esta función se usa para cambiar el estado de la promesa a "rechazada". Esto indica que la operación falló, y el valor pasado a reject será la razón o el error que causó la falla. Este valor luego puede ser accedido por un catch().
+
+#### ¿Cómo se tipan las promesas?
+- En TypeScript, puedes especificar el tipo de dato que devolverá una promesa cuando este en estado “resuelta” utilizando el tipo Promise&lt;T>, donde T es el tipo de dato que la promesa devolverá cuando sea cumplida.
+- T es el tipo de dato del parámetro “value” de Resolve().
+#### ¿Para qué sirve?
+- Las promesas son útiles para manejar tareas asíncronas como operaciones de red (peticiones HTTP), temporizadores, lectura/escritura de archivos, entre otros. Ayudan a evitar el "callback hell" (cuando los callbacks se anidan mucho) y permiten estructurar el código de manera más limpia y entendible.
+- Ejemplo básico de una promesa:
+```js
+function fetchData(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true; // Simular si la operación tiene éxito o falla.
+      
+      if (success) {
+        resolve("Datos obtenidos correctamente.");
+      } else {
+        reject("Error al obtener los datos.");
+      }
+    }, 2000); // Simula una operación que tarda 2 segundos.
+  });
+}
+
+// Usar la promesa
+fetchData()
+  .then((result: string) => {
+    console.log(result); // "Datos obtenidos correctamente."
+  })
+  .catch((error: string) => {
+    console.error(error); // "Error al obtener los datos."
+  });
+
+```
+:::tip Observación
+-  fetchData(): Esta función retorna una promesa que se resolverá o rechazará después de 2 segundos.
+-  resolve: Si la operación es exitosa, se devuelve un valor de tipo string.
+-  reject: Si la operación falla, se devuelve un mensaje de error.
+-  then(): Aquí manejas el resultado de la promesa cuando es cumplida.
+-  catch(): Aquí manejas cualquier error si la promesa es rechazada.
+:::
 ## Seguir aprendiendo
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Cursos de Typescript](https://learn.microsoft.com/es-es/training/browse/?terms=typescript)

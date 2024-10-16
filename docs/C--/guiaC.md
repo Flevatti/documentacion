@@ -286,8 +286,8 @@ anExample.ExampleMethod(3, optionalint: 4);
 
 ## Tipos de datos
 - Las variables pueden ser de diferentes tipos, como texto, números enteros, números decimales, valores booleanos, etc.
-- Por lo tanto, necesitamos contenedores de diferentes tipos, ya que no ocupa el mismo espacio un número 10, que un número así de grande: 1039039046050556546456.
-- El poder manejar diferentes tipos de variables o contenedores nos va a servir para optimizar al máximo el espacio de la memoria del ordenador. ¿Para qué utilizar con un valor 10 una caja en la que cabe un número así 1039039046050556546456?
+- Por lo tanto, necesitamos contenedores(cajas) de diferentes tipos(tamaño), ya que  un número como 10 ocupa menos espacio que un número muy grande, como 1,039,039,406,050,556,446,456.
+- El poder manejar diferentes tipos de variables o contenedores nos va a servir para optimizar al máximo el espacio de la memoria del ordenador. ¿Para qué almacenar el valor 10 en una caja en la que cabe un número  1039039046050556546456?
 - Ahora imagina un camión de mudanzas. Este representa la memoria RAM. El tamaño del camión es finito, por lo tanto, si no se aprovecha bien el espacio, se desperdicia.
 
 
@@ -296,13 +296,13 @@ anExample.ExampleMethod(3, optionalint: 4);
 #### Hay dos categorias según el tipo de dato
 #### 1- Integrados
 - Los tipos de datos primitivos en C# son objetos en el espacio de nombres System.
-- Estos representan números enteros, valores de punto flotante, expresiones booleanas, caracteres de texto, valores decimales y otros tipos de datos. También hay tipos string y object integrados.
+- Estos representan números enteros o decimales, expresiones booleanas, caracteres de texto, valores decimales y otros tipos de datos. También hay tipos string y object integrados.
 - [Más información.](https://learn.microsoft.com/es-es/dotnet/csharp/language-reference/builtin-types/built-in-types)
 ![Primitivos](https://www.programacionfacil.org/images/cursos/c_sharp/xtipos_datos_c_sharp.png.pagespeed.ic.TRum5Bpa2G.webp)
 
 #### 2- Personalizados
-- Puedes usar las palabras clave : struct , class , interface , enum y record para crear sus propios tipos de datos personalizados.
-- .NET te ofrece una colección de tipos personalizados que puede usar en sus propios programas.
+- Puedes usar las palabras clave : struct , class , interface , enum y record para crear tus propios tipos de datos personalizados.
+- .NET te ofrece una colección de tipos personalizados que puede usar en tus propios programas.
 
 
 
@@ -311,21 +311,37 @@ anExample.ExampleMethod(3, optionalint: 4);
 
 
 #### 1- Tipos de valor
-- Son aquellos tipos de datos que representan valores concretos, como números enteros, números de punto flotante, caracteres, etc. - Algunos ejemplos de tipos de valor en C# son int, float, double, char, etc.
-- Almacenan directamente el valor de un objeto en la memoria y cada variable tiene una copia independiente del valor.
+- Almacenan directamente el valor en la memoria y cada variable tiene una copia independiente del valor.
+- Los tipos de valor almacenan directamente sus datos en la memoria. Cada variable de tipo de valor tiene su propia copia de los datos, lo que significa que no hay compartición entre diferentes variables. Si se asigna un tipo de valor a otra variable, se crea una copia independiente.
+- Los tipos de valor son como cajas individuales que guardan sus propios datos. Cada vez que creas una nueva caja (variable), obtienes una copia separada. Por ejemplo, si tienes una caja con el número 10 y luego haces una copia de esa caja, la nueva caja tendrá también el número 10, pero son dos cajas distintas. Si cambias el número en una, no afectará a la otra.
+- Los tipos de valor en C# incluyen:
+   - Números enteros: int, long, short, byte
+   - Números decimales: float, double, decimal
+   - Booleanos: bool
+   - Caracteres: char
+   - Estructuras: struct
+
+
+
 
 
 #### 2- Tipos de referencia:
-- Son aquellos tipos de datos que representan referencias a objetos en memoria, como cadenas, arreglos, clases, etc.
--  Algunos ejemplos de tipos de referencia en C# son string, object, dynamic, etc.
+- Los tipos de referencia almacenan una referencia (o dirección de memoria) a los datos en lugar de los datos en sí. Esto significa que múltiples variables pueden referirse al mismo objeto en memoria. Si se modifica el objeto a través de una variable, los cambios serán visibles a través de todas las variables que referencian ese objeto. Los tipos de referencia en C# incluyen:
+- Los tipos de referencia en C# incluyen:
+   - Cadenas: string
+   - Arreglos: Array
+   - Clases: class
+   - Delegados: delegate
+   - Interfaces: interface
 - Son aquellos que se almacenan en la memoria dinámica (RAM) y se accede a ellos a través de una referencia. Esto significa que, en lugar de almacenar directamente el valor de un objeto en la memoria, se almacena una referencia a ese objeto.
-- Los tipos de datos por referencia incluyen clases, arreglos, delegates y objetos. 
 - Cuando se asigna una referencia a un objeto a otra variable, ambas variables apuntan al mismo objeto en la memoria, por lo que los cambios realizados en una variable se reflejarán en la otra.
+- Los tipos de referencia son como un grupo de personas que comparten un mismo mapa. Si una persona realiza una marca en el mapa, todas las demás que tienen acceso al mismo mapa verán esa marca. Por ejemplo, si una persona tiene un objeto de tipo string que contiene "Hola", y otras personas también están mirando el mismo mapa, si una de ellas cambia el contenido a "Hola, mundo", todas las personas verán "Hola, mundo".
+
 
 
 
 :::tip info
-- [Explicación en javascript](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
+- [Explicación en javascript](https://flevatti.github.io/documentacion/docs/Javascript/objeto#por-valor-vs-por-referencia)
 - [El sistema de tipos de C#](https://learn.microsoft.com/es-es/dotnet/csharp/fundamentals/types/)
 - [Los tipos de datos de C# y las variables](https://www.programacionfacil.org/cursos/c_sharp/c_sharp_capitulo_3_los_tipos_de_datos_y_variables.html)
 - [Operadores, tipos de datos, variables en C# - Programación en C#. Net con Visual Studio 2013 (3-25)](https://www.incanatoit.com/2014/11/operadores-tipos-de-datos-variables-programacion-csharp-net.html)
@@ -340,9 +356,19 @@ anExample.ExampleMethod(3, optionalint: 4);
 :::
 
 ## Struct
+- Un struct en C# es una estructura de datos que se parece a la de una clase. Se utiliza para representar objetos que contienen datos relativamente simples y que no necesitan la flexibilidad de una clase (como herencia o métodos complejos como el polimorfismo).
 - Funcionan de la misma manera que las clases.
 - Es un [tipo de valor](#1--tipos-de-valor) que puede encapsular datos y funcionalidad relacionada.
 - También puede tener miembros estáticos.
+
+#### Características principales de un struct en C#
+1.	Tipos por valor: Los structs se almacenan directamente en la pila (stack), lo que los hace más rápidos de crear y destruir en comparación con los objetos de tipo referencia (que se almacenan en el heap).
+2.	Inmutabilidad recomendada: Aunque los structs pueden ser mutables (sus campos pueden cambiar), generalmente es una buena práctica que los structs sean inmutables (readonly) para evitar problemas de rendimiento y errores en la copia.
+3.	No admiten herencia: Los structs no pueden heredar de otros structs o clases, ni pueden ser clases base de otros structs o clases. Sin embargo, todos los structs heredan implícitamente de System.ValueType, que a su vez hereda de Object.
+4.	Adecuados para datos pequeños: Se recomienda usar structs cuando se tienen pequeñas cantidades de datos que no requieren comportamientos complejos. Para objetos más grandes y complejos, es preferible usar una clase.
+5. Aunque puedes tener constructores en un struct, es importante recordar que un struct siempre tiene un constructor por defecto (sin parámetros), incluso si no lo defines explícitamente.
+6. En un struct no puedes tener un constructor que no inicialice todos los campos.
+
 
 #### Ejemplo
 ```csharp
@@ -365,7 +391,68 @@ public struct Coords
 Se crean “instancias” con el new , como si fuera una clase.
 :::
 
+#### Ejemplo
 
+```csharp
+public struct Punto
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+
+    public Punto(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public void MostrarPunto()
+    {
+        Console.WriteLine($"Punto: ({X}, {Y})");
+    }
+}
+
+```
+:::tip Observación
+- Se definen igual que una clase, solo que con la palabra clave “struct” en lugar de “class”.
+:::
+
+
+```csharp
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Creación de un struct Punto
+        Punto punto1 = new Punto(5, 10);
+
+        // Copiamos el contenido de punto1 a punto2
+        Punto punto2 = punto1;
+
+        // Cambiamos el valor de X en punto2
+        punto2.X = 20;
+
+        // Mostramos ambos puntos para ver las diferencias
+        punto1.MostrarPunto(); // Muestra: Punto: (5, 10)
+        punto2.MostrarPunto(); // Muestra: Punto: (20, 10)
+    }
+}
+
+```
+:::tip Observación
+- Puedes crear instancias de un struct usando la palabra clave new, de manera similar a cómo lo harías con una clase.
+:::
+
+- A diferencia de las clases, en los structs puedes omitir el uso de new y aun así crear una instancia. Si omites new, no se llama al constructor, y los campos del struct deben inicializarse manualmente antes de usarlos, de lo contrario tendrás un error.
+- Ejemplo de creación sin new:
+```csharp
+
+Punto punto2;
+punto2.X = 3;
+punto2.Y = 7;
+
+Console.WriteLine($"Punto 2: X = {punto2.X}, Y = {punto2.Y}");
+
+```
 #### Diferencias
 #### 1- Diferentes tipos
 - Las structs son value types (tipos por valor), mientras que las clases son reference types (tipos por referencia).
@@ -374,6 +461,113 @@ Se crean “instancias” con el new , como si fuera una clase.
 - En el caso del Stack (o pila de llamadas) cabe destacar que su ejecución es inmediata, controlada por la CPU. Es muy eficiente y rápido. Funciona bajo el concepto de LIFO (last in first out), de ahí su rapidez y eficiencia.
 - El Heap (o almacenamiento libre) es una enorme pieza de memoria que el sistema puede solicitar reservar un trocito para su uso (mediante alloc). Añadir o borrar memoria del heap es un proceso más costoso y pesado.
 
+#### Ref struct
+- Las ref struct (estructuras de referencia) fueron introducidas en C# 7.2. Son un tipo especial de estructura que se utiliza principalmente para manejar la memoria y el rendimiento de manera más eficiente, especialmente en escenarios donde se requiere el uso de datos en stack (pila) en lugar de heap (montículo).
+#### ¿Qué son las ref struct?
+- Una ref struct es una estructura que:
+   1.	Se almacena en la pila (stack):
+      - A diferencia de las estructuras normales, que pueden ser almacenadas en el heap cuando se utilizan como parte de una clase, las ref struct siempre se almacenan en la pila. Esto les permite tener un ciclo de vida más corto y reducir la presión sobre el recolector de basura.
+   2.	No se puede utilizar en campos de tipos de referencia:
+      - No se puede usar una ref struct como campo en una clase, ni como parte de un tipo que esté en el heap. Esto significa que su uso está restringido a contextos donde se garantiza que no se copiarán innecesariamente o se mantendrán en el heap.
+   3.	Se utilizan para trabajar con datos de forma eficiente:
+      - Son útiles para trabajar con datos que necesitan ser manejados de manera rápida y eficiente, como al implementar ciertas operaciones en Span&lt;T> y ReadOnlySpan&lt;T>. Estas estructuras permiten un acceso rápido y seguro a datos en memoria sin la sobrecarga de asignación de heap.
+- Las ref struct en C# tienen varias restricciones específicas que aseguran que se utilicen correctamente y que aprovechen sus ventajas de rendimiento. Aquí están las principales restricciones:
+   -  No pueden ser utilizadas como campos de tipos de referencia:
+      -	No puedes declarar una ref struct como un campo en una clase (tipo de referencia). Esto significa que no se pueden almacenar en el heap. Solo pueden ser utilizados en el contexto de una función o como parte de otras estructuras de valor.
+   -  No pueden ser asignadas a una variable de tipo de referencia:
+      -	No se pueden hacer boxing (encapsulación de un valor en un tipo de referencia) con ref struct. Esto significa que no puedes convertir una ref struct en un tipo de referencia, lo que evitaría su uso ineficiente en el heap.
+   -  No pueden ser utilizadas como elementos de un array:
+      -	No puedes crear un arreglo de ref struct. Esto significa que no puedes tener un ref struct[]. La razón detrás de esto es que los arreglos se almacenan en el heap, y las ref struct no deben ser movidas a ese tipo de almacenamiento.
+   - No pueden ser utilizadas como parámetros de tipo de referencia:
+      -	No se pueden pasar como argumentos a métodos que esperan un tipo de referencia. Las ref struct deben ser pasadas por valor y no pueden ser utilizadas en contextos donde se espera una referencia.
+   -  No pueden tener destructores:
+      -	No puedes definir destructores en ref struct. Esto se debe a que las ref struct no se gestionan a través del recolector de basura, y no necesitan tener un destructor para limpiar recursos.
+
+
+#### Ejemplo
+- Aquí tienes un ejemplo simple de una ref struct:
+```csharp
+public ref struct Point
+{
+    public int X;
+    public int Y;
+
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+}
+
+// Uso de ref struct
+Point p1 = new Point(10, 20);
+
+```
+#### Diferencia entre ref struct y struct
+##### Almacenamiento en memoria
+-	struct:
+      -	Se pueden almacenar en la pila o en el heap. Si se utilizan como variables locales, se almacenan en la pila, pero si se declaran como campos dentro de una clase (tipo de referencia), se almacenan en el heap.
+-	ref struct:
+      -	Siempre se almacenan en la pila. No pueden ser utilizados en el heap, lo que asegura que su ciclo de vida esté controlado y sea más eficiente en términos de gestión de memoria.
+##### Restricciones de uso
+-	struct:
+      - Pueden ser utilizadas como campos en clases y pueden ser asignadas a variables de tipo de referencia (pueden ser sujetas a boxing).
+-	ref struct:
+      - Tienen varias restricciones:
+         -	No pueden ser utilizados como campos en tipos de referencia (clases).
+         -	No se pueden asignar a variables de tipo de referencia (no se pueden hacer boxing).
+         -	No pueden ser utilizados en arreglos.
+         -	No pueden ser pasados como parámetros de tipo de referencia a métodos.
+         -	No pueden tener destructores.
+##### Propósito y uso
+-	struct:
+      - Son útiles para representar datos pequeños y simples. Son tipos de valor, lo que significa que se copian cuando se pasan a métodos o se asignan a otras variables. Se utilizan comúnmente para representar entidades simples, como puntos en un espacio 2D o colores.
+-	ref struct:
+      -	Se utilizan principalmente para optimizar el rendimiento y el manejo de memoria en situaciones donde es crítico evitar copias innecesarias. Son útiles para trabajar con datos en pila de forma eficiente, especialmente en operaciones que involucran Span&lt;T> y ReadOnlySpan&lt;T>, donde el acceso a la memoria debe ser rápido y seguro.
+##### Boxing y Unboxing
+-	struct:
+      - Permiten el boxing, lo que significa que se pueden convertir en un tipo de referencia. Esto puede introducir sobrecarga y afectar el rendimiento.
+-	ref struct:
+      -	No permiten el boxing, lo que asegura que no se conviertan en un tipo de referencia y, por lo tanto, siempre se mantengan en la pila.
+
+
+#### Struct genericos
+- Puedes usar tipos genéricos con struct. Al igual que las clases genéricas, los struct genéricos te permiten definir estructuras que pueden trabajar con diferentes tipos de datos. Aquí hay un ejemplo básico de cómo se define y usa un struct genérico:
+```csharp
+public struct MiStructGenerico<T>
+{
+    public T Valor { get; set; }
+
+    public MiStructGenerico(T valor)
+    {
+        Valor = valor;
+    }
+
+    public void MostrarValor()
+    {
+        Console.WriteLine(Valor);
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        MiStructGenerico<int> structEntero = new MiStructGenerico<int>(10);
+        structEntero.MostrarValor();  // Salida: 10
+
+        MiStructGenerico<string> structCadena = new MiStructGenerico<string>("Hola");
+        structCadena.MostrarValor();  // Salida: Hola
+    }
+}
+
+```
+:::tip Observación
+- En este caso, MiStructGenerico&lt;T> es un struct genérico donde T es el tipo de dato.
+- Puedes usar cualquier tipo de dato en lugar de T al crear una instancia de esta estructura genérica.
+
+
+:::
 
 ## Colecciones genericas
 ### List&lt;T>
@@ -535,6 +729,16 @@ System.Console.WriteLine("¡Hola mundo!");
 - [C# - Namespaces](https://www.tutorialspoint.com/csharp/csharp_namespaces.htm)
 
 :::
+
+#### Sin espacio de nombre
+- En C# todos los tipos (clases, estructuras, interfaces, etc.) que se declaran sin un namespace explícito pertenecen al mismo espacio de nombre predeterminado. Esto puede tener algunas implicaciones importantes.
+##### Espacio de Nombres Predeterminado
+-	Sin Declaración de namespace:
+      -	Cuando no especificas un namespace en tus archivos, los tipos definidos en ellos se colocan en el espacio de nombre predeterminado, que es simplemente un espacio de nombre vacío.
+      -	Por lo tanto, todos los tipos definidos en diferentes archivos que no tienen namespace declarado se encuentran en el mismo espacio de nombre, lo que puede llevar a conflictos de nombres si hay tipos con el mismo nombre.
+      - Cuando todos los tipos están en el mismo espacio de nombre, efectivamente puedes acceder a sus miembros (propiedades, métodos, etc.) sin especificar un prefijo de espacio de nombre. Esto facilita el acceso a los diferentes tipos y sus funcionalidades dentro del mismo contexto. Sin embargo, al no tener separación mediante namespace, se pueden presentar conflictos de nombres si tienes más de un tipo (clase, estructura, etc.) con el mismo nombre.
+
+
 
 ## Valores especiales
 #### NaN

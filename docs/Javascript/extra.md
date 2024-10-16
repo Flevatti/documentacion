@@ -181,9 +181,11 @@ observable.subscribe(observer)
 
 ```
 :::tip Observación
-- No es una coincidencia que el callback de create sea un subscriber y que un Observable tenga un método subscribe. De hecho, cuando un Observer se subscribe a un Observable, el "subscriber" es ejecutado inmediatamente.
-
-
+- Cuando llamas a `observable.subscribe(observer)`, ocurren las siguientes cosas:
+  - Suscripción al flujo de datos: El observable comienza a emitir valores al observador. Cada vez que el observable emite un valor con next, la función next del observador se ejecuta.
+  - Recibir valores: El observer recibe cada valor emitido por el observable y ejecuta la función next, pasando el valor emitido como argumento.
+  - Manejar errores: Si el observable emite un error usando el método error, el observer ejecutará su función error. Esto detiene la emisión de más valores.
+  - Finalizar la emisión: Cuando el observable termina su emisión y ya no habrá más valores, se ejecuta el método complete. Esto indica que el flujo de datos ha finalizado correctamente.
 :::
 
 #### Abortando subscripciones
@@ -279,6 +281,9 @@ clicks$.subscribe({
 ```
 :::tip Observación
 - En este caso, el Observable se completará después de 5 clics, y se ejecutará el método complete del suscriptor.
+- La función pipe permite añadirle operadores  al observable. En este caso, se utiliza el operador take(5), que limita el número de emisiones del observable.
+- take(5): Este operador se asegura de que el observable solo emita 5 valores (es decir, solo responderá a los primeros 5 clics en el botón). Después de esos 5 clics, el observable completará su ejecución y ya no emitirá más valores, ignorando clics futuros.
+
 
 :::
 
@@ -496,3 +501,29 @@ p.getWeight();
 
 
 :::
+
+## NaN
+- NaN en JavaScript significa "Not-a-Number" (no es un número) y es un valor especial que se utiliza para indicar que no es un número válido. 
+- NaN puede aparecer en varias situaciones.
+
+#### Operaciones matemáticas inválidas
+- Realizar una operación cuyo resultado no puede convertirse en un número:
+```js
+let result = 0 / 0; // NaN, porque dividir cero entre cero no tiene un valor numérico definido.
+```
+
+#### Convertir cadenas que no son números
+- Usar parseInt o parseFloat en una cadena que no se puede convertir a un número:
+```js
+let value = parseInt("abc"); // NaN, porque "abc" no es un número.
+```
+#### Resultados de operaciones no numéricas
+- Cualquier operación matemática que involucre NaN también resultará en NaN:
+
+```js
+let value = NaN + 5; // NaN, porque cualquier operación con NaN resulta en NaN.
+```
+
+#### ¿Cómo comprobar si un valor es NaN?
+- Para verificar si un valor es NaN, puedes usar la función isNaN(), que devuelve true si el valor es NaN. Sin embargo, hay una forma más precisa de comprobarlo:
+  - Usar Number.isNaN(), que solo devuelve true si el valor es realmente NaN y no coerciona otros tipos de datos.

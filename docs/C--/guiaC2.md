@@ -333,7 +333,7 @@ Mathematical halfValue = value => value / 2;
 ```
 
 :::tip Observación
-[Básicamente son parecidas a las funciones flechas de Javascript.](https://fedeleva.github.io/documentacion/docs/Javascript/basico-2/#arrow-functions)
+[Básicamente son parecidas a las funciones flechas de Javascript.](https://flevatti.github.io/documentacion/docs/Javascript/basico-2#arrow-functions)
 
 :::
 
@@ -1662,8 +1662,8 @@ Tiene todos los métodos/propiedades/caracteristicas de las dos interfaces.
 ## Genérico
 
 #### Parametro de tipo genérico
-
-- Es un contenedor para un tipo de dato específico usado al crear una instancia de un objeto. Por convención, los parámetros de tipo genérico vienen prefijados con la letra T y deben ser únicos en la declaración para evitar conflictos de nombres en la implementación.
+- Funcionan igual que las [clases genericas](./POO2.md#clases-genéricas).
+- Es un contenedor que almacena un tipo de dato que se define al crear una instancia de un objeto. . Por convención, los parámetros de tipo genérico se nombran con la letra "T", aunque se puede usar cualquier otro nombre. Estos parámetros deben ser únicos dentro de su declaración para evitar conflictos de nombres en la implementación.
 - Por ejemplo:
 
 ```csharp
@@ -1775,7 +1775,7 @@ public class MiClase: Calc<int>
 
 #### 4- Static members
 
-- Lo miembros estáticos de clases genéricas requieren especial atención. Sólo se comparten miembros estáticos de una clase genérica con **una** instancia de la clase. Un ejemplo de esto es el siguiente código:
+- Los miembros estáticos de las clases genéricas requieren especial atención. Solo se conserva el valor de la primera instancia de dicha clase. Esto significa que todos los objetos de esa clase, independientemente de su tipo genérico, comparten el mismo valor estático. Este comportamiento puede generar confusiones si no se entiende bien cómo funcionan los miembros estáticos en las clases genéricas.
 
 ```csharp
 public class MiClase<T>	
@@ -1817,7 +1817,7 @@ public class MiClase<T>
 
 ##### Interfaces
 - Se pueden definir interfaces que tienen métodos con parámetros de tipo genérico.
-- Cuando una interfaz tiene una restricción en un parámetro de tipo, sólo se pueden utilizar los tipos que implementan la interfaz. 
+- Cuando una interfaz tiene una restricción en un parámetro de tipo, solo se pueden utilizar los tipos que implementan esa interfaz. Esto significa que cualquier tipo que se pase como parametro de tipo debe cumplir con la restricción de la  interfaz especificada.
 - Las clases que implementan un interfaz genérico pueden definirse de las siguientes formas:
 
 ```csharp
@@ -2693,6 +2693,164 @@ Console.WriteLine("{0} es R:{1} G:{2} B:{3}", color, colors.Item1, colors.Item2,
 - [C# Tuples](https://www.csharptutorial.net/csharp-tutorial/csharp-tuples/)
 :::
 
+#### Sintaxis Asignación de tuplas
+- La asignación de tuplas en C# permite desempaquetar los valores de una tupla en varias variables de una forma muy simple y directa. Es una característica introducida en C# 7.0 que facilita el trabajo con múltiples valores al permitir asignarlos a variables individuales de manera simultánea.
+- La asignación de tuplas consiste en descomponer o desempaquetar los elementos de una tupla en distintas variables en una única línea de código. En lugar de acceder a los elementos de una tupla por sus propiedades como Item1, Item2, etc., o por sus nombres, puedes directamente asignar los valores de la tupla a varias variables usando esta sintaxis.
+- Sintaxis:
+```csharp
+ (var1, var2, ..., varN) = (expr1, expr2, ..., exprN);
+```
+:::tip Observación
+-  A la izquierda del signo = defines las variables que recibirán los valores.
+-  A la derecha, defines la tupla o expresión que devuelve una tupla, cuyos elementos se asignarán a las variables en el orden definido (el valor de expr1 se asigna a var1 y asi…)
+:::
+##### Ejemplos de asignación de tuplas
+- Ejemplo 1: Asignación de dos variables desde una tupla.
+```csharp
+ (int x, int y) = (10, 20);  // Desempaqueta la tupla en las variables x e y
+
+Console.WriteLine(x);  // Salida: 10
+Console.WriteLine(y);  // Salida: 20
+
+```
+:::tip Observación
+- En este ejemplo, los valores 10 y 20 que están en la tupla (10, 20) se asignan a las variables x e y respectivamente.
+:::
+- Ejemplo 2: Asignación con retorno de método. Los métodos también pueden devolver tuplas, y puedes desempaquetarlas directamente en variables individuales:
+
+```csharp
+public static (int, string) GetDatos()
+{
+    return (42, "Hola Mundo");
+}
+
+var (numero, mensaje) = GetDatos();
+
+Console.WriteLine(numero);  // Salida: 42
+Console.WriteLine(mensaje); // Salida: Hola Mundo
+
+```
+:::tip Observación
+- Aquí, el método GetDatos() devuelve una tupla con un int y un string. Luego, esos valores se asignan directamente a las variables numero y mensaje.
+
+:::
+- Ejemplo 3: Ignorar algunos elementos en la asignación. Si no te interesa algún valor en la tupla, puedes usar el guion bajo (_) para ignorar elementos de la tupla:
+```csharp
+ (int x, _) = (5, 10);  // Ignora el segundo valor
+Console.WriteLine(x);  // Salida: 5
+
+```
+:::tip Observación
+- En este caso, el segundo valor (10) es ignorado y no se almacena en ninguna variable.
+:::
+- Ejemplo 4: Intercambio de valores con tuplas. Uno de los usos más comunes de la asignación de tuplas es para intercambiar valores entre variables sin usar una variable temporal:
+```csharp
+int a = 1;
+int b = 2;
+
+(a, b) = (b, a);  // Intercambia los valores de a y b
+
+Console.WriteLine(a);  // Salida: 2
+Console.WriteLine(b);  // Salida: 1
+
+
+
+```
+:::tip Observación
+- Este ejemplo muestra cómo intercambiar los valores de a y b de manera sencilla con la asignación de tuplas, sin necesidad de una variable auxiliar.
+
+:::
+
+#### Tupla implícita
+- La tupla implícita en C# se refiere a la capacidad de crear una tupla sin especificar explícitamente los tipos de sus elementos. Esto fue introducido en C# 7.0, donde la creación de tuplas se volvió mucho más sencilla y natural, gracias a la inferencia de tipos.
+- Una tupla implícita es aquella donde los tipos de los elementos son inferidos automáticamente por el compilador a partir de los valores asignados. Esto significa que no necesitas especificar los tipos de los elementos de la tupla, ya que C# deduce el tipo de cada valor en el momento de la creación.
+- Con la introducción de las tuplas implícitas en C# 7.0, ya no es necesario utilizar la clase Tuple&lt;T1, T2 , …> para crear y trabajar con tuplas.
+- Sintaxis de la tupla implícita:
+```csharp
+var tupla = (valor1, valor2, ..., valorN);
+```
+:::tip Observación
+-  Se usa var para dejar que el compilador determine los tipos de los valores.
+-  Los valores se agrupan usando paréntesis y comas, creando una tupla de elementos.
+:::
+##### Ejemplo básico de tupla implícita:
+```csharp
+var persona = ("John", 30);  // El compilador infiere que es una tupla de (string, int)
+
+Console.WriteLine(persona.Item1);  // Salida: John
+Console.WriteLine(persona.Item2);  // Salida: 30
+
+```
+
+#### Nombres de campos implícitos en tuplas
+- Aparte de la inferencia de tipos, también se introdujo la idea de nombres de campos implícitos. Cuando creas una tupla usando variables ya existentes, C# asigna los nombres de esas variables como nombres de los campos de la tupla:
+```csharp
+int edad = 30;
+string nombre = "John";
+
+var persona = (nombre, edad);  // La tupla tiene campos 'nombre' y 'edad'
+
+Console.WriteLine(persona.nombre);  // Salida: John
+Console.WriteLine(persona.edad);    // Salida: 30
+
+```
+:::tip Observación
+- En este caso, C# crea una tupla donde los nombres de los campos son los mismos que las variables que se usaron para crear la tupla.
+:::
+
+#### Ejemplos
+- Puedes usar tuplas implícitas para devolver múltiples valores desde un método sin especificar tipos explícitos:
+```csharp
+public static (string, int) GetPersona()
+{
+    return ("John", 30);
+}
+
+var persona = GetPersona();  // El compilador infiere los tipos
+Console.WriteLine(persona.Item1);  // Salida: John
+Console.WriteLine(persona.Item2);  // Salida: 30
+
+```
+- Como vimos en la asignación de tuplas, puedes usar tuplas implícitas para asignar múltiples valores a variables:
+```csharp
+var (nombre, edad) = ("John", 30);
+Console.WriteLine(nombre);  // Salida: John
+Console.WriteLine(edad);    // Salida: 30
+```
+#### Tupla Explícita
+- Una tupla explícita en C# es una tupla que se define especificando los tipos de sus elementos de manera clara y explícita. Esta forma de definir tuplas permite al programador tener control total sobre los tipos que contendrá la tupla.
+- La sintaxis para definir una tupla explícita es la siguiente:
+```csharp
+ (tipo1, tipo2, ..., tipoN) nombreTupla = (valor1, valor2, ..., valorN);
+```
+:::tip Observación
+- Donde tipo1, tipo2, ..., tipoN son los tipos de los elementos, y valor1, valor2, ..., valorN son los valores que se asignan en el orden especificado (el valor de valor1 debe ser de tipo tipo1 y asi..)
+:::
+
+- Ejemplo de tupla explícita:
+```csharp
+// Definición de una tupla explícita
+public static (string, int) GetPersona()
+{
+    return ("John", 30); // Retorna una tupla explícita
+}
+
+// Uso de la tupla explícita
+public static void Main()
+{
+    (string nombre, int edad) = GetPersona(); // Asignación de tupla explícita
+    Console.WriteLine($"Nombre: {nombre}, Edad: {edad}"); // Salida: Nombre: John, Edad: 30
+}
+
+```
+:::tip Observación
+-	La función GetPersona declara que devolverá una tupla explícita de tipo (string, int).
+-	Cuando llamamos a GetPersona, obtenemos una tupla explícita que se puede asignar a las variables nombre y edad.
+- Se diferencia de la tupla implícita porque en la explicita se especifican los tipos de datos que contienen la tupla:
+```csharp
+ (string, int) miTupla = ("Alice", 25); // Tupla explícita
+```
+:::
 
 ## Palabra clave Where
 -  El Where proporcionará(usará) cada elemento de un conjunto de datos como entrada y luego proporcionará la lógica que decide si el elemento es incluido (devuelve verdadero) o excluido (devuelve falso) del resultado final. Aquí hay un ejemplo básico:
@@ -2816,3 +2974,5 @@ foreach (var n in smallNumbers)
 - [C# Linq Where Method](https://www.tutorialspoint.com/chash-linq-where-method)
 - [where clause (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/where-clause)
 :::
+
+

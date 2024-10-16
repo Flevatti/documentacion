@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 12
 ---
 # API con .NET Core
 
@@ -245,7 +245,7 @@ namespace MiApp_API.Controllers
 
 
 ## Primer Endpoint (url)
-- Una API normalmente retorna datos.
+- Una API normalmente gestiona solicitudes.
 - Un modelo contiene los “datos” que manejaría una Base de datos.
 - En el proyecto, creamos la carpeta Modelos y adentro una Clase llamada Villa.
 - La clase quedaría asi:
@@ -295,8 +295,10 @@ namespace MiApp_API.Controllers
 ```
 
 :::tip Observación
-- Creamos un Endpoint que a simple vista es un método llamado GetVillas() que es publico y devuelve una lista.
-- Como es un metodo Get , el nombre del  metodo arranca con “Get”
+- Creamos un [Endpoint](../Node/extra02.md#endpoint).
+- Cada método dentro de una clase que representa un controlador es un endpoint.
+- Lo que devuelve el método es la "respuesta" de la "petición" (por lo general .NET lo añade al body). Por lo tanto cada método se encarga de gestionar una petición.
+- Como es un metodo Get , el nombre del  metodo arranca con “Get”.
 :::
 
 #### Iniciamos
@@ -507,22 +509,23 @@ namespace MiApp_API.Controllers
 
 #### Al ejecutarlo, nos tira un error.
 - El error se debe a que tenemos dos endpoints (métodos) que apuntan a la misma url y tienen el mismo verbo (Get).
-- Para solucionar esto debemos distinguirlos.  Para esto vamos a especificar que el nuevo endpoint (el que creamos recien) tiene el “id” en la ruta.
-- De esta manera modificamos el endpoint y pasamos la id por una query:
+- Para solucionar esto debemos distinguirlos.  Para esto vamos a especificar una nueva URL para  el nuevo endpoint (el que creamos recien)  y al mismo tiempo decirle que espera recibir una "id" en la query:
+
 
 
 ```csharp
-   [HttpGet("id")]
-    public VillaDto GetVilla(int id)
+    [HttpGet("id")]
+    public VillaDto GetVilla([FromQuery]  int id)
     {
         return VillaStore.villaList.FirstOrDefault(v => v.Id == id);
     }
 
 ```
 :::tip Observación
-- El parámetro posicional del atributo HttpGet indicara cual es la ruta(endpoint) para solicitar la acción.
+- El parámetro del atributo [HttpGet] especifica la URL del endpoint, y esta siempre se concatena con la URL definida en el atributo [Route] del controlador o en la ruta configurada globalmente en ASP.NET Core.
 - Entonces para acceder a un endpoint con [HttpGet(“AA/BB/….”) , se utilizara la ruta /api/nombreController/AA/BB/….
-- Esto lo puede aplicar con el resto de atributos que representen un verbo.
+- Esto lo puede aplicar con el resto de atributos [HttpVERBO].
+- [FromQuery]  Indica que el valor del argumento  se obtiene de la query. En este ejemplo, se espera que el parámetro id se reciba como parte de la query string de la URL en la forma ?id=X.
 :::
 
 
@@ -533,30 +536,14 @@ namespace MiApp_API.Controllers
 - El query es una “variable” de la url que contiene un valor. Es el parámetro que se le pasa al método.
 - Las query van despues del signo “?”.
 - Ejemplo:
-   - Si entramos a la url: /api/Villa/id:int?id=1
+   - Si entramos a la url: https://localhost:7277/api/Villa/id?id=1
    - El valor de id es 1
-   - Si entramos a la url: /api/Villa/id:int?id=2
+   - Si entramos a la url: https://localhost:7277/api/Villa/id?id=2
    - El valor de id es 2
 :::
 
 
-- Incluso podemos especificar [el tipo de dato](https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2#route-constraints):
 
-```csharp
-  [HttpGet("id:int")]
-        public VillaDto GetVilla(int id)
-        {
-            return VillaStore.villaList.FirstOrDefault(v => v.Id == id);
-        }
-
-```
-
-
-:::warning
--  “id:int” va entre llaves “{}” para que funcione la validación, pero para mostrar un ejemplo de un endpoint con query lo dejamos asi.
-
-
-:::
 
 ## Código de estado
 
@@ -699,7 +686,7 @@ namespace MiApp_API.Controllers
 
 :::tip Observación
 - El atributo [HttpPost] especifica que es una acción POST (crea algo).
-- Con el atributo [FromBody] especificamos que el valor del argumento lo recibimos en el body(contenido) de la solicitud/petición.
+- Con el atributo [FromBody], especificamos que el argumento contiene como valor el cuerpo de la solicitud (contenido).
 - BadRequest(valor) devuelve el código de estado 404 y un valor (en el contenido de la respuesta).
 - StatusCode(Código_de_estado) devuelve el código de estado que le pasamos. Recibe como parametro el mismo valor que el parámetro posicional del atributo ProducesResponseType.
 
@@ -898,8 +885,8 @@ public ActionResult<VillaDto> crearVilla([FromBody] VillaDto villaDto) {
 
 :::tip Observación
 - En este caso utilizamos IActionResult porque no necesitamos retornar/devolver el modelo/Dto (una instancia de la clase).
-- Usamos el atributo [HttpDelete("{id:int}")] para indicar que va a recibir una “id” en la url como parámetro(params) y no como query.  Si usamos las llaves ({}) es porque es una parte de la url dinámica (params).
-- El método NoContent() devuelve el código de estado 204 (El servidor realizo con éxito la petición que pediste pero no te devolvió contenido).
+- Usamos el atributo [HttpDelete("{id:int}")] para indicar que va a recibir una “id” en la url  como parámetro(params) de tipo int y no como query.  Si usamos las llaves ({}) es porque es una parte de la url dinámica (params).
+- El método NoContent() devuelve el código de estado 204 (El servidor procesó con éxito la solicitud del cliente pero no necesita devolver ningún contenido).
 :::
 
 #### Lo ejecutamos y probamos con params (parámetros).
@@ -908,6 +895,7 @@ public ActionResult<VillaDto> crearVilla([FromBody] VillaDto villaDto) {
 :::tip Parametro
 - Es una “variable” que se ubica en la URL. No es lo mismo que las query (Se ubican después del signo “?”).
 - Lo que se define entre llaves {} en el parametro posicional de los atributos HttpVERBO son los params (parámetros) de la url.
+- A su vez podemos [especificar el tipo de dato](https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2#route-constraints) de un param con la sintaxis : {nombreParam: tipoDeDato}
 - Estos se pueden utilizar en todos los atributos que representen un verbo.
 - Ejemplo:
    - [HttpGet("{nombrevariable}"]
@@ -2812,7 +2800,7 @@ namespace MiApp_API.Repositorio
 ```
 
 #### Agregarla como servicio
-- A la interfaz que creamos, debemos agregarla como servicio, para luego poder inyectarla en el controlador mediante el constructor (como hicimos con la mayoría de dependencias).
+- A la interfaz que creamos, debemos agregarla como servicio, para luego poder usarla(inyectarla) en el controlador mediante el constructor (como hicimos con la mayoría de dependencias).
 - En el Progam.cs:
 
 ```csharp
@@ -2833,9 +2821,8 @@ var app = builder.Build();
     - TService : Es el servicio que se debe agregar (Interfaz).
     - TImplementation: La implementación que se va a usar (La clase que implementa la interfaz).
 - El servicio (con la implementación especificada) se agrega en los constructores de los controladores.
-- Cuando la aplicación inicia, se invoca el constructor del controlador, con todos los servicios que agregamos como “parámetros” del constructor.
+- Cuando la aplicación inicia, se invoca el constructor del controlador, con todos los servicios que especificamos en el constructor. 
 - Cada parámetro del constructor es un servicio que agregamos, que luego se lo asignamos a una variable privada para su posterior uso.
-
 :::
 
 :::tip Métodos para agregar un servicio

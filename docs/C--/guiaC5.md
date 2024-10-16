@@ -4,9 +4,9 @@ sidebar_position: 10
 # Conceptos de "C#" - Parte 5
 
 ## Atributos
-- En C#, los atributos son etiquetas de metadatos asignadas al código, incluidas clases, tipos, métodos y campos. 
-- Los atributos son un mecanismo para agregar/asociar metadatos a un código, como instrucciones del compilador y otros datos sobre sus ensamblados, tipos de datos, métodos, propiedades, etc.
-- Usando la reflexión, puede examinar las etiquetas para cambiar comportamientos en su programa. 
+- En C#, los atributos son metadatos que se asignan a elementos del código, como clases, tipos, métodos y campos.
+- Sirven como un mecanismo para añadir información adicional sobre un elemento del código (es la definición de metadato), lo cual puede incluir instrucciones para el compilador, información sobre ensamblados o sobre métodos y propiedades. Estos metadatos permiten modificar el comportamiento del código sin alterar su lógica principal.
+-  A través de la reflexión, es posible inspeccionar estos atributos en tiempo de ejecución, lo que permite cambiar o ajustar el comportamiento del programa dinámicamente.
 
 
 #### Sintaxis
@@ -27,8 +27,8 @@ void Command()
 
 #### Cómo crear atributos
 - Para crear un atributo debemos crear una clase que herede de Attribute. Además, podemos especificar algunas propiedades utilizando el atributo AttributeUsage.
-- Con este atributo podemos indicar:
-   -	ValidOn: targets válidos para el atributo que vamos a crear.
+- Con este atributo podemos indicar (con parametros posicionales):
+   -	ValidOn: elementos válidos para el atributo que vamos a crear.
    -	AllowMultiple: nos indica si el atributo se puede especificar más de una vez para un mismo elemento. Por defecto false.
    -	Inherited: nos indica si el atributo lo pueden heredar las clases derivadas. Por defecto false.
 - Antes de seguir debemos hacer una diferenciación entre parámetros posicionales y parámetros con nombre:
@@ -41,7 +41,7 @@ void Command()
 
 #### Crear el atributo Display Name
 - En este ejemplo vamos a tener un solo parámetro posicional llamado DisplayName que será el texto a mostrar.
-- Para crear nuestro atributo DisplayName debemos crear una clase que herede de Attribute. Como vamos a añadirle este atributo a cada valor de enumerado le indicaremos que el target es Field:
+- Para crear nuestro atributo DisplayName debemos crear una clase que herede de Attribute. Como vamos a añadirle este atributo a cada valor de un enumerado le indicaremos que el ValidOn es Field:
 
 
 ```csharp
@@ -2580,15 +2580,734 @@ Tu código aquí
 
 :::tip Observación
 - Todo lo que esté dentro de las directivas será colapsable.
-:::
-
-- Ejemplo:
-
-![Ejemplo](https://n7b3p4s2.stackpathcdn.com/article/using-regions-to-improve-code-readability/Images/UsingRegnsImg1.gif)
-
-
-:::tip Observación
 - Todos los “textos en gris” son los nombres de la región. 
 - A través del nombre podés desplegar el código que contiene la región.
+:::
+
+
+
+
+
+
+## Usos del signo "?"
+#### Tipos de Valor Nullable
+- En C#, los tipos de valor (como int, double, bool) no pueden ser null de manera predeterminada. Sin embargo, al usar el signo ?, puedes declarar que un tipo de valor puede aceptar el valor null.
+- Ejemplo:
+```csharp
+int? optionalNumber = null; // El valor puede ser null o un número
+optionalNumber = 5;         // Ahora tiene un valor de 5
+
+```
+
+#### Tipos de Referencia Nullable
+- A partir de C# 8.0, con la introducción de los nullable reference types, puedes usar el signo ? para indicar que una referencia (por ejemplo, una variable de tipo string) puede ser null. Este comportamiento es opcional y puedes activarlo o desactivarlo en tu proyecto.
+- Ejemplo:
+```csharp
+string? optionalString = null; // Puede ser null
+optionalString = "Hello";      // Ahora tiene un valor
+```
+
+:::tip Observación
+- Cuando usas string?, estás diciendo que la variable puede contener un string o null. Si no usas el ?, el compilador asumirá que no debería ser null y mostrará advertencias si no lo cumples.
+:::
+#### Operador Condicional Null (?.)
+- El operador ?. se utiliza para acceder a miembros o propiedades de un objeto de manera segura, evitando una excepción NullReferenceException si el objeto es null. Si el objeto es null, la expresión se evalúa como null.
+- Ejemplo:
+```csharp
+Person? person = null;
+string? name = person?.Name; // Si person es null, name será null
+
+```
+:::tip Observación
+- En este caso, ?. se usa para verificar si person es null antes de intentar acceder a su propiedad Name.
+:::
+
+
+#### Operador Null-Coalescing (??)
+- El operador ?? se utiliza para proporcionar un valor predeterminado si una expresión es null. Esto es útil cuando quieres garantizar que una variable no sea null.
+- Ejemplo:
+```csharp
+string? name = null;
+string displayName = name ?? "Valor por defecto"; // Si name es null, se usa el valor por defecto
+
+```
+#### En Parámetros Opcionales
+- Aunque el signo ? no se usa directamente para especificar que un parámetro es opcional, puedes declarar un parámetro con un valor predeterminado, lo que hace que sea opcional al invocar el método.
+- Ejemplo:
+```csharp
+void PrintMessage(string message = "Mensaje por defecto")
+{
+    Console.WriteLine(message);
+}
+
+PrintMessage(); // Muestra: Mensaje por defecto
+PrintMessage("Hello"); // Muestra: Hello
+
+```
+:::tip Observación
+- Aquí, el parámetro message es opcional porque tiene un valor predeterminado asignado.
+:::
+
+
+## Como compila en C#
+- La compilación en C# es un proceso que convierte el código fuente en un programa ejecutable. A continuación, describiré cada paso del proceso, desde la escritura del código hasta la ejecución, incluyendo aspectos como using, métodos de extensión y otros elementos. Este proceso se realiza en varias etapas:
+
+#### 1- Escribir el código fuente
+- Al escribir un programa en C#, se suelen tener en cuenta varias estructuras y elementos:
+    -	using: Se utiliza para incluir espacios de nombres (namespaces) que contienen clases y métodos que se pueden utilizar en el código. Esto permite acceder a clases y métodos sin tener que usar el nombre completo del espacio de nombres.
+    -	Clases: Se definen con la palabra clave class y son la base de la programación orientada a objetos en C#. Contienen métodos, propiedades y otros miembros.
+    -	Métodos de Extensión: Son métodos estáticos que permiten agregar funcionalidad a tipos existentes sin modificar el tipo original. Se definen en una clase estática y el primer parámetro del método se precede con this.
+    -	Elementos Globales: A partir de C# 10, se pueden definir archivos de código globales que no requieren una clase envolvente y que pueden contener using, métodos, propiedades, etc.
+#### 2- Proceso de compilación
+- Antes de que el código se convierta en algo que la computadora puede ejecutar, el compilador  se asegura de que todo esté en orden:
+    - Lee los archivos: El compilador revisa todos los archivos de código en el proyecto. 
+    - Verificación de Importaciones: El compilador verifica qué bibliotecas/módulos (como System) estás utilizando con using. Esto significa que mira si tienes todo lo que necesitas para que tu código funcione. El compilador también verifica que las bibliotecas/módulos correspondientes a los espacios de nombres especificados estén disponibles en el proyecto. Si alguna falta, se generará un error de compilación.
+- Por último, convierte tu código a un formato intermedio llamado IL (Intermediate Language). Este formato es como un idioma que la computadora entiende, pero que aún no está listo para ejecutarse.
+##### ¿Qué pasa con los using?
+- Cuando el compilador procesa cada archivo de tu proyecto, busca todas las declaraciones de using que tiene. Esto incluye tanto las declaraciones normales (using EspacioDeNombres;) como las declaraciones global using.
+- Cuando el compilador encuentra una declaración de global using, la trata de manera especial. Sabe que esa declaración significa que el espacio de nombres que estás importando estará disponible en todos los archivos del proyecto.
+- Por ejemplo, si declaras `global using System;`, el compilador sabe que System es un espacio de nombres que se puede usar en cualquier archivo de tu proyecto.
+- A partir de que el compilador ve global using, no necesita que cada archivo individual incluya using System; en la parte superior. Esto se debe a que ya está "al tanto" de que ese espacio de nombres está disponible para cualquier clase o método dentro del proyecto.
+- Así que cuando compilas ClaseA.cs o ClaseB.cs, el compilador no necesita verificar si hay un using System; en esos archivos. Sabe que System está disponible por la declaración global using.
+- No se genera ningún código IL adicional para las declaraciones global using .
+ - Cuando usas los tipos de esos espacios de nombres en tu código, el compilador usa los tipos que están disponible en el contexto del proyecto. Esto significa que, aunque no hay una declaración “using …” visible en el archivo, el compilador trata esos tipos como si fueran importados.
+
+:::tip Contexto del proyecto
+- El "contexto del proyecto" en programación se refiere al conjunto de configuraciones, recursos y dependencias que están disponibles de manera global dentro de un proyecto de software. En el caso de C#, esto incluye elementos como:
+    - Espacios de nombres (namespaces): Determina qué clases, interfaces, estructuras, etc., están disponibles para usar en los archivos de código sin necesidad de volver a importarlos. Por ejemplo, cuando usas una declaración global using, estás añadiendo un espacio de nombres al contexto del proyecto.
+    - Configuraciones del compilador: Estas incluyen opciones como la versión de C# que se está usando, la configuración de advertencias, opciones de optimización, entre otras.
+    - Dependencias del proyecto: Esto abarca las bibliotecas externas o paquetes NuGet que el proyecto utiliza. Estas dependencias también forman parte del contexto, ya que el compilador y el entorno de ejecución necesitan saber qué bibliotecas están disponibles.
+    - Archivos comunes: Cualquier archivo o recurso compartido (como imágenes, archivos de configuración, etc.) que esté disponible para todas las partes del proyecto también forma parte del contexto.
+    - Configuración de salida: Este es el entorno o la configuración que indica cómo se debe generar el proyecto, por ejemplo, si es un proyecto de consola, una aplicación web, etc.
+:::
+
+
+:::tip
+- Es importante aclarar que un using normal tampoco genera código IL adicional.  Solo le indica al compilador donde se encuentra el módulo/biblioteca que va a usar para que la pueda analizar.
+:::
+##### ¿Qué pasa con los métodos de extensión?
+- Antes de que ocurra la ejecución, el código C# se compila a código Intermedio de Lenguaje (IL). Este código IL es el que realmente se ejecuta en la máquina virtual de .NET (Common Language Runtime, CLR).
+- Cuando utilizas un método de extensión en tu código, el compilador busca en las clases estáticas que están disponibles en el contexto del proyecto y en  los espacios de nombres importados.
+- Si encuentra un método de extensión que coincide con el tipo y los parámetros, lo considera un método de instancia.
+- Cuando compilas tu código, el compilador convierte las llamadas al método de extensión en llamadas a métodos estáticos.
+- Por ejemplo, si llamas a nombre.Saludar(), el compilador genera IL que se traduce en una llamada a Extensiones.Saludar(nombre).
+- Donde Extensiones es una clase como:
+```csharp
+public static class Extensiones
+{
+    public static string Saludar(this string nombre)
+    {
+        return $"Hola, {nombre}!";
+    }
+}
+
+```
+#### 3- Ejecución del progama
+- Cuando decides ejecutar tu programa, la computadora utiliza el CLR (Common Language Runtime) para convertir ese IL en código nativo, que es lo que realmente se ejecuta en tu máquina.
+
+
+
+#####  1. Compilación a Código IL
+- Antes de que ocurra la ejecución, el código C# se compila a código Intermedio de Lenguaje (IL). Este código IL es el que realmente se ejecuta en la máquina virtual de .NET (Common Language Runtime, CLR).
+
+:::tip ¿Qué es el Código IL?
+- Código IL (Intermediate Language): Es el código intermedio generado por el compilador cuando compilas tu código C#. Este código no es específico de la máquina y debe ser ejecutado por el CLR, que lo convierte en código máquina. El código IL contiene referencias a tipos, métodos y otros elementos necesarios para la ejecución de la aplicación.
+:::
+
+
+:::tip ¿Cómo Usa el CLR la Información de Tipo?
+-	Información de Tipo:
+    -	Cuando escribes tu código en C#, el compilador lo convierte en código IL. Durante este proceso, el compilador también recoge información sobre los tipos que has utilizado (como clases, estructuras, enumeraciones, etc.) y sus métodos.
+    -	Esta información se almacena en los metadatos del código IL. Los metadatos son datos que describen otros datos, lo que permite que el CLR comprenda la estructura del código, qué tipos hay disponibles y cómo interactúan entre sí.
+    - Ejemplo: Supón que tienes una clase Empleado y un método CalcularSalario() en esa clase. Cuando compilas tu código, el compilador genera código IL que incluye la definición de Empleado y la firma de CalcularSalario().
+:::
+
+
+
+##### 2. Carga de Ensambles
+- Durante la ejecución, el CLR se encarga de cargar los ensambles (los archivos DLL o EXE generados durante la compilación) necesarios para tu aplicación.
+
+:::tip ¿Qué es un Ensamble?
+- Ensamble: Un ensamble es el bloque fundamental de la programación en .NET. Se refiere a un archivo que contiene el código compilado de tu aplicación, que puede ser un archivo .DLL (Dynamic Link Library) o un archivo .EXE (ejecutable).
+- Los ensamblados contienen el código IL (Intermediate Language), metadatos sobre los tipos y métodos que contiene, y otros recursos como imágenes o cadenas de texto que pueden ser utilizados por la aplicación.
+- Cuando inicias una aplicación .NET, el CLR se encarga de cargar los ensamblados necesarios. Esto significa que busca los archivos .DLL o .EXE que tu aplicación necesita para ejecutarse.
+- Por ejemplo, si tu aplicación utiliza un ensamble llamado MiBiblioteca.dll, el CLR localizará este archivo en el sistema de archivos.
+- Resolución de Dependencias:
+    -	Si tu aplicación depende de otros ensamblados (por ejemplo, si MiBiblioteca.dll depende de OtraBiblioteca.dll), el CLR también se encargará de cargar esos ensamblados dependientes.
+    -	Esto asegura que todos los tipos y métodos requeridos estén disponibles durante la ejecución.
+- Una vez que el CLR ha encontrado los ensamblados, los carga en memoria. Esto implica convertir el código IL en código máquina que puede ser ejecutado por el procesador.
+- Solo se cargan en memoria los ensamblados que son realmente necesarios en ese momento, lo que optimiza el uso de recursos.
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### ¿Cómo Ayuda global using al CLR?
+-	Conocimiento de Tipos Disponibles:
+    -	Cuando declaras un global using, el compilador (y por ende el CLR) toma nota de los espacios de nombres y los tipos que estarán disponibles en todo el proyecto. Esto significa que no necesitas declarar cada using en cada archivo, ya que el CLR ya sabe que esos tipos son accesibles.
+- Resolución Eficiente de Referencias:
+    -	Gracias a que el CLR tiene esta información sobre los tipos disponibles, puede resolver referencias a esos tipos de manera más eficiente durante la ejecución. No tiene que volver a buscar los espacios de nombres cada vez que se encuentra una referencia en un archivo 
+    -	Por ejemplo, si en varios archivos de tu proyecto necesitas usar la clase Empleado del espacio de nombres MiAplicacion.Modelos, puedes agregarlo como global using MiAplicacion.Modelos;. Ahora, cada archivo en el proyecto puede referirse a Empleado sin necesidad de declarar explícitamente el using.
+
+##### 3. Revisar el código
+- Antes de que el CLR ejecute cualquier código IL, debe asegurarse de que todos los tipos y métodos que se van a utilizar están disponibles y son accesibles.
+- Esto implica que el CLR revisa el código IL para encontrar las clases, estructuras y métodos que va a usar la aplicación. Necesita confirmar que estos elementos están definidos y que el código puede acceder a ellos.
+
+
+:::tip Busqueda de tipo
+- Cuando el código IL hace referencia a un tipo, el CLR busca en los ensambles cargados para encontrar la definición de ese tipo.
+##### ¿Cómo Funciona la Búsqueda de Tipos?
+
+- Referencia a un Tipo en IL:
+    -	Cuando tu código IL hace referencia a un tipo (por ejemplo, una clase o estructura que has definido), el CLR necesita encontrar la definición de ese tipo para poder usarlo. Esto ocurre, por ejemplo, cuando intentas crear una instancia de una clase o llamar a un método en ella.
+- Búsqueda en Ensambles Cargados:
+    - El CLR busca en los ensamblados que ya han sido cargados en memoria. Esto significa que revisa todos los archivos .DLL o .EXE que ha cargado previamente y que están disponibles para tu aplicación.
+    - Por ejemplo, si tu código IL hace referencia a un tipo llamado Empleado, el CLR buscará en los ensamblados que ha cargado para encontrar dónde está definida la clase Empleado.
+- Proceso de Resolución:
+    -	Si encuentra la definición del tipo en uno de los ensamblados, el CLR utilizará esa definición para ejecutar el código IL. Esto incluye la creación de instancias del tipo, la invocación de métodos, y el acceso a sus propiedades.
+    -	Si no puede encontrar la definición, se lanzará una excepción (por ejemplo, TypeLoadException), indicando que el tipo no está disponible.
+:::
+
+
+##### 4. Verificación de Errores
+-	Durante esta fase de “revisar el código”, el CLR también busca posibles errores, como referencias a tipos que no existen o métodos que no se pueden encontrar.
+-	Si encuentra algún problema, como un tipo no definido (por ejemplo, si el código hace referencia a una clase que no se ha cargado), lanzará una excepción y detendrá la ejecución del programa.
+-	Esto garantiza que el programa esté en un estado correcto y que todos los elementos necesarios estén disponibles antes de comenzar la ejecución.
+
+##### 5. Inicio de la Ejecución
+-	Una vez que el CLR ha hecho todas las validaciones y verificaciones necesarias, comienza a ejecutar el código IL.
+-	Este proceso implica la traducción del código IL a código máquina específico de la arquitectura de la computadora en la que se está ejecutando.
+-	La ejecución del código IL se realiza mediante un proceso llamado Just-In-Time Compilation (JIT), donde el CLR compila las instrucciones IL en tiempo de ejecución a medida que se necesitan.
+
+##### 6.Manejo de Excepciones y Recursos
+-	Si se producen excepciones durante la ejecución (como referencias a tipos que no están definidos), el CLR las maneja y puede lanzar errores que indiquen problemas en tiempo de ejecución.
+-	La gestión de recursos, como la memoria y las conexiones a bases de datos, también se realiza en esta fase.
+
+
+## C# Sintaxis de anidación
+- En C#, la sintaxis de anidación se refiere al concepto de colocar una estructura dentro de otra. Esto es común en varias áreas del lenguaje, y puede implicar anidar bloques de código, declaraciones de clases, bucles, condicionales, y otros elementos. Aquí te explico algunos casos comunes de anidación en C#:
+
+#### Anidación de bloques de código
+- Los bloques de código delimitados por llaves {} pueden contener otros bloques de código, como en los bucles o condicionales:
+```csharp
+if (x > 0) 
+{
+    if (x > 10) 
+    {
+        Console.WriteLine("x es mayor que 10");
+    }
+    else 
+    {
+        Console.WriteLine("x es mayor que 0 pero menor o igual a 10");
+    }
+}
+
+```
+#### Anidación de bucles
+- Los bucles pueden estar dentro de otros bucles. Esto es útil cuando trabajas con estructuras complejas como matrices bidimensionales:
+```csharp
+for (int i = 0; i < 5; i++) 
+{
+    for (int j = 0; j < 5; j++) 
+    {
+        Console.WriteLine($"i: {i}, j: {j}");
+    }
+}
+
+```
+#### Anidación de clases
+- En C#, puedes declarar una clase dentro de otra clase. Esto se conoce como clases anidadas:
+```csharp
+class ClaseExterna
+{
+    public class ClaseAnidada
+    {
+        public void MetodoAnidado()
+        {
+            Console.WriteLine("Método en la clase anidada");
+        }
+    }
+}
+
+// Uso de la clase anidada desde fuera de la clase externa
+ClaseExterna.ClaseAnidada instancia = new ClaseExterna.ClaseAnidada();
+instancia.MetodoAnidado();
+
+```
+:::tip Clases anidadas: ¿solo se pueden usar en la clase externa?
+- No necesariamente. Una clase anidada puede ser pública, privada, o tener cualquier otro modificador de acceso. Dependiendo de ese modificador, la clase anidada podrá ser utilizada solo dentro de la clase externa o también fuera de ella.
+    -	Si la clase anidada es privada, solo puede ser usada dentro de la clase contenedora.
+    -	Si la clase anidada es pública o interna, puede ser utilizada desde fuera de la clase externa.
+
 
 :::
+
+#### Anidación de funciones locales
+- A partir de C# 7.0, es posible definir funciones locales dentro de otras funciones:
+```csharp
+void MetodoExterno() 
+{
+    Console.WriteLine("Método externo");
+
+    void MetodoAnidado() 
+    {
+        Console.WriteLine("Método anidado");
+    }
+
+    MetodoAnidado();
+}
+
+```
+#### Anidación de expresiones
+- C# permite anidar expresiones lambda, lo que es útil para realizar cálculos complejos o trabajar con funciones de orden superior:
+```csharp
+int resultado = (5 + 2) * (3 - 1);
+```
+:::tip Observación
+En este caso, las expresiones dentro de los paréntesis están anidadas dentro de una operación más grande.
+:::
+
+#### Anidación de expresiones
+- Las expresiones pueden contener otras expresiones, como en el caso de las operaciones matemáticas complejas o las expresiones lambda:
+```csharp
+Func<int, Func<int, int>> anidada = x => y => x + y;
+Console.WriteLine(anidada(3)(4)); // Resultado: 7
+```
+:::tip Observación
+Aquí, la expresión lambda que toma y está anidada dentro de la que toma x.
+:::
+
+## Llaves en patrón de coincidencia
+- Las llaves `{}` en C# cuando se usan en patrones de coincidencia (pattern matching), tienen un propósito específico: indican que estás trabajando con objetos compuestos (objetos que tienen propiedades que pueden contener otro objeto), y te permiten verificar o coincidir con el valor de una o varias de esas propiedades.
+- Función de las llaves `{}` en el contexto de patrones de coincidencia:
+    1.	Acceso a propiedades de un objeto: Las llaves {} permiten desestructurar un objeto y verificar valores dentro de sus propiedades.
+    2.	Navegación por niveles de anidación: Las llaves también son útiles cuando estás trabajando con objetos que tienen propiedades anidadas, permitiéndote navegar por ellas.
+
+
+:::tip Desestructurar un objeto 
+- La desestructuración  se refiere a la técnica de acceder a las propiedades de un objeto de forma que puedas extraer directamente los valores que necesitas.
+- Desestructurar un objeto es como abrir un libro para leer información específica sin tener que pasar página por página. 
+
+
+:::
+
+#### Ejemplo con llaves
+- Supongamos que tienes una clase Persona con una propiedad subtipo y subtipo tiene una propiedad Edad:
+
+```csharp
+class Subtipo
+{
+    public int Edad { get; set; }
+}
+
+class Persona
+{
+    public Subtipo subtipo { get; set; }
+}
+
+```
+- Y ahora usas el patrón de coincidencia:
+```csharp
+string resultado = persona switch
+{
+    { subtipo: { Edad: >= 18 } } => "es mayor de edad",
+    _ => "es menor de edad"
+};
+
+```
+:::tip ¿Qué hacen las llaves {} aquí?
+-	`{ subtipo: { Edad: >= 18 } }`:
+    -	Primera llave `{}`: Está desestructurando el objeto persona para acceder a su propiedad subtipo.
+    -	Segunda llave  `{}`: A su vez, está desestructurando el objeto subtipo para acceder a su propiedad Edad.
+- En términos simples, las llaves `{}` permiten navegar por los objetos y sus propiedades internas. Son una manera de decir: "voy a abrir este objeto y voy a mirar dentro de él".
+- Desglose de este código `{ subtipo: { Edad: >= 18 } }`:
+    -	Primera llave `{}`: Le dice al compilador que busque una propiedad llamada subtipo en el objeto persona.
+    -	Segunda llave `{}`: Dentro de subtipo, le dice que busque la propiedad Edad.
+    -	`>= 18`: Luego, se verifica si la propiedad Edad tiene un valor mayor o igual a 18.
+
+:::
+
+- Lo que hicimos anteriormente lo podemos hacer de la siguiente manera con menos código:
+```csharp
+string resultado = persona switch
+{
+    { subtipo.Edad: >= 18 } => "es mayor de edad",
+    _ => "es menor de edad"
+};
+
+```
+:::tip Observación
+- En este caso estamos usando el `“punto”` para acceder a una propiedad en lugar de `“{}”`.
+
+:::
+
+## Heap y Stack 
+- El Heap y el Stack son dos áreas importantes de la memoria en las que un programa almacena datos mientras se ejecuta. Estas áreas son gestionadas de manera diferente y tienen distintas propiedades que influyen en el rendimiento y en la manera en que se manejan las variables en un programa.
+
+#### Stack (Pila de memoria)
+- Stack o pila de memoria es un área de memoria usada para almacenar variables locales y datos temporales que se crean y destruyen dentro de una función o método. Esta memoria sigue un modelo de LIFO (Last In, First Out), es decir, el último valor que entra en la pila es el primero en salir.
+
+##### Características del Stack
+-	Tamaño limitado: La pila tiene un tamaño fijo, generalmente mucho más pequeño que el heap.
+-	Almacenamiento rápido: Como la pila sigue un modelo LIFO, la memoria se gestiona de manera muy eficiente. Las operaciones de asignación y liberación de memoria en el stack son rápidas, porque solo es necesario ajustar un puntero que indica la parte superior de la pila.
+-	Tipos almacenados: En el stack se almacenan tipos por valor, como los primitivos (int, float, char) y structs en C#. También se almacenan referencias a objetos (que se encuentran en el heap).
+-	Alcance de las variables: Las variables almacenadas en el stack son locales a la función en la que se declararon, y se destruyen automáticamente cuando la función termina. Esto se conoce como vida limitada.
+
+:::tip Explicación no técnica - La bandeja de platos 
+- Imagina que tienes una bandeja donde apilas platos uno encima del otro. Cada vez que necesitas usar un plato, tomas el que está en la parte superior de la pila, y cuando terminas de lavarlo, lo colocas de nuevo en la parte superior. Es un sistema muy organizado y rápido porque siempre sabes dónde están los platos: el último que usaste es el primero en salir, y el primero en entrar es el último en salir.
+- Este es el Stack en tu programa:
+    -	Es rápido porque todo sigue un orden.
+    -	Se utiliza para tareas rápidas y sencillas, como guardar cosas que solo necesitas por un rato (por ejemplo, números o variables temporales).
+    -	Cuando terminas con una tarea, "quitas" los datos (como quitar un plato de la pila), y no hay desorden.
+
+
+:::
+
+##### Ejemplo de uso del Stack
+- Cuando declaras una variable local dentro de una función, se asigna espacio para esa variable en el stack, y cuando la función termina, ese espacio se libera automáticamente:
+```csharp
+void MiFuncion()
+{
+    int x = 10; // 'x' se almacena en el stack
+    int y = 20; // 'y' también en el stack
+    // Cuando MiFuncion termina, 'x' y 'y' se eliminan del stack
+}
+
+
+```
+#### Heap (Montón de memora)
+- El Heap o montón de memoria es una área más grande y flexible de memoria utilizada para almacenar objetos y datos dinámicos que no se conocen hasta tiempo de ejecución o que tienen una vida más prolongada. Es más lenta para asignar y liberar memoria en comparación con el stack, pero es más flexible.
+##### Características del Heap
+-	Tamaño grande: El heap suele ser mucho más grande que el stack y tiene un tamaño dinámico, es decir, puedes pedir memoria en tiempo de ejecución (por ejemplo, cuando usas new para crear objetos).
+-	Almacenamiento más lento: La asignación y liberación de memoria en el heap es más compleja y más lenta. Cuando pides espacio en el heap (por ejemplo, al crear un objeto con new), el sistema tiene que buscar en el heap un lugar donde quepa ese objeto. Esta búsqueda puede tardar un poco porque la memoria en el heap puede estar dividida en varios fragmentos.
+-	Tipos almacenados: En el heap se almacenan los tipos por referencia, como los objetos y arrays. Estos objetos son accedidos mediante referencias, que se almacenan en el stack.
+-	Gestión de memoria: En C#, la memoria en el heap se gestiona automáticamente mediante el Garbage Collector (GC). El GC libera la memoria en el heap cuando detecta que no hay más referencias a un objeto. Esto evita fugas de memoria, pero el proceso de recolección puede causar pequeñas pausas en el rendimiento.
+
+:::tip Explicación no técnica - El estante desorganizado
+- Ahora, imagina que tienes un gran estante lleno de cosas, pero no está tan organizado. En este estante, guardas cosas más grandes o que usarás por más tiempo, como libros, cajas, o incluso más platos. El problema es que cuando necesitas poner algo nuevo, tienes que buscar un espacio libre en el estante, y eso puede llevar tiempo. Además, a veces sacas algo, pero el espacio que queda no siempre es útil para lo próximo que quieres guardar, así que el estante se vuelve un poco desordenado.
+- Este es el Heap en tu programa:
+    -	Es más grande que el stack y tiene más espacio, pero es más lento porque cada vez que necesitas guardar algo, debes buscar un lugar libre.
+    -	Se usa para almacenar cosas que pueden durar más tiempo, como objetos grandes (por ejemplo, cuando creas un personaje en un videojuego).
+    -	Puede desordenarse con el tiempo, y el sistema tiene que organizarlo de vez en cuando (como cuando necesitas reorganizar el estante).
+:::
+
+
+##### Ejemplo de uso del Heap
+- Cuando creas un objeto usando new, este se almacena en el heap, pero la referencia a ese objeto se almacena en el stack:
+
+```csharp
+class Persona
+{
+    public string Nombre;
+}
+
+void MiFuncion()
+{
+    Persona p = new Persona(); // 'p' es una referencia que está en el stack, pero el objeto Persona está en el heap
+    p.Nombre = "Juan";
+    // El objeto Persona persiste en el heap hasta que el Garbage Collector lo recoja
+}
+
+
+```
+:::tip Observación
+- En este caso, la referencia p se almacena en el stack, pero el objeto real (que contiene el campo Nombre) se almacena en el heap. Cuando MiFuncion termine, la referencia p se eliminará del stack, pero el objeto en el heap persistirá hasta que el Garbage Collector lo limpie.
+
+:::
+
+
+#### Comparación entre Stack y Heap
+
+| Característica | Stack | Heap |
+| - |   -   |  - |
+|  Tipo de almacenamiento |   Variables locales, tipos por valor   |    Objetos, arrays, tipos por referencia |
+|  Asignación |   Automática, rápida   |    Manual, más lenta |
+|  Gestión de memoria |   	Automática (se libera al finalizar método)   |    Requiere Garbage Collector |
+|  Tamaño |   	Limitado   |    Más grande y flexible |
+|  Acceso |   	LIFO (Last In, First Out)   |    No sigue un orden estricto |
+|  Persistencia |   	Vida limitada a la función o método   |    Persiste hasta que el GC lo elimina |
+|  Rendimiento |   	Muy rápido   |    Más lento comparado con el stack |
+
+
+#### Ejemplo práctico combinando Stack y Heap
+- Imagina que tienes un programa en el que estás manejando tanto tipos por valor (como int) y tipos por referencia (como objetos). Aquí se puede ver cómo se asigna la memoria en el stack y el heap:
+
+```csharp
+struct Punto
+{
+    public int X;
+    public int Y;
+}
+
+class Circulo
+{
+    public int Radio;
+    public Punto Centro; // struct almacenado dentro de la clase
+}
+
+void Main()
+{
+    // Variables locales almacenadas en el stack
+    int numero = 42;
+
+    // Struct almacenado en el stack
+    Punto p = new Punto();
+    p.X = 10;
+    p.Y = 20;
+
+    // Clase almacenada en el heap, pero la referencia está en el stack
+    Circulo c = new Circulo();
+    c.Radio = 5;
+    c.Centro = p;  // El struct 'Punto' es parte de la clase, pero sigue estando en el heap porque está dentro del objeto Circulo
+
+    Console.WriteLine(c.Centro.X); // Acceso a los datos en el heap
+}
+
+
+
+```
+:::tip Observación
+-  numero se almacena en el stack porque es un tipo por valor (int).
+-  p (de tipo Punto) es un struct y, por lo tanto, también se almacena en el stack.
+-  c (de tipo Circulo) es un objeto y, aunque la referencia se almacena en el stack, el objeto completo (incluyendo el struct Punto) se almacena en el heap.
+:::
+
+## Parámetros posicionales
+- Los parámetros posicionales son aquellos que se pasan a un método o constructor en un orden específico. En C#, cuando defines un método o constructor, puedes especificar una serie de parámetros que el llamador debe proporcionar. La posición de cada argumento que pasas es crucial, ya que se asocia con los parámetros definidos en la misma secuencia.
+- Los parámetros posicionales en C# son aquellos que se pasan a métodos o constructores en un orden específico. Este enfoque es sencillo y eficiente, pero puede llevar a confusiones si hay muchos parámetros o si se cambian con frecuencia. Para aumentar la claridad, especialmente con métodos que tienen muchos parámetros, también puedes usar parámetros nombrados o parámetros opcionales, que permiten especificar el nombre del parámetro al llamarlo, lo que mejora la legibilidad.
+- Imagina que tienes un método que calcula el área de un rectángulo. Para este método, necesitas proporcionar dos parámetros: la anchura y la altura:
+```csharp
+public class Geometria
+{
+    public static double CalcularArea(double ancho, double alto)
+    {
+        return ancho * alto; // Calcula el área
+    }
+}
+
+class Programa
+{
+    static void Main()
+    {
+        // Llamada al método con parámetros posicionales
+        double area = Geometria.CalcularArea(5.0, 10.0); // 5.0 es el ancho, 10.0 es el alto
+        Console.WriteLine("El área del rectángulo es: " + area);
+    }
+}
+
+```
+:::tip Observación
+- En este ejemplo:
+    -	El método CalcularArea tiene dos parámetros: ancho y alto.
+    -	Cuando llamas a CalcularArea, debes pasar dos valores: primero el ancho (5.0) y luego el alto (10.0).
+    -	La posición es importante: si cambiaras el orden de los argumentos, los resultados serían incorrectos.
+:::
+
+
+#### Record 
+- En C# puedes declarar un record utilizando parámetros posicionales. Los records son una característica introducida en C# 9.0 que proporcionan una forma concisa y eficiente de crear tipos de datos inmutables. Permiten definir clases que se centran en la inmutabilidad y la comparación de valores, en lugar de la comparación de referencias, como se hace con las clases regulares.
+- Cuando declaras un record utilizando parámetros posicionales, lo haces de manera más concisa y clara. Aquí tienes un ejemplo:
+
+```csharp
+public record Person(string FirstName, string LastName); // Declaración de un record con parámetros posicionales
+
+class Programa
+{
+    static void Main()
+    {
+        // Creación de una instancia del record Person
+        Person persona = new Person("Juan", "Pérez");
+
+        // Mostrando la información de la persona
+        Console.WriteLine($"Nombre: {persona.FirstName}, Apellido: {persona.LastName}");
+    }
+}
+
+
+```
+
+## Parametros con nombres 
+- Los parámetros con nombre en C# te permiten pasar argumentos a métodos y constructores utilizando el nombre del parámetro. Esto mejora la legibilidad y la claridad del código, especialmente en situaciones con múltiples parámetros. Además, combinados con parámetros opcionales, brindan mayor flexibilidad en la forma en que puedes crear instancias de clases y llamar a métodos.
+- Cuando llamas a un método o un constructor, puedes pasar los parámetros utilizando su nombre en lugar de seguir estrictamente el orden en que se definen. Esto te permite pasar solo aquellos parámetros que deseas, sin necesidad de especificar todos los anteriores.
+- Aquí tienes un ejemplo de cómo funcionan:
+```csharp
+public class Rectangulo
+{
+    public double Ancho { get; }
+    public double Alto { get; }
+
+    // Constructor con parámetros
+    public Rectangulo(double ancho, double alto)
+    {
+        Ancho = ancho;
+        Alto = alto;
+    }
+
+    public double CalcularArea()
+    {
+        return Ancho * Alto;
+    }
+}
+
+class Programa
+{
+    static void Main()
+    {
+        // Llamada al constructor usando parámetros con nombre
+        Rectangulo rect = new Rectangulo(ancho: 5.0, alto: 10.0);
+
+        // Mostrando el área del rectángulo
+        Console.WriteLine("El área del rectángulo es: " + rect.CalcularArea());
+    }
+}
+
+```
+:::tip Observación
+-  Definición del Constructor:
+    -	En la clase Rectangulo, el constructor Rectangulo(double ancho, double alto) recibe dos parámetros.
+-  Uso de Parámetros con Nombre:
+    -	Al crear una nueva instancia de Rectangulo, utilizamos ancho: 5.0 y alto: 10.0 para especificar los argumentos. Esto hace que sea claro cuál es el valor de cada parámetro.
+    -	Puedes cambiar el orden en que pasas los parámetros. Por ejemplo, podrías escribir new Rectangulo(alto: 10.0, ancho: 5.0); y seguiría funcionando sin problemas.
+:::
+
+
+#### Ejemplo con Parámetros Opcionales
+- En combinación con los parámetros opcionales, los parámetros con nombre pueden ser aún más útiles:
+
+```csharp 
+public class Persona
+{
+    public string Nombre { get; }
+    public int Edad { get; }
+    public string Ciudad { get; }
+
+    // Constructor con parámetros opcionales
+    public Persona(string nombre, int edad = 30, string ciudad = "Desconocida")
+    {
+        Nombre = nombre;
+        Edad = edad;
+        Ciudad = ciudad;
+    }
+}
+
+class Programa
+{
+    static void Main()
+    {
+        // Usando parámetros con nombre y omitiendo los opcionales
+        Persona persona1 = new Persona(nombre: "Juan");
+        Persona persona2 = new Persona(nombre: "María", ciudad: "Madrid");
+
+        Console.WriteLine($"Nombre: {persona1.Nombre}, Edad: {persona1.Edad}, Ciudad: {persona1.Ciudad}");
+        Console.WriteLine($"Nombre: {persona2.Nombre}, Edad: {persona2.Edad}, Ciudad: {persona2.Ciudad}");
+    }
+}
+
+
+
+```
+
+## Palabra clave Sealed 
+- La palabra clave sealed se aplica a clases y se utiliza para evitar que otras clases hereden de ella. Es una forma de "sellar" la clase, lo que significa que no puedes crear ninguna clase derivada a partir de una clase sellada.
+
+#### ¿Por qué usar sealed?
+- Hay varias razones para utilizar sealed en una clase:
+    1.	Control de Herencia: Puede que desees evitar que alguien herede de tu clase para mantener un comportamiento específico. Esto es especialmente importante si tu clase está diseñada para ser utilizada tal como está, sin modificación.
+    2.	Optimización de Rendimiento: Las clases selladas pueden permitir al compilador realizar optimizaciones, ya que se garantiza que no habrá subclases que cambien el comportamiento.
+    3.	Seguridad: Si tienes una clase que contiene lógica sensible o que no debe ser alterada, marcarla como sellada puede ayudar a protegerla contra la herencia no deseada.
+
+
+- Aquí hay un ejemplo simple de una clase sellada:
+
+```csharp
+public sealed class ClaseSellada
+{
+    public void Metodo()
+    {
+        Console.WriteLine("Este es un método de la clase sellada.");
+    }
+}
+
+// La siguiente línea generaría un error de compilación:
+// public class ClaseDerivada : ClaseSellada
+// {
+// }
+
+class Programa
+{
+    static void Main()
+    {
+        ClaseSellada objeto = new ClaseSellada();
+        objeto.Metodo();
+    }
+}
+
+
+```
+:::tip Observación
+- Detalles del Ejemplo
+    1.	Definición de la Clase Sellada: La clase ClaseSellada está marcada con la palabra clave sealed, lo que significa que no se puede heredar.
+    2.	Intento de Herencia: La línea comentada que intenta declarar ClaseDerivada como una subclase de ClaseSellada generaría un error de compilación, ya que ClaseSellada es sellada.
+    3.	Uso de la Clase: En el método Main, se puede crear una instancia de ClaseSellada y llamar a su método sin problemas.
+:::
+
+
+#### Uso en Métodos 
+- La palabra clave sealed también se puede aplicar a métodos en clases derivadas. Esto significa que puedes sellar un método en una clase base para que no pueda ser anulado (sobrescrito) en clases derivadas. Para hacerlo, primero debes marcar el método en la clase base como virtual y luego sellarlo en la clase derivada:
+
+```csharp
+public class ClaseBase
+{
+    public virtual void Metodo()
+    {
+        Console.WriteLine("Método de la clase base.");
+    }
+}
+
+public class ClaseDerivada : ClaseBase
+{
+    public sealed override void Metodo()
+    {
+        Console.WriteLine("Método sellado de la clase derivada.");
+    }
+}
+
+// La siguiente línea generaría un error de compilación:
+// public class ClaseSubDerivada : ClaseDerivada
+// {
+//     public override void Metodo()
+//     {
+//         Console.WriteLine("Intento de anular el método sellado.");
+//     }
+// }
+
+class Programa
+{
+    static void Main()
+    {
+        ClaseDerivada objeto = new ClaseDerivada();
+        objeto.Metodo();
+    }
+}
+
+
+```
+:::tip Observación 
+-  Clase Base y Método Virtual: ClaseBase tiene un método virtual Metodo que se puede anular en clases derivadas.
+-  Clase Derivada y Método Sellado: ClaseDerivada anula el método y lo marca como sellado con la palabra clave sealed. Esto significa que cualquier clase que intente heredar de ClaseDerivada no podrá anular este método.
+-  Intento de Herencia de Método: La línea comentada en ClaseSubDerivada intentaría anular el método sellado, lo que generaría un error de compilación.
+
+
+:::
+
+

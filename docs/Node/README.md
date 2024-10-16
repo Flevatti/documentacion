@@ -708,6 +708,69 @@ server.listen(puerto , () => {
 
 ```
 
+## Res
+- Es un parámetro del  callback que contiene createServer(), este maneja todas las solicitudes de la aplicación.
+- Este "Res" lo vas a encontrar mucho en las aplicaciones de backend, sobre todo en APIs.
+- En Express, el objeto res es una abreviatura de "response" (respuesta). Se utiliza para enviar una respuesta al cliente. El objeto res contiene métodos que permiten:
+  -  Enviar una respuesta:
+      -	res.send() - Enviar datos en formato de texto, HTML o JSON.
+      -	res.json() - Enviar una respuesta en formato JSON.
+      -	res.sendFile() - Enviar un archivo al cliente.
+  - Establecer el estado HTTP:
+    - res.status(code) - Definir el código de estado HTTP de la respuesta (por ejemplo, 200 para éxito, 404 para no encontrado).
+  - Redirigir al cliente:
+    -	res.redirect(url) - Redirigir a otra URL.
+  - Establecer encabezados HTTP:
+    -	res.set(header, value) - Definir un encabezado HTTP personalizado.
+- En Express también puedes usar el objeto res para renderizar una vista utilizando un motor de plantillas. Para esto, primero debes configurar Express para usar un motor de plantillas como EJS, Pug o Handlebars. Luego, puedes utilizar el método res.render() para renderizar una vista y enviarla como respuesta al cliente.
+
+:::tip Renderizar una vista
+- Renderizar una vista significa generar el HTML final (que será enviado al navegador del cliente) a partir de una plantilla dinámica y datos proporcionados. Las plantillas pueden contener marcadores de posición o código que se reemplaza o evalúa en el servidor antes de enviarse al cliente.
+- Cuando renderizas una vista, Express utiliza un motor de plantillas (como EJS, Pug o Handlebars) para combinar los datos (por ejemplo, variables o estructuras como objetos o listas) con la estructura HTML predefinida en la plantilla. El resultado es una página HTML completamente construida, que luego se envía como respuesta al cliente.
+- Pasos que se siguen:
+  - El servidor recibe una solicitud (por ejemplo, el cliente solicita una página /home).
+  - El controlador busca los datos necesarios para esa solicitud (por ejemplo, el título de la página y un mensaje de bienvenida).
+  - El motor de plantillas toma una plantilla predefinida (como un archivo .ejs, .pug, etc.), la combina con los datos que el servidor ha proporcionado.
+  - El servidor envía el HTML generado como respuesta al navegador del cliente.
+
+
+:::
+:::tip Plantilla
+- Una plantilla dinámica es un archivo de estructura HTML que contiene marcadores de posición, variables o fragmentos de código que son reemplazados o generados en tiempo de ejecución con datos específicos antes de ser enviados al cliente. Estas plantillas permiten generar contenido HTML que cambia dinámicamente en función de los datos que el servidor maneja o recibe de los usuarios.
+- Componentes clave de una plantilla dinámica:
+  1.	Marcadores de posición: Son variables o fragmentos de código que se sustituyen por datos reales cuando la página es renderizada.
+  o	Ejemplo en EJS (un motor de plantillas): <%= message %>
+  2.	Datos dinámicos: Son los valores que el servidor proporciona a la plantilla, como el nombre de un usuario, una lista de productos o cualquier otra información que puede cambiar según el contexto de la solicitud.
+  o	Ejemplo: Un título o un mensaje de bienvenida que cambia según el usuario que inicia sesión.
+  3.	Estructura HTML: Las plantillas tienen una estructura HTML base que define cómo se verá la página en general, pero con fragmentos que cambian según los datos específicos.
+- Para crear estas plantillas se debe configurar un motor de plantilla en express
+:::
+
+## Req
+- Es un parámetro del  callback que contiene createServer(), este maneja todas las solicitudes de la aplicación.
+- Este "Res" lo vas a encontrar mucho en las aplicaciones de backend, sobre todo en APIs.
+- En Express, el objeto req es una abreviatura de request (solicitud). Este objeto representa la solicitud que el cliente realiza al servidor y contiene toda la información sobre dicha solicitud, como los parámetros, encabezados, cuerpo de la solicitud y más.
+- Mientras que el objeto res se usa para enviar una respuesta al cliente, el objeto req se utiliza para leer y acceder a los datos que el cliente envía al servidor cuando hace una solicitud.
+- Principales propiedades y métodos del objeto req:
+  - req.params:
+      - Contiene los parámetros de ruta que el cliente envía. Los parámetros de ruta se definen en la URL, por ejemplo, en una ruta como /users/:id, :id es un parámetro de ruta que se puede acceder a través de req.params.id.
+  - req.query:
+      - Contiene los parámetros de consulta (query string) que están en la URL después del signo de interrogación (?). Estos son usados para pasar información adicional en las solicitudes GET.
+  - req.body:
+      - Contiene el cuerpo de la solicitud (request body), que generalmente se envía en solicitudes POST o PUT. Esto es útil para enviar datos a través de formularios HTML o APIs.
+      - Nota: Para acceder al cuerpo de la solicitud, necesitas un middleware como express.json() o express.urlencoded().
+  - req.headers:
+      - Contiene los encabezados HTTP que el cliente envía en la solicitud. Los encabezados son metadatos sobre la solicitud, como la información sobre el tipo de contenido o la autenticación.
+  - req.method:
+      - Indica el método HTTP utilizado en la solicitud, como GET, POST, PUT, DELETE, etc.
+  - req.url y req.path:
+      - req.url es la URL completa solicitada por el cliente.
+      - req.path es solo el camino o la ruta sin la parte de la consulta (query string).
+  - req.cookies (si se usa un middleware para cookies):
+      - Contiene las cookies enviadas en la solicitud. Para manejar cookies en Express, necesitas un middleware como cookie-parser.
+
+
+
 ## Verbos o métodos HTTP
 - [Info](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)
 -	HTTP define un conjunto de métodos/verbos HTTP para indicar la acción que se desea realizar para un recurso determinado.
@@ -877,13 +940,37 @@ En dicha carpeta, creamos un index.html
 
 ```
 ## req.query
--	GET: Agrega datos de formulario a la URL en pares de nombre=valor, La longitud de una URL es limitada (alrededor de 3000 caracteres), GET es mejor para datos no seguros, como cadenas de consulta en Google.
+#### Query
+- Las query strings (o parámetros de consulta) son una parte de la URL que se utiliza para enviar información adicional al servidor. Se colocan después del signo de interrogación (?) en la URL y constan de pares clave-valor. Las query strings no forman parte de la ruta en sí, sino que proporcionan datos adicionales que se pueden usar para filtrar, ordenar, buscar o modificar la solicitud de alguna manera.
 - [Query](https://stackabuse.com/get-query-strings-and-parameters-in-express-js/)
 -	En términos simples, una cadena de consulta (Query) es la parte de una URL después del signo de interrogación (?).
 -	Está destinado a enviar pequeñas cantidades de información al servidor a través de la URL.
--	Esta información generalmente se usa como parámetros para consultar una base de datos, o tal vez para filtrar resultados. Realmente depende de ti para qué se usan.
--	No manipular datos delicados con un GET.
+-	Esta información generalmente se usa  para consultar una base de datos, o tal vez para filtrar resultados. Realmente depende de ti para qué se usan.
+- En Express, puedes acceder a los valores de las query mediante el objeto req.query. Este objeto contiene todos los pares clave-valor enviados en la query string como propiedades.
+#### Estructura básica de una query string:
+-	Se encuentra después del símbolo ? en la URL.
+-	Con el símbolo = le asigna el valor a una clave
+-	Los pares clave-valor están separados por el signo &.
+- Ejemplo de una URL con query string:
+```powershell
+https://example.com/search?term=javascript&category=programming
+```
+:::tip Observación
+- term=javascript es un  query donde term es la clave y javascript es el valor.
+- category=programming es otra query donde category es la clave y programming es el valor.
+:::
 
+:::tip Explicación no tan técnica
+- Piensa en las query strings como pequeños fragmentos de información que le puedes añadir a una URL para hacer que la búsqueda o el filtrado de información sea más específico. Por ejemplo, cuando haces una búsqueda en Google, verás algo como esto en la barra de direcciones:
+```powershell
+https://www.google.com/search?q=gatos+divertidos
+```
+-  q=gatos+divertidos es una query string.
+-  q es la clave (que representa "query" o búsqueda), y gatos+divertidos es el valor de la clave.
+- Las query strings permiten que tú como usuario le des instrucciones específicas al servidor sobre qué estás buscando o cómo quieres que los resultados se filtren, sin tener que cambiar la ruta principal de la URL.
+:::
+
+#### Ejemplo
 index.html de la carpeta public
 ```html
   <form action="/formulario" method="get">
@@ -893,6 +980,10 @@ index.html de la carpeta public
       </form>
 
 ```
+:::tip Observación
+-	GET:Envia los datos del formulario en la URL como pares de nombre=valor, La longitud de una URL es limitada (alrededor de 3000 caracteres), GET es mejor para datos no seguros, como cadenas de consulta en Google.
+
+:::
 index.js: 
 ```js
 app.get('/formulario' , (req,res)=> {
@@ -903,7 +994,44 @@ app.get('/formulario' , (req,res)=> {
 })
 
 ```
+:::tip Observación
+- No se debe manipular datos de las query.
+:::
+#### Diferencias entre params y query:
+-	Params (parámetros de ruta) forman parte de la URL y son obligatorios para la coincidencia de la ruta. Ejemplo: /products/:id donde :id es un parámetro de ruta.
+-	Query strings son opcionales y proporcionan información adicional, pero no cambian la estructura de la ruta. Ejemplo: /products?category=tecnologia donde category es un parámetro de consulta.
+#### ¿Cuándo usar query strings?
+- Las query strings son útiles cuando:
+  -	Filtros o búsquedas: Permiten al usuario especificar opciones adicionales como filtros de búsqueda.
+  -	Opciones opcionales: Cuando necesitas manejar opciones adicionales que no son críticas para la estructura principal de la ruta (como la paginación, el orden o el rango de precios).
+  -	Datos no sensibles: La información en las query strings es visible en la URL, por lo que no es recomendable usarlas para enviar datos sensibles o privados.
+
+
 ## req.body
+#### Body
+- El body (cuerpo) de una solicitud HTTP es la parte que contiene los datos que se envían al servidor cuando se hace una petición. Es comúnmente utilizado en solicitudes POST, PUT, PATCH, y DELETE, donde el cliente envía información al servidor para crear, actualizar o eliminar datos.
+- A diferencia de los params y queries que son parte de la URL, el body es el lugar donde se envían datos más complejos, como formularios, archivos JSON, o incluso archivos multimedia.
+#### Tipos comunes de datos en el body
+-	JSON: Es uno de los formatos más comunes para enviar datos estructurados. Ejemplo: { "name": "John", "age": 30 }
+-	Form data: Datos enviados desde formularios HTML, usualmente codificados en URL-encoded o multipart/form-data.
+-	Texto plano: Se puede enviar texto sin estructura específica.
+-	Archivos: En algunos casos, el body puede incluir archivos, usualmente cuando se envían mediante formularios con el tipo de codificación multipart/form-data.
+
+#### ¿Cómo acceder al body en Express?
+- Para acceder al contenido del body en Express, es necesario usar un middleware que permita "entender" el formato (Json , Form data , Multimedia , etc...) en que los datos están siendo enviados. Los dos más comunes son:
+  -	express.json(): Para manejar datos en formato JSON.
+  -	express.urlencoded(): Para manejar datos de formularios enviados como application/x-www-form-urlencoded.
+- Por lo general el middleware se encarga de leer el formato/estructura de los datos que son enviados en el body y añadirlo al req.body como si fuera un objeto.
+- Se podría decir que cada formato es un “lenguaje” (inglés, español, francés, etc.), y cada middleware solo entiende un idioma. Este ultimo se encarga de  leerlo y añadirlo al req.body ya traducido.
+
+
+:::tip Explicación no tan técnica
+- Imagina que estás llenando un formulario en línea para registrarte en una página web. En el formulario, pones tu nombre, correo y contraseña. Cuando haces clic en "Enviar", esa información se empaqueta en el body (cuerpo) de la solicitud y se envía al servidor. El servidor recibe esos datos dentro del body, los procesa y te registra en la página.
+- El body es básicamente un lugar en el que el cliente puede poner muchos datos de una sola vez, y no tiene que hacerlo en la URL (que es donde se ponen los parámetros o las query strings). El body es más adecuado cuando necesitas enviar datos más grandes o complejos, como una lista de artículos en una compra, una imagen o, como en el ejemplo anterior, un formulario de inicio de sesión.
+
+:::
+
+#### Ejemplo
 index.html:
 ```html
 <form action="/formulario" method="POST">
@@ -913,9 +1041,15 @@ index.html:
       </form>
 
 ```
-- Con el método POST , los datos no viajan por la URL , viaja por el cuerpo de la petición HTTP
--	POST: Agrega datos de formulario dentro del cuerpo de la solicitud HTTP (los datos no se muestran en la URL)
+:::tip Observación
+- Con el método POST , los datos no viajan por la URL , viaja por el cuerpo de la petición HTTP.
+- POST: Agrega datos de formulario dentro del cuerpo de la solicitud HTTP (los datos no se muestran en la URL).
+:::
+
+:::warning
 - [Error req.body vacio](https://stackoverflow.com/questions/66555172/why-is-req-body-undefined-in-express)
+:::
+
 
 index.js
 ```js
@@ -927,10 +1061,10 @@ app.post('/formulario' , (req,res)=> {
 })
 
 ```
--	Desde el formulario HTML se está enviando datos a través del cuerpo o body, pero por defecto express no lee este tipo de datos.
--	Por lo tanto para indicarle a express que lea y analice los req.body (datos a través del cuerpo/body), se necesita configurar un middleware apropiado para dicho trabajo.
--	El middleware leerá el cuerpo de la solicitud, lo analizará y colocará los resultados analizados en el  req.body.
--	Express tiene un middleware como este incorporado para varios tipos de contenido.
+-	Desde el formulario HTML se está enviando datos a través del cuerpo o body, pero por defecto express no sabe  leer lo que hay dentro del body.
+-	Por lo tanto para indicarle a express que lea y analice los req.body (datos a través del cuerpo/body), se necesita configurar un middleware apropiado (depende del contenido que se envia por el body).
+-	El middleware leerá el cuerpo de la solicitud, lo analizará y colocará los resultados analizados (el contenido del body) en el  req.body.
+-	Express tiene un middleware  incorporado para cada tipo de contenido.
 - [info](https://expressjs.com/en/4x/api.html#express.json)
 
 :::tip Algunos de los middlewares 
@@ -955,6 +1089,15 @@ app.post('/formulario' , (req,res)=> {
 })
 
 ```
+
+#### Diferencias entre params, query y body:
+-	Params (Parámetros de ruta): Parte de la ruta de la URL. Sirven para identificar recursos específicos en la URL. Ejemplo: /products/:id
+    -	Acceso: req.params
+- Query (Parámetros de consulta): Información adicional que se envía en la URL después del signo ?. Ideal para búsquedas o filtros. Ejemplo: /search?term=javascript
+    -	Acceso: req.query
+- Body: Información enviada dentro de la solicitud, no visible en la URL. Se utiliza en solicitudes como POST, PUT, y PATCH, donde se necesitan enviar grandes cantidades de datos o datos más complejos. Ejemplo: Datos de un formulario de inicio de sesión o un archivo JSON.
+    - Acceso: req.body
+
 ## fs
 - [Tutorial](https://kinsta.com/es/base-de-conocimiento/nodejs-fs/)
 - [Opciones](https://nodejs.org/api/fs.html#filehandlewritefiledata-options)
@@ -1310,3 +1453,22 @@ module.exports = verifyToken;
 res.status(400).json({error: 'token no es válido'})
 ```
 - Por defecto , la respuesta tiene el status 200.
+
+
+## Params
+- Los params en Express se refieren a los parámetros de ruta que se definen en la URL. Estos son “fragmentos dinámicos” en las rutas que permiten que partes de la URL sean variables. Los params se utilizan para capturar valores que cambian de una solicitud a otra (como un ID de usuario, un nombre de producto, etc.).
+- Definición de una ruta con params: Se definen como partes de la URL que están precedidas por dos puntos (:) en la declaración de la ruta. En el contexto de Express, cuando defines una ruta como /users/:id, :id es un parámetro de ruta.
+- Acceso a los params: Estos valores capturados se pueden acceder a través del objeto req.params. Cada parámetro definido en la ruta se convierte en una propiedad de este objeto, donde el nombre del parámetro se convierte en la clave.
+- Coincidencia de rutas: Express compara las rutas de la solicitud con las rutas definidas en el servidor y, si encuentra una coincidencia con un parámetro de ruta, asigna el valor correspondiente a req.params.
+
+
+:::tip Explicación no tan técnica
+- Imagina que quieres visitar un perfil en una red social, como Facebook. La URL de tu perfil probablemente sea algo como facebook.com/tu-nombre-de-usuario. Pero si alguien más quiere visitar su perfil, la URL será facebook.com/otro-nombre-de-usuario. La parte de la URL que cambia de persona a persona es lo que llamamos un parámetro de ruta, por lo tanto, la URL seria facebook.com/:user y tanto tu-nombre-de-usuario como otro-nombre-de-usuario son valores que se almacena en la “variable” user.
+- En lugar de crear una página diferente para cada usuario, el servidor usa params para identificar al usuario o cualquier otro recurso, y así mostrar la información adecuada.
+- Con los parámetros de ruta, Express puede identificar qué información debe mostrar basándose en lo que haya en la URL. De esta forma, no necesitas una ruta para cada usuario o recurso. Solo necesitas una ruta que acepte diferentes valores (params) y, con eso, puedes mostrar la información correcta.
+:::
+#### Beneficios de los params
+1.	Flexibilidad: Los params permiten que una sola ruta maneje múltiples solicitudes. En lugar de tener una ruta diferente para cada recurso, puedes tener una ruta dinámica que se ajuste a diferentes valores.
+2.	Claridad en la URL: Los params permiten que los datos se incorporen directamente en la URL, lo que hace que las URLs sean más claras y fáciles de leer.
+3. Organización de rutas: Te ayuda a organizar rutas de manera lógica, donde la estructura de la URL refleja la relación entre los recursos (por ejemplo, usuarios y sus pedidos).
+- [Ejemplo](./mongo.md#get-único-documento)

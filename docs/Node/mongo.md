@@ -546,9 +546,9 @@ router/Mascota.js
 :::
 ```js
 
-//  "/:nombrevariable"
+//  Sintaxis: "/:nombrevariable"
 //la ruta es /mascotas/nombrevariable
-// Ejemplo: http://localhost:3001/mascotas/620a5b245908e57941d2954c
+// Ejemplo: Si hacemos una petición a http://localhost:3001/mascotas/620a5b245908e57941d2954c
 // El valor de nombrevariable es 620a5b245908e57941d2954c
 router.get('/:id' , async(req, res) => {
    try {

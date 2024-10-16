@@ -14,8 +14,13 @@ sidebar_position: 9
 - En diferentes marcos de desarrollo para aplicaciones web, como Express.js para Node.js, Spring MVC para Java o Django para Python, los controladores suelen implementarse de manera específica según la sintaxis y las convenciones del marco utilizado.
 
 ## Endpoint
-- En el contexto de una API (Interfaz de Programación de Aplicaciones), un "endpoint" se refiere a un punto final o una URL específica que se puede usar para realizar operaciones sobre recursos o servicios.
+- En el contexto de una API (Interfaz de Programación de Aplicaciones), un "endpoint" se refiere a un punto final o una URL específica que se puede usar para realizar una operación sobre un recurso o servicio.
 - En otras palabras, un endpoint es una interfaz expuesta por una API, a través de la cual los clientes pueden realizar solicitudes y obtener respuestas.
+
+:::tip interfaz
+Decir que un endpoint es una interfaz significa que es un punto de acceso(URL) que la API expone para que los clientes puedan interactuar con ella. A través de ese endpoint, los clientes envían solicitudes (como GET, POST, etc.) y obtienen respuestas, pero no conocen los detalles internos de cómo la API maneja esas solicitudes, solo saben qué pueden solicitar y qué recibirán como respuesta, al igual que una interfaz en programación.
+:::
+
 - Cada endpoint está asociado con una operación particular y representa una acción específica que se puede realizar en la API. Los cuatro métodos HTTP principales utilizados en los endpoints de una API REST son:
     - GET: Utilizado para recuperar información de un recurso.
     - POST: Utilizado para crear un nuevo recurso.
