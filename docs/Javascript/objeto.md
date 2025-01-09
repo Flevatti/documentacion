@@ -168,14 +168,20 @@ console.log(gato.otros.amigos[0])
 ```
 
 ##  Encadenamiento opcional
+- El encadenamiento opcional en JavaScript (introducido en ECMAScript 2020) permite acceder a propiedades de objetos o llamar métodos de manera segura, evitando errores si alguna de las propiedades o métodos no existe (es null o undefined).
+- Con el operador de encadenamiento opcional `?.`  no se tiene que validar expresamente que cada referencia en el objeto sea válida.
+#### ¿Cómo funciona?
+- El operador `?.` evalúa la expresión siguiente y:
+    - Si la expresión es null o undefined, deja de evaluar y devuelve undefined.
+    - Si no, accede a la propiedad o llama al método.
+- Ventajas:
+    -	Evita tener que escribir verificaciones largas con if o &&.
+    -	Hace el código más limpio y legible.
+    -	Ignora el error si escribiste mal el nombre de la propiedad o método dentro de un objeto.
 
 
- El operador de encadenamiento opcional ?. permite leer el valor de una propiedad ubicada dentro de una cadena de objetos conectados sin tener que validar expresamente que cada referencia en la cadena sea válida.
 
-Ignora el error si escribiste mal el nombre del objeto dentro de un objeto.
-
-Devuelve undefined si no existe la propiedad.
-
+- Ejemplo:
 ```js
 console.log(gato.otros?.favorito);
 ```

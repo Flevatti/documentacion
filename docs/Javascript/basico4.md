@@ -215,45 +215,119 @@ Tambien puede ser:
 
 :::
 ## 'use stric' -- Modo estricto
-- Define que el código JavaScript debe ejecutarse en "modo estricto".
-- No es una declaración, sino una expresión literal
-- El propósito de "use strict" es indicar que el código debe ejecutarse en "modo estricto".
+- 'use strict'; es una expresión literal (String) que le indica al motor de JavaScript que el código debe ejecutarse en modo estricto. No es una declaración como var o let; simplemente es una cadena de texto(String) que activa reglas más estrictas para escribir y ejecutar código JavaScript.
+- El modo estricto tiene como propósito ayudarte a escribir JavaScript más seguro y confiable. Cambia ciertas "malas prácticas" o comportamientos permisivos del lenguaje en errores que te advierten de problemas potenciales en el código. Esto mejora la calidad del código y reduce errores difíciles de encontrar.
+- El modo estricto es como una versión básica y nativa de ESLint, diseñada para protegerte de errores comunes de JavaScript. Sin embargo, ESLint es mucho más completo y flexible, ya que no solo detecta problemas sino que también puede guiarte hacia mejores prácticas de estilo y estructura en tu código. Idealmente, deberías usar ambos: use strict para las protecciones nativas, y ESLint como herramienta avanzada para mejorar la calidad del código.
 - Con el modo estricto, no se puede:
-  - Usar variables/objetos no declarados
-  - Eliminar una variable/objeto/función
-  - Duplicar el nombre de un parámetro
-  - Y mucho mas 
-#### ¿Por qué modo estricto?
-- El modo estricto facilita la escritura de JavaScript "seguro".
-- El modo estricto cambia la "mala sintaxis" previamente aceptada en errores reales.
-- Como ejemplo, en JavaScript normal, escribir mal el nombre de una variable crea una nueva variable global. En modo estricto, esto generará un error, lo que imposibilitará la creación accidental de una variable global.
-- En JavaScript normal, un desarrollador no recibirá ningún comentario de error al asignar valores a propiedades que no se pueden escribir.
-- En modo estricto, cualquier asignación a una propiedad que no se puede escribir, una propiedad de solo captador(getter), una propiedad inexistente, una variable inexistente o un objeto inexistente generará un error.
+  -	Usar variables/objetos no declarados
+  -	Eliminar una variable/objeto/función
+  -	Duplicar el nombre de un parámetro
+  -	Y mucho mas
+#### ¿Por qué usar el modo estricto?
+- El modo estricto facilita la escritura de código JavaScript más seguro y menos propenso a errores. Corrige comportamientos problemáticos del lenguaje y hace que los errores sean evidentes durante el desarrollo.
+
+#### Ventajas
+1.	Previene errores comunes:
+  -	Evita la creación accidental de variables globales.
+  -	Detecta asignaciones inválidas a propiedades no modificables o inexistentes.
+  -	Evita la “mala sintaxis”
+2.	Mejora la compatibilidad futura:
+  -	Prohíbe el uso de palabras reservadas que podrían usarse en versiones futuras de JavaScript.
+3.	Mayor seguridad y control:
+  -	Ayuda a identificar errores que podrían ser difíciles de depurar.
+
 #### Según donde este ubicado la sintaxis, tiene un alcance global o local.
-- Declarado al comienzo de una secuencia de comandos, tiene un alcance global (todo el código de la secuencia de comandos se ejecutará en modo estricto):
+- Según donde este la expresión literal (String), puede tener un alcance global (afectar a todo el código) o un alcance local (afecta solo al bloque).
+
+##### A nivel global
+- Coloca 'use strict'; al principio de un archivo o script. Todo el archivo se ejecutará en modo estricto.
+- Ejemplo:
+
 ```js
-      "use strict";
-      x = 3.14; // La variable x no esta declarada
+'use strict';
+x = 10; // Error: x no está declarado
+console.log(x);
 
 ```
-- Declarado dentro de una función, tiene alcance local (solo el código dentro de la función está en modo estricto):
+##### A nivel de función
+- Coloca 'use strict'; al inicio de una función o bloque para que solo esa función/bloque use el modo estricto.
+- Ejemplo:
 ```js
-x = 3.14;  // No causa un error
-myFunction();
-
-function myFunction() {
-  "use strict";
-  y = 3.14;   // Causa un error
+function strictFunction() {
+  'use strict';
+  y = 20; // Error: y no está declarado
 }
 
+strictFunction();
+
 ```
-:::tip info
-- [use strict](https://www.w3schools.com/js/js_strict.asp)
-- [use strict 2](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
-- [use strict 3](https://javascript.info/strict-mode)
-- [use strict 4](https://www.programiz.com/javascript/use-strict)
+
+#### Reglas que se aplican en el modo estricto son
+##### No se pueden usar variables no declaradas
+- En JavaScript normal, asignar un valor a una variable no declarada (no se especifica si es var, const o let) crea una variable global (var) automáticamente:
+```js
+x = 10; // Esto funciona en modo normal.
+console.log(x);
+
+```
+
+- En modo estricto:
+```js
+'use strict';
+x = 10; // Error: "x" no está declarada
+console.log(x);
+
+```
+##### No se puede eliminar variables o funciones
+- El modo normal permite intentar eliminar variables o funciones, aunque no tenga efecto:
+```js
+var y = 5;
+delete y; // No hace nada en modo normal.
+
+```
+:::tip Observación
+- En JavaScript normal, las variables y funciones declaradas con var (o con una declaración explícita como function) están marcadas como no configurables. Esto significa que no se pueden eliminar, pero el intento de hacerlo no genera un error.
+- Cuando algo es “no configurable” no puede ser modificado después de que ha sido definido. Esta configuración se define a través de la propiedad configurable en el descriptor de la propiedad.
+- A diferencia de las variables, las propiedades de un objeto sí pueden eliminarse si son configurables.
 
 :::
+- En modo estricto:
+```js
+'use strict';
+var y = 5;
+delete y; // Error: No se pueden eliminar variables declaradas
+
+```
+##### No se permite duplicar parámetros de funciones
+- En modo normal, puedes definir una función con nombres de parámetros repetidos, aunque puede causar errores:
+```js
+function suma(a, a) { return a + a; } // Permitido en modo normal.
+```
+- En modo estricto:
+```js
+'use strict';
+function suma(a, a) { return a + a; } // Error: Parámetros duplicados no permitidos.
+
+```
+##### Prohíbe asignaciones inválidas
+- En JavaScript normal, intentar asignar valores a propiedades no modificables o inexistentes simplemente falla silenciosamente:
+```js
+const obj = {};
+Object.defineProperty(obj, 'x', { value: 42, writable: false });
+obj.x = 10; // No hace nada, pero no muestra error.
+
+```
+- En modo estricto:
+```js
+'use strict';
+const obj = {};
+Object.defineProperty(obj, 'x', { value: 42, writable: false });
+obj.x = 10; // Error: No se puede modificar una propiedad no escribible.
+
+```
+
+
+
 ## metodos y atributos privados 
 - Con el prefijo “#”, podemos crear métodos y atributos privados
 ```js

@@ -1099,11 +1099,11 @@ En este ejemplo, la variable edad se evalúa para ver si es mayor de edad. Si es
 ## Firma del metodo
 
 - También se puede llamar signatura de un método.
-- Los métodos se declaran en una clase, struct o interfaz especificando el nivel de acceso, como public o private, modificadores opcionales como abstract o sealed, el valor devuelto, el nombre del método y  los argumento del método. Todas estas partes forman la firma del método.
+- Los métodos se declaran en una clase, struct o interfaz especificando el nivel de acceso, como public o private, modificadores opcionales como abstract o sealed, el tipo de dato que retorna, el nombre del método y  los argumento/parametros del método. Todas estas partes forman la firma del método.
   
 
 :::tip
-Un tipo de valor devuelto de un método no forma parte de la firma del método con el objetivo de sobrecargar el método. Sin embargo, forma parte de la firma del método al determinar la compatibilidad entre un delegado y el método que señala.
+El tipo de dato  devuelto de un método no forma parte de la firma del método para sobrecargar el método. Sin embargo, forma parte de la firma del método al determinar la compatibilidad entre un delegado y el método que señala.
 :::
 
 - Los argumentos de un método se encierran entre paréntesis y se separan por comas. Los paréntesis vacíos indican que el método no requiere parámetros.

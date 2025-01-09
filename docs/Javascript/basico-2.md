@@ -66,6 +66,7 @@ ${estado ? 'Bienvenido!' : 'Adiós!'} ${nombreUsuario}
 
 #### var 
 - Todo lo hace de manera global (no recomendado).
+- La palabra clave var especifica que la variable es global (no recomendado)
 - Uno de los mayores problemas al declarar variables con var, es que puedes sobrescribir las  variables sin errores.
 ```js
 var estado = true;

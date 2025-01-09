@@ -176,6 +176,99 @@ interface CarritoOps {
 
 
 :::
+## Interface de función
+#### Interfaz Normal (No Función)
+- Una interfaz normal en TypeScript describe la estructura de un objeto, es decir, define las propiedades y sus tipos de datos. Este tipo de interfaz no define funciones directamente, sino que solo especifica qué propiedades deben estar presentes y qué tipo de valores deben tener.
+- Ejemplo de una Interfaz Normal:
+```js
+interface Persona {
+  nombre: string;
+  edad: number;
+  direccion?: string; // Propiedad opcional
+}
+
+```
+:::tip Observación
+- En este caso, la interfaz Persona describe un objeto que tiene:
+  -	nombre de tipo string.
+  -	edad de tipo number.
+  -	direccion de tipo string, pero es opcional (especificado por el ?).
+- Este tipo de interfaz no tiene nada que ver con las funciones. Simplemente se usa para describir la estructura de un objeto.
+:::
+
+#### Interfaz de Función
+- Una interfaz de función en TypeScript es una interfaz que describe una función, es decir, cómo debe ser la firma de la función: qué parámetros toma y qué tipo de valor devuelve. En lugar de describir propiedades de un objeto, describe la función.
+- Ejemplo de una Interfaz de Función:
+```js
+interface Saludar {
+  (nombre: string): string;
+}
+
+```
+:::tip Observación
+- En este caso, la interfaz Saludar describe una función que:
+  -	Toma un argumento de tipo string (el nombre).
+  -	Devuelve un valor de tipo string (probablemente un saludo).
+- Dentro de los "{}"" se especifica los parámetros y sus tipos en los paréntesis y luego el tipo de dato de retorno.
+:::
+
+#### Diferencias Clave
+1.	Tipo de Uso:
+  -	Interfaz normal: Describe objetos y sus propiedades. No se utiliza para funciones, sino para objetos con claves y valores.
+  -	Interfaz de función: Describe una función, especificando cómo debe ser llamada: qué parámetros toma y qué tipo de valor devuelve.
+2.	Estructura:
+  -	Interfaz normal: Tiene propiedades con sus tipos.
+  -	Interfaz de función: Tiene firmas de funciones (parámetros y tipo de retorno).
+
+#### Implementación de una interfaz de función
+- Cuando implementas una interfaz de función, defines el cuerpo de la función. Por ejemplo:
+```js
+const saludar: Saludar = (nombre: string) => {
+  return `Hola, ${nombre}`;
+};
+
+```
+:::tip Observación
+- Aquí, saludar es una función que cumple con la interfaz Saludar, ya que:
+  -	Acepta un argumento de tipo string.
+  -	Devuelve un valor de tipo string.
+:::
+
+
+#### Sobrecarga de funciones en interfaces de función
+- La sobrecarga de métodos es un concepto en programación orientada a objetos (OOP) que permite definir varios métodos o funciones con el mismo nombre pero con diferentes tipos o números de parámetros. Dependiendo de los argumentos con los que se invoque el método, el compilador o el intérprete elegirá la versión adecuada del método.
+- En lenguajes como TypeScript, JavaScript y Java, la sobrecarga de métodos es una forma de tener funciones con el mismo nombre que realizan diferentes tareas dependiendo de los parámetros que reciban.
+- Una interfaz de función puede tener sobrecarga de funciones, lo que permite que una misma función sea llamada de diferentes maneras, especificando varias firmas para una sola función.
+- Una interfaz de función en TypeScript es una interfaz que describe el tipo de una función, es decir, cómo debe ser la [firma de la función](../C--/guiaC.md#firma-del-metodo): qué parámetros toma y qué tipo de valor devuelve. En lugar de describir propiedades de un objeto, describe cómo debe ser llamada la función.
+
+#### Ejemplo de sobrecarga
+```js
+interface Navegar {
+  (ruta: string): void;
+  (delta: number): void;
+}
+
+```
+:::tip Observación
+- Esta interfaz permite que Navegar sea una función que:
+  1.	Se llama con un String 
+  2.	Se llama con un number
+
+:::
+
+- Otro ejemplo:
+```js
+interface NavigateFunction {
+  (to: To, options?: NavigateOptions): void; // Primera sobrecarga
+  (delta: number): void; // Segunda sobrecarga
+}
+
+```
+:::tip Observación
+- Aunque ambas sobrecargas tienen el mismo nombre (NavigateFunction), TypeScript se encarga de identificar cuál de las dos sobrecargas utilizar según el tipo de parámetro que pases.
+  -	Si pasas un string (como "/home") y un objeto de ruta (como { pathname: "/home" }), TypeScript usará la primera sobrecarga que toma una ruta y opciones adicionales.
+  -	Si pasas un número (como -1), TypeScript usará la segunda sobrecarga que manipula el historial de navegación.
+:::
 
 ## Type vs interface
 - Con la interface podés usar extends, con type es imposible realizar eso.
@@ -1340,7 +1433,43 @@ console.log(person.age); // Imprime: 30
 
 ## tsconfig.json
 - Es un archivo de configuración utilizado por TypeScript para definir cómo debe compilarse el código TypeScript. Este archivo especifica las opciones del compilador y el comportamiento de la compilación, permitiendo personalizar cómo se convierte el código fuente de TypeScript en código JavaScript.
-- El archivo tsconfig.json puede contener varias secciones y opciones para configurar el proceso de compilación. Aquí están las partes más comunes y sus significados.
+- El archivo tsconfig.json puede contener varias secciones y opciones para configurar el proceso de compilación. 
+- El archivo tsconfig.json es un archivo de configuración que utiliza TypeScript para definir cómo se debe compilar un proyecto. Este archivo especifica las opciones del compilador y también indica qué archivos deben incluirse o excluirse durante la compilación. Es una parte esencial de cualquier proyecto TypeScript, ya que permite personalizar el comportamiento del compilador según las necesidades del proyecto.
+
+#### Contenido típico del archivo
+- El tsconfig.json está estructurado en formato JSON y suele incluir las siguientes secciones de “nivel superior”:
+  1.	compilerOptions: Especifica las opciones de compilación, como:
+      -	target: Define a qué versión de JavaScript se debe compilar el código (por ejemplo, ES5, ES6).
+      -	module: Establece el sistema de módulos a usar (CommonJS, ESNext, etc.).
+      -	strict: Activa el modo estricto de TypeScript para comprobar errores con mayor rigor.
+      -	outDir: Carpeta de salida para los archivos compilados.
+      -	rootDir: Define la carpeta base para la resolución de archivos.
+      -	jsx: Configura cómo se manejan los archivos JSX (usado en proyectos React).
+  2.	include: Lista de archivos o directorios que deben incluirse en la compilación.
+  3.	exclude: Archivos o directorios que deben excluirse de la compilación.
+  4.	files: Lista específica de archivos individuales que deben incluirse en el proyecto.
+  5.	references: Se usa para especificar dependencias explícitas entre diferentes proyectos. Esto permite al compilador saber qué otros proyectos deben compilarse antes de compilar el actual. 
+  6.	extends: Se usa para heredar configuraciones de otros archivos. Te permite sobrescribir o añadir opciones según sea necesario. Esto es muy útil en estructuras de proyectos con múltiples configuraciones relacionadas.
+
+- Ejemplo básico de tsconfig.json:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+
+```
+
+
 #### compilerOptions
 - Esta sección define las opciones del compilador que afectan cómo se realiza la conversión del código TypeScript a JavaScript.
 - Ejemplo:
@@ -1471,6 +1600,292 @@ tsc src/index.ts
 - En este caso, TypeScript compilará src/index.ts usando la configuración predeterminada del compilador en lugar de la configuración de tsconfig.json.
 
 :::
+
+
+#### Funcionalidades clave
+-	Optimización de compilación: Personaliza la salida y entrada de los archivos.
+-	Mejora el desarrollo: Activa características como control estricto de tipos.
+-	Compatibilidad: Permite configurar la salida a diferentes estándares de JavaScript.
+- Este archivo es esencial para configurar cualquier proyecto de TypeScript y garantizar que el entorno de desarrollo funcione como se espera.
+
+:::tip
+- [Documentación](https://www.typescriptlang.org/tsconfig/)
+:::
+
+
+## Tipos de tsconfig
+- Hay diferentes tipos de archivos tsconfig que se usan para distintos propósitos, y todos se basan en el mismo formato JSON. Estas variaciones permiten que los proyectos sean más organizados y flexibles, especialmente cuando hay múltiples entornos que se deben compilar de manera diferente. Aquí te detallo los tipos comunes de tsconfig y cuándo se utilizan.
+
+#### tsconfig.json (Global)
+-  Propósito: Es el archivo principal y base del proyecto.
+-  Uso: Contiene configuraciones generales que son compartidas por todo el proyecto.
+-  Ejemplo de uso:
+    -	Proyectos pequeños que no necesitan configuraciones específicas para diferentes entornos o partes del proyecto.
+    -	Punto de partida para proyectos grandes que lo extenderán con configuraciones más específicas.
+#### tsconfig.app.json (Aplicación)
+-	Propósito: Configurar específicamente el código  de la aplicación principal.
+-	Uso: En proyectos grandes con un enfoque modular, define cómo compilar solo el código de la aplicación (frontend o backend).
+-	Ejemplo de uso:
+    - Un proyecto Angular lo usa para compilar solo los archivos del cliente (src/app/**/*).
+    - En proyectos con múltiples partes (por ejemplo, cliente y servidor), ayuda a aislar configuraciones.
+#### tsconfig.node.json (Node.js)
+-  Propósito: Configurar TypeScript para el entorno Node.js.
+-  Uso:
+    -	En proyectos backend o scripts que ejecutan código directamente en Node.js.
+    -	Habilita definiciones de tipos específicas para Node.js (types: ["node"]).
+- Ejemplo de uso: Compilar solo archivos de la carpeta del servidor (server/**/*).
+#### tsconfig.spec.json (Pruebas)
+-  Propósito: Configurar TypeScript para el entorno de pruebas.
+-  Uso:
+    -	Compila únicamente los archivos de pruebas (******/*.spec.ts o **/*.test.ts).
+    -	Define configuraciones especiales, como incluir bibliotecas de pruebas (jest, mocha, etc.).
+-	Ejemplo de uso:
+```json
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.spec.ts", "src/**/*.test.ts"]
+}
+
+```
+#### tsconfig.base.json (Base)
+-  Propósito: Proveer una configuración compartida en un monorepo o en múltiples paquetes.
+-  Uso: Extendido por otros archivos tsconfig para mantener configuraciones comunes.
+- Ejemplo de uso:
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es6",
+    "moduleResolution": "node"
+  }
+}
+
+```
+#### ¿Cómo funcionan juntos?
+- Los archivos tsconfig pueden extenderse(heredarse) entre sí usando la opción "extends", lo que permite reutilizar configuraciones comunes. Por ejemplo:
+  1.	tsconfig.base.json define opciones globales.
+  2.	tsconfig.app.json, tsconfig.node.json y tsconfig.spec.json extienden(heredan) de este archivo base y tiene sus propias configuraciones a la vez
+
+#### TSC
+- Puedes especificar el archivo tsconfig al usar el comando tsc (TypeScript Compiler).
+- Si no especificas un archivo, tsc buscará automáticamente el archivo tsconfig.json en la raíz del proyecto.
+##### Ejemplo
+- Por defecto busca el archivo tsconfig.json:
+```cmd
+tsc
+```
+- Especificar un archivo tsconfig:
+```cmd
+tsc --project tsconfig.app.json
+```
+
+:::tip
+- Las herramientas modernas como Webpack o Vite y frameworks como Angular permiten definir cuál archivo tsconfig usar.
+:::
+
+
+#### Monorepos (NX, Lerna, etc.)
+- En un monorepo, puedes usar un archivo tsconfig.base.json como base y configuraciones específicas para cada parte del proyecto.
+Usa la propiedad "extends" para reutilizar configuraciones.
+##### Ejemplo
+- Estructura:
+```plaintext
+monorepo/
+├── tsconfig.base.json
+├── packages/
+│   ├── app/
+│   │   ├── tsconfig.json (extiende tsconfig.base.json)
+│   ├── server/
+│   │   ├── tsconfig.json (extiende tsconfig.base.json)
+
+```
+- Ejemplo de extensión: Archivo base:
+```json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "strict": true
+  }
+}
+
+```
+- Archivo específico:
+```json
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["src/**/*"]
+}
+
+```
+#### Pruebas
+- Usar un archivo como tsconfig.spec.json es útil para compilar solo archivos de prueba.
+- Ejemplo: Ejecutar pruebas con Jest:
+```cmd
+jest --config jest.config.js --tsconfig=tsconfig.spec.json
+```
+#### Scripts en package.json
+- Define diferentes scripts para usar los archivos tsconfig según el propósito.
+- Ejemplo (package.json):
+```json
+{
+  "scripts": {
+    "build:app": "tsc --project tsconfig.app.json",
+    "build:server": "tsc --project tsconfig.node.json",
+    "test": "jest --tsconfig tsconfig.spec.json"
+  }
+}
+
+```
+:::tip Observación
+- Flujo común de trabajo:
+  -  Configura tu archivo base (tsconfig.json o tsconfig.base.json):
+      -	Define las configuraciones comunes.
+  -  Crea configuraciones específicas (tsconfig.app.json, tsconfig.node.json):
+      -	Personaliza las configuraciones según el contexto (cliente, servidor, pruebas).
+  -  Usa herramientas o scripts para invocar cada configuración:
+      -	tsc --project
+      -	Configura Webpack, Jest o la herramienta que uses.
+:::
+
+#### Vite
+- Vite tiene un archivo base llamado tsconfig.json que contiene lo siguiente:
+
+```json
+{
+  "compilerOptions": { 
+     "useUnknownInCatchVariables": true ,
+     
+} ,
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+```
+:::tip Explicación
+- compilerOptions:
+  - Esta sección define opciones globales aplicables para todo el proyecto. En este caso:
+      -	"useUnknownInCatchVariables": true:
+          -	Esta opción fuerza a que las variables de bloques catch en excepciones sean tratadas como unknown en lugar de any.
+          -	Mejora la seguridad al requerir que las excepciones sean verificadas o convertidas explícitamente antes de usarlas.
+- files
+  -	Está vacío ("files": []), lo que significa que este archivo tsconfig.json no incluye directamente archivos para compilar.
+  -	En lugar de ello, delega la inclusión de archivos a los archivos referenciados en la sección references.
+- references
+  -	Esta clave indica que este archivo depende de otros archivos de configuración tsconfig.
+  -	La compilación se delega a estos archivos, que probablemente están configurados para diferentes partes del proyecto.
+  -	En este caso:
+      -	"path": "./tsconfig.app.json": Configura probablemente el cliente o la aplicación.
+      -	"path": "./tsconfig.node.json": Configura probablemente la parte del backend o entorno Node.js.
+- Ejemplo del flujo:
+  1.	Si ejecutas tsc -b, TypeScript usa este archivo y sigue las referencias.
+  2.	Primero compilará el código definido en tsconfig.app.json.
+  3.	Luego, compilará lo definido en tsconfig.node.json.
+- La clave "references" organiza el orden de compilación:
+  -	Si la aplicación necesita primero compilar el cliente (app) antes que el servidor (node), TypeScript lo hará automáticamente en el orden correcto.
+:::
+
+
+:::tip modo de construcción
+- La opcion -b te permite activar el modo de construcción
+- El modo de construcción en TypeScript es una funcionalidad que facilita la gestión y compilación de proyectos grandes que involucran múltiples subproyectos o módulos. Cuando usas tsc -b, estás habilitando un flujo especial de compilación que gestiona proyectos que dependen de otros proyectos de manera eficiente. Este flujo permite compilar varios proyectos en el orden adecuado y de forma incremental (solo los archivos que han cambiado).
+- Imagina que tienes un proyecto grande que está dividido en varias partes. Por ejemplo, tienes:
+  1.	Un proyecto principal.
+  2.	Subproyectos que dependen del proyecto principal o de otros subproyectos.
+#### Modo normal (sin -b)
+- En un proyecto común de TypeScript, sin el modo de construcción, puedes tener un único archivo tsconfig.json que compila todos los archivos de tu proyecto. Cada vez que ejecutas tsc, TypeScript recompila todos los archivos desde cero, sin importar si algunos no han cambiado.
+- Por ejemplo, si haces un cambio en solo un archivo, TypeScript recompilará todo el proyecto (todos los archivos). Esto puede ser lento si tu proyecto es grande.
+#### 	Modo de construcción (-b)
+- Con el modo de construcción, TypeScript usa un sistema que permite compilar proyectos de forma más eficiente y organizada.
+Cuando ejecutas tsc -b, TypeScript:
+  1.	Gestiona proyectos múltiples: Te permite organizar tu proyecto en varios subproyectos, que pueden ser dependientes unos de otros. Cada subproyecto tiene su propio archivo tsconfig.json y puede referirse a otros subproyectos.
+  2.	Compilación incremental: Solo recompila los archivos que han cambiado desde la última vez que se compiló. Si un archivo no ha cambiado, no se recompila, lo que mejora el tiempo de compilación.
+  3.	Resuelve dependencias entre proyectos: Si tienes un proyecto A que depende de un proyecto B, TypeScript compilará primero el proyecto B y luego el proyecto A. Esto asegura que siempre estés trabajando con versiones correctas de tus dependencias.
+  4. El modo de construcción de TypeScript con tsc -b detecta los cambios en las dependencias mediante un mecanismo llamado compilación incremental.
+#### Ejemplo práctico con tsc -b
+- Supongamos que tienes la siguiente estructura de carpetas:
+```bash
+/proyecto
+  /tsconfig.json          (configuración principal)
+  /subproyecto1
+    /tsconfig.json        (configuración del subproyecto 1)
+  /subproyecto2
+    /tsconfig.json        (configuración del subproyecto 2)
+
+```
+- Dentro del tsconfig.json principal de /proyecto, podrías tener algo como esto:
+```json
+{
+  "compilerOptions": {
+    "composite": true
+  },
+  "references": [
+    { "path": "./subproyecto1" },
+    { "path": "./subproyecto2" }
+  ]
+}
+
+```
+- La clave "composite": true en el tsconfig.json indica que este proyecto puede ser compilado independientemente y que sus dependencias deben resolverse.
+- La clave "references" indica que el proyecto principal depende de subproyecto1 y subproyecto2.
+
+
+#### ¿Qué pasa cuando usas tsc -b en este caso?
+1.	Compilación ordenada: Primero, TypeScript compilará subproyecto1, luego subproyecto2, y finalmente el proyecto principal. Esto garantiza que siempre compiles las dependencias en el orden correcto.
+2.	Compilación incremental: Si no ha cambiado nada en subproyecto1, TypeScript no lo recompilará, lo que ahorra tiempo.
+3.	Optimización de recursos: Si solo ha cambiado un archivo en el subproyecto2, TypeScript solo recompilará ese archivo, y no todo el proyecto.
+
+#### ¿Por qué es útil?
+-	Eficiencia: Si tienes un proyecto grande con muchos archivos y dependencias, el modo de construcción acelera la compilación al recompilar solo lo que ha cambiado.
+-	Organización: Puedes dividir tu código en varios proyectos o módulos más pequeños y manejables.
+-	Automatización: Si tienes dependencias entre proyectos, TypeScript asegura que se compilen en el orden correcto.
+
+#### En resumen
+-	El modo de construcción (-b) de TypeScript te permite manejar proyectos grandes o monorepos (múltiples proyectos dentro de un solo repositorio).
+-	Ayuda a compilar múltiples proyectos en el orden correcto y solo recompilar lo que ha cambiado, lo que hace que la compilación sea más rápida y eficiente.
+-	Es especialmente útil cuando tienes proyectos interdependientes, donde un subproyecto depende de otros para funcionar correctamente.
+
+
+
+
+:::
+:::tip ¿Cómo detecta TypeScript que una dependencia ha cambiado?
+- Hashing de Archivos: TypeScript mantiene un hash (un valor único calculado a partir del contenido de un archivo) de cada archivo que compila. Cuando se ejecuta el comando tsc -b en modo de construcción, TypeScript calcula el hash de los archivos fuente (por ejemplo, los archivos .ts) y lo guarda en un archivo de "estado" que se  llama tsconfig.tsbuildinfo. Este archivo contiene un registro de todos los archivos que se han compilado junto con sus hashes y el estado de la compilación.
+- Verificación de Cambios: La próxima vez que ejecutes tsc -b, TypeScript compara los hashes de los archivos actuales con los previamente almacenados. Si el contenido de un archivo ha cambiado, el hash también cambiará. Si un archivo tiene un hash diferente, TypeScript lo considera como un archivo modificado y lo recompilará.
+-  Dependencias y Orden de Compilación: Cuando tienes dependencias entre proyectos (por ejemplo, un subproyecto que depende de otro), TypeScript también verifica si alguno de los archivos de dependencia ha cambiado. Si el proyecto A depende de los archivos de proyecto B y alguno de esos archivos cambia, TypeScript detectará el cambio y recompilará el proyecto B primero, y luego el proyecto A:
+  -	Si el archivo en subproyecto1 ha cambiado, entonces TypeScript recompilará ese subproyecto y también recompilará el proyecto que depende de él (subproyecto2 o el proyecto principal).
+  -	Si no ha cambiado nada en las dependencias, TypeScript saltará la recompilación de esas dependencias, lo que mejora el rendimiento.
+#### Archivos de estado (tsbuildinfo)
+- Cuando ejecutas la compilación con tsc -b, TypeScript genera un archivo adicional en el directorio donde se encuentra el tsconfig.json. Este archivo tiene la extensión .tsbuildinfo y contiene información sobre los archivos que se han compilado, así como los hashes asociados a ellos.
+- Este archivo sirve como registro de los resultados de la compilación anterior y ayuda a TypeScript a realizar una compilación incremental de manera más eficiente. Por ejemplo:
+  -	Si cambias un archivo en subproyecto1, TypeScript comparará el hash del archivo modificado con el registrado en el archivo .tsbuildinfo y, si detecta una diferencia, recompilará el archivo.
+  -	Si no ha habido cambios en los archivos, TypeScript no hará nada y saltará la recompilación.
+#### ¿Qué sucede si eliminas o modificas el archivo .tsbuildinfo?
+- Si eliminas el archivo .tsbuildinfo o si lo modificas, TypeScript no podrá hacer una compilación incremental correctamente y, en su lugar, realizará una compilación completa de todos los archivos, ya que perdería el registro de los hashes anteriores.
+#### ¿Qué pasa si modificas una dependencia indirecta?
+- Si un archivo dentro de un subproyecto cambia (y ese archivo es una dependencia de otro proyecto), TypeScript también se asegura de que todos los archivos que dependen de ese archivo se recompilen en el orden adecuado, lo que garantiza que todos los proyectos estén actualizados.
+- Por ejemplo, si tienes:
+  -	Proyecto A depende de subproyecto1
+  -	Subproyecto1 depende de subproyecto2
+- Si cambias algo en subproyecto2, TypeScript lo detectará y recompilará subproyecto2, luego recompilará subproyecto1, y finalmente Proyecto A.
+#### Flujo general de compilación con dependencias
+1.	Primera ejecución:
+  -	TypeScript compila todos los archivos y genera los hashes.
+  -	Guarda la información de la compilación en un archivo .tsbuildinfo.
+2.	Segunda ejecución:
+  -	TypeScript verifica los hashes de los archivos.
+  -	Si el contenido de un archivo ha cambiado, lo recompila.
+  -	Si algún archivo dependiente cambia, recompila los archivos dependientes también.
+3.	Compilación de dependencias:
+  -	Si un archivo depende de otro, TypeScript asegura que los archivos sean compilados en el orden correcto.
+#### ¿Por qué es útil este mecanismo?
+-	Recompilación selectiva: Solo los archivos que han cambiado (y sus dependencias) se recompilan, lo que mejora el rendimiento en proyectos grandes.
+-	Integración con monorepos: Es muy útil en proyectos con múltiples subproyectos que pueden depender unos de otros, como los monorepos.
+-	Simplicidad: TypeScript se encarga de gestionar todo esto automáticamente sin necesidad de intervención manual.
+:::
+
 
 ## Afirmaciones de asignación definida
 - En TypeScript, la afirmación de asignación definida se utiliza cuando estás seguro de que una variable o propiedad será inicializada antes de que se utilice, pero TypeScript no puede verificarlo automáticamente.

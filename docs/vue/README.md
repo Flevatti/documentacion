@@ -1146,8 +1146,8 @@ El código anterior te genera un error, porque la  directiva  v-if se evaluará 
 
 ## Eventos 
 
-- [Dentro de javascript hay muchos eventos (al hacer click, pasar el puntero por encima de un elemento, etc)](https://fedeleva.github.io/documentacion/docs/Javascript/DOM#eventos)
-- Existen dos formas de registrar un evento a un componente/elemento (Cumple la misma función que el addEventListener()).
+- [Dentro de javascript hay muchos eventos (al hacer click, pasar el puntero por encima de un elemento, etc)](https://flevatti.github.io/documentacion/docs/Javascript/DOM#eventos)
+- Existen dos formas de escuchar un evento en un componente/elemento (Cumple la misma función que el addEventListener()).
 ### 1 Forma
 ```js
 <elemento v-on:evento =”metodo”></elemento>
@@ -1402,22 +1402,23 @@ No se recomienda implementar operaciones pesadas en las propiedades calculadas.
 :::
 
 ## Ciclo de vida de Vue
+- El ciclo de vida de un componente se refiere a las distintas etapas por las que pasa un componente desde su creación hasta su destrucción.  
+- La mayoría de los frameworks o librerías te permiten ejecutar código en alguna etapa/momento específico del ciclo para controlar su comportamiento o realizar tareas específicas (como hacer llamadas a APIs, manejar eventos o limpiar recursos).
+- El ciclo de vida típicamente tiene estas fases:
+  1.	Creación/Montaje (Mounting): El componente se inicializa y se agrega al DOM.
+  2.	Actualización (Updating): El componente es actualizado, generalmente porque sus propiedades o estado han cambiado.
+  3.	Desmontaje/Destrucción (Unmounting): El componente es eliminado del DOM.
+- En Vue, los hooks son funciones específicas que te permiten ejecutar código en diferentes momentos del ciclo de vida de un componente. Estos hooks te dan control sobre lo que sucede en cada etapa del ciclo de vida, como cuando el componente se crea, se monta en el DOM, se actualiza o se destruye.
+- En Vue, los hooks están diseñados específicamente para gestionar el ciclo de vida de un componente. Estos hooks te permiten ejecutar código en momentos clave, como cuando el componente se monta, actualiza o destruye. En Vue, los hooks no se usan para manejar el estado del componente como en React.
+- Estos Hooks son fundamentales para controlar el comportamiento de los componentes en cada etapa y para manejar correctamente recursos o efectos secundarios (como solicitudes de datos o suscripciones).
 - [link 1](https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram)
-- [link 2](https://www.manejandodatos.es/2021/04/life-cycle-of-components-in-vue/)
 
 
-:::tip Links
-- Todos representan el mismo ciclo de vida
-- Pueden utilizar “otro nombre” para referirse a lo mismo.
-- Ej. New Vue === Vue.createApp
-:::
-
-#### Observacion de las imagenes 
+#### Observacion de la imagen
 - Se hace un ciclo infinito con las actualizaciones del DOM VIRTUAL
-- $el hace referencia a la aplicación (al contenedor DIV que renderiza la APP)
 - Desmontar un componente sirve para liberar memoria. Se recomienda usarlo en aplicaciones grandes.
 
-### Eventos
+### Métodos/Hooks
 ```js
 <!DOCTYPE html>
 <html lang="en">
@@ -1501,9 +1502,9 @@ No se recomienda implementar operaciones pesadas en las propiedades calculadas.
 </html>
 
 ```
-:::tip 
-También pueden ser asíncronos los eventos mounted , unmounted , etc.
-
+:::tip Observación
+- En Vue 2 con la Option API, cada etapa del ciclo de vida de un componente tiene un método asociado que te permite ejecutar código en momentos específicos del ciclo de vida. Estos métodos te brindan control sobre lo que sucede cuando el componente se crea, monta, actualiza y destruye. Por ejemplo el código que contiene el método beforeCreate() se ejecutara antes de la creación del componente.
+- También pueden ser asíncronos los métodos mounted , unmounted , etc.
 :::
 ## Componente
 - Nos permite separar código dentro del frontend.
@@ -1858,24 +1859,28 @@ Index.html
 
 
   ## Inyeccion de dependencias
-- Las propiedades que comienzan con $ en Vue.js pueden ser propiedades especiales agregadas por Vue.js o propiedades agregadas por bibliotecas o frameworks de terceros que se integran con Vue.js. No se recomienda utilizar propiedades que comienzan con $ o _ en el código del usuario.
-- Por ejemplo, la propiedad $refs es una propiedad especial agregada por Vue.js para permitir el acceso a elementos o componentes específicos en la plantilla de un componente. Por otro lado, las propiedades que comienzan con $ y son agregadas por terceros, como por ejemplo $store en Vuex, son propiedades agregadas por bibliotecas o frameworks de terceros que se integran con Vue.js.
 
+- En Vue.js, algunas propiedades empiezan con un signo de dólar $. Estas son propiedades especiales que Vue.js o ciertas bibliotecas (como Vuex o Vue Router) añaden automáticamente a los componentes. Es importante no usar nombres que empiecen con $ o _ al crear tus propias propiedades, ya que podrían entrar en conflicto con estas funciones internas. 
+- Por ejemplo:
+  - $refs: Es una propiedad que Vue.js agrega para acceder a elementos o componentes específicos en tu plantilla.
+  - $store: Si usas Vuex, esta propiedad te permite acceder al estado centralizado de tu aplicación.
 
-#### Inyeccion de dependencias
-- Los frameworks o bibliotecas pueden utilizar inyección de dependencias para proporcionar propiedades o métodos que comienzan con $ a los componentes de Vue.js.
-- La inyección de dependencias es un patrón de diseño que permite a los componentes recibir objetos o servicios que necesitan para funcionar, en lugar de crearlos ellos mismos. De esta manera, los componentes se vuelven más flexibles y fáciles de testear.
-- En el caso de Vue.js, los frameworks o bibliotecas como Vuex, Vue Router o Axios pueden utilizar la inyección de dependencias para proporcionar propiedades o métodos que comienzan con $ a los componentes. Por ejemplo, Vuex proporciona la propiedad $store para acceder al estado de la aplicación, mientras que Vue Router proporciona la propiedad $router para acceder a la instancia del router.
+#### ¿Qué es la inyección de dependencias?
+- En términos sencillos:
+  - Es una forma en que un componente recibe las "herramientas"  que necesita para funcionar sin tener que buscarlas o crearlas por sí mismo.
+  - Estas "herramientas" son objetos (conocidos como "servicios") que contienen propiedades y métodos para realizar una tarea en especifico.
+  - Estas herramientas son provistas automáticamente por un sistema centralizado o configurado previamente. Así, el componente solo se enfoca en hacer su trabajo, sin preocuparse por cómo obtener esos recursos.
+  - Por ejemplo, si un componente necesita acceso al router (la herramienta que maneja las rutas de la aplicación), Vue Router le proporciona la propiedad $router automáticamente.
+- En términos técnicos:
+  - La inyección de dependencias es un patrón de diseño en el que las dependencias de un objeto (como servicios o datos) son proporcionadas por el sistema en lugar de ser creadas o gestionadas por el propio objeto.
 
-##### ¿Que és?
-- La inyección de dependencias es un patrón de diseño que permite proporcionar a un objeto o componente los recursos o servicios que necesita para funcionar, en lugar de que el objeto o componente los cree o busque por sí mismo.
-- En otras palabras, la inyección de dependencias consiste en pasar como argumentos o propiedades los objetos o servicios que un componente necesita para funcionar, en lugar de crearlos o instanciarlos dentro del propio componente.
-- Este patrón de diseño ofrece varias ventajas, como por ejemplo:
-  - Flexibilidad: Los componentes se vuelven más flexibles y reutilizables, ya que pueden recibir diferentes implementaciones de los servicios que necesitan.
-  - Pruebas: Los componentes se vuelven más fáciles de testear, ya que se pueden proporcionar implementaciones simuladas o de prueba de los servicios que necesitan.
-  - Separación de responsabilidades: La inyección de dependencias ayuda a separar las responsabilidades de los componentes, ya que cada componente se enfoca en una tarea específica y delega las tareas secundarias a otros servicios o componentes.
-- En el contexto de Vue.js, la inyección de dependencias se puede realizar mediante diferentes técnicas, como por ejemplo:
-  - Propiedades: Se pueden proporcionar propiedades a los componentes para inyectar dependencias.
-  - Opciones: Se pueden proporcionar opciones de configuración a los componentes para inyectar dependencias.
-  - Métodos: Se pueden proporcionar métodos a los componentes para inyectar dependencias.
-- Además, los frameworks o bibliotecas que se integran con Vue.js, como Vuex o Vue Router, suelen utilizar la inyección de dependencias para proporcionar propiedades o métodos especiales a los componentes.
+#### Ventajas de la inyección de dependencias
+- Flexibilidad: Los componentes pueden recibir diferentes herramientas según lo que necesiten, lo que los hace más versátiles.
+- Fácil de probar: Puedes darle al componente versiones "falsas" de las herramientas para probarlo sin afectar a la aplicación real.
+- Separación de tareas: Los componentes se enfocan en su trabajo principal y dejan las tareas adicionales a las herramientas externas.
+
+#### ¿Cómo funciona en Vue.js?
+- Los frameworks como Vuex o Vue Router utilizan este patrón para agregar herramientas directamente a los componentes:
+  - Propiedades: Por ejemplo, la propiedad $store de Vuex o $router de Vue Router.
+  - Métodos: A veces, las dependencias se pasan como funciones.
+

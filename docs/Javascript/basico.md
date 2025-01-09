@@ -569,13 +569,10 @@ switch (n) {
 :::
 ### Switch
 
-La declaración switch evalúa una expresión, comparando el valor de esa expresión con una o varias instancias case.
-
-Compara un valor  con un conjunto de valores(case) , si es igual a uno , se ejecuta dicho case .
-
-el default se ejecuta cuando el valor no es igual a ningún case.
-
-el break es para salir del switch y que deje de comparar el valor con los case que sigue.
+- La declaración switch evalúa una expresión, comparando el valor de esa expresión con una o varias instancias case.
+- Compara un valor  con un conjunto de valores(case) , si es igual a uno , se ejecuta dicho case.
+- el default se ejecuta cuando el valor no es igual a ningún case.
+- el break es para salir del switch y que deje de comparar el valor con los case que sigue.
 
 ```js
 let opcionUser = prompt(`
@@ -601,6 +598,76 @@ switch (opcionUser) {
 }
 
 ```
+
+- En una expresión switch de JavaScript puedes usar tanto break como return, pero cada uno se usa en contextos diferentes y depende de lo que quieras lograr.
+
+#### Usar break en un switch
+-	Propósito: Detener la ejecución del switch después de que se haya ejecutado un caso específico.
+-	Uso común: En estructuras switch estándar para evitar que los casos siguientes se ejecuten o evaluen (comportamiento llamado fall-through).
+- Ejemplo:
+```js
+function getDayName(day) {
+  let dayName;
+  switch (day) {
+    case 1:
+      dayName = "Monday";
+      break; // Detiene el `switch` aquí
+    case 2:
+      dayName = "Tuesday";
+      break;
+    default:
+      dayName = "Unknown";
+  }
+  return dayName; // Devuelve el resultado
+}
+
+console.log(getDayName(1)); // "Monday"
+
+```
+
+:::warning
+- Si le quitamos los break, los cases siguientes también se evaluaran, lo cual generalmente no es lo deseado.
+:::
+
+#### Usar return en un switch
+-	Propósito: Salir de la función inmediatamente y devolver un valor.
+-	Uso común: En funciones donde el switch se utiliza para decidir el valor de retorno.
+-	No necesitas break porque el return termina la función y, por ende, detiene el switch.
+- Ejemplo:
+```js
+function getDayName(day) {
+  switch (day) {
+    case 1:
+      return "Monday"; // Sale de la función aquí
+    case 2:
+      return "Tuesday";
+    default:
+      return "Unknown";
+  }
+}
+
+console.log(getDayName(1)); // "Monday"
+
+```
+:::tip Observación
+- Es más conciso y elimina la necesidad de asignar variables temporales.
+:::
+
+#### Comparación
+
+| Escenario | break | return |
+| - | - | - |
+|  Detener ejecución del switch y continuar el código. |✅ Sí   | 🚫 No (termina la función).    |
+| Salir inmediatamente de la función.  |  🚫 No |   ✅ Sí |
+| Uso típico en funciones que no devuelven valores (solo ejecutan acciones).  | ✅ Sí  | 🚫 No   |
+|  Uso típico en funciones que devuelven valores. | 🚫 No (requiere variable).  |  ✅ Sí  |
+
+
+:::tip Documentación
+- [switch](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/switch)
+
+:::
+
 ### While
 - Crea un bucle que ejecuta un bloque de código mientras cierta condición se evalúe como verdadera. Dicha condición es evaluada antes de ejecutar el código.
 - Mientras se cumpla una condición, va a ejecutar X código constantemente. Cuando la condición no se cumpla, se deja de ejecutar y sigue con el resto del código que tiene abajo.
@@ -968,6 +1035,7 @@ saludar(alice)
 - La palabra clave return en programación se utiliza para finalizar la ejecución de una función y devolver un valor al lugar desde donde fue llamada. La función puede realizar ciertas operaciones y cálculos, y el resultado de esos cálculos puede ser enviado de vuelta al código que hizo la llamada mediante la instrucción return. El valor devuelto por return puede ser de cualquier tipo de datos, dependiendo de la naturaleza de la función.
 - La palabra clave return se utiliza en la mayoría de los lenguajes de programación para devolver un valor desde una función o un método. Cuando una función o un método alcanza una instrucción return, el flujo de control se interrumpe y se devuelve el valor especificado a la llamada de la función o el método.
 - La palabra clave return se utiliza para devolver un valor desde una función o un método, interrumpiendo/deteniendo su ejecución.
+- return devuelve algo y deja de ejecutar la función , método ,  bloque.  Cuando usamos la palabra clave return es para indicar que queremos salir del bloque.
 - La sintaxis básica de la palabra clave return en JavaScript es la siguiente:
 ```js
 function nombreFuncion(parametros) {

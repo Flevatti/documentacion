@@ -2,8 +2,19 @@
 sidebar_position: 11
 ---
 # Arquitecturas
-- La arquitectura de un sistema software es la definición de qué componentes constituyen ese sistema, sus responsabilidades y las relaciones de uso y dependencia entre ellos. Es, por tanto, completamente independiente de la tecnología que se utilice y no debería representar en ningún momento el framework, la base de datos o la forma de interactuar con el usuario.
-- Una arquitectura en el contexto de desarrollo de software es un conjunto de decisiones estructurales sobre el diseño y organización de un sistema. Esto incluye la selección de componentes principales, su interacción, las interfaces, y las tecnologías que se usarán. La arquitectura define tanto la estructura como el comportamiento del sistema y establece una base para cumplir con los requisitos técnicos y de negocio.
+- La arquitectura de un sistema de software define los componentes que lo conforman, sus responsabilidades y cómo se relacionan entre sí y dependen unos de otros. Es completamente independiente de la tecnología utilizada y no debe representar en ningún caso el framework, la base de datos o la forma de interacción con el usuario.
+- La arquitectura en el desarrollo de software se refiere a las reglas o normas que se siguen para diseñar y organizar un sistema, y que determinan cómo se eligen los componentes principales, cómo interactúan entre sí, las interfaces que se usarán y las tecnologías que se usarán.
+- La arquitectura define tanto la estructura como el comportamiento del sistema y establece las condiciones necesarias para satisfacer los requisitos técnicos y de negocio.
+
+
+:::tip
+La arquitectura define qué componentes serán necesarios, sus responsabilidades y cómo se relacionarán entre sí. Sin embargo, en la fase de implementación, La arquitectura te ayudará a elegir las tecnologías más adecuadas para el sistema, como el tipo de framework, la base de datos y otras herramientas, según las necesidades del software.
+:::
+
+
+
+
+
 #### Analogía
 - Imagina que estás planeando la construcción de un edificio:
     -  Diseño Arquitectónico: Al igual que un arquitecto de edificios crea un plano detallado que especifica la estructura del edificio, los materiales a usar, la distribución de habitaciones, y cómo interactuarán las diferentes partes del edificio, un arquitecto de software diseña la estructura del sistema, define los componentes principales (como módulos, servicios, bases de datos), y establece cómo interactuarán entre ellos.

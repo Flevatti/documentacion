@@ -199,16 +199,16 @@ Cada input/textarea debe contener el atributo name para luego poder identificar 
 ``` 
 ## Eventos
 
-Ya aprendimos que podemos capturar eventos a través de Javascript utilizando addEventListener , hoy conoceremos algunos para procesar formularios.
+Ya aprendimos que podemos escuchar eventos a través de Javascript utilizando addEventListener , hoy conoceremos algunos para procesar formularios.
 
 ### Submit
 - El evento submit se activa cuando el formulario es enviado, normalmente se utiliza para validar el formulario antes de ser enviado al servidor o bien para abortar el envío y procesarlo con JavaScript.
 - Mayormente un formulario puede enviarse de dos maneras:
-    - La primera – Haciendo click en &lt;input type="submit"> o en &lt;input type="image">.
+    - La primera – Haciendo click en &lt;input type="submit"> , &lt;button type="submit">&lt;/button> o  en &lt;input type="image">.
     - La segunda – Pulsando la tecla Enter en un campo del formulario.
 - Ambas acciones causan que el evento submit sea activado en el formulario.
-- El método form.submit() permite iniciar el envío del formulario mediante JavaScript. Podemos utilizarlo para crear y enviar nuestros propios formularios al servidor.
-- 
+- El método ElementNodeForm.submit() permite enviar el  formulario mediante JavaScript. Podemos utilizarlo para crear y enviar nuestros propios formularios al servidor.
+- ElementNodeForm debe referenciar a una etiqueta &lt;form>.
 :::warning
 POR ESO ES IMPORTANTE QUE EL BOTON/INPUT QUE ENVIE LOS DATOS SEA DE TYPE SUBMIT.
 :::
@@ -257,7 +257,7 @@ Tambien existe el atributo novalidate de la etiqueta form para no validar el  fo
 ```
 ## Capturar valores 
 - Capturar los valores que introduce el usuario
-- Generalmente se accede con la propiedad value del elemento que contiene la información que ingresa el usuario.
+- Generalmente se accede con la propiedad value del elemento Node que representa un input (este contiene la información que ingreso el usuario).
 
 ### Por ID
 :::tip
@@ -322,7 +322,7 @@ los formateadores pueden ocasionar problema con las expresiones Regulares ya que
 :::
 
 :::tip
-El return devuelve algo y se sale del bloque. (deja de ejecutar la función/método/etc ).
+- El return devuelve algo y deja de ejecutar la función , método , bloque.  Cuando usamos la palabra clave return es para indicar que queremos salir del bloque.
 :::
 ```js
 const formulario = document.getElementById("formulario");

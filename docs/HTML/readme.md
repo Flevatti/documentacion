@@ -53,17 +53,144 @@ sidebar_position: 1
 - [Ordenada alfabéticamente](https://www.w3schools.com/tags/)
 - [Ordenada en categorias](https://www.w3schools.com/tags/ref_byfunc.asp)
 -  [Etiquetas que van en el &lt;head>](https://htmlhead.dev/)
-####  
+
+
+
+
+
 ## Atributos 
-- Las etiquetas tienen atributos
-- Los atributos son las propiedades (caracteristicas que tiene la caja)
+- Las etiquetas tienen atributos.
+- Los atributos son las propiedades (caracteristicas que tiene la caja).
 - Los atributos tienen un valor que se ponen entre comillas.
+- Un atributo en HTML es una propiedad adicional que se aplica a una caja para definir sus características o comportamientos. Los atributos modifican su comportamiento o apariencia en la página web.
+- Cada atributo tiene un nombre y un valor, donde el nombre define el tipo de característica o comportamiento que se quiere aplicar, y el valor específico “que” o “como” se va a aplicar. Los atributos siempre se escriben dentro de la etiqueta de apertura del elemento.
+
+
+
+
 - Ejemplo : &lt;etiqueta atributo="valor">&lt;/etiqueta>
 - [Inputs](../../static/img/HTML_INPUT.jpg)
 - [Todos los atributos](https://www.w3schools.com/tags/ref_attributes.asp)
 - [Atributos globales](https://www.w3schools.com/tags/ref_standardattributes.asp)
-#### Atributos de imagen
+
+
+### Atributo For de la etiqueta label
+- El atributo for en una etiqueta &lt;label>  asocia ese label con un elemento del formulario, generalmente un &lt;input>. Al hacer clic en el texto del label, se activa o enfoca el campo de formulario correspondiente. El valor de for debe coincidir con el valor del atributo id del elemento de formulario al que se quiere vincular.
+- Ejemplo:
+```html
+<label for="username">Nombre de usuario:</label>
+<input type="text" id="username" name="username">
+
+
+```
+:::tip Observación
+- En este caso, al hacer clic en "Nombre de usuario:", el campo de entrada (input) se seleccionará automáticamente.
+
+:::
+### Atributo name en input
+- El atributo name en el elemento &lt;input> sirve para darle un nombre único a cada campo del formulario. Este nombre actúa como una etiqueta para identificar el campo y qué tipo de información contiene. Cuando el usuario completa el formulario y lo envía, el servidor usa esos nombres para identificar los campos del formulario junto con sus valores, y así procesarlos correctamente.
+- Por ejemplo, si en el formulario tienes un campo para el nombre y otro para la edad, el atributo name les asigna etiquetas como name="userName" y name="userAge". Cuando se envían los datos, el servidor sabe que "userName" corresponde al nombre de la persona y "userAge" a su edad.
+
+:::tip Explicación no técnica
+- Imagina que estás en una fiesta y alguien te pide que pongas tu nombre y tu edad en una lista. Para que la persona que recibe la lista sepa qué es lo que estás escribiendo, te pide que pongas una etiqueta al lado de cada dato:
+  -	Al lado de tu nombre, pones una etiqueta que diga "Nombre".
+  -	Al lado de tu edad, pones una etiqueta que diga "Edad".
+- De esta manera, cuando la persona lee la lista, sabe que el dato junto a la etiqueta "Nombre" es tu nombre y el dato junto a la etiqueta "Edad" es tu edad.
+- En un formulario web, el atributo name actúa como esas etiquetas. Cuando llenas un formulario, el name le pone una etiqueta a cada campo (como "nombre" o "edad"). Así, cuando el formulario se envía, el sistema sabe qué es lo que has escrito en cada parte porque tiene esas etiquetas para identificarlo.
+- Es como ponerle una etiqueta a cada dato para que el sistema sepa qué es y cómo usarlo.
+
+
+:::
+- Ejemplo:
+```html
+<form action="/submit" method="post">
+  <label for="name">Nombre:</label>
+  <input type="text" id="name" name="userName">
+  
+  <label for="age">Edad:</label>
+  <input type="text" id="age" name="userAge">
+  
+  <button type="submit">Enviar</button>
+</form>
+
+```
+
+:::tip Observación
+- El valor del atributo name en un campo de formulario en HTML actúa como la clave en una estructura de datos, como un JSON o una query string en una URL.
+- •	En un JSON, cada par de datos se representa con una clave (el nombre del campo) y un valor (lo que el usuario escribió en ese campo). Así que cuando envías un formulario, los datos del formulario pueden estructurarse como un objeto JSON donde el name es la clave y el valor es lo que el usuario ha introducido.
+- Ejemplo de JSON:
+```json
+{
+  "userName": "Juan",
+  "userAge": 25
+}
+
+```
+- En este caso:
+  -	"userName" es la clave (valor del atributo name en el campo del formulario).
+  -	"Juan" es el valor (lo que el usuario escribió en ese campo).
+- En una query string de una URL (que se usa al enviar datos a través de un formulario con el método GET), el valor de name también actúa como la clave que se pasa en la URL.
+- Ejemplo de query string:
+  - ?userName=Juan&userAge=25
+- Aquí:
+  -	userName y userAge son las claves.
+  -	Juan y 25 son los valores que el usuario ha ingresado.
+- En ambos casos, el valor de name le dice al sistema cómo identificar los datos enviados. ¡Así que en resumen, el valor de name es la clave de un par clave-valor en el que el valor es la información que el usuario ha proporcionado!
+:::
+
+
+
+### Atributo class y atributo id 
+- Los atributos class e id se utilizan para poder identificar los elementos HTML en  Javascript o CSS.
+#### Atributo class
+- El atributo class permite asignar una o varias clases a un elemento HTML. Cada palabra dentro del atributo class es el nombre de una clase. Facilita la aplicación de estilos CSS a múltiples elementos o la selección de esos elementos mediante JavaScript.
+- Valor: El valor de class puede contener una o varias clases. Si hay varias, deben separarse con espacios. Por ejemplo, class="clase1 clase2". Esto permite que todos los elementos con el mismo nombre compartan estilos css (colores, tamaños, etc.) o puedan ser manipulados juntos por JavaScript.
+-  Propósito: Agrupar varios elementos bajo un mismo nombre de clase para aplicarles un estilo o manipularlos de forma colectiva.
+#### Ejemplo de uso de class
+```html
+<div class="contenedor">
+  <p class="texto">Este es un párrafo dentro del contenedor.</p>
+  <p class="texto">Este es otro párrafo dentro del mismo contenedor.</p>
+</div>
+
+```
+- En este caso, tanto el primer párrafo como el segundo tienen la clase texto, lo que significa que ambos pueden ser estilizados de la misma forma en CSS.
+- Aplicación de CSS usando class:
+```css
+.texto {
+  color: red;
+}
+
+```
+
+#### Atributo id
+- El atributo id se utiliza para identificar de manera única a un elemento dentro de la página. Cada id debe ser único en una página, es decir, no puede haber dos elementos con el mismo id. Esto lo hace ideal para seleccionar un solo elemento y aplicarle un estilo o manipularlo mediante JavaScript de manera específica.
+- Valor: El valor de id es un identificador único dentro de la página. No se deben repetir los id en la misma página.
+- Propósito: Identificar un solo elemento de manera única, para poder aplicar estilos o manipularlo específicamente.
+#### Ejemplo de uso de id
+```html
+<div id="cajaPrincipal">
+  <p>Este es un párrafo dentro de la caja principal.</p>
+</div>
+
+```
+- En este caso, el div tiene el id "cajaPrincipal", lo que lo hace único en la página.
+- Aplicación de CSS usando id:
+```css
+#cajaPrincipal {
+  background-color: yellow;
+}
+
+```
+
+
+
+
+### Atributos de imagen
 - Atributo loading="crazy" : La imagen carga cuando el usuario hace scroll hasta esta. 
+
+
+
 
 ##   Atributos srcset y sizes en &lt;img>
 

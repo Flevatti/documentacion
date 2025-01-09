@@ -57,11 +57,11 @@ setTimeout(() => {
 ## Vue 2 Vs Vue 3
 
 #### Cuando usar Vue 3 
-- 	Si llegas a necesitar soporte para IE11: lo mejor es no utilizar Vue 3, ya que el soporte aún no está disponible.
-- 	Si estás en un proyecto existente muy grande y complejo que usa Vue 2: es posible que no desees migrar a Vue 3, dependiendo de tu código, el tiempo de migración y los beneficios de rendimiento pueden que no valgan la pena.
-- 	Si estás enfrentando problemas de rendimiento después de hacer varias optimizaciones, entonces utiliza Vue 3. Este está escrito desde cero y te ofrece un mejor rendimiento que su versión anterior. 
-- 	Si necesitas una mejor compatibilidad con TypeScript: utiliza Vue 3, ¡es mucho mejor que antes!
-- 	Si tus dependencias son compatibles con Vue 3, entonces lo más lógico es utilizar esta versión.
+- Si llegas a necesitar soporte para IE11: lo mejor es no utilizar Vue 3, ya que el soporte aún no está disponible.
+- Si estás en un proyecto existente muy grande y complejo que usa Vue 2: es posible que no desees migrar a Vue 3, dependiendo de tu código, el tiempo de migración y los beneficios de rendimiento pueden que no valgan la pena.
+- Si estás enfrentando problemas de rendimiento después de hacer varias optimizaciones, entonces utiliza Vue 3. Este está escrito desde cero y te ofrece un mejor rendimiento que su versión anterior. 
+- Si necesitas una mejor compatibilidad con TypeScript: utiliza Vue 3, ¡es mucho mejor que antes!
+- Si tus dependencias son compatibles con Vue 3, entonces lo más lógico es utilizar esta versión.
 
 ### Diferencias 
 #### La sintaxis para crear Aplicación
@@ -77,7 +77,21 @@ new Vue({
 }).$mount('#app')
 
 ```
-
+:::tip Observación
+- `Vue.config.productionTip = false`:
+  - Propósito: Desactiva el mensaje de advertencia que aparece en la consola durante el desarrollo, informando que estás ejecutando Vue en modo de desarrollo.
+  - Uso: Es útil para mantener limpia la consola durante el desarrollo, especialmente si ya sabes que estás trabajando en este modo.
+- `new Vue({})`:
+  - Propósito: Crea una nueva instancia de Vue.
+  - Uso: Esta instancia representa tu aplicación, donde puedes configurar cómo se comportará y qué renderizará. El constructor de Vue (new Vue()) recibe un objeto de configuración que define cómo se comportará la instancia de Vue y qué hará. 
+- `render: h => h(App)`:
+  - Propósito: Define cómo se debe renderizar el contenido en la aplicación.
+  - h es una abreviatura de "hiperfunción" o "createElement". Es una función que Vue utiliza internamente para generar el DOM virtual.
+  - `h(App)` le dice a Vue que renderice el componente App en la aplicación.
+- `$mount('#app')`:
+  - Propósito: Monta/Renderiza la instancia de Vue (aplicación) en el elemento HTML con el id="app".
+  - Uso: El método $mount conecta tu aplicación Vue al DOM real. El contenido renderizado por Vue reemplazará todo lo que esté dentro de &lt;div id="app">&lt;/div>.
+:::
 Vue 3
 ```js
 import { createApp } from 'vue'
@@ -87,17 +101,26 @@ import './index.css'
 createApp(App).mount('#app')
 
 ```
+:::tip Observación
+`createApp(App)`:
+- Propósito: Crea una nueva aplicación Vue que renderiza el componente App.
+- Uso: Esta es la función principal que inicializa la aplicación. Puedes personalizar la aplicación aquí agregando configuraciones como use para plugins, provide para inyección de dependencias, entre otros.
+- `.mount('#app')`:
+  - Propósito: Monta/Renderiza la aplicación en el elemento HTML con el id="app".
+  - Uso: Conecta la aplicación al DOM real. Todo el contenido generado por Vue reemplazará el contenido dentro de &lt;div id="app">&lt;/div>.
+:::
+
 :::tip Razon para el cambio 
 Las configuraciones globales generan problemas durante las pruebas en las pruebas unitarias ya que los casos de prueba pueden afectarse entre sí debido a estas configuraciones.
 :::
 
 
 #### Vue 3 proporciona diferentes configuraciones globales, pero dificulta compartir una copia de la configuración con varios archivos apps.
-- Demostracion utilizando [mixin](https://es.vuejs.org/v2/guide/mixins.html)
+Demostracion utilizando [mixin](https://es.vuejs.org/v2/guide/mixins.html)
   
-  Vue 2
+Vue 2
 
-  Ambas aplicaciones tienen la misma configuración.
+Ambas aplicaciones tienen la misma configuración.
 ```js
   Vue.mixin({ /* ... */ })
 
@@ -270,7 +293,7 @@ export default {
   -	onRenderTracked  se llama cuando se accede por primera vez a una dependencia reactiva 
   -	onRenderTriggered() se llama cuando se activa un nuevo renderizado que le permite inspeccionar qué y cuándo se vuelve a renderizar un componente.
 
-- El beforeCreate()y el create( )son innecesarios cuando se usa la API de composición porque la aplicación llamará al beforeCreate()antes del setup()y el created()gancho se llamará inmediatamente después setup(). Por lo tanto, podemos usar setup()para manejar lo que necesitamos en beforeCreate()y create().
+- El beforeCreate() y el create( ) son innecesarios cuando se usa la API de composición porque la aplicación llamará al beforeCreate() antes del setup() y el gancho created()  se llamará inmediatamente después setup(). Por lo tanto, podemos usar setup() para manejar lo que necesitamos en beforeCreate() y create().
 
 - ![ruta setup](https://miro.medium.com/max/134/1*-Vtm69BGmYVVAUTPNAzUqQ.png)
 
