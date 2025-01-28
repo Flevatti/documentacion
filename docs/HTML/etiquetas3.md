@@ -555,3 +555,102 @@ data:[<mediatype>][;base64],<data>
 - Esto es un vistazo a Canva, le recomiendo investigar si le interesa el tema.
 
 :::
+
+## Etiqueta Script
+- La etiqueta &lt;script> en HTML se utiliza para ejecutar código JavaScript en una página web.
+- El código Javascript lo podes “Importar” de otro archivo o escribirlo en el contenido de la etiqueta &lt;script>
+- Generalmente añade interactividad, manipula elementos del DOM, realizar solicitudes a servidores, entre muchas otras funcionalidades. 
+
+#### Ejemplo
+- Ejecutar JavaScript en una página web: Puedes escribir código JavaScript directamente dentro de la etiqueta &lt;script>:
+```html
+<script>
+  console.log('¡Hola, mundo!');
+</script>
+
+```
+- Ejecutar archivos externos de JavaScript: Permite ejecutar un archivo .js externo para mantener tu código más limpio y organizado:
+```html
+<script src="app.js"></script>
+```
+
+#### Atributos  de la etiqueta &lt;script>
+
+##### src (source)
+- Especifica la ubicación de un archivo JavaScript que se ejecutara.
+- Si este atributo está presente, el contenido dentro de la etiqueta &lt;script> se ignora.
+- Ejemplo:
+```html
+<script src="https://example.com/archivo.js"></script>
+```
+##### type
+- El atributo type especifica el tipo MIME del script, que indica al navegador cómo interpretar o ejecutar el contenido del archivo o código asociado. Su uso ha evolucionado con el tiempo.
+
+:::tip MIME
+- MIME (Multipurpose Internet Mail Extensions, o Extensiones de Correo de Internet de Propósito Múltiple) es un estándar que define cómo se debe interpretar y transferir diferentes tipos de datos a través de Internet. Aunque fue creado inicialmente para correos electrónicos, su uso se ha extendido a aplicaciones web y otros contextos de intercambio de datos.
+- En esencia, MIME describe el tipo de contenido de un archivo o dato para que las aplicaciones que lo reciben sepan cómo manejarlo. Cada tipo de contenido tiene un formato específico llamado MIME type o tipo MIME.
+- Por ejemplo:
+  - Un navegador web utiliza MIME para entender si un archivo es un documento HTML, una imagen, un archivo de video o cualquier otro tipo de recurso.
+  - Los correos electrónicos usan MIME para adjuntar imágenes, videos o archivos PDF en los mensajes.
+#### Estructura de un tipo MIME
+- Un tipo MIME tiene dos partes principales separadas por una barra inclinada /:
+  1.	Tipo principal: Define la “categoría general” del contenido.
+  2.	Subtipo: Especifica con mayor detalle el formato exacto del contenido.
+- Ejemplos comunes de tipos MIME:
+
+| Tipo principal | Subtipo | Tipo MIME completo | Ejemplo de uso|
+| - | - | - | - |
+|  text | html  | text/html  | Archivos HTML (.html)  |
+|  text |  css |  text/css |  Hojas de estilo CSS (.css) |
+|  application | json  |  application/json |  Datos JSON |
+| application   |  javascript | application/javascript  |  Código JavaScript (.js) |
+|  image |  png | image/png  |  Imágenes PNG (.png) |
+|  image | jpeg  |  image/jpeg |  Imágenes JPEG (.jpg, .jpeg) |
+|  video |   mp4|  video/mp4 | Videos MP4  |
+|audio   |  mpeg |  audio/mpeg | Audio en formato MP3 (.mp3)   |
+
+- Los servidores web utilizan tipos MIME en las cabeceras HTTP (como Content-Type) para informar al navegador sobre el tipo de datos que están enviando.
+
+:::
+
+- Valores comunes del atributo type:
+  1.	type="text/javascript" (obsoleto):
+      -	Especifica que el contenido es JavaScript.
+      -	Antes de HTML5, se requería este atributo para scripts JavaScript, pero ahora es el valor predeterminado, por lo que no es necesario especificarlo.
+  2.	type="module":
+      -	Indica que el script es un módulo ES6.
+      -	Permite usar import y export dentro del código.
+      -	Cada modulo tiene su “scope”.
+  3.	type="text/plain", type="text/template", etc.:
+      -	El navegador no ejecuta el contenido de estos scripts.
+      -	Se usan para incluir datos o plantillas en el HTML que se procesan con JavaScript.
+  4.	Otros valores personalizados:
+      -	Puedes definir un tipo propio (ejemplo: type="application/json") para incluir datos en formatos específicos que luego proceses con JavaScript.
+
+
+##### defer
+- Indica que el script debe cargarse de forma diferida, es decir:
+  -	Se descarga en segundo plano mientras se sigue procesando el HTML.
+  -	Se ejecuta después de que el DOM esté completamente construido.
+  -	El orden de ejecución sigue el orden en el que aparecen los scripts.
+
+
+##### async
+- Indica que el script debe cargarse de manera asíncrona:
+  -	Se descarga en segundo plano y se ejecuta tan pronto como esté disponible.
+  -	El orden de ejecución no está garantizado (puede ser diferente al orden en el HTML).
+##### crossorigin
+- Este atributo indica si el navegador debe enviar o no credenciales (como cookies, encabezados de autenticación, etc.) al solicitar recursos desde un servidor diferente al de la página web actual.
+- Valores comunes:
+  -	anonymous: No envía ni recibe credenciales.
+  -	use-credentials: Envía cookies y encabezados de autorización al servidor.
+##### integrity
+- Se utiliza para asegurar que el script cargado no ha sido modificado.
+- Permite incluir un hash que se verifica antes de ejecutar el script.
+##### nomodule
+- Indica que el script no debe ejecutarse en navegadores que soportan módulos ES6.
+Se utiliza para proporcionar un script de respaldo para navegadores antiguos.
+
+##### referrerpolicy
+- El atributo referrerpolicy en HTML especifica la información que se va a usar para crear la referencia (contiene información sobre la URL de la página actual) que el navegador envía cuando realiza una solicitud a un servidor (por ejemplo, para solicitar a una imagen, un script, etc.).
+- La “referencia” se envía en el encabezado HTTP Referer (sí, con una sola "r" por una errata histórica) en una solicitud. Este encabezado puede incluir la URL completa de la página o ninguna información, dependiendo de la configuración del atributo.

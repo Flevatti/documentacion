@@ -516,12 +516,12 @@ Ejemplo:
 
 ### El método setup() pasa a realizar varias operaciones principales:
 
-- Las tareas realizadas en mounted() , updated() o created() son ahora definidas en el setup()
+-  Con la introducción de la Composition API, las tareas que antes se realizaban en hooks de ciclo de vida como mounted(), updated(), o created() pueden ahora definirse dentro del método setup().
 - Tanto las variables que antes establecíamos en data, las funciones de methods, las propiedades computadas de computed o los watchers de watch pasan a ser variables o funciones de Vue, que retorna el setup()
 - Los elementos devueltos en el objeto del return de la última línea del setup() se podrán utilizar en otras zonas del componente, como en el apartado &lt;template>.
-  :::warning
-  No se puede usar el this dentro del setup
-  :::
+:::warning
+  - No se puede usar el this dentro del setup
+:::
 
 ### Hooks del ciclo de vida
 
@@ -573,14 +573,19 @@ Ejemplo:
   };
 </script>
 ```
+:::tip Observación
+- Los Hooks/Métodos ahora se definen dentro de setup().
+- Cada función que se importa de "Vue" (relacionado con un Hook) recibe un callback como parámetro, y ese callback contiene el código que se ejecutará en el momento específico del ciclo de vida al que corresponde ese hook.
+- En Vue 3, con la Composition API, los hooks beforeCreate y created ya no tienen su propio método como en la Option API. En lugar de ello, cualquier lógica que normalmente habrías colocado en esos métodos se coloca directamente dentro de la función setup().
 
+:::
 #### Nuevos hooks
 
 - En Vue 3 aparecen nuevos hooks que pueden resultarnos interesantes. Es el caso de onRenderTracked y onRenderTriggered, los cuales se disparan en fases relacionadas con la renderización visual de contenido:
 
 | Hook (Options API) | Hook (Composition API) | ¿Cuándo se llama?                                            |
 | ------------------ | ---------------------- | ------------------------------------------------------------ |
-| renderTracked      | onRenderTracked()      | Dependencia reactiva accedida por primera vez (renderizado). |
+| renderTracked      | onRenderTracked()      | Dependencia reactiva accedida por primera vez (renderizado). En Vue, la dependencia reactiva se refiere a la actualización  de las variables reactivas cuando cambian sus valores. |
 | renderTriggered    | onRenderTriggered()    | Comienza una nueva renderización.                            |
 
 ### Data
@@ -1055,3 +1060,31 @@ import ComponenteHijo from "./components/ComponenteHijo.vue";
 </script>
 
 ```
+
+### Hooks
+- En Vue 3, cuando usas la sintaxis de &lt;script setup>, los hooks de ciclo de vida  se definen directamente dentro de  &lt;script setup>. 
+- Ejemplo:
+
+```html
+<template>
+  <div>{{ message }}</div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const message = ref('Hello, Vue 3!');
+
+// Código equivalente a mounted()
+onMounted(() => {
+  console.log('Componente montado');
+});
+
+// Código equivalente a unmounted()
+onUnmounted(() => {
+  console.log('Componente desmontado');
+});
+</script>
+
+```
+

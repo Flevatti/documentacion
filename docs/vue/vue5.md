@@ -672,8 +672,9 @@ export default {
 
 ```
 :::tip Observación
-- En este ejemplo, se crea una referencia a un elemento input utilizando la prop "ref".
-- El valor de la prop ref es el "nombre de una variable" (no hace falta que exista, luego vue la crea con la referencia del elemento que especificamos) que contendra la referencia. Luego, en el método focusInput, se utiliza la propiedad $refs que es una especie de objeto que contiene todas las variables que se crearon con la prop ref, para acceder al input y llama al método focus para enfocarlo.
+- En este ejemplo, se crea una referencia de un elemento input utilizando la prop "ref".
+- El valor de la prop ref es el "nombre de una variable" (no hace falta que exista, luego vue la crea con la referencia del elemento que especificamos) que contendra la referencia del elemento actual. Luego, en el método focusInput, se utiliza la propiedad $refs que es una especie de objeto que contiene todas las variables que se crearon con la prop ref, para acceder al input y llama al método focus para enfocarlo.
+- La prop ref  asigna una referencia del elemento actual a la variable que le pasamos.
 - Resumiendo: Se crea una referencia del componente / elemento HTML que tenga la prop "ref" 
 :::
 
@@ -702,8 +703,114 @@ onMounted(() => {
 </script>
 ```
 :::tip Observación
+- A diferencia del ejemplo anterior la "variable" que contendra la referencia se crea con ref().
 - El código crea un componente que:
   - Crea un input y un botón
   - Establece el enfoque en el input cuando se monta el componente
   - Establece el enfoque en el input cuando se hace clic en el botón
 :::
+
+## Extensión .vue
+- Vue utiliza su propia sintaxis para manejar HTML, JavaScript y, en algunos casos, CSS dentro de un solo archivo. La estructura es un poco diferente a la de React, pero la idea de separar la lógica y la presentación es similar.
+#### Vue.js y su estructura
+- En Vue, la mayoría de los componentes se escriben en un único archivo llamado Single File Component (SFC), que generalmente tiene la extensión .vue. Los componentes en Vue combinan tres secciones dentro de un solo archivo:
+  1.	Template: Define el HTML de la interfaz de usuario.
+  2.	Script: Contiene el código JavaScript (funciones, lógica, estado, etc.).
+  3.	Style: Incluye el CSS para el componente.
+#### Extensiones comunes en Vue
+- `.vue`: Esta es la extensión más común ya que te permite definir componentes Single File Component (SFC) . Un archivo .vue contiene todo el código necesario para un componente (HTML, JavaScript y CSS) en un solo archivo, estructado en tres secciones.
+- Ejemplo:
+```js
+<template>
+  <div>
+    <h1>Hola, Vue</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      mensaje: "¡Bienvenido a Vue.js!"
+    };
+  }
+};
+</script>
+
+<style scoped>
+h1 {
+  color: blue;
+}
+</style>
+
+```
+- `.js`: Algunos proyectos o configuraciones pueden usar archivos .js para los componentes si no se está utilizando el sistema de SFC o si el componente es solo JavaScript puro.
+- `.ts`: En proyectos que usan TypeScript, los componentes de Vue pueden tener la extensión .ts para archivos que usan JavaScript con tipado estático.
+
+#### Cómo Vue utiliza los archivos .vue
+1.	Compilación a JavaScript: Vue procesa internamente el archivo .vue, leyendo las secciones &lt;template>, &lt;script> y &lt;style>, y las convierte en JavaScript puro. 
+2.	Manipulación del DOM: El código generado en JavaScript es lo que Vue utiliza para manipular el DOM y actualizar la interfaz de usuario según sea necesario. Esto permite que Vue gestione el estado y las actualizaciones de manera eficiente.
+
+
+#### ¿Son obligatorias estas extensiones?
+- No son estrictamente obligatorias, pero sí altamente recomendadas y generalmente son parte del flujo de trabajo estándar en Vue.js.
+-	`.vue`: Es la forma estándar de escribir componentes Vue. No es obligatorio usar .vue para todos los componentes, pero es altamente recomendado debido a su estructura organizada (con template, script, y style en un solo archivo), lo que facilita la gestión y mantenimiento del código.
+-	Archivos `.js` o `.ts`: Si no necesitas dividir tu componente en varias secciones, o si estás trabajando en una configuración específica, puedes usar archivos `.js` o `.ts` para definir tus componentes.
+- Un componente Vue podría definirse solo con JavaScript en un archivo `.js`:
+```js
+export default {
+  template: '<h1>Hola, Vue sin SFC</h1>',
+};
+
+```
+:::tip Observación
+- Sin embargo, esta forma es menos común y no aprovecha la capacidad de organizar componentes de manera más limpia que ofrecen los archivos `.vue`.
+:::
+
+#### ¿Cómo Vue maneja el "template" (HTML)?
+- En Vue, el template dentro de un archivo. vue tiene una sintaxis similar a HTML, pero con algunos extras específicos de Vue, como directivas (ej., v-bind, v-if, v-for). Vue procesa   todo lo que contiene el archivo para convertirlo en un Nodo del DOM virtual (similar a cómo React usa JSX para generar elementos React).
+- Cuando Vue encuentra un archivo .vue, sigue estos pasos:
+  1.	Lectura del &lt;template>:
+    -	Vue analiza el código HTML dentro de la sección &lt;template> para identificar la estructura del componente y las directivas utilizadas.
+    -	Convierte el código de la plantilla en una función de renderizado. Esta función genera un árbol de nodos que representa el componente.
+  2.	Generación del Virtual DOM:
+    -	Todo lo definido en el archivo .vue (plantilla, lógica y estilos) se combina para construir un nodo en el Virtual DOM.
+    -	Este nodo incluye no solo la estructura (HTML) sino también la lógica reactiva , los datos vinculados y los estilos css.
+    - Vue utiliza la función de renderizado generada a partir del &lt;template> para construir un nodo del Virtual DOM.
+    - Este nodo incluye:
+      1.	Estructura: La representación en memoria del HTML definido en el &lt;template>.
+      2.	Datos y lógica reactiva: Información sobre cómo interactúan los datos con el HTML (por ejemplo, datos vinculados mediante v-bind o v-model).
+      3.	Estilos (opcional): Si hay estilos scoped, se procesan para aplicarse exclusivamente al componente correspondiente.
+  3.	Actualización del DOM real:
+    -	Cuando el estado o los datos cambian, Vue actualiza el Virtual DOM correspondiente y realiza un proceso de diferenciación (diffing) para identificar las diferencias entre el DOM Virtual actual y el anterior.
+    -	Solo los cambios necesarios se reflejan en el DOM real, minimizando las operaciones costosas.
+
+
+#### Similitudes entre el DOM Virtual de Vue y React
+- Eficiencia en actualizaciones del DOM:
+  -	Tanto en Vue como en React, el DOM Virtual es una representación en memoria del DOM real.
+  -	Ambos sistemas realizan un proceso de diferenciación (diffing) para identificar los cambios necesarios en el DOM real y actualizan solo esas partes, mejorando el rendimiento.
+-  Declaratividad:
+    -	En ambos casos, los desarrolladores trabajan de manera declarativa, es decir, describen cómo debería lucir la UI en función del estado, y el framework/biblioteca se encarga de manejar las actualizaciones del DOM.
+-  Uso de reconciliación:
+   -	Tanto React como Vue comparan el DOM virtual anterior con el nuevo para determinar qué debe cambiar, aplicando solo esas actualizaciones al DOM real de manera eficiente.
+
+
+#### Diferencias entre el DOM Virtual de Vue y React
+1.	Optimización del alcance de actualizaciones:
+    -	En Vue, el DOM Virtual está más estrechamente relacionado con su sistema de reactividad. Vue detecta qué partes del estado o datos han cambiado y actualiza solo los componentes afectados. Esto reduce el alcance del proceso de diferenciación.
+    -	En React, cada cambio en el estado o props puede desencadenar un re-renderizado completo del componente y sus hijos. React confía en la diferenciación del DOM Virtual para optimizar las actualizaciones.
+2.	Modelo reactivo de Vue:
+    -	Vue utiliza un sistema de reactividad basado en observadores (proxy/reactive) para rastrear los cambios en los datos automáticamente. Esto permite que Vue sea más selectivo en qué partes del DOM Virtual necesitan ser actualizadas.
+    -	React, por su parte, no tiene un sistema de reactividad como tal; confía en que los desarrolladores usen herramientas como useState o useReducer para disparar actualizaciones.
+3.	Complejidad del diffing:
+    -	React realiza una diferenciación más completa entre el DOM Virtual antiguo y el nuevo utilizando un algoritmo genérico para reconciliar cambios.
+    -	Vue, gracias a su sistema de reactividad, sabe exactamente qué partes de los datos han cambiado, por lo que puede reducir la cantidad de trabajo necesario para diferenciar el DOM Virtual.
+4.	Herramientas de renderizado:
+    -	Vue combina el DOM Virtual con su sistema de plantillas declarativas ( Permite especificar lo que se desea implementar sin tener que escribir código de programación , &lt;template>), mientras que React se basa en JSX, que es más flexible pero también más dependiente de JavaScript.
+
+
+#### ¿Es igual?
+- Conceptualmente, sí: Ambos frameworks utilizan un DOM Virtual para optimizar las actualizaciones del DOM real. Sin embargo, Vue aprovecha su sistema de reactividad para hacer que este proceso sea más dirigido y eficiente en ciertas situaciones, mientras que React adopta un enfoque más genérico basado en el algoritmo de reconciliación.
+-	Similaridades: Ambos usan un DOM Virtual para mejorar el rendimiento y minimizar las actualizaciones del DOM real, con procesos de diferenciación y reconciliación.
+-	Diferencias: Vue combina el DOM Virtual con su sistema reactivo, mientras que React confía más en un algoritmo genérico y un flujo explícito de datos.

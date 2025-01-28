@@ -432,18 +432,52 @@ console.log(catchphraseBuf.toString());
 
 
 ## Streams
+- Los streams en Express (y Node.js en general) son flujos de datos (Cuando todos los datos están unidos se llama “información”) que se procesan de manera secuencial (en orden) y parcial (una parte del todo), sin necesidad de cargar todo el contenido en memoria. Esto es especialmente útil para manejar grandes volúmenes de datos, como archivos, respuestas HTTP o flujos en tiempo real.
 
-- Es un “chorro” (Streams) de información que se transmiten en “Pedazos” (Chunks).
-- 4 Tipos de streams:
-  -	Lectura
-  -	Escritura
-  -	Duplex (Lectura y Escritura)
-  -	Transform: Pueden modificar o transformar los datos a medidas que se escriben o leen.
-- Todos los streams son instancias de EventEmitter
+:::tip Flujo de datos
+- Un flujo de datos: Es el movimiento de datos entre dos puntos de un sistema, que puede ser continuo (termina cuando todos los datos fueron transportados) o en pequeñas partes (se utiliza streams).
+- Información: La totalidad de los datos después de haber procesado todos los chunks (datos).
+- Flujo: Es el acto de mover esos datos de un lugar a otro.
+- Un flujo de datos puede ser:
+  -	Unidireccional: Los datos van en una sola dirección (de un origen a un destino).
+  -	Bidireccional: Los datos pueden moverse en ambas direcciones entre el origen y el destino.
+- Imagina una cinta transportadora en una fábrica:
+  - Flujo Continuo: Imagina una cinta transportadora donde los productos (cada producto contiene “información” (conjunto de datos)) llegan constantemente, pero no necesariamente todos al mismo tiempo. A medida que un producto llega a su destino, puedes procesarlo de inmediato, mientras otros productos siguen llegando. Este flujo termina solo cuando todos los productos han sido entregados.
+  - Flujo en Pequeñas Partes: Imagina que hay que transportar 20 cajas. En este caso la cinta transportadora envía una caja a la vez. No recibes todas las cajas juntas ni de manera continua; entre cada caja, puede haber una pausa. Sin embargo, puedes procesar cada caja por separado a medida que llega.
+:::
+
+
+- En Node.js, los streams permiten leer o escribir datos de manera eficiente dividiendo la información en "trozos" (chunks). Existen diferentes tipos de streams según su propósito:
+  1.	Readable Streams: Se utilizan para leer datos. Ejemplo: leer un archivo o recibir datos de una solicitud HTTP.
+  2.	Writable Streams: Se utilizan para escribir datos. Ejemplo: escribir en un archivo o enviar una respuesta HTTP.
+  3.	Duplex Streams: Pueden leer y escribir datos simultáneamente. Ejemplo: una conexión de red.
+  4.	Transform Streams: Son duplex streams que pueden modificar o transformar los datos mientras pasan por el flujo. Ejemplo: compresión de datos.
+
+
+
+#### Ejemplo analógico no técnico
+- Imagina que estás llenando un balde con agua de una manguera. La manguera sería el stream (flujo de datos), y cada “gota de agua” es un chunk (un dato del flujo de datos, que a su vez es un “trozo” de la información):
+  1.	Readable Stream: La manguera está entregando agua en pequeñas cantidades (trozos / chunks) para llenar el balde.
+  2.	Writable Stream: Eres tú vertiendo el agua de ese balde en otro recipiente.
+  3.	Duplex Stream: Una manguera que toma agua de un tanque y simultáneamente la lleva a otro tanque.
+  4.	Transform Stream: Mientras el agua fluye por la manguera, pasa por un filtro que la purifica.
+- En este ejemplo, no necesitas esperar a que todo el tanque/balde esté lleno o vacío para empezar a usar el agua. Puedes trabajar con el agua que está fluyendo en tiempo real.
+
+
+
+#### Streams: Un "chorro" de información 
+- Un stream es como una corriente de agua que fluye a través de una manguera. Pero en lugar de entregar toda el agua de una sola vez, el agua (los datos) llega en pequeñas cantidades llamadas chunks. Estos fragmentos de agua (chunks de datos) pueden ser procesados mientras llegan, sin necesidad de esperar a que llegue toda el agua (los datos).
+- Stream: Es el flujo de datos, una corriente de agua que fluye en la manguera.
+- Chunks: Las pequeñas cantidades de agua que fluyen de la manguera, uno a uno, que puedes usar tan pronto como llegan.
+
+#### Streams y EventEmitter
+- Todos los streams son instancias de EventEmitter: Esto significa que los streams emiten eventos (como data, end, error), que puedes manejar para reaccionar (ejecutar código) cuando llegan datos u ocurre un error.
+- Un stream en Node.js es considerado una interfaz abstracta: es una especie de contrato que define las acciones que puedes realizar con un stream (como leer o escribir datos), pero no te dice cómo se implementan o como se realizan dichas acciones. Cada tipo de stream (lectura, escritura, duplex, etc.) implementa este contrato de manera diferente, dependiendo de la fuente o el destino de los datos.
+- La interfaz abstracta define las funciones básicas que cada tipo de stream debe tener (como read(), write(), pipe()), pero cada implementación concreta (por ejemplo, un archivo, una conexión de red) tiene su propia manera de manejar esos datos.
+- HTTP Server: Es un stream porque envía información a través del protocolo HTTP hacia el navegador mediante chunks.
 - [Documentación](https://nodejs.org/dist/latest-v18.x/docs/api/stream.html)
-- Un stream es una interfaz abstracta implementada por varios objetos de Node.
-- HTTP SERVER es un stream: Es un chorro de información que va a través del protocolo HTTP y llega a nuestro navegador.
-- Los streams se pueden leer, escribir o ambos.
+
+
 
 #### Ejemplo
 - Vamos a usar el modulo [File System](https://nodejs.org/dist/latest-v18.x/docs/api/fs.html#file-system) 
@@ -456,11 +490,17 @@ Brayan
 …
 ```
 
-El método pipe te permite abrir el proceso de lectura/escritura.
+:::tip Método Pipe
+- El método pipe en Node.js se usa para dirigir el flujo de datos de un readable stream a un writable stream.
+- Al usar pipe, los datos de un stream de lectura (por ejemplo, un archivo) se envían a un stream de escritura (por ejemplo, un archivo de destino).
+- El método pipe se utiliza de esta manera:
+```js
+readableStream.pipe(writableStream);
+```
+- El readableStream es la fuente de los datos que se puede leer y el writableStream es el destino donde esos datos se escribirán.
+:::
 
-Entonces es como que abre una “tubería” con el stream que recibe.
 
-Sirve para enviar los datos a una stream writable.
 
 
 ```js
@@ -474,16 +514,15 @@ const writeStream = fs.createWriteStream("./nombres_copia.txt");
 readStream.pipe(writeStream);
 
 ```
-
-Al ejecutarse , se crea el archivo nombres_copia.txt.
-
-Si abrimos el archivo , el contenido es idéntico al nombres.txt
-
+:::tip Observación
+- Al ejecutarse , se crea el archivo nombres_copia.txt.
+- Si abrimos el archivo , el contenido es idéntico al nombres.txt
+:::
 
 #### EventEmitter
-- Nos permite manejar “eventos”
-- El evento “data” se activa cuando se empieza a recibir datos y recibe los chunks (pedazos de información)
-- En lugar de usar addEventListener() usamos on()
+- Nos permite manejar “eventos”.
+- El evento “data” se activa cuando se empieza a recibir datos(chunks).
+- En lugar de usar addEventListener() usamos on().
 
 ```js
 const fs = require("fs");
@@ -504,7 +543,7 @@ readStream.on("data", function (chunk) {
 - La propiedad lenght es como "acumulativa"
 :::
 
-- El evento end se activa cuando se deja de leer información.
+- El evento end se activa cuando se deja de leer chunks, osea termina el flujo de datos.
 
 ```js
 const fs = require("fs");
@@ -545,36 +584,33 @@ readStream
 ```
 ### Teoría
 #### ¿Qué son exactamente los flujos(steams)?
+- Para entender los flujos de datos (streams), imagina que los flujos son como una corriente de agua: en lugar de llenar un vaso con toda el agua de golpe, la corriente lleva el agua de manera constante y en partes pequeñas. En términos de programación, los flujos permiten manejar información de manera similar, es decir, en pequeñas porciones que se leen o escriben a medida que son necesarias, en lugar de cargar todo de una vez en la memoria.
+- Flujos y memoria:
+  -	Flujos: Son como colecciones de datos, pero a diferencia de una matriz(array) o cadena de texto (String), no necesitas tener todo el contenido en la memoria al mismo tiempo. Los datos se procesan poco a poco, en fragmentos pequeños.
+  -	Colecciones tradicionales (arrays o strings): En estos casos, si tienes una gran cantidad de datos (como un archivo muy grande), debes cargar todo el contenido en la memoria antes de trabajar con él. Esto puede ser un problema si no hay suficiente memoria disponible.
+#### ¿Por qué los flujos son útiles?
+1.	Eficiencia con grandes cantidades de datos: Cuando trabajas con flujos, no necesitas cargar todo un archivo o una gran cantidad de datos en la memoria. Solo procesas fragmentos pequeños, lo que ahorra espacio en la memoria y mejora el rendimiento.
+2.	Datos externos o continuos: Los flujos son especialmente útiles cuando los datos no están disponibles de golpe o provienen de una fuente externa (como una red o un archivo). Por ejemplo, cuando descargas un archivo de internet, no tienes que esperar a que todo se descargue primero; el flujo va descargando y procesando los datos conforme llegan.
+3.	Composición de código (al estilo de Linux): Puedes encadenar varios flujos de datos de manera eficiente, similar a cómo en Linux puedes canalizar la salida de un comando a la entrada de otro. Por ejemplo, en Node.js, puedes usar el método pipe para pasar los datos de un flujo a otro, procesándolos paso a paso.
+Beneficio principal: Los flujos permiten procesar grandes volúmenes de datos sin necesidad de tener todo cargado en la memoria de una vez. Esto es esencial cuando los archivos o datos son muy grandes, o cuando quieres que tu aplicación funcione de manera eficiente incluso en dispositivos con poca memoria.
 
-Los flujos son colecciones de datos, como las matrices o las cadenas de texto. La diferencia es que estos pueden no estar disponibles todos a la vez y no tienen por qué caber en la memoria.
 
-Esto hace que sean realmente potentes cuando se trabaja con grandes cantidades de datos, o con datos que vienen de una fuente externa de uno en uno.
-
-Sin embargo, los flujos no sólo sirven para trabajar con grandes cantidades de datos. También nos ofrecen la posibilidad de componer nuestro código. Al igual que podemos componer poderosos comandos de Linux mediante la canalización de otros comandos más pequeños, podemos hacer exactamente lo mismo en Node con los flujos.
-
-Los flujos son métodos utilizados para manejar archivos de escritura/lectura, comunicaciones de red o cualquier tipo de intercambio de información de extremo a extremo de manera eficiente.
-
-Con las transmisiones, los datos se pueden intercambiar en partes pequeñas, lo que reduce mucho el uso de la memoria.
-A diferencia de la forma tradicional de leer todos los archivos en la memoria de un programa a la vez antes de procesar su contenido, lo que puede ser un problema si no hay suficiente espacio de memoria para contener los archivos.
-
-Sin embargo, Streams, por otro lado, no guarda todos los archivos en la memoria a la vez antes de procesar el contenido, lee fragmentos de datos y procesa el contenido del archivo pieza por pieza. 
-
-Este patrón de dividir archivos en fragmentos de datos se convierte en una ventaja para nosotros cuando trabajamos con grandes cantidades de datos porque ya no tenemos que preocuparnos de que el espacio de memoria sea suficiente para contener los archivos.
 
 #### Ejemplo Youtube
-Youtube ofrece servicios de transmisión, con este servicio no necesita descargar los videos o las transmisiones de audio de una sola vez, pero puede ver los videos o escuchar el audio de inmediato, esto es posible porque su navegador puede recibir los videos y audio como un flujo continuo de fragmentos.
+- Imagina que estás viendo un video de YouTube. No necesitas esperar a que todo el video se descargue antes de empezar a verlo, ¿verdad? Eso es posible gracias a los flujos (streams). En lugar de descargar todo el video de una vez, YouTube envía los datos en pequeños fragmentos, mientras tu navegador va recibiendo y mostrando estos fragmentos de forma continua. A medida que sigues viendo el video, el flujo sigue enviando más datos sin que tengas que esperar a que todo esté disponible de antemano.
+- Este es un ejemplo claro de cómo los streams permiten manejar datos en tiempo real sin necesidad de esperar a que toda la información esté disponible. Los flujos permiten transmitir datos de manera eficiente sin sobrecargar la memoria de tu dispositivo.
+
 
 #### ¿Por qué son importantes los streams?
-
-- Tiene cuatro importancia principal sobre el uso de otros métodos de manipulación de datos e incluyen:
-   -	Eficiencia de la memoria : con los streams, no necesita cargar grandes cantidades de datos en la memoria antes de poder procesarlos.
-   -	Eficiencia temporal : con flujos, el procesamiento de datos lleva menos tiempo. No tiene que esperar hasta que toda la carga útil de datos esté disponible. Puede comenzar a procesarlo tan pronto como lo tenga.
-   -	Función de compatibilidad: con la función de compatibilidad de transmisión, podemos crear microservicios en node.js. Con composability, podemos realizar aplicaciones complejas que interactúan y se interconectan con datos entre diferentes piezas de código.
-   -	Utilizado en la creación de aplicaciones: con transmisiones, podemos crear aplicaciones del mundo real, como aplicaciones de transmisión de video.
-
-
+1.	Eficiencia de la memoria:
+  -	Los flujos permiten trabajar con grandes volúmenes de datos sin tener que cargarlos todos en la memoria al mismo tiempo. Esto es especialmente útil cuando trabajas con archivos grandes, como videos o grandes bases de datos, ya que reduces el riesgo de quedarte sin memoria.
+2.	Eficiencia temporal:
+  -	Los flujos permiten empezar a procesar los datos tan pronto como llegan, sin tener que esperar a que todo el conjunto de datos esté disponible. Por ejemplo, en el caso de YouTube, puedes comenzar a ver el video mientras se descarga, sin esperar a que termine de descargarse completamente.
+3.	Función de compatibilidad (Composición):
+  -	Los flujos permiten crear aplicaciones modulares y "componer" (o juntar) diferentes piezas de código para crear aplicaciones más flexibles y fáciles de mantener. Por ejemplo, puedes combinar varios flujos de datos en Node.js, lo que facilita la creación de aplicaciones que interactúan entre sí mediante la transmisión de datos entre distintos componentes o microservicios.
+4.	Creación de aplicaciones del mundo real:
+  -	Los flujos son fundamentales para aplicaciones como la transmisión de videos, música en línea, chats en vivo o cualquier otro tipo de intercambio de datos en tiempo real. Permiten que estos servicios funcionen de manera eficiente y sin problemas, incluso cuando los datos se reciben de manera continua y en grandes cantidades.
 #### Ejemplo básico
-
 ```js
 const http = require("http");
 const fs = require("fs");
@@ -591,10 +627,9 @@ server.listen(3000);
 - readFile() : Lee todo el contenido del archivo (primer parámetro) y cuando termina , invoca la función (segundo parámetro)
 - res.end(data) : Devolverá el contenido del archivo como respuesta al cliente HTTP.
 
-
 :::
 
-El uso del método anterior hará que nuestra operación tome tiempo si los archivos son grandes. Entonces, para mitigar el problema, escribamos el mismo código usando un método de transmisión.
+- El uso del método anterior hará que nuestra operación tome tiempo si los archivos son grandes. Entonces, para mitigar el problema, escribamos el mismo código usando streams:
 
 
 ```js
@@ -608,57 +643,90 @@ server.listen(3000);
 
 ```
 
-Ahora puede ver que tenemos más control, comenzamos a "transmitir" los archivos al cliente HTTP tan pronto como tengamos fragmentos de datos listos para enviar. Esto es mejor, especialmente si tenemos un archivo grande, no tenemos que esperar hasta que el archivo se lea por completo.
+:::tip Observación
+- Ahora podemos ver que tenemos más control, ya que comenzamos a 'transmitir/enviar' el archivo al cliente HTTP tan pronto como tengamos fragmentos de datos listos para enviar. Esto es mucho más eficiente, especialmente cuando se trata de archivos grandes, ya que no necesitamos esperar a que el archivo se lea completamente para poder enviarlo, en su lugar enviamos el archivo en “partes”.
+
+:::
 
 
 #### Tipos de flujos en Node.js
+- Readable Stream (Flujo de lectura):
+  - Son flujos desde los que podemos leer datos. Permiten recibir datos, pero no enviarlos. Se les llama también "tuberías", ya que los datos enviados a un flujo de lectura se almacenan en un búfer hasta que un consumidor comience a leerlos.
+  - Ejemplo: Usamos fs.createReadStream() para leer el contenido de un archivo.
+- Writable Stream (Flujo de escritura):
+  - Son flujos desde los que podemos escribir datos. Permiten enviar datos, pero no recibirlos. Cuando usamos un flujo de escritura, los datos se escriben(envían) en el destino que se ha especificado (como un archivo o una respuesta HTTP).
+  - Ejemplo: Usamos fs.createWriteStream() para escribir datos en un archivo.
+- Duplex Stream (Flujo dúplex):
+  - Son flujos que combinan los comportamientos de un flujo de lectura y un flujo de escritura. Pueden leer y escribir datos. Estos flujos son útiles cuando necesitamos una comunicación bidireccional entre el consumidor y el productor de datos.
+  - Ejemplo: Una conexión de red (como un socket) donde se reciben datos de un lado y se envían de vuelta desde el mismo canal.
+- Transform Stream (Flujo de transformación):
+  - Son flujos similares a los flujos dúplex, pero con la diferencia de que transforman los datos a medida que los leen y los escriben. Es decir, los datos son procesados o modificados mientras se transfieren.
+  - Ejemplo: Usamos transform streams cuando queremos comprimir, cifrar o modificar los datos a medida que los leemos y escribimos, como cuando aplicamos un filtro o transformación a los datos de entrada antes de enviarlos a un archivo o a una red.
 
--	Readable stream: Son flujos de los que podemos leer datos. Nos permite recibir datos, pero no enviar datos. Esto también se conoce como tubería. Los datos que se envían a un flujo de lectura se almacenan en búfer hasta que un consumidor comienza a leer los datos. El uso de fs.createReadStream() nos permite leer el contenido de un archivo.
--	Writable stream: Son flujos desde los que podemos escribir datos. nos permite enviar datos, pero no recibir datos de ella. El fs.createWriteStream() nos permite escribir datos en un archivo.
--	Duplex: estos son flujos que se componen de flujos de lectura(readable) y escritura(writable).
--	Transform: un flujo de transformación es similar a un flujo dúplex, pero llevan a cabo la transformación de datos a medida que se escriben y también cuando se leen.
+
+
+
+
 
 
 ### Pipe()
+- El método readable.pipe() en Node.js se utiliza para conectar un flujo de lectura (readable stream) con un flujo de escritura (writable stream). Esto permite que los datos del flujo de lectura se envíen al flujo de escritura, de manera eficiente. Es como una tubería por la que los datos fluyen de un lado a otro.
+- Función principal:
+  -	El método pipe() conecta un flujo de lectura (readable) con un flujo de escritura (writable), permitiendo que los datos se transfieran directamente de uno a otro.
+  -	El flujo de lectura puede ser, por ejemplo, un archivo o una solicitud HTTP, mientras que el flujo de escritura puede ser un archivo donde se guarda la información o una respuesta HTTP que se envía de vuelta al cliente.
+- Parámetros del método pipe():
+  -	stream: Este es el flujo de escritura (writable stream) al que los datos del flujo de lectura serán enviados. Por ejemplo, puede ser un archivo en el que quieras guardar los datos leídos.
+  -	opciones: Este es un parámetro opcional que contiene configuraciones adicionales sobre cómo debería realizarse la tubería, como la forma de manejar errores o el control del flujo de datos.
+- El método pipe() fue introducido en Node.js v0.9.4, y su propósito principal es hacer más fácil y eficiente el paso de datos entre flujos, permitiendo que se comuniquen y transfieran datos de manera automática.
+- En resumen, pipe() es una forma de crear una "tubería" de datos entre un flujo de lectura y un flujo de escritura, lo que hace que el manejo de datos sea más eficiente y limpio en aplicaciones de Node.js.
+- El método pipe() en Node.js se utiliza para conectar dos flujos (streams) y permitir que los datos (como si fueran agua) fluyan de un flujo de lectura (readable stream / tuberia) a un flujo de escritura (writable stream / tuberia):
+  -  Flujo de lectura (Readable Stream): Este es el flujo desde donde los datos provienen. Piensa en él como una tubería de agua de la que estamos extrayendo los datos. Puede ser un archivo, una solicitud HTTP, o cualquier fuente de datos.
+  -  Flujo de escritura (Writable Stream): Este es el flujo donde los datos se envían. Es como una tubería de destino donde el agua fluye una vez que la hemos extraído. Puede ser un archivo donde se guardan los datos o una respuesta HTTP enviada al cliente.
+- El método pipe() solo está disponible en los flujos de lectura (readable streams) en Node.js. Su propósito es permitir que los datos fluyan desde un flujo de lectura hacia un flujo de escritura de manera eficiente.
 
-Es un método que vimos en el ejemplo anterior.
-
-El método readable.pipe() en un flujo de lectura se usa para adjuntar un flujo de escritura al flujo de lectura para que, en consecuencia, cambie al modo de flujo y luego envíe todos los datos que tiene al stream writable.
-- Este método acepta dos parámetros como se mencionó anteriormente y se describe a continuación:
-  -	stream: este parámetro contiene el  stream writable
-  -	opciones: este parámetro contiene las opciones de tubería.
+#### ¿Por qué solo en los flujos de lectura?
+-	Flujos de lectura (Readable streams): Estos flujos proporcionan los datos que se van a transferir, por ejemplo, un archivo o una solicitud HTTP. El flujo de lectura es el "origen" de los datos.
+-	Flujos de escritura (Writable streams): Estos flujos son el destino de los datos. El flujo de escritura recibe los datos y los guarda o los procesa de alguna forma, como cuando escribimos en un archivo o enviamos una respuesta HTTP.
+- Cuando llamas a pipe() en un flujo de lectura, este método conecta ese flujo de lectura con un flujo de escritura. El flujo de lectura envía automáticamente los datos al flujo de escritura sin que tengas que gestionarlo manualmente. 
 
 
-El método pipe se agregó en v0.9.4 de Node.js y su propósito es adjuntar un stream  writable a un stream readable  para que se permita pasar los datos del stream readable al stream writable.
 
-
-Es una tubería
-
-
-![Tuberia](https://res.cloudinary.com/practicaldev/image/fetch/s--5qpMcc3b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i1.wp.com/www.becomebetterprogrammer.com/wp-content/uploads/2021/09/example-piping-a-readable-to-writeable-stream.png%3Fresize%3D640%252C360%26ssl%3D1)
-
-El método pipe sirve para conectar las dos tuberías (Stream) y permitir que el agua (los datos) fluyan de una tubería a otra.
-
-Este método solo lo contiene los streams readable.	
-
-El destino de una tubería es el stream writable 
+#### ¿Por qué es útil?
+-	Usar pipe() simplifica el proceso de pasar datos entre flujos, especialmente cuando se trabaja con grandes cantidades de datos, como en la lectura y escritura de archivos grandes, ya que no necesitas cargar todo el archivo en memoria de una sola vez.
+-	Además, maneja automáticamente el control del flujo de datos, lo que significa que el flujo de escritura no se sobrecargará con más datos de los que puede procesar.
 
 
 #### Dos modos de lecturas
+- En Node.js, los streams de lectura (readable streams) pueden operar en dos modos: fluido y en pausa. Estos modos controlan cómo se leen los datos de los flujos.
+
+##### Modo Fluido (Flowing Mode)
+-	En este modo, los datos se leen automáticamente desde la fuente y se envían al flujo de destino (como una tubería).
+-	Los datos se envían de manera continua y rápida, y se gestionan mediante eventos. Los eventos, como 'data', se disparan cada vez que hay nuevos datos disponibles, lo que permite que la aplicación los procese inmediatamente.
+-	Cómo se activa el modo fluido:
+    -	Agregar un controlador de eventos 'data': El flujo comienza a leer y enviar datos automáticamente cuando se establece un controlador para el evento 'data'.
+    -	Llamar al método stream.resume(): Si el flujo estaba en pausa, este método lo reanudará y los datos comenzarán a fluir.
+    -	Llamar a stream.pipe(): Este método también activa el modo fluido, ya que conecta el flujo de lectura con un flujo de escritura, y los datos empiezan a pasar de uno a otro.
+##### Modo en Pausa (Paused Mode)
+-	En este modo, los datos no se leen automáticamente. En lugar de eso, el flujo espera que se le indique cuándo leer los datos.
+-	Los datos solo se leerán cuando se invoque explícitamente el método stream.read(). Esto te da un control total sobre cuándo y cuántos datos leer en un momento dado.
+-	Cómo se activa el modo en pausa:
+    -	Todos los flujos de lectura comienzan en modo de pausa por defecto. En este estado, no se lee nada hasta que se indique.
 
 
-- Los streams readable funcionan efectivamente en uno de dos modos: fluido y en pausa:
-   -	En el modo de flujo, los datos se leen automáticamente desde el sistema y se envían rápidamente a una aplicación. Esto se hace a través de eventos (EventEmitter), que son como señales que se envían cuando hay nuevos datos disponibles.
-   -	En el modo de pausa , el  método  stream.read() debe llamarse explícitamente para leer fragmentos de datos de la secuencia.
-- Una  stream readable puede estar en modo de objeto o no, independientemente de si está en modo de flujo o en modo de pausa.
-- En modo objeto, el stream devuelve "cosas" o "entidades" individuales en forma de objeto, en lugar de una corriente de bytes sin procesar. Esto hace que sea más fácil trabajar con los datos, ya que puedes tratar cada objeto individualmente, en lugar de tener que procesar toda la corriente de datos de una vez.
-- Todas las transmisiones Readable  comienzan en modo de pausa (las tuberías no fluyen , no se conectan) , pero se pueden cambiar al modo de flujo (que fluyan las tuberías) de una de las siguientes maneras:
-   -	Agregar un controlador de eventos de 'datos'.
-   -	Llamando al método  stream.resume().
-   -	Llamar al método stream.pipe() para enviar los datos a un Writable.
-- El Readable puede volver al modo de pausa usando uno de los siguientes:
-   -	Si no hay destinos de tubería, llame al método stream.pause().
-   -	Si hay destinos de tubería, eliminando todos los destinos de tubería. Se pueden eliminar varios destinos de tubería llamando al método stream.unpipe()
+#### Modo Objeto
+- Un flujo de lectura puede estar en modo de objeto o modo de bytes:
+    -	Modo de bytes: El flujo lee y envía datos en forma de bytes (datos binarios).
+    -	Modo de objeto: En el flujo, los datos se devuelven de forma estructurada, como objetos, en lugar de como una secuencia de bytes crudos. Esto significa que los datos se entregan en una forma estructurada, lo que facilita su manipulación, especialmente cuando trabajas con datos que ya tienen una forma conocida, como JSON, cadenas de texto (String) o cualquier otro tipo de objeto.
+
+
+#### Cómo cambiar entre los modos:
+-	De pausa a fluido:
+    -	Añadir un controlador de eventos 'data': Esto inicia el flujo de los datos.
+    -	Llamar a stream.resume(): Reactiva el flujo de datos si estaba en pausa.
+    -	Llamar a stream.pipe(): Conecta el flujo de lectura a un flujo de escritura, lo que activa automáticamente el modo fluido.
+-	De fluido a pausa:
+    -	Llamar a stream.pause(): cuando no estás enviando los datos a otro lugar (por ejemplo, a un archivo o a otro stream), puedes usar pause() para detener el proceso de lectura de datos y evitar que continúe enviando datos innecesarios.
+    -	Eliminar todos los destinos: Si el flujo está conectado a un flujo de escritura, puedes eliminar esos destinos usando stream.unpipe(), lo que también detendrá el flujo.
 
 
 :::tip info
@@ -667,17 +735,45 @@ El destino de una tubería es el stream writable
 :::
 
 ### Pipeline()
-
-- Los problemas de pipe():
-   -	No se destruye la fuente de información: Si el destino de la tubería (el receptor de los datos) emite un cierre o un error, la fuente de información (el emisor de los datos) no se destruirá automáticamente. Esto significa que la fuente de información seguirá emitiendo datos, aunque el destino ya no esté disponible para recibirlos.
-   -	No hay devolución de llamada para saber cuando finaliza la tubería: Cuando se utiliza pipe(), no hay una forma built-in de saber cuando se han pasado todos los datos y la tubería ha finalizado. Esto puede ser un problema si necesitas realizar alguna acción después de que se haya completado la transferencia de datos.
-- Para solucionar estos problema, se creo el método pipeline() que se introdujo en Nodejs 10.x.
-- Con este método logramos que la salida de un stream sea la entrada de otro stream.
-- Normalmente se usa para obtener datos de un  stream y pasar la salida de ese  stream a otro stream.
-- Si lo comparamos con la foto de pipe() este método nos permite conectar tuberías (como pipe) y al mismo tiempo gestionar si hubo un problema o si el agua llego al “destino”.
+#### Problemas de pipe()
+1.	La fuente no se destruye automáticamente: Cuando usas pipe(), si el destino del flujo (donde van los datos) se cierra u ocurre un error, la fuente (de donde provienen los datos) no se destruye automáticamente. Esto significa que la fuente sigue enviando datos, aunque el destino ya no pueda recibirlos, lo que puede resultar en una fuga de datos.
+2.	No hay una devolución de llamada para saber cuándo termina la tubería: Con pipe(), no tienes una forma automática de saber cuándo se han enviado todos los datos del flujo. Es decir, no puedes realizar una acción posterior (como cerrar un archivo o realizar una tarea) después de que todos los datos hayan sido procesados. Esto es un problema si necesitas hacer algo cuando la transferencia de datos haya terminado.
 
 
-El ejemplo que hicimos con pipe, lo podemos adaptar con pipeline
+#### Solución con pipeline()
+- Para resolver estos problemas, se introdujo el método pipeline() en Node.js a partir de la versión 10.x.
+  -	Lo que hace pipeline() es permitirte conectar flujos/tuberías/streams (como pipe()), pero añadiendo un control más robusto sobre el proceso.
+  -	Manejo de errores y cierre adecuado: Con pipeline(), puedes gestionar mejor los errores y saber cuándo los datos han llegado al destino correctamente. Si algo sale mal, puedes capturar el error y actuar en consecuencia. Además, te permite realizar una acción después de que todos los datos han sido transferidos correctamente, lo que no puedes hacer con pipe() solo.
+
+#### Comparación con pipe()
+- Imagina que con pipe() estás conectando dos tuberías (flujos). Pero no sabes si el agua (datos) llegó al destino ni cuándo termina la transferencia.
+- Con pipeline(), además de conectar las tuberías, puedes gestionar el proceso y saber si hubo algún problema o si la transferencia se completó con éxito, lo que te da más control y seguridad en el flujo de datos.
+
+#### ¿Cómo funciona pipeline()?
+- El método pipeline() recibe varios streams como parámetros y el último parámetro es una función (callback) que se ejecutará cuando se complete la transferencia de datos o cuando ocurra un error en el proceso.
+#####  ¿Cómo funciona pipeline()?
+1.	Recibe los streams: Los flujos que deseas conectar se pasan como parámetros al método pipeline(). Puedes pasar múltiples streams, como un flujo de lectura (readable stream), un flujo de transformación (transform stream), y un flujo de escritura (writable stream). El método pipeline conecta las tuberías(streams) que les específicas, en el orden que le proporcionas. Esto significa que los datos fluirán de un stream a otro siguiendo el orden de los parámetros.
+2.	Función de devolución de llamada: El último parámetro es una función que se ejecutará en dos situaciones:
+    -	Cuando todo el proceso haya terminado correctamente, es decir, cuando todos los datos se hayan transferido de un flujo a otro sin problemas.
+    -	Si ocurre un error, por ejemplo, si el flujo de escritura no puede recibir más datos o si hay un problema en alguno de los flujos intermedios.
+#### ¿Qué hace pipeline() con los streams?
+-  Conecta los streams:
+    -	El primer stream que pasas al pipeline() es el stream de lectura (readable stream), que es el origen de los datos.
+    -	Los streams intermedios (si los hay) pueden ser streams de transformación o streams duplex (que permiten tanto leer como escribir datos).
+    -	El último stream es generalmente un stream de escritura (writable stream), que es el destino donde los datos serán enviados.
+- El flujo de los datos: Los datos comienzan en el primer stream y fluyen de uno a otro en el orden en que los pasas al pipeline(). Esto significa que:
+    -	Los datos que salen del primer stream (stream de lectura) entran en el segundo stream (si es un stream de transformación) y son procesados.
+    -	Luego, los datos procesados por el segundo stream (si hay más de uno) se pasan al siguiente stream, y así sucesivamente.
+    -	Finalmente, los datos procesados o transformados llegan al último stream (stream de escritura).
+
+
+#### Resumen
+-	pipeline() conecta los streams en el orden en que los pasas como parámetros.
+-	Los datos fluyen de un stream a otro automáticamente según el orden.
+-	Esto permite, por ejemplo, leer un archivo, transformarlo (como comprimirlo) y escribirlo en otro archivo, todo en una sola operación.
+
+#### Ejemplo
+- El ejemplo que hicimos con pipe, lo podemos adaptar con pipeline:
 
 
 ```js

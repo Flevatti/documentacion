@@ -285,3 +285,70 @@ Ejemplo:
 - [@supports: Qué es y por qué es tan maravilloso](https://www.mowomo.com/supports-que-es-y-por-que-es-tan-maravilloso/)
 - [https://css-tricks.com/how-supports-works/](https://css-tricks.com/how-supports-works/)
 :::
+
+## @namespace
+- En CSS, @namespace es una regla at-rule que se utiliza para declarar un espacio de nombres (namespace) en un archivo CSS, lo cual es útil cuando se trabaja con documentos XML que pueden incluir múltiples espacios de nombres, como en SVG o XHTML.
+- Gracias a @namespace podes aplicar estilos css solo a elementos que estén dentro de un espacio de nombre.
+- El objetivo de @namespace es evitar conflictos entre estilos cuando se trabaja con documentos que contienen elementos de diferentes espacios de nombres.
+- Sintaxis
+```css
+@namespace [prefix] "namespace-uri";
+```
+:::tip Observación
+-  prefix (opcional): Un prefijo que se puede usar en los selectores para referirse a un elemento que pertenece espacio de nombres específico.
+-  namespace-uri: La URI del espacio de nombres que deseas declarar.
+:::
+
+
+:::tip ¿Qué es una URI de espacio de nombres?
+- Es una dirección (parecida a una URL) que actúa como un identificador único para un conjunto de elementos o atributos.
+- No significa que haya un archivo o página en esa dirección; solo se usa como un nombre único para identificar algo.
+- Por ejemplo:
+  -	http://www.w3.org/1999/xhtml identifica todos los elementos de HTML (como &lt;div>, &lt;p>, etc.).
+  -	http://www.w3.org/2000/svg identifica elementos SVG (como &lt;circle>, &lt;rect>, etc.).
+  - Ambas son "marcas de identidad" que los navegadores usan internamente para entender de dónde provienen esos elementos.
+#### ¿Por qué necesitamos esto?
+- Imagina que estás trabajando con un archivo XML que mezcla diferentes tipos de datos, como HTML y SVG. Ambos podrían tener un elemento llamado &lt;title>, pero podrían tener significados diferentes:
+  -	En HTML, &lt;title> define el título de la página.
+  -	En SVG, &lt;title> describe el contenido del gráfico vectorial.
+  - Sin un namespace, no podrías diferenciar entre ambos. Con espacios de nombres, los navegadores pueden saber cuál es cuál porque cada uno está asociado con una URI única.
+##### Entonces, ¿qué son esas URLs?
+- Son identificadores globales que ayudan a distinguir elementos. Aunque parecen direcciones web, no necesitas visitarlas; son solo nombres únicos estándar creados por la W3C (World Wide Web Consortium).
+- En resumen: la URI es como una etiqueta única que le dice al navegador qué "tipo de lenguaje" está usando cada elemento.
+:::
+
+
+#### Ejemplo
+- Supongamos que tienes un documento XML que incluye elementos de los espacios de nombres http://www.w3.org/1999/xhtml y http://www.w3.org/2000/svg. Puedes usar @namespace en tu CSS para dirigirte específicamente a los elementos de estos espacios de nombres:
+
+```css
+@namespace html "http://www.w3.org/1999/xhtml";
+@namespace svg "http://www.w3.org/2000/svg";
+
+/* Estilo para elementos del espacio de nombres XHTML */
+html|p {
+  color: blue;
+}
+
+/* Estilo para elementos del espacio de nombres SVG */
+svg|circle {
+  fill: red;
+}
+
+```
+
+##### Sin prefijo
+- Si no especificas un prefijo, puedes declarar un espacio de nombres predeterminado:
+```css
+@namespace "http://www.w3.org/1999/xhtml";
+
+/* Aplica a todos los elementos del espacio de nombres XHTML */
+p {
+  color: green;
+}
+
+```
+
+#### Soporte en navegadores
+- @namespace es compatible principalmente cuando trabajas con XML (como XHTML y SVG). Sin embargo, no se utiliza comúnmente en proyectos basados puramente en HTML, ya que HTML no tiene múltiples espacios de nombres.
+- En HTML regular, no necesitas @namespace porque todo el documento pertenece al espacio de nombres HTML5 por defecto (http://www.w3.org/1999/xhtml).

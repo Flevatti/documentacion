@@ -17,12 +17,17 @@ cd consumir-api
 - [ruta](https://rickandmortyapi.com/api/)
 
 ## useEffect
-- [link](https://es.reactjs.org/docs/hooks-effect.html)
--	El Hook de efecto te permite llevar a cabo efectos secundarios en componentes 
--	Peticiones de datos, suscripciones y actualizaciones del DOM en componentes de React serían ejemplos de efectos secundarios.
+- [Explicación.](./hookcss.md#useeffect)
+- El Hook useEffect en React te permite manejar efectos secundarios en los componentes. 
+- Los efectos secundarios (o side effects en inglés) se refieren a cualquier operación que afecta a algo que se encuentra fuera de la función o componente, o que depende de algo que no se puede garantizar que sea constante entre las ejecuciones. En el contexto de React, los efectos secundarios son aquellas acciones que ocurren cuando un componente se muestra en el DOM (confirmación) y que afectan o interactúan con algún sistema o elemento que no es accesible durante el renderizado.
+- El propósito principal de useEffect es observar un elemento específico (como una variable o estado del componente) y ejecutar una acción automáticamente cuando este cambie.
 -	Sirven para estar pendiente de cierto elemento del  componente y que cuando cambie , ejecute algo.
+- Si conoces los métodos del ciclo de vida en clases de React, useEffect combina las funcionalidades de componentDidMount, componentDidUpdate y componentWillUnmount.
+- Con la introducción de los Hooks, los métodos de ciclo de vida, que solo funcionaban en componentes de clase, han sido reemplazados, permitiendo que los componentes funcionales también gestionen estados y efectos secundarios de forma más sencilla.
 
 :::tip 
+
+
 - Si estás familiarizado con el ciclo de vida de las clases de React y sus métodos, el Hook useEffect equivale a componentDidMount, componentDidUpdate y componentWillUnmount combinados.
 - Los métodos que corresponden al ciclo de vida solo se pueden usar en las [clases de React.](https://flevatti.github.io/documentacion/docs/React/otros2#reactcomponent) ya que en la actualidad fueron remplazados por los hooks.
 :::
@@ -31,8 +36,19 @@ cd consumir-api
 
 
 ### Efectos sin saneamiento
--	En ciertas ocasiones, queremos ejecutar código adicional después de que React haya renderizado el DOM. Peticiones de red, mutaciones del DOM y registros, son ejemplos comunes de efectos que no requieren una acción de saneamiento.
--	Decimos esto porque podemos ejecutarlos y olvidarnos de ellos inmediatamente. 
+- En algunos casos, queremos ejecutar código después de que React haya renderizado un componente en el DOM. Ejemplos comunes de efectos que no requieren saneamiento incluyen:
+  -	Peticiones HTTP : Generalmente, las peticiones de red se hacen una vez y no necesitan limpieza después de que se completan, ya que no dependen del ciclo de vida del componente. La respuesta de la petición (como un fetch o axios) se maneja una vez que llega y no deja recursos abiertos que necesiten ser limpiados. Si la petición se realiza y la respuesta llega, no hay necesidad de eliminar o revertir la acción.
+  -	Modificaciones directas al DOM: Cuando modificamos el DOM directamente, como agregar un elemento o cambiar un estilo, React ya maneja su propio sistema de actualización del DOM. Si bien React suele encargarse de las actualizaciones de manera eficiente, las mutaciones del DOM que hacemos explícitamente generalmente no requieren limpieza porque no dejamos elementos o estados "colgados" que puedan afectar el rendimiento o el comportamiento del componente. Si la mutación es puntual (como un cambio de clase o el estilo), no es necesario limpiarlo.
+  -	Registros (de eventos o estadísticas):
+      - Los registros, como los logs en la consola o el seguimiento de métricas, suelen ser efectos que no dependen del ciclo de vida del componente. Una vez que se ejecutan, no dejan recursos que necesiten ser liberados o saneados. Por ejemplo, si registras un evento de clic o una acción, simplemente registras esa información y no necesitas deshacer la acción una vez que se haya completado.
+
+- En resumen, estos efectos no requieren saneamiento porque no están dejando recursos abiertos, suscripciones o conexiones que continúen afectando al componente después de ejecutarse. React maneja la mayoría de las actualizaciones y efectos de manera automática, lo que hace innecesario realizar limpieza en estos casos.
+- Estos efectos pueden ejecutarse sin necesidad de limpiar o "sanear" recursos después de que el componente se desmonte o actualice. Esto se debe a que una vez ejecutados, no necesitan ser limpiados ni revertidos, ya que no dejan recursos o suscripciones abiertas que puedan afectar al rendimiento o provocar errores.
+
+
+
+
+
 
 App.jsx
 ```js
@@ -55,43 +71,51 @@ export default App
 
 ```
 :::tip Observacion
- useEffect  ejecuta el callback cuando:
-
-- se renderiza el componente por primera vez.
- -   ocurre un cambio en el componente.
+- useEffect  ejecuta el callback cuando:
+  - Se renderiza el componente por primera vez.
+  - Ocurre un cambio en el componente.
 :::
+
 ### ¿Qué hace useEffect?
--	Al usar este Hook, le estamos indicando a React que el componente tiene que hacer algo después de renderizarse.
--	React recordará la función que le hemos pasado(callback) (nos referiremos a ella como nuestro “efecto”), y la llamará más tarde después de actualizar el DOM.
--	¿Se ejecuta useEffect(el callback) después de cada renderizado? ¡Sí! Por defecto se ejecuta después del primer renderizado y después de cada actualización
-
+- Cuando usas el Hook useEffect, le estás indicando a React que el componente debe realizar una acción después de que se haya renderizado.
+- React guarda la función que le pasas a useEffect (a la que llamaremos "efecto") y la ejecutará más tarde, justo después de que haya actualizado el DOM.
+- ¿Se ejecuta useEffect después de cada renderizado? Sí, por defecto, useEffect se ejecuta después del primer renderizado y luego se ejecuta nuevamente después de cada actualización del componente.
+- Esto quiere decir que, cada vez que el componente se renderiza, el "efecto" se ejecutará una vez que React haya completado la actualización del DOM. Si no se le indica ninguna condición específica, el efecto se ejecutará después de todos los renderizados del componente.
 ### Consejo: Omite efectos para optimizar el rendimiento
--	En algunos casos, sanear o aplicar el efecto después de cada renderizado (de cada actualización del componente) puede crear problemas de rendimiento.
--	Puedes indicarle a React que omita aplicar un efecto si ciertos valores no han cambiado entre renderizados. Ósea que solo aplique el efecto si un valor especifico ha cambiado
--	Para hacerlo, pasa un array como segundo argumento opcional a useEffect:
-
+- En ciertos casos, ejecutar el efecto después de cada renderizado (y de cada actualización del componente) puede afectar el rendimiento del proyecto.
+- Para evitar esto, puedes indicarle a React que solo ejecute el efecto si ciertos valores han cambiado entre renderizados. Es decir, solo quieres que el efecto se aplique cuando un valor específico cambie.
+- Para lograrlo, puedes pasar un array como segundo argumento opcional a useEffect. Este array debe contener las variables o estados que quieres que React observe. El efecto solo se ejecutará si alguno de esos valores cambia entre renderizados.
+- Si pasas un array vacío ([]) como segundo argumento en useEffect, el efecto solo se ejecutará una vez, justo después del primer renderizado del componente, y no se volverá a ejecutar en actualizaciones posteriores:
 ```js
 	// useEffect(callback , [array])
 	    useEffect(() => { console.log("renderizado")} , []);
 
 ```
-:::tip Observacion
-El callback solo se ejecuta en el primer renderizado
-:::
+
 ### En el Array podemos poner los estados(valores) a los que estamos pendiente
+- Cuando pasas un array como segundo argumento en useEffect, este array sirve para indicar a React qué estados o valores debe observar para decidir si el efecto debe ejecutarse nuevamente.
+- En el array, puedes poner las variables o estados que quieres que React observe. Si alguno de esos valores cambia, el efecto se ejecutará de nuevo:
+
 ```js
 // useEffect(callback , [array])
     useEffect(() => { console.log(`contador  ${contador}`)} , [contador]);
 
 ```
 :::tip Observacion
-El callback se ejecuta cada vez que la variable de estado contador cambie.
+- Lo que está sucediendo es lo siguiente:
+  1.	Callback (función del efecto):
+      - El primer argumento de useEffect es una función para mostrar por consola el valor de contador.
+  2.	Array de dependencias ([contador]):
+      - El segundo argumento es un array que contiene contador. Esto le indica a React que solo debe ejecutar la función del efecto cuando contador cambie. Si contador no cambia entre renderizados, el efecto no se ejecutará.
+- El efecto se ejecutará una vez al principio (después del primer renderizado) y luego cada vez que el valor de contador cambie.
+- Si contador no cambia, el efecto no se ejecutará nuevamente, lo que optimiza el rendimiento al evitar ejecuciones innecesarias.
+
 :::
 :::tip 
-Pueden crear varios useEffect
+- Se Pueden crear varios useEffect.
 :::
 :::tip 
-Más adelante conoceremos los [Efectos con saneamiento](https://es.reactjs.org/docs/hooks-effect.html#effects-with-cleanup) 
+Más adelante conoceremos los [Efectos con saneamiento.](https://es.reactjs.org/docs/hooks-effect.html#effects-with-cleanup) 
 :::
 
 ## Formulario

@@ -1,22 +1,122 @@
 ---
 sidebar_position: 4
 ---
-# DOM
+# DOM 
 
--	El modelo de objeto de documento (DOM) es una interfaz de programación para los documentos HTML.
--	Facilita una representación estructurada del documento y define de qué manera los programas pueden acceder, al fin de modificar, tanto su estructura, estilo y contenido.
--	Una página web es un documento. Éste documento puede exhibirse en la ventana de un navegador o también como código fuente HTML.
-- DOM = Document object model
-- El archivo.html lo representa a través del DOM el navegador.
-- Se accede al DOM a través de Document
-- Document es el nodo superior del DOM
-### ARBOL DOM
-Son nodos que se pueden modificar
+### Dom / Dom Real / Arbol Dom
+- El DOM Real (Document Object Model) es una representación de la estructura de un documento HTML o XML en la que los navegadores web crean un árbol de nodos que representan los elementos HTML  del documento. Este árbol permite que los scripts y el navegador interactúen con el contenido y la estructura de la página. Cuando se modifica el DOM Real, el navegador tiene que volver a renderizar la página, lo que puede ser costoso en términos de rendimiento, especialmente si hay muchas modificaciones.
+- Piensa en una página web como una casa. Cada parte de la casa (puertas, ventanas, habitaciones) representa diferentes elementos en la página web, como textos, imágenes y botones.
+#### El DOM Real como la Estructura de la Casa
+- El DOM Real es como el plano de la casa que tiene una representación detallada de cada habitación y elemento:
+    -	Habitaciones = Secciones de la página (como encabezados, párrafos, imágenes).
+    -	Puertas y ventanas = Elementos HTML que permiten la interacción, como botones y enlaces.
+- Cuando construyes o remodelas la casa, necesitas crear o actualizar el plano para asegurarte de que todo esté en orden. Cada vez que cambias algo (como agregar una habitación o mover una ventana), tienes que actualizar el plano de la casa. Esto es similar a cómo el navegador actualiza el DOM Real cada vez que se realizan cambios en la página.
+
+#### ¿Qué pasa en el Navegador?
+1.	Carga de la Página: Cuando abres un sitio web, el navegador descarga el código HTML, que es como un conjunto de instrucciones sobre cómo debe verse la página.
+2.	Creación del DOM Real: A partir de ese código HTML, el navegador crea el DOM Real, que es una representación de la estructura de todos los elementos HTML de la página (textos, imágenes, botones, etc.). Piensa en esto como el plano de una casa que indica dónde están cada una de las habitaciones, que contienen y cómo se conectan.
+3.	Renderizado: El navegador utiliza el DOM Real para renderizar (o dibujar) la página en la pantalla. Esto significa que toma el plano y lo convierte en algo visual que puedes ver e interactuar. Por ejemplo, muestra las imágenes, coloca los textos en sus lugares y dibuja los botones.
+4.	Interacción del Usuario: Cuando interactúas con la página (por ejemplo, haciendo clic en un botón o desplazándote hacia abajo), puede que el contenido de la página necesite cambiar. Si haces clic en un botón para ver más información, el navegador puede modificar el DOM Real.
+5.	Actualización del DOM Real: Si decides agregar, quitar o cambiar algo en la página, el navegador actualiza el DOM Real para reflejar esos cambios. Luego, vuelve a renderizar la página para que veas la nueva información.
+
+#### Ejemplo
+- Imagina que tienes un archivo HTML que representa una pequeña lista de tareas:
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+</head>
+<body>
+    <h1>Mis Tareas</h1>
+    <ul id="tareas">
+        <li>Comprar frutas</li>
+        <li>Hacer ejercicio</li>
+        <li>Estudiar programación</li>
+    </ul>
+    <button id="agregar">Agregar Tarea</button>
+    <input type="text" id="nueva-tarea" placeholder="Nueva tarea">
+    
+    <script>
+        // Interacción con el DOM
+        document.getElementById('agregar').onclick = function() {
+            var nuevaTarea = document.getElementById('nueva-tarea').value;
+            if (nuevaTarea) {
+                var li = document.createElement('li'); // Crear un nuevo elemento de lista
+                li.textContent = nuevaTarea; // Establecer el texto del nuevo elemento
+                document.getElementById('tareas').appendChild(li); // Agregarlo a la lista
+                document.getElementById('nueva-tarea').value = ''; // Limpiar el campo de entrada
+            }
+        };
+    </script>
+</body>
+</html>
+
+```
+##### Cuando se carga esta página, el navegador crea el DOM a partir del HTML. La estructura del DOM sería algo como esto:
+-	Nodo &lt;html>
+    -	Nodo &lt;head>
+        -	Nodo &lt;title> (Mis Tareas)
+    -	Nodo &lt;body>
+        -	Nodo &lt;h1> (Mis Tareas)
+        -	Nodo &lt;ul> (Lista de tareas)
+            -	Nodo &lt;li> (Comprar frutas)
+            -	Nodo &lt;li> (Hacer ejercicio)
+            -	Nodo &lt;li> (Estudiar programación)
+        -	Nodo &lt;button> (Agregar Tarea)
+        -	Nodo &lt;input> (Nueva tarea)
+
+##### Interración
+-	Cuando haces clic en el botón "Agregar Tarea", el script JavaScript se ejecuta:
+    -	Captura el valor del campo de entrada (la nueva tarea).
+    -	Crea un nuevo elemento &lt;li> (lista) en el DOM para la nueva tarea.
+    -	Agrega este nuevo &lt;li> a la lista existente (&lt;ul>).
+    -	Limpia el campo de entrada para que puedas escribir otra tarea.
+
+#### Nodos
+- Un nodo representa un elemento HTML, un atributo o un fragmento de texto en un documento HTML o XML. Los nodos se utilizan en el DOM y permiten que el navegador y los scripts interactúen con la estructura de la página web. 
+
+
+#### Tipos de Nodos en el DOM
+1.	Nodos de Elemento: Representan los elementos HTML en el documento. Cada etiqueta HTML, como &lt;div>, &lt;p>, &lt;h1>, &lt;ul>, etc., es un nodo de elemento.
+    -	Ejemplo: En &lt;p>Hola&lt;/p>, el &lt;p> es un nodo de elemento.
+2.	Nodos de Texto: Representan el texto dentro de un nodo de elemento. Cada fragmento de texto en un elemento se convierte en un nodo de texto.
+    -	Ejemplo: En &lt;p>Hola&lt;/p>, "Hola" es un nodo de texto.
+3.	Nodos de Atributo: Representan los atributos de un nodo de elemento, como id, class, src, etc. Aunque no se representan como nodos separados en la jerarquía, son parte del nodo de elemento y se pueden manipular.
+    -	Ejemplo: En &lt;img src="imagen.jpg" alt="Descripción">, src y alt son atributos del nodo &lt;img>.
+4.	Nodos de Comentario: Representan comentarios en el código HTML, que no se muestran en la página web pero están presentes en el código fuente.
+    -	Ejemplo: <!-- Este es un comentario --> es un nodo de comentario.
+5.	Nodos Documentales: Representan el documento completo y son el nodo raíz del DOM. 
+
+- Los nodos pueden contener otros nodos, creando así una estructura jerárquica. La estructura jerárquica de nodos que se forma se conoce como Document Object Model (DOM) o algunos lo llaman Árbol de nodos.
+
+
+#### Nodo Document y Elemento Raíz
+- En el Document Object Model (DOM), hay un nodo especial llamado Document y, debajo de él, hay un nodo que representa el elemento raíz, que es &lt;html> en un documento HTML. 
+- Nodo Document:
+    -	Este es el nodo raíz (el nodo superior) del árbol DOM y representa el documento completo.
+    -	Sirve para interactuar con el DOM y se accede a través del objeto document en JavaScript.
+    -	Contiene información sobre el documento. 
+-  Elemento Raíz (&lt;html>):
+    -	Este es el primer nodo hijo del nodo Document.
+    -	Representa el elemento &lt;html> en el archivo HTML y es el contenedor principal de todo el contenido de la página.
+    -	A partir de este modo, se pueden acceder a otros nodos como &lt;head>, &lt;body>, y todos los demás elementos dentro de ellos.
+
+
+
+
+
+
+
+
+
+- Ejemplo de un Árbol de nodo:
+
 ![ARBOL DOM](https://3.bp.blogspot.com/-08aop2nBOVc/We5H68rEhfI/AAAAAAAABFY/tLGK4qmKgNQmOCgItANKxZf5rNS0MKMswCPcBGAYYCw/s1600/arbolDOM.gif)
 ## Document
-La interfaz Document representa cualquer página web cargada en el navegador y sirve como punto de entrada al contenido de la página (El árbol DOM).
+- Document viene del [objeto global de Javascript](./basico4.md#objeto-global) representa el documento HTML de la pagina y por lo tanto con este se puede manipular el DOM  o incluso obtener información de este:
 
-Te lo muestra de dos formas distintas
 
 ```js
 console.log(document);
@@ -32,18 +132,38 @@ console.log(document.body);
 console.log(document.domain);
 
 ```
+
+
+- Podemos obtener referencias a nodos de elementos utilizando los métodos del objeto document. Estos métodos nos permiten seleccionar elementos de diferentes maneras según nuestras necesidades:
+```js
+  document.getElementById()  //Obtiene un elemento por su ID.
+  document.getElementsByClassName()  //Obtiene todos los elementos que contenga las “clases” especificadas 
+  document.getElementsByTagName()  //Obtiene todos los elementos node que corresponden a una etiqueta HTML especifica.
+  document.querySelector()  //Selecciona el primer elemento que coincide con el selector CSS.
+  document.querySelectorAll()  //Selecciona todos los elementos que coinciden con el selector CSS.
+```
+
+
+
+
+
 ## [Console Table](https://developer.mozilla.org/es/docs/Web/API/Console/table)
 
 ### Metodos
 [Algunos metodos](https://developer.mozilla.org/es/docs/Web/API/Document#methods)
+
 ```js
-•	Document.getElementsByClassName(String className)
-•	Document.getElementsByTagName(String tagName)
-•	Document.getElementById(String id)
-•	Document.querySelector(String selector)
-•	Document.querySelectorAll(String selector)
-•	Document.createDocumentFragment()
-•	Document.createElement(String name)
+// Para obtener referencias a un node Elemento
+document.getElementsByClassName(String className)
+document.getElementsByTagName(String tagName)
+document.getElementById(String id)
+document.querySelector(String selector)
+document.querySelectorAll(String selector)
+
+// Crea un fragmento
+document.createDocumentFragment()
+// Para crear un node Elemento
+document.createElement(String name)
 
 ```
 
@@ -55,7 +175,7 @@ console.log(document.domain);
 
 ## getElementById()
 
--  Devuelve una referencia al elemento por su ID.
+-  Devuelve una referencia de un nodo elemento  por su ID. Con esa referencia podemos manipular el elemento en el DOM.
 - Como parámetro recibe un String con el nombre del id.
 
 ```html
@@ -162,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 ```
 
 ## querySelector()
-Devuelve el primer elemento del documento que coincida con el grupo especificado de selectores.
+Devuelve el primer nodo del documento que coincida con el selector CSS.
 
 Parametro = Un String con selectores css
 
@@ -206,9 +326,9 @@ console.log(document.querySelector(".text-danger"));
 ```
 
 ## querySelectorAll()
-- Devuelve todos los elementos del documento que coincida con el grupo especificado de selectores.
+- Devuelve todos los nodos del documento que coincida con el selector CSS.
 - Parametro = Un String con selectores css
-- Devuelve una NodeList.
+- Devuelve una NodeList (almacena un listado de Nodos).
 
 ```js
 console.log(document.querySelectorAll(".text-danger"));
@@ -220,24 +340,47 @@ Ejemplo para seleccionar solo los párrafos del div
 console.log(document.querySelectorAll(".container .text-danger"));
 ```
 ##  querySelector vs getElementById
--	El método querySelector le permite recuperar un elemento mediante una consulta de selector de CSS
--	El método getElementById recupera un elemento por su ID DOM.
--	Ambos métodos tienen una amplia compatibilidad con los navegadores. Debe optar por usar el método querySelector si necesita seleccionar elementos usando reglas más complejas que se representan fácilmente usando un selector CSS. Si desea seleccionar un elemento por su ID, usar getElementById es una buena opción.
-
+-	El método querySelector le permite recuperar un elemento mediante un selector CSS.
+-	El método getElementById recupera un elemento por su ID.
+-	Ambos métodos tienen una amplia compatibilidad con los navegadores. Debe optar por usar el método querySelector si necesita seleccionar elementos de una manera mas compleja. Si desea seleccionar un elemento por su ID, usar getElementById es una buena opción.
 -	A menudo necesitará realizar selecciones más complejas en su HTML, y ahí es donde querySelector puede ser más útil; usarlo de manera constante también puede hacer que su código sea más fácil de leer para otros codificadores.
 -	En otras palabras, el principal beneficio de usar querySelector o querySelectorAll es que podemos seleccionar elementos usando selectores CSS, lo que nos da una forma uniforme de manejar la selección de elementos, y eso lo convierte en una forma preferida de seleccionar elementos para muchos desarrolladores.
 -	Si usa una herramienta como Babel para admitir navegadores más antiguos, entonces puede ser irrelevante, ya que las funciones más nuevas se pueden convertir a código compatible con versiones anteriores cuando compila su script.
--	800.000 selecciones por segundo, querySelector es aprox. 6% más lento.
+-	En 800.000 selecciones por segundo, querySelector es aprox. 6% más lento.
 - [mas info](https://beamtic.com/getelementbyid-vs-queryselector)
 
 ## Element
+- Un Element es una referencia a un nodo elemento que podemos obtener con getElementById() , querySelector() , etc...
+
+#### Métodos y propiedades generales
+- Todos los nodos heredan de la clase “Element”, lo que significa que tienen varias propiedades y métodos comunes que te permiten manipularlos, por ejemplo:
+    -	Propiedades comunes:
+        -	nodeName: El nombre del nodo (por ejemplo, DIV, P).
+        -	nodeType: El tipo del nodo, que es un número que representa el tipo de nodo (por ejemplo, 1 para un nodo de tipo Elemento).
+        -	innerHTML: El contenido HTML dentro del nodo.
+        -	outerHTML: El HTML completo del nodo, incluyendo la etiqueta misma.
+        -	id: El identificador del elemento.
+        -	classList: Permite manipular las clases CSS del elemento.
+        -	style: Permite manipular el estilo en línea del elemento.
+    -	Métodos comunes:
+        -	setAttribute(): Establece un atributo de un elemento.
+        -	getAttribute(): Obtiene el valor de un atributo de un elemento.
+        -	appendChild(): Agrega un nodo hijo al nodo actual.
+        -	removeChild(): Elimina un nodo hijo del nodo actual.
+        -	cloneNode(): Clona el nodo, con o sin sus hijos.
+        -	addEventListener(): Escucha un evento especifico.
+        -	hasAttributes: Verifica si el elemento tiene o no algún atributo.
+
+
+
+
 
 :::tip Info
 - [link](https://developer.mozilla.org/es/docs/Web/API/Element)
 - Propiedades de los elementos === Propiedades de Instancia
 - Metodos de los elementos === Metodos de instancia
 :::
-### Algunas propiedades:
+#### Ejemplo
 
 ```js
 const h1 = document.getElementById("tituloWeb");
@@ -262,36 +405,86 @@ h1.style.backgroundColor = "red";
 h1.style.color = "white";
 
 ```
-### Algunos metodos
--	addEventListener: Registra un controlador de evento para un tipo de evento específico en un elemento.
--	appendChild: Inserta un nodo así como el último nodo hijo de este elemento.
--	hasAttributes: Verifica si el elemento tiene o no algún atributo.
+
+- En el contexto del DOM (Document Object Model) cada nodo Elemento implementa una interfaz. 
+- Imagina que cada tipo de elemento HTML (como &lt;div>, &lt;input>, etc.) se representa como una clase en  programación orientada a objetos. Entonces para representar a un nodo en el DOM tenemos las siguientes clases:
+    - Clase base “Node”: Representa cualquier Nodo en el DOM ya sea de texto, de comentario, de elemento, etc.
+    - Clase “Element” (Hereda de Node): Es una subclase de “Node”. Representa todos los nodos de elementos HTML, como las etiquetas &lt;div>,&lt;p>, &lt;a>, etc. Los métodos y propiedades de esta clase son comunes en todos los elementos HTML.
+    - Clases “específica” como  HTMLDivElement, HTMLInputElement, etc:
+        - Cada tipo de elemento HTML (como &lt;div>, &lt;input>, &lt;h1>) tiene su propia clase que hereda de la clase Element, pero añade propiedades y métodos adicionales que son específicos para ese tipo de elemento. Estas clases específicas implementan las interfaces mencionadas anteriormente.
+        - Por ejemplo, la clase HTMLDivElement representa un nodo de tipo &lt;div>. Esta clase hereda las propiedades y métodos de Element (como getAttribute() o innerHTML), pero también puede tener métodos específicos para un &lt;div> que no están disponibles en otros tipos de elementos.
+        - De manera similar, un &lt;input> tiene su propia clase HTMLInputElement que hereda de Element, pero también agrega funcionalidades específicas para interactuar con los campos de formulario.
+
+#### Ejemplo
+-  Elemento de tipo &lt;input>:
+    -	Propiedad value: Devuelve o establece el valor del campo de entrada.
+    -	Propiedad checked: Para verificar o modificar el estado de un checkbox.
+-  Elemento de tipo &lt;img>:
+    -	Propiedad src: Establece o obtiene la fuente de la imagen.
+    -	Propiedad alt: Establece o obtiene el texto alternativo de la imagen.
+
+
+:::tip ¿Cómo buscar la documentación de una interfaz especifica?
+- Si buscas un elemento HTML en [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML), hay una sección que te indica que interfaz DOM implementa ese elemento.
+- [Click aquí para ver interfaces](https://web.dev/learn/html/apis?hl=es-419#available_element_interfaces)
+:::
+
+
+## Eventos
+- En JavaScript, la interacción con el usuario se consigue mediante la "escucha" de los eventos que éste produce. Un evento es una acción del usuario  (por ejemplo, el cambio del valor de un formulario, o la pulsación de un enlace).
+- El sistema de eventos de JavaScript es una forma de gestionar interacciones y cambios en la interfaz de usuario. Funciona siguiendo el modelo [Event-driven(basado en eventos)](../Node/arquitecturas.md#arquitectura-de-eventos-event-driven-architecture), donde el navegador “escucha” ciertas acciones del usuario (como hacer clic, mover el mouse o presionar teclas) o del sistema (como cargar la página) y ejecuta un código cuando esas “acciones” ocurren.
+- Piensa en un evento como un timbre de una casa. Aquí está lo que pasa:
+    1.	El timbre suena: Esto es como un evento que ocurre, por ejemplo, un clic o pulsar una tecla.
+    2.	Una persona escucha el timbre: El navegador sabe que ocurrió una acción (evento)
+    3.	La persona decide qué hacer: Aquí es donde entra el manejador del evento. Por ejemplo, al escuchar el timbre, decides abrir la puerta.
+- En términos de JavaScript, tú creas el manejador de evento (es la acción que va a ocurrir o el código que se va a ejecutar) con addEventListener, para que cuando alguien toque el timbre (haga clic, mueva el mouse, etc.), suceda algo.
+
+
+
+#### Flujo del sistema de eventos
+1.	Evento: Ocurre una acción en el navegador (clic, scroll, cambio de un input, etc.).
+2.	Objeto de evento: El navegador crea un objeto de tipo Event que contiene información sobre el evento (tipo, elemento objetivo, posición del cursor, etc.).
+3.	Propagación del evento:
+    -	Fase de captura: El evento se propaga desde la raíz del documento hacia el elemento objetivo. El evento "viaja" desde el documento raíz (document) hacia el elemento que lo generó.
+    -	Fase de objetivo: El evento llega al elemento que lo originó. El evento llega al elemento donde ocurrió.
+    -	Fase de burbuja: El evento se propaga hacia arriba en el árbol DOM (del elemento objetivo hacia sus ancestros). El evento "sube" de vuelta desde el elemento objetivo hasta la raíz.
 
 
 
 
-## addEventListener
-
-### Eventos
-En JavaScript, la interacción con el usuario se consigue mediante la captura de los eventos que éste produce. Un evento es una acción del usuario ante la cual puede realizarse algún proceso (por ejemplo, el cambio del valor de un formulario, o la pulsación de un enlace)
 
 
-### addEventListener()
--	 Registra un evento a un objeto en específico 
--	El Objeto especifico puede ser un simple elemento en un archivo, el mismo documento , una ventana o un XMLHttpRequest.
--	Cuando el usuario activa el evento, el objeto hace una acción progamada.
-- [mas info](
-https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener
-)
-- [tipo de eventos](https://developer.mozilla.org/es/docs/Web/Events#eventos_est%C3%A1ndar)
-
+## addEventListener()
+- addEventListener es un método en JavaScript que se utiliza para registrar un manejador de evento en un elemento del DOM. Este método permite escuchar un tipo específico de evento (como click, keyup, etc.) y ejecutar una función cuando el evento ocurre.
+- addEventListener es como decirle al navegador:
+"Oye, si alguien toca el timbre (hace clic, mueve el mouse, etc.), quiero hacer esto."
+- Sintaxis: 
 ```js
-element.addEventListener(tipo, listener);
+NodeElement.addEventListener(event, handler, options);
 ```
+:::tip Parametros
+-  event: El tipo de evento que va a escuchar el NodeElement, como "click", "submit", "mousemove".  Define que debe pasar para que se active el evento (click , pasar el mouse por encima , etc). Todas las acciones deben ocurrir en el NodeElement (hacer click en el NodeElement, pasar el mouse por encima de NodeElement , etc) para que se active.
+-  handler: La función que se ejecutará cuando ocurra/escuche el evento. Debe ser un objeto implementando la interfaz EventListener o solo una función en JavaScript. Define el código que se ejecutara cuando el evento se active.
+-  options (opcional): Un objeto o un valor booleano que define opciones como:
+    -	capture: Si true, activa el evento en la fase de captura (por defecto es false).
+    -	once: Si true, el manejador se ejecuta una sola vez.
+    -	passive: Si true, indica que el evento no bloqueará el comportamiento predeterminado (útil para eventos de scroll).
+:::
 
--	tipo: tipo de evento a escuchar. (String) Define que debe pasar para que se active el evento (click , pasar el mouse por encima , etc)
--	listener: El objeto que recibe una notificación cuando un evento de el tipo especificado ocurre. Debe ser un objeto implementando la interfaz EventListener o solo una function en JavaScript. (Funciones) . Define el código que se ejecutara cuando el evento se active.
+:::tip Ejemplo no técnico
+- Imagina que tienes una fiesta en tu casa:
+    -	La puerta principal (el document) escucha cuando alguien toca el timbre.
+    -	Alguien más que esta cerca de la puerta en la fiesta también escucha (un elemento Node del DOM como un botón).
+    -	Puedes decidir que solo una persona escuche el timbre (configurando {once: true}), o que primero escuche la persona que vive más lejos en la casa (fase de captura) antes que la persona cerca del timbre (fase de burbuja).
 
+
+:::
+
+
+:::tip 
+- [element.addEventListener](https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener)
+- [Tipo de eventos](https://developer.mozilla.org/es/docs/Web/Events#eventos_est%C3%A1ndar)
+:::
 ## Click
 Es un tipo de evento.
 :::tip
@@ -527,21 +720,32 @@ innerHTML hace lo mismo que textContent pero también permite código html.
 :::
 
 ### Reflow
-[reflow](https://developers.google.com/speed/docs/insights/browser-reflow)
-
-  Ocurre cuando un navegador debe procesar y dibujar parte o la totalidad de una página web nuevamente, como después de una actualización en un sitio interactivo.
-
- En Los dos ejemplo en cada iterracion provoca reflow , afectando el rendimiento.
+- El reprocesamiento (reflow) es el proceso en el que el navegador recalcula las posiciones y geometrías (tamaño, espaciado y relaciones con los otros elementos, posición , son las propiedades fisicas que determinan su posición y tamaño)  de los elementos en el documento para renderizarlo nuevamente. Esto ocurre cuando hay cambios en el DOM o estilos que afectan el diseño de la página, como:
+    - Cambiar el tamaño de la ventana.
+    - Agregar, eliminar o modificar elementos en el DOM.
+    - Ajustar clases o estilos de elementos.
+-   Ocurre cuando un navegador debe procesar y dibujar parte o la totalidad de una página web nuevamente, como después de una actualización en un sitio interactivo.
+- Dado que el reprocesamiento puede ser costoso en términos de rendimiento (bloquea al usuario), es importante optimizarlo considerando factores como la profundidad del DOM, la eficiencia de las reglas CSS y el alcance de los cambios. Incluso un pequeño cambio en un elemento puede afectar a sus ancestros y elementos posteriores, incrementando el tiempo necesario para completar el proceso.
+- [Más información](https://developers.google.com/speed/docs/insights/browser-reflow)
+- En Los dos ejemplo en cada iterracion provoca reflow , afectando el rendimiento.
 
 ## Fragment
-Soluciona el reflow.
--	La interfaz DocumentFragment representa un objeto de documento mínimo que no tiene padre.
--	Se utiliza como una versión ligera de Document que almacena un segmento de una estructura de documento compuesta de nodos como un documento estándar.
--	La gran diferencia se debe al hecho de que el fragmento de documento no forma parte de la estructura de árbol del documento activo.
--	Los cambios realizados en el fragmento no afectan el documento (incluso en reflow) ni inciden en el rendimiento cuando se realizan cambios.
-- El fragment se crea de manera paralela, NO ESTA EN EL DOM hasta que se una con un appenchild.
-- Es un espacio de memoria donde podemos crear nodos que no pertenecen al DOM.
-- Una vez que creamos una estructura en el fragmento, la metemos en el DOM.
+- Soluciona el reflow.
+- Es una versión ligera de Document que actúa como un contenedor "ligero" para nodos, permitiendo trabajar con una estructura de nodos sin impactar directamente en el árbol del DOM activo hasta que sea necesario. 
+- Características principales:
+    - Un DocumentFragment no tiene padre, lo que significa que no forma parte del DOM principal hasta que se lo añade explícitamente.
+    - Es útil para realizar modificaciones o construir estructuras de nodos fuera del DOM principal, evitando costosos reflows y repaints mientras se preparan los cambios.
+    - Las modificaciones dentro de un DocumentFragment no desencadenan re-renderizados ni afectan al rendimiento hasta que los nodos se insertan en el DOM.
+    - El fragmento es como un contenedor en memoria donde se crean nodos. Estos nodos solo se integran al DOM cuando se utiliza un método como appendChild() o append().
+    - Permite crear una estructura de nodos completa (como listas o árboles) en segundo plano y luego insertarla en el DOM de una sola vez, mejorando la eficiencia.
+- Se podría decir que un DocumentFragment es un "objeto document" que actúa como un DOM paralelo al real. En este DOM paralelo:
+    - Puedes crear estructuras de nodos de manera independiente al DOM real, sin que estos nodos estén todavía conectados al documento principal.
+    - Al finalizar la construcción de esa estructura, puedes insertarla en el DOM real en un solo paso, lo que evita múltiples modificaciones directas al DOM y mejora el rendimiento.
+
+
+
+
+
 
 Ejemplo
 
@@ -564,14 +768,30 @@ paises.forEach(pais => {
 lista.appendChild(fragment);
 
 ```
+:::tip Observación
+- La estructura de nodos que contiene fragment se va a insertar dentro de "lista", generando solo un renderizado.
 
-## insertBefore()
+:::
+## elementoPadre.insertBefore()
 
-[insert Before](https://developer.mozilla.org/es/docs/Web/API/Node/insertBefore)
-- Parametros = Recibe el nuevo nodo (el que creamos)  y la referencia del nodo.
-- Es como appenchild pero Crea un nodo antes del nodo referencia.
+- [Documentación](https://developer.mozilla.org/es/docs/Web/API/Node/insertBefore)
+- El método elementoPadre.insertBefore() se utiliza para insertar un nuevo nodo en el DOM antes de un nodo  especificado, dentro de un elemento padre. Es similar a appendChild(), pero con la ventaja de que puedes elegir la posición exacta del nuevo nodo.
+- Sintaxis:
+```js
+elementoPadre.insertBefore(nuevoNodo, nodoReferencia);
 
-## firstChild
+```
+:::tip Parámetros
+- nuevoNodo:
+    - El nodo que deseas insertar en el DOM (por ejemplo, uno creado con document.createElement() o un nodo existente).
+- nodoReferencia:
+    - Un nodo hijo del elementoPadre. El nuevo nodo se insertará justo antes de este nodo.
+    - Si nodoReferencia es null, el comportamiento es similar a appendChild(), ya que inserta el nuevo nodo al final del padre.
+:::
+
+
+
+## elemento.firstChild
 - [firstChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/firstChild)
 - Devuelve el primer hijo de un elemento
 
@@ -802,10 +1022,30 @@ lista.appendChild(fragment);
 
 ```
 
-## Objeto del evento (e)
-- La funcion que se ejecuta cuando ocurre un evento puede tener un parametro
-- El parametro  representa un objeto del evento que se ejecuto  que contiene varios valores/funciones.
-- El objeto evento tiene propiedades como target (el elemento que activo el evento) , la propiedad dataset que la contiene el elemento que activo el elemento , etc
+## Objeto evento (e)
+- El objeto evento en JavaScript es una instancia de la clase Event que se crea automáticamente cada vez que ocurre un evento (como un clic, una pulsación de tecla, o el movimiento del ratón). Este objeto contiene información detallada sobre el evento de modo que cada elemento determine que acción ejecutar en base a la información que contenga.
+- El objeto evento en JavaScript es una instancia de la clase Event que se crea automáticamente cada vez que ocurre un evento (como un clic, una pulsación de tecla, o el movimiento del ratón). Este objeto contiene información detallada sobre el evento y permite interactuar con él.
+- El manejador de evento (el parametro handler de addEventListener) siempre es una función con un parámetro. Este parámetro contiene el objeto evento.
+#### ¿Qué contiene el objeto evento?
+- El objeto evento proporciona:
+1. Tipo del evento (type): Identifica qué tipo de evento ocurrió (como click, keydown, etc.).
+2. Elemento objetivo (target): El elemento HTML donde ocurrió el evento.
+3. Propiedades adicionales: Dependen del tipo de evento. Por ejemplo:
+    - Coordenadas del mouse (clientX, clientY) para eventos del mouse.
+    - Tecla presionada (key) para eventos de teclado.
+4.	Métodos para controlar el evento:
+    - preventDefault(): Cancela el comportamiento predeterminado del evento (como evitar que un enlace abra una nueva página).
+    - stopPropagation(): Detiene la propagación del evento (para que no suba a los elementos padres.
+#### Propiedades comunes del objeto evento
+1.	type: El tipo de evento ("click", "keydown", etc.).
+2.	target: El elemento donde ocurrió el evento.
+3.	currentTarget: El elemento al que se le asignó el manejador de evento.
+4.	clientX y clientY: Coordenadas del cursor durante eventos del mouse.
+5.	key: La tecla presionada en eventos de teclado.
+6.	defaultPrevented: Si se llamó a preventDefault() (es true o false).
+
+
+
 
 :::tip
 Se puede pasar el objeto evento como parámetro hacia otras funciones/metodos externa
@@ -1007,8 +1247,31 @@ agregar.forEach((boton) => boton.addEventListener("click", agregarCarrito));
 ```
 
 ## El burbujeo y la captura
+- El burbujeo y la captura de eventos son dos mecanismos que describen que sucede cuando dos elementos escuchan el mismo evento (timbre).
+- Cuando dos “elementos” escuchan el mismo “timbre”, el mecanismo define que manejador de evento se ejecutara primero y cual segundo, y cual tercero (si hubiera más elementos escuchando el mismo evento).
+- Si estás usando la fase de burbuja:
+    - El manejador del elemento que activo el evento escucha primero.
+    - Luego, el evento "sube" y los manejadores de los elementos ancestros se activan en orden.
+- Si estás usando la fase de captura:
+    - Es al revés que la burbuja. Los manejadores de los elementos que escuchan el mismo evento se ejecutan en orden inverso al de la burbuja.
+    - El evento comienza en la raíz del documento (document) y "baja" hacia el elemento que lo activó.
+    - El manejador del elemento más lejano que escucha el evento se ejecuta primero.
+    - El evento “baja” hasta llegar al elemento que lo activó:
+    - Pasa por cada elemento ancestro en el camino, ejecutando los manejadores configurados para captura ({ capture: true }).
+    - La fase de captura termina al llegar al elemento objetivo:
+        -	Si el elemento que activo el evento tiene un manejador:
+            -	Este manejador se ejecutará inmediatamente.
+        -	Después de la captura:
+            -	Si no se ha detenido la propagación del evento, puede comenzar la fase de burbuja (si hay manejadores configurados para esta).
+- Si tienes ambos (captura y burbuja):
+    -	Primero se ejecutan los manejadores de captura (de la raíz al objetivo).
+    -	Después se ejecutan los manejadores de burbuja (del objetivo a la raíz).
 
-El burbujeo y la captura de eventos son dos mecanismos que describen lo que sucede cuando dos controladores del mismo tipo de evento(eventos) se activan en un elemento. (Padre – Hijo) (Cuando dos eventos del mismo tipo se ejecutan en un elemento).
+
+
+
+
+El burbujeo y la captura de eventos son dos mecanismos que describen lo que sucede cuando dos manejadores de eventos o mas se tienen que ejecutar al "mismo tiempo", suele ocurrir con elementos padre-hijo:
 
 ```html
 <div class="container">
@@ -1059,11 +1322,9 @@ nieto.addEventListener("click", (e) => console.log("nieto") , true);
 
 ```
 ## stopPropagation
-Sirve para evitar el burbujeo y la captura (Lo anterior)
-
-evita la propagación adicional del evento actual en las fases de captura y bubbling.
-
-con el método stopPropagation() le decimos que deje de hacer la fase de burbujeo o captura , por lo tanto cada elemento es forzado a ejecutar solamente un evento del mismo tipo.
+- Sirve para evitar el burbujeo y la captura (Lo anterior)
+- Evita que el evento viaje en las fases de captura y bubbling.
+- Con el método stopPropagation() le decimos que deje de hacer la fase de burbujeo o captura , por lo tanto evita que se ejecute el proximo manejador de evento (si  hay uno).
 
 ```js
 const cajas = document.querySelectorAll(".border");
@@ -1076,9 +1337,8 @@ cajas.forEach((item) => {
 
 ```
 ## preventDefault
-Cancela el  comportamiento por defecto del elemento si este es cancelable, sin detener el resto del funcionamiento del evento, es decir, se sigue ejecutando el  evento.
-
-Cancela el comportamiento por defecto del elemento, pero sigue ejecutando el evento.
+- Cancela el  comportamiento por defecto del elemento si este es cancelable, sin detener el resto del funcionamiento del evento, es decir, se sigue ejecutando el  manejador de evento.
+- Cancela el comportamiento por defecto del elemento, pero sigue ejecutando el manejador de evento.
 
 ```html
 <form>
@@ -1112,7 +1372,7 @@ ancla.addEventListener("click", (e) => e.preventDefault());
 
 La delegación de eventos es básicamente un patrón para manejar eventos de manera eficiente.
 
-En lugar de agregar un detector de eventos(EventListener) a todos y cada uno de los elementos similares, podemos agregar un detector de eventos(EventListener) a un elemento principal(el padre/contenedor principal) y ejecutar una acción/un procedimiento  según el elemento(objetivo particular) que activo el evento , utilizando la propiedad .target del objeto de evento.
+En lugar de agregar un manejador de evento(EventListener) a todos y cada uno de los elementos similares, podemos agregar un manejador de evento(EventListener) a un elemento principal(el padre/contenedor principal) y ejecutar una acción/un procedimiento  según el elemento(objetivo particular) que activo el evento , utilizando la propiedad .target del objeto de evento.
 
 Así evitamos la propagación 👌
 

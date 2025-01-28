@@ -1231,15 +1231,14 @@ class C : IA { } // OK
 IA i = new C();
 i.M(); // prints "IA.M"
 ```
-- Tenga en cuenta que una clase no hereda miembros de sus interfaces; que no se modifica con esta característica:
+- Tenga en cuenta que una clase no hereda miembros de sus interfaces:
 
 ```csharp
 new C().M(); // error: class 'C' does not contain a member 'M'
 ```
 
 :::tip Observación
-- Para invocar el método por defecto, se necesita una instancia de la interfaz que lo contiene y NO de la clase que lo implementa.
-- Se puede instanciar en una variable de tipo interfaz una instancia de una clase que implemente dicha interfaz.
+- Para invocar el método por defecto, se necesita instanciar en una variable de tipo interfaz una instancia de una clase que implemente dicha interfaz.
 :::
 
 

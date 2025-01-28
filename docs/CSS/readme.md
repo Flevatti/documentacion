@@ -25,17 +25,153 @@ Siempre como primera linea se debe aplicar:
 
 
 ## Propiedades
-- [Propiedades](https://www.w3schools.com/cssref/index.php)
-- [¿Es compatible?](https://caniuse.com/)
-## Selectores de atributo
-
-- Sirven para seleccionar un elemento en función de un atributo y su valor determinado.
-- Un selector (de tipo de etiqueta, clases, id, etc) que tenga este atributo .  
-- Sintaxis:
+- Una propiedad define qué aspecto de un elemento deseas modificar, como el color, tamaño de fuente, o márgenes.
+- Una propiedad es una característica específica de un elemento HTML que puedes estilizar (modificar). Representa qué aspecto deseas modificar, como el color, tamaño de fuente, margen, etc.
+- Sintaxis básica de una propiedad:
 ```css
-   selector[atributo] 
+propiedad: valor;
+```
+- Ejemplo práctico:
+```css
+color: red;
+```
+:::tip Observación
+-  ¿Qué hace? Cambia el color del texto a rojo.
+-  Uso real: Imagina un aviso importante en rojo.
+:::
+
+#### Declaración en CSS
+- Una declaración incluye una propiedad y su valor, separados por dos puntos (:) y termina con un punto y coma (;).
+- Una declaración especifica el valor de una propiedad. Es la combinación de:
+  1.	Propiedad (qué aspecto se modifica)
+  2.	Valor (cómo se modifica o como debe verse).
+- Cada declaración termina con un punto y coma (;) y se escribe dentro de un bloque de declaraciones “{}”.
+- Sintaxis de una declaración:
+```css
+propiedad: valor;
 ```
 Ejemplo:
+```css
+color: blue;
+```
+:::tip Observación
+-	Propiedad: color
+-	Valor: blue
+:::
+
+
+#### Bloque de declaraciones
+- Un bloque contiene una o más declaraciones. Se escriben entre llaves {}.
+- Lo que esta entre llaves “{}” es un bloque de declaraciones que le pertenece a un selector.
+- Sintaxis de un bloque de declaraciones:
+```css
+{
+    propiedad1: valor1;
+    propiedad2: valor2;
+    ...
+}
+
+```
+- Ejemplo:
+```css
+{
+    color: blue;
+    font-size: 18px;
+    ...
+}
+
+```
+
+#### Reglas CSS
+- Una regla CSS combina:
+  1.	Un selector: Define a qué elementos aplicar los estilos.
+  2.	Un bloque de declaraciones: Contiene una o más declaraciones para personalizar todos los elementos que selecciona el selector
+
+- Ejemplo práctico:
+```css
+button {
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+
+```
+:::tip Observación
+- ¿Qué hace?
+  -	Cambia el color de fondo del botón a azul.
+  -	Cambia el texto del botón a blanco.
+  -	Redondea las esquinas del botón con un radio de 5px.
+:::
+
+
+:::tip Documentación
+- [Propiedades](https://www.w3schools.com/cssref/index.php)
+- [¿Es compatible?](https://caniuse.com/)
+:::
+
+## Selectores de atributo
+- Un selector de atributo te permite seleccionar un elemento en base a un atributo y su valor especifico.
+- Sirve para seleccionar un elemento que contenga X atributo o también para seleccionar un elemento que contenga X atributo con X valor. Incluso podés seleccionar simplemente los elementos que contenga X atributo sin importar que elemento sea.
+
+
+#### Atributo específico 
+- Selecciona los elementos que tengan un atributo específico, sin importar su valor:
+```css
+ [atributo] {
+    /* estilos */
+}
+
+```
+- Ejemplo:
+```css
+[disabled] {
+    color: gray;
+}
+
+```
+:::tip Observación
+- Selecciona todos los elementos con el atributo disabled.
+:::
+
+
+#### Atributo con un valor exacto
+- Selecciona elementos donde el atributo tiene un valor específico:
+```css
+ [atributo="valor"] {
+    /* estilos */
+}
+
+
+```
+- Ejemplo:
+```css
+[type="text"] {
+    border: 1px solid black;
+}
+
+```
+:::tip Observación
+- Aplica estilos solo a los elementos con type="text".
+:::
+
+
+#### Aplicar a un elemento especifico
+- Puedes combinar selectores de atributo con clases, pseudoclases o elementos:
+
+- Ejemplo:
+```css
+input[required]:focus {
+    border-color: green;
+}
+
+
+```
+:::tip Observación
+- Aplica estilos a los elementos &lt;input> que tienen el atributo required y están en foco.
+:::
+
+
+Otro ejemplo:
 ```html
 <style>
 
@@ -52,12 +188,12 @@ Ejemplo:
 </body>
 
 ```
-- Un selector (de tipo de etiqueta, clases, id, etc) que tenga este atributo con un valor correspondiente . 
-- Sintaxis:
-```css
-   selector [atributo=” valor”] 
-```
-Ejemplo:
+:::tip Observación
+- Aplica estilos a las etiquetas p que contengan el atributo title
+:::
+
+- Otro ejemplo:
+
 ```html
 <body>
  <style>
@@ -74,14 +210,22 @@ Ejemplo:
 
 </body>
 
-```
-- Podes usar los comodines en el valor del atributo:
 
-  - [atributo^=”valor”] = Que comience con “valor” 
-  - [atributo~=”valor”] = Que contenga la palabra “valor”
-  - [atributo|= “valor”] = Que tenga el mismo “valor” o que empiece por “valor” seguido de un guión.
-  - [atributo$=”valor”] = que termine con “valor”.
-  - [atributo*= “valor”] = Que contenga “valor”
+```
+:::tip Observación
+- Aplica estilos a las etiquetas a que tengan el atributo href con el valor https://www.google.com/.
+
+:::
+
+
+
+
+- Podes usar los comodines en el valor del atributo:
+  - [atributo^=”valor”] = Que comience con “valor”. 
+  - [atributo~=”valor”] = Que contenga la palabra “valor” (separada por espacio del resto de las palabras).
+  - [atributo|= “valor”] = Que sea “valor” o que empiece por “valor” seguido de un guion.
+  - [atributo$=”valor”] = Que termine con “valor”.
+  - [atributo*= “valor”] = Que contenga “valor” en cualquier parte.
 
 
 - [Mas info](https://developer.mozilla.org/es/docs/Web/CSS/Attribute_selectors)

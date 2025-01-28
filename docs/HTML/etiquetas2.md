@@ -79,6 +79,7 @@ Si estos atributos están, no se podrá trabajar en css con estas propiedades.
 ```
 
 ## Formulario
+- La etiqueta &lt;form> en HTML se utiliza para crear un formulario en el que los usuarios pueden ingresar datos. Dentro de esta etiqueta, los atributos action y method son esenciales para determinar cómo se enviarán los datos del formulario al servidor.
 - Para crear un formulario se usa la etiqueta &lt;form>&lt;/form>
   
 ```html
@@ -91,8 +92,8 @@ Si estos atributos están, no se podrá trabajar en css con estas propiedades.
 <input type="text" />
 </form>
 ```
-- El input es una entrada de dato
-- El input es para permitirle al usuario que inserte un dato especifico (depende del valor del atributo type y de las validaciones ).
+- Un input es un elemento que permite al usuario ingresa un  valor (dato).
+- El tipo de dato que el usuario puede insertar depende del valor del atributo type y de las validaciones definidas para ese input.
 
 ### Atributos del input
 
@@ -146,9 +147,29 @@ LAS VALIDACIONES SE HACEN EN EL SERVIDOR PARA EVITAR FUTUROS HACKEOS
 
 ### Atributos del form
 
+#### Atributo action
+- El atributo action define la URL a la que se enviarán los datos del formulario cuando el usuario lo envíe. Es decir, especifica la dirección del servidor que va a recibir la información del formulario.
+   -	Valor: La URL del servidor donde se procesarán los datos. Puede ser una dirección relativa (por ejemplo, /submit) o absoluta (por ejemplo, https://www.example.com/submit).
+   -	Si no se especifica el atributo action, el formulario se enviará a la misma URL donde se encuentra la página actual.
+- Ejemplo:
+```html
+<form action="/procesar-datos">
+  <!-- Campos del formulario -->
+</form>
+
+```
+
+
+
 #### Atributo method 
-- Es para elegir el metodo de envio
-- Tiene dos valores: get o post
+- El atributo method especifica el método HTTP que se utilizará para enviar los datos del formulario al servidor. Los dos métodos más comunes son:
+   -	GET: Los datos del formulario se envían a través de la URL como query. Este método es adecuado para búsquedas o peticiones donde la seguridad no es una preocupación, ya que los datos son visibles en la URL.
+   -	POST: Los datos se envían en el cuerpo de la solicitud, lo que significa que no son visibles en la URL. Este método es más seguro y se usa para enviar datos sensibles, como contraseñas o información personal.
+- Valores por defecto:
+   -	Si no se especifica el atributo method, el valor por defecto es GET.
+
+
+
 
 ```html
 <form action="post">
