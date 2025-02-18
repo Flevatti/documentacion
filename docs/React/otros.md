@@ -125,7 +125,7 @@ export default App;
 
 #### Prop children
 - El objeto props , tiene la propiedad children , cuyo valor son los “hijos” del componente.
-- Es el equivalente al [&lt;slot>](https://fedeleva.github.io/documentacion/docs/vue/vue4#slots) de vue.
+- Es el equivalente al [&lt;slot>](https://flevatti.github.io/documentacion/docs/vue/vue4#slots) de vue.
 
 ```js
 

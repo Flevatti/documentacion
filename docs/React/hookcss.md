@@ -1400,19 +1400,30 @@ export default function ChatRoom() {
 - [Guia](https://flevatti.github.io/documentacion/docs/React/context#usecontext)
 ## Hooks Adicionales
 ### useReducer
-- [guia](https://fedeleva.github.io/documentacion/docs/React/reducer#usereducer-1)
+- [guia](https://flevatti.github.io/documentacion/docs/React/reducer#usereducer-1)
 ### useCallback
-- Devuelve un callback memorizado.
-- useCallback tiene dos argumentos:
-  - El callback
-  - Un array de dependencias.
-- useCallback devolverá una versión memorizada del callback que solo cambia si una de las dependencias ha cambiado
-:::tip
-El arreglo de dependencias no se pasa como argumentos al callback. Sin embargo, conceptualmente, eso es lo que representan: cada valor al que se hace referencia dentro del callback también debe aparecer en el arreglo de dependencias
-:::
-:::tip Callback memorizado
-Significa que esta guardado en la memoria RAM Y no se declara cada vez que se llama.
-:::
+- useCallback es un hook de React que memoriza funciones para evitar que se vuelvan a crear en cada renderizado de un componente, a menos que cambien ciertas dependencias. Esto puede mejorar el rendimiento de la aplicación al evitar que componentes hijos se vuelvan a renderizar innecesariamente cuando una función como prop no ha cambiado.
+- Tiene dos parámetros:
+  - Primer argumento: La función que queremos memorizar.
+  - Segundo argumento: Un array de dependencias. Si alguna de estas dependencias cambia, la función se volverá a crear. Si ninguna cambia, React reutiliza la misma función entre renders.
+#### Versión memorizada del callback
+- Cuando usas useCallback, React devuelve una versión memorizada de la función. Esto significa que la misma función se reutiliza entre renderizados, a menos que sus dependencias cambien.
+- Dependencias: Son los valores que la función usa (por ejemplo, el estado o las props), y React comprueba si hay cambios. Si alguna de esas dependencias cambia, React recrea la función, de lo contrario, reutiliza la versión memorizada.
+#### El arreglo de dependencias
+- El arreglo de dependencias simplemente le dice a React cuándo debe crear una nueva versión de la función. Si un valor dentro de ese arreglo cambia, React recrea la función.
+- Conceptualmente, cada valor que la función utiliza (como el estado o las props) debe aparecer en este arreglo. Si alguna de esas dependencias cambia, la función se recrea.
+#### Callback memorizado = Guardado en la memoria
+- Cuando decimos que el callback es memorizado, significa que React guarda la función en memoria (RAM) y no la vuelve a crear en cada renderizado.
+- Si las dependencias no han cambiado, React simplemente reutiliza la misma función guardada en memoria, lo que ahorra recursos.
+#### Analogía
+- Imagina que tienes un chef que cocina una receta. Cada vez que alguien te pide la receta (una función en React), el chef tiene que seguir todo el proceso de preparación desde cero.
+- Ahora, si un cliente pide la misma receta varias veces, en lugar de hacer todo de nuevo cada vez (preparar los ingredientes, cocinarlos, etc.), el chef podría recordar cómo la hizo antes y simplemente recalentarla o servirla sin repetir todo el proceso. Esto ahorra mucho tiempo y esfuerzo.
+- useCallback es como decirle al chef: "Recuerda cómo hiciste esa receta la última vez y no la hagas de nuevo a menos que cambien los ingredientes".
+
+
+
+
+
 #### Codigo sin Usecallback
 ```js
 
@@ -1441,7 +1452,9 @@ export default App;
 
 ```
 :::warning
-Cada vez que aumenta el contador, se vuelve a crear la función incrementador (se vuelve a renderizar la parte afectada y se vuelve a crear la funcion ya que utiliza  el hook que cambio)
+- Cada vez que el contador cambia, el componente se vuelve a renderizar. Esto es porque el estado (contador) cambia y React tiene que volver a renderizar el componente para reflejar ese cambio.
+- Dentro del componente, la función incrementador se vuelve a crear cada vez que el componente se renderiza. Esto ocurre porque el incrementador es una función definida dentro del componente, y en React, cuando el componente se vuelve a renderizar, todas las funciones dentro del componente (como incrementador) se recrean.
+- El problema es que useEffect depende de la función incrementador. Como incrementador se recrea en cada renderizado, React considera que la función ha cambiado cada vez que el componente se renderiza. Entonces, cada vez que el componente se renderiza, React ejecuta el useEffect, lo que provoca que el alert se muestre repetidamente.
 :::
 #### Solucionamos el problema con el useCallback
 ```js
@@ -1471,6 +1484,13 @@ function App() {
 export default App;
 
 ```
+
+:::tip Observación
+- useCallback devuelve una versión memorizada de la función incrementador, lo que significa que React no recreará la función en cada renderizado.
+- El segundo argumento de useCallback es un arreglo vacío ([]). Esto significa que la función incrementador nunca cambiará durante el ciclo de vida del componente, ya que no depende de ningún valor (como el estado contador o props). En otras palabras, esta versión de incrementador es la misma en todos los renderizados.
+- La función incrementador utiliza el valor anterior del estado (viejo) para actualizar contador, lo cual es una práctica recomendada para evitar problemas con actualizaciones asíncronas del estado.
+
+:::
 ### useMemo
 - Devuelve un valor memorizado.
 - useMemo tiene dos argumentos:
@@ -1541,11 +1561,11 @@ export default App;
 
 ```
 ### useRef
-- [guia](https://fedeleva.github.io/documentacion/docs/React/proyecto#useref)
+- [guia](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)
 ### useImperativeHandle
 - Le sacamos provecho con:
-  - useRef ([guia1](https://fedeleva.github.io/documentacion/docs/React/proyecto#useref)  -- [guia 2](https://fedeleva.github.io/documentacion/docs/React/formulario#useref))
-  - [forwardRef](https://fedeleva.github.io/documentacion/docs/React/proyecto#forwardref) 
+  - useRef ([guia1](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)  -- [guia 2](https://flevatti.github.io/documentacion/docs/React/formulario#useref))
+  - [forwardRef](https://flevatti.github.io/documentacion/docs/React/proyecto#forwardref) 
 - useImperativeHandle es un hook que se utiliza para definir funciones en un componente que se puede invocar fuera de este.
 - La funcion no va a cambiar a menos que le indiques dependencias.
 - Tiene tres parámetros

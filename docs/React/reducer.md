@@ -4,21 +4,37 @@ sidebar_position: 8
 # Reducer
 
 ## useReducer
-- Nos permite manejar el estado.
-- Es como useState
-- Es para app medianas/grandes
+- useReducer es un hook de React que se utiliza para manejar el estado en componentes más complejos, especialmente cuando el estado se puede modificar de varias manera o cuando el estado tiene una estructura más compleja que simplemente un valor primitivo o un objeto.
+- useReducer es especialmente útil cuando:
+    - El estado tiene múltiples formas de modificarse: Cuando hay varias acciones que pueden modificar el estado de una  manera específica (como incrementar, decrementar, resetear, etc.), un reductor te ayuda a gestionar esas acciones de manera más ordenada.
+    - El estado es complejo: Si el estado es un objeto con varias propiedades que cambian de manera independiente, useReducer te ayuda a gestionarlo de forma más organizada. A diferencia de useState, que puede volverse difícil de manejar cuando el estado se puede modificar de muchas maneras diferentes, useReducer ofrece una manera más estructurada y controlada de realizar cambios en el estado.
+- Es para app medianas/grandes.
+
+
+#### Analogía
+- Imagina que estás organizando una fiesta. Tienes un grupo de personas y necesitas gestionar varias cosas: la comida, la música, la decoración, etc. Cada cosa que quieres hacer es una "acción" en la fiesta.
+- useState sería como si tuvieras un amigo que se encarga de todo de manera independiente. Le pides que se encargue de la comida, y luego le pides que controle la música, luego la decoración, pero cada cosa la gestionas por separado, sin una coordinación clara.
+- Si es una fiesta pequeña y sencilla, no hay problema, puedes hacerlo de esa manera. Pero si la fiesta es más grande y tienes que manejar varias cosas a la vez, como cambiar la música, agregar más comida, y ajustar la decoración, empezarás a perder el control de todo, porque cada cosa la estás manejando de manera aislada.
+- useReducer, en cambio, es como tener un coordinador de la fiesta que organiza todo. Le dices qué acciones quieres hacer (como "cambiar la música" o "añadir más comida") y él sabe cómo coordinar todo para que se haga de manera eficiente y organizada. En lugar de gestionar cada parte por separado, el coordinador entiende cómo las diferentes acciones afectan la fiesta y se asegura de que todo funcione sin problemas.
+- En resumen:
+    - useState es como gestionar cada cosa de la fiesta por separado, sin mucha coordinación.
+    - useReducer es como tener un coordinador que organiza todas las acciones para que la fiesta funcione de manera ordenada y eficiente.
+
+
 
 ### Funcion reductora(reducer)
-Es una función pura  que devuelve el estado de la App.
-:::tip Funciones pura
-- Devuelve un valor 
-- Toda la lógica es capaz de resolver un solo procesamiento 
-- No afecta cosas externas
-- No genera efectos secundario
+- Una función reductora es una función que recibe dos parámetros: el estado actual y una acción, y devuelve un nuevo estado de la aplicación. El propósito principal de esta función es  modificar el estado en base a una acción específica.
+- Es una función pura, lo que significa que:
+    - Siempre devuelve el mismo valor si recibe los mismos parámetros (el mismo estado y la misma acción).
+    - No depende de ningún estado externo ni modifica nada fuera de ella (no tiene efectos secundarios).
+    - No altera directamente el estado original, sino que devuelve un nuevo estado, asegurando la inmutabilidad.
+
+:::warning No podemos hacer peticiones asíncronas ni usar useEffect dentro de una función reductora
+- Las funciones puras no deben tener efectos secundarios. Hacer peticiones asíncronas o interactuar con APIs involucra cambios fuera del flujo de datos, lo que contraviene el principio de pureza de las funciones. Si necesitas realizar operaciones asíncronas, debes hacerlo en un lugar separado, como dentro de useEffect, y luego enviar una acción que el reductor pueda manejar para actualizar el estado.
 :::
-:::warning
-No podemos hacer peticiones asíncronas ni usar useEffect
-:::
+
+
+
 ## Problema
 ### Nuevo Proyecto
 App.jsx
@@ -64,22 +80,24 @@ export default Contador
 
 ```
 ## useReducer
-- Devuelve el estado y el dispatch(seria como el Set de useState )
+- useReducer es un hook de React que devuelve dos cosas:
+    - El estado (similar a lo que hace useState).
+    - La función dispatch (equivalente a la función de actualización en useState, como el setState).
 ### useReducer recibe tres parametros
-#### 1- La funcion reductora
+#### 1- La función reductora (reducer)
+- La función reductora es la clave de useReducer. Se encarga  de modificar el estado en respuesta a una acción específica. Recibe dos parámetros:
+    - state: El estado actual.
+    - action: Un objeto que describe qué tipo de acción se quiere realizar. Este objeto tiene una propiedad type obligatoria que indica el tipo de acción (lo que se quiere hacer) y, opcionalmente, puede tener un payload que contiene datos adicionales necesarios para actualizar el estado.
+- La función reducer siempre debe devolver un nuevo estado, que puede ser el mismo que el estado actual o uno modificado.
 
--	Una función reducer recibe el estado y un objeto llamado acción(action)
-- Una funcion reducer retorna el estado (puede estar modificado o no)
--	La acción(action) es un objeto , sus propiedades son:
-    - type : tipo de acción 
-    - payload : opcional ,  es para enviar valores/datos que van a ser utilizados por la logica del reducer para  modificar el estado
+
 ```js
 function reducer(state , action) {
     return state
 }
 
 ```
-- La función reductora va a recibir diferentes acciones.
+- La función reductora maneja diferentes acciones y cambia el estado dependiendo del tipo de acción que recibe. 
 - En un contador ejemplo: sumar y restar
 - Dependiendo del tipo de acción, se ejecuta un código determinado
 ```js
@@ -102,27 +120,31 @@ function reducer(state , action) {
 const initialState = {contador:0};
 ```
 #### 3- Funcion que modifica el valor inicial del estado
-- Es opcional 
-- Nos permite modificar el estado inicial
+- Es opcional.
+- Nos permite modificar el estado inicial.
 - Sirve para modificar o transformar el estado inicial.
-- Es una funcion que recibe el estado inicial y devuelve el estado "final"
+- Es una funcion que recibe el estado inicial y devuelve el estado "final".
+- La función de inicialización recibe el estado inicial como argumento y te permite realizar transformaciones o modificaciones adicionales para obtener un estado final.
+- La función reductora se va a encargar de modificar el estado final.
 
 ```js
 const init = (initialState) => {
    return  { contador: initialState.contador +100}
 }
-
 ```
 
-## dispatch
-- Sirve para enviarle un objeto action a la función reducer y que esta modifique el estado.
 
-:::tip recordatorio
-Un objeto action tiene dos propiedades:
-- type: tipo de acción(action)
-- payload: opcional , son los datos que podemos enviarle a la funcion reducer
-:::
-- En base al tipo de acción que le mandamos, la funcion reducer ejecuta un código determinado.
+## dispatch
+- dispatch es una función que se utiliza para enviar una acción (un objeto) a la función reductora para que este actualice el estado. Es como un mensajero que dice al reductor "¡Aquí tienes una acción, haz algo con ella!"
+- Cuando usas dispatch, envías un objeto de acción que tiene, al menos, dos propiedades importantes:
+    - type:
+        - Es un string que indica el tipo de acción que quieres realizar.
+        - Es obligatorio y le dice al reductor qué acción se quiere realizar.
+        - El type se usa dentro del reductor para decidir qué lógica ejecutar.
+    - payload (opcional):
+        - Son los datos adicionales que puedes enviar al reductor para que el estado se modifique de acuerdo con esos datos.
+        - El payload es opcional y solo se usa cuando el tipo de acción necesita algún valor extra, como un número o un objeto, para realizar la actualización.
+- En base al tipo de acción que le enviamos, la funcion reducer ejecuta un código determinado.
 ```js
     const sumar = () => dispatch({type:'INCREMENT'})
     const restar = () =>  dispatch({type:'DECREMENT'})

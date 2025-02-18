@@ -431,7 +431,7 @@ export default Componente
 
 :::tip info
 - [React Docs](https://beta.es.reactjs.org/reference/react/createRef)
-- [useRef()](https://fedeleva.github.io/documentacion/docs/React/proyecto#useref)
+- [useRef()](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)
 
 :::
 
@@ -444,11 +444,11 @@ export default Componente
 :::tip info
 - [React Docs](https://beta.es.reactjs.org/reference/react/forwardRef)
 - [ReactJS.org](https://es.reactjs.org/docs/react-api.html#reactforwardref)
-- [Mas info](https://fedeleva.github.io/documentacion/docs/React/proyecto#forwardref )
+- [Mas info](https://flevatti.github.io/documentacion/docs/React/proyecto#forwardref )
 :::
 
 ## React.startTransition
-- Esta diseñado para usarse cuando [React.useTransition()](https://fedeleva.github.io/documentacion/docs/React/hookcss#usetransition) no este disponible.
+- Esta diseñado para usarse cuando [React.useTransition()](https://flevatti.github.io/documentacion/docs/React/hookcss#usetransition) no este disponible.
 - Basicamente es lo mismo que useTransition() pero sin isPending.
 - Las actualizaciones en una transición dan paso a actualizaciones más urgentes.
 - Permite que el usuario continúe interactuando mientras procesa la actualización.
