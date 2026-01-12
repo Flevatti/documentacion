@@ -209,7 +209,7 @@ Nombrefuncion (estado) {
 
 :::
 - El Nombrefuncion es el “tipo de mutacion” 
-- Esta parte del código: "(estado) {Modificación del estado}" es el controlador.
+- Esta parte del código: ``"(estado) {Modificación del estado}"`` es el controlador.
 
 #### Ejemplo
 tienda
@@ -995,7 +995,7 @@ const store = createStore({
 export default store;
 
 ```
--  Para enviar acciones o cometer mutaciones en el espacio de nombres global, pase { root: true } como tercer argumento a dispatch y commit.
+-  Para enviar acciones o cometer mutaciones en el espacio de nombres global, pase ``{ root: true }`` como tercer argumento a dispatch y commit.
 
 Tienda
 ```js

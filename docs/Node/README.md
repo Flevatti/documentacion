@@ -142,7 +142,7 @@ console.log(dinero);
 :::
 
 ### require().default
-- Cuando se utilizan exportaciones por defecto de ES6 (export default ) , la “funcionalidad“ exportada por defecto , tiene el formato {“default” : funcionalidad} .
+- Cuando se utilizan exportaciones por defecto de ES6 (export default ) , la “funcionalidad“ exportada por defecto , tiene el formato ``{“default” : funcionalidad}`` .
 - La declaración “import X from archivo” maneja esto, pero si lo hace desde los modulos (require/exports ) , se debe realizar “require(archivo).default”.
 - Para evitar esto, debe utilizar module.exports en lugar de export default.
 
@@ -739,7 +739,7 @@ server.listen(puerto , () => {
 - Una plantilla dinámica es un archivo de estructura HTML que contiene marcadores de posición, variables o fragmentos de código que son reemplazados o generados en tiempo de ejecución con datos específicos antes de ser enviados al cliente. Estas plantillas permiten generar contenido HTML que cambia dinámicamente en función de los datos que el servidor maneja o recibe de los usuarios.
 - Componentes clave de una plantilla dinámica:
   1.	Marcadores de posición: Son variables o fragmentos de código que se sustituyen por datos reales cuando la página es renderizada.
-  o	Ejemplo en EJS (un motor de plantillas): <%= message %>
+  o	Ejemplo en EJS (un motor de plantillas): ``<%= message %>``
   2.	Datos dinámicos: Son los valores que el servidor proporciona a la plantilla, como el nombre de un usuario, una lista de productos o cualquier otra información que puede cambiar según el contexto de la solicitud.
   o	Ejemplo: Un título o un mensaje de bienvenida que cambia según el usuario que inicia sesión.
   3.	Estructura HTML: Las plantillas tienen una estructura HTML base que define cómo se verá la página en general, pero con fragmentos que cambian según los datos específicos.
@@ -1012,7 +1012,7 @@ app.get('/formulario' , (req,res)=> {
 - El body (cuerpo) de una solicitud HTTP es la parte que contiene los datos que se envían al servidor cuando se hace una petición. Es comúnmente utilizado en solicitudes POST, PUT, PATCH, y DELETE, donde el cliente envía información al servidor para crear, actualizar o eliminar datos.
 - A diferencia de los params y queries que son parte de la URL, el body es el lugar donde se envían datos más complejos, como formularios, archivos JSON, o incluso archivos multimedia.
 #### Tipos comunes de datos en el body
--	JSON: Es uno de los formatos más comunes para enviar datos estructurados. Ejemplo: { "name": "John", "age": 30 }
+-	JSON: Es uno de los formatos más comunes para enviar datos estructurados. Ejemplo: ``{ "name": "John", "age": 30 }``
 -	Form data: Datos enviados desde formularios HTML, usualmente codificados en URL-encoded o multipart/form-data.
 -	Texto plano: Se puede enviar texto sin estructura específica.
 -	Archivos: En algunos casos, el body puede incluir archivos, usualmente cuando se envían mediante formularios con el tipo de codificación multipart/form-data.

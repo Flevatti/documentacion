@@ -1087,11 +1087,11 @@ docker inspect --format='{{.NetworkSettings.IPAddress}}' nodedocker-app-1
 :::
 
 :::tip Explicación
-- En el contexto de docker inspect, el punto "." representa el objeto JSON completo que describe el contenedor. Puedes acceder a sus campos directamente utilizando {{.Field}}.
+- En el contexto de docker inspect, el punto "." representa el objeto JSON completo que describe el contenedor. Puedes acceder a sus campos directamente utilizando ``{{.Field}}``.
 - Por ejemplo:
-  - {{.State}} accede al objeto State del contenedor.
-  - {{.NetworkSettings}} accede al objeto NetworkSettings del contenedor.
-  - {{.Config}} accede al objeto Config del contenedor.
+  - ``{{.State}}`` accede al objeto State del contenedor.
+  - ``{{.NetworkSettings}}`` accede al objeto NetworkSettings del contenedor.
+  - ``{{.Config}}`` accede al objeto Config del contenedor.
 :::
 
 - Puedes usar la funcion "json" para que la salida sea en formato JSON. Por ejemplo:

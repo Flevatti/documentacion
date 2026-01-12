@@ -266,7 +266,7 @@ interface NavigateFunction {
 ```
 :::tip Observación
 - Aunque ambas sobrecargas tienen el mismo nombre (NavigateFunction), TypeScript se encarga de identificar cuál de las dos sobrecargas utilizar según el tipo de parámetro que pases.
-  -	Si pasas un string (como "/home") y un objeto de ruta (como { pathname: "/home" }), TypeScript usará la primera sobrecarga que toma una ruta y opciones adicionales.
+  -	Si pasas un string (como ``"/home"``) y un objeto de ruta (como ``{ pathname: "/home" }``), TypeScript usará la primera sobrecarga que toma una ruta y opciones adicionales.
   -	Si pasas un número (como -1), TypeScript usará la segunda sobrecarga que manipula el historial de navegación.
 :::
 
@@ -713,7 +713,7 @@ const inventory: FruitInventory = {
 };
 
 ```
-#### Pick<T,K>
+#### ``Pick<T,K>``
 - Este tipo de utilidad le permite crear un nuevo tipo seleccionando un subconjunto de propiedades K del tipo T.
 - Es útil cuando desea extraer propiedades específicas de un tipo existente para crear un nuevo tipo que solo incluya esas propiedades.
 - Ejemplo:
@@ -928,7 +928,7 @@ declare module '*.vue' {
 
 :::tip Observación
 - La línea import { DefineComponent } from 'vue' importa el tipo DefineComponent de la biblioteca de Vue.js. Este tipo se utiliza para definir componentes de Vue.js.
-- La línea const component: DefineComponent<{}, {}, any> define una variable component de tipo DefineComponent, lo que significa que es un componente de Vue.js. Los tres parámetros genéricos de DefineComponent especifican el tipo de las props, el tipo de los datos y el tipo de los métodos del componente, respectivamente. En este caso, se especifica que el componente no tiene props ({}), que no tiene datos ({}) y que tiene métodos de cualquier tipo (any). Con esto especificamos el componente como si usaramos Options API.
+- La línea const component: ``DefineComponent<{}, {}, any>`` define una variable component de tipo DefineComponent, lo que significa que es un componente de Vue.js. Los tres parámetros genéricos de DefineComponent especifican el tipo de las props, el tipo de los datos y el tipo de los métodos del componente, respectivamente. En este caso, se especifica que el componente no tiene props ({}), que no tiene datos ({}) y que tiene métodos de cualquier tipo (any). Con esto especificamos el componente como si usaramos Options API.
 - La línea export default component exporta el componente como el valor predeterminado del módulo, lo que significa que se puede importar de la siguiente manera:
 
 ```js
@@ -1093,7 +1093,7 @@ console.log(user.age);
 
 ```
 :::tip Observación
-- La función SetAge toma un parámetro age de tipo number. Esta función devuelve otra función que toma un parámetro constructor de tipo T, que es un tipo genérico que extiende la interfaz { new (...args: any[]): {} }. Esto significa que T debe ser una clase que tenga un constructor que puede ser llamado con cualquier número de argumentos. 
+- La función SetAge toma un parámetro age de tipo number. Esta función devuelve otra función que toma un parámetro constructor de tipo T, que es un tipo genérico que extiende la interfaz ``{ new (...args: any[]): {} }``. Esto significa que T debe ser una clase que tenga un constructor que puede ser llamado con cualquier número de argumentos. 
 - Cuando se usa el extends en un tipo genérico es para especificar una [“restricción”](https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-classes) . En este ejemplo que el tipo genérico debe ser una clase que tenga un constructor con cualquier número de argumentos.
 - La sintaxis new (...args: any[]): {} es una forma de definir un tipo de función constructora en TypeScript:
   -	new: Indica que se trata de un tipo de función constructora, es decir, una función que se utiliza para crear objetos.

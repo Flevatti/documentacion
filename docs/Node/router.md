@@ -167,8 +167,8 @@ app.use('/' , require("./router/Rutas"));
 
 ```
 
-:::tip Texto plano === <%= 
+:::tip Texto plano ``=== <%=``
 - Un Texto plano (plain text), son aquellos archivos formados exclusivamente por texto (sólo caracteres), sin ningún formato; es decir, no requieren ser interpretados para leerse (aunque pueden ser procesados en algunos casos). También son llamados archivos de texto llano, simple o sin formato. 
-- <%= especifica un texto plano
+- ``<%=`` especifica un texto plano
 
 :::

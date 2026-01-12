@@ -49,7 +49,7 @@ de esta forma elegimos que caracteristicas instalar
 ```html
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
 ```
-- "<%= BASE_URL %>" es una variable cuyo valor es public/ , ósea con esta variable accedemos a la carpeta que contiene los archivos estáticos.
+- ``"<%= BASE_URL %>"`` es una variable cuyo valor es ``public/`` , ósea con esta variable accedemos a la carpeta que contiene los archivos estáticos.
 :::
 
 - En el index.html no hay ningún archivo javascript que se esté ejecutando , esto se debe porque vue utiliza el transpilador para inyectar los archivos javascript en el index.html

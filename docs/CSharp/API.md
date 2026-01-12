@@ -885,7 +885,7 @@ public ActionResult<VillaDto> crearVilla([FromBody] VillaDto villaDto) {
 
 :::tip Observación
 - En este caso utilizamos IActionResult porque no necesitamos retornar/devolver el modelo/Dto (una instancia de la clase).
-- Usamos el atributo [HttpDelete("{id:int}")] para indicar que va a recibir una “id” en la url  como parámetro(params) de tipo int y no como query.  Si usamos las llaves ({}) es porque es una parte de la url dinámica (params).
+- Usamos el atributo  ``[HttpDelete("{id:int}")]`` para indicar que va a recibir una “id” en la url  como parámetro(params) de tipo int y no como query.  Si usamos las llaves ({}) es porque es una parte de la url dinámica (params).
 - El método NoContent() devuelve el código de estado 204 (El servidor procesó con éxito la solicitud del cliente pero no necesita devolver ningún contenido).
 :::
 
@@ -895,7 +895,7 @@ public ActionResult<VillaDto> crearVilla([FromBody] VillaDto villaDto) {
 :::tip Parametro
 - Es una “variable” que se ubica en la URL. No es lo mismo que las query (Se ubican después del signo “?”).
 - Lo que se define entre llaves {} en el parametro posicional de los atributos HttpVERBO son los params (parámetros) de la url.
-- A su vez podemos [especificar el tipo de dato](https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2#route-constraints) de un param con la sintaxis : {nombreParam: tipoDeDato}
+- A su vez podemos [especificar el tipo de dato](https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2#route-constraints) de un param con la sintaxis : ``{nombreParam: tipoDeDato}``
 - Estos se pueden utilizar en todos los atributos que representen un verbo.
 - Ejemplo:
    - [HttpGet("{nombrevariable}"]
@@ -2658,7 +2658,7 @@ namespace MiApp_API.Repositorio
 - T representa el modelo(tabla) que queremos manipular.
 - Ejemplo:
    - T es el modelo Villa.
-   - Usamos la linea “_db.Set&lt;Villa>()” para obtener la propiedad  “public DbSet&lt;Villa> Villas {get;set;}”.
+   - Usamos la linea ``“_db.Set&lt;Villa>()”`` para obtener la propiedad  ``“public DbSet&lt;Villa> Villas {get;set;}”``.
 :::
 
 

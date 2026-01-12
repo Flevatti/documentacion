@@ -757,7 +757,7 @@ void Inspecciona(Expression<Func<int, bool>> expression)
 ```
 :::tip Observación
 - Lo sé, en el código de arriba ocurren muchas cosas, vamos a ver las más importantes:
-   - La expresión  Expression<&lt;Func&lt;int, bool>>  en el argumento del método indica que el método recibe una expresión que envuelva a una expresión lambda con la firma Func<int, bool>
+   - La expresión  ``Expression<&lt;Func&lt;int, bool>>``  en el argumento del método indica que el método recibe una expresión que envuelva a una expresión lambda con la firma ``Func<int, bool>``
    - Con la propiedad NodeType podemos conocer con qué tipo de expresión estamos trabajando. Esta propiedad está disponible para cualquier tipo de Expression
    - La propiedad Body nos permite acceder al cuerpo de una expresión lambda. Y a su vez, Body es también una expresión, es por eso que primero intento convertirla en una BinaryExpression y luego en una ConstantExpression. Existe una gran lista de tipos de expresiones con los que puedes trabajar.
    - Ahora, después de saber si nuestra expresión es de determinado tipo, se puede acceder a las propiedades de ese tipo en específico. Por ejemplo, las expresiones binarias tienen dos propiedades Left y Right que almacenan referencias a las expresiones que la forman, mientras que una expresión constante tiene la propiedad Value que almacena su verdadero valor.
@@ -2209,7 +2209,7 @@ public string ReturnDescriptionOfShape(string shape, int length, int height)
 
 #### Patrón relacional
 - El patrón relacional se puede utilizar para comparaciones.
-- Se compara un valor con una constante utilizando operadores de comparación (>, <, >=, <=).
+- Se compara un valor con una constante utilizando operadores de comparación ``(>, <, >=, <=)``.
 - El siguiente ejemplo muestra un patrón relacional que inspecciona la propiedad Radius de un objeto Circle. El patrón coincidirá con la expresión si la entrada es Circle y  Radius   es mayor  igual a 100:
 
 

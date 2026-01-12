@@ -366,7 +366,7 @@ export const login = (req, res) => {
 :::tip Validaciones 
 - trim()  = Limpia los caracteres en blanco
 - isEmail() y normalizeEmail() = Comprueba que sea un email valido
-- isLenght({min:X}) = Comprueba que el valor tenga mínimo  X caracteres
+- ``isLenght({min:X})`` = Comprueba que el valor tenga mínimo  X caracteres
 - custom(funcion) = Validacion personalizada
 :::
 
@@ -667,7 +667,7 @@ const {email , password}  = req.body;
 - Recibe un objeto con la propiedad y valor que están buscando:
 
 :::tip Ejemplo como si fuera relacional
-- modelo.findOne({apellido: “perez”);
+- ``modelo.findOne({apellido: “perez”);``
 - SQL : select * from modelo WHERE apellido = “perez”
 :::
 - el metodo findOne lo contiene el modelo , NO LA INSTANCIA.
@@ -1308,7 +1308,7 @@ Parametros:
 
 ### Configuraciones del fetch  (Propiedad y valor)
 - method : POST/GET/DELETE/ETC
-- headers: {         el tipo de información que acepta el servidor , datos que se envia por el header     }
+- headers: ``{         el tipo de información que acepta el servidor , datos que se envia por el header     }``
 - body: La informacion que se envia
 - credentials : 'valor'   =  Depende del valor, incluye las cookies del navegador en la solicitud.
 
@@ -2106,7 +2106,7 @@ export const getLinks = (req , res) => {
 
 #### Con un parámetro (Objeto)
 - Sirve para filtrar (Seria como implementar un WHERE)
-- modelo.find({dato:valor}); = Select * from nombreModelo WHERE dato = valor;
+- ``modelo.find({dato:valor}); = Select * from nombreModelo WHERE dato = valor;``
 
 
 link.route.js
@@ -2567,7 +2567,7 @@ export const redirectLink = async (req, res) => {
 
 ## mongo sanitize
 - [Como evitar inyecciones javascript en mongoDB](https://stackoverflow.com/questions/13436467/javascript-nosql-injection-prevention-in-mongodb)
-- [El problema radica en que se le pueda pasar un objeto a la consulta { $ne: 1 }](https://medium.com/@losantiemi/inyecci%C3%B3n-nosql-en-aplicaciones-de-node-js-y-mongodb-3d4d699f13f4)
+- El problema radica en que se le pueda pasar un objeto a la consulta ``"{$ne: 1 }"``. [Mas información ](https://medium.com/@losantiemi/inyecci%C3%B3n-nosql-en-aplicaciones-de-node-js-y-mongodb-3d4d699f13f4)
 - Pero con Moongose nosotros hicimos un esquema, por ende, como definimos los campos como String, estos serán interpretados como tal, por ende, no se ejecutará el objeto en cuestión.
 
 ## Cors

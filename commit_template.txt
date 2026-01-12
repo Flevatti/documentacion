@@ -1,0 +1,34 @@
+[tipo](scope): Descripción
+
+cuerpo
+
+footer
+
+# === INSTRUCCIONES ===
+# • Descripción: breve resumen del cambio en imperativo y presente
+#   (máx. 50 caracteres, primera letra en mayúscula, sin punto final).
+#   Ejemplos: "Agregar validación de email", "Corregir error al guardar perfil"
+# • Scope: parte del código o módulo afectado (ej: auth, ui, api, config).
+#   Opcional pero recomendado.
+# • Cuerpo: explica el "por qué" y el "cómo" del cambio.
+#   Usa líneas de ≤72 caracteres. Deja una línea vacía antes y después.
+# • Footer: metadatos técnicos como:
+#     - Referencias: "Closes #123", "Fixes PROJ-456"
+#     - Breaking changes: comienza con "BREAKING CHANGE:"
+#
+# ⚠️ Nota: El cuerpo y el footer son opcionales.
+#          La línea de descripción es obligatoria.
+#          Las líneas que comienzan con '#' se ignoran en el commit final.
+
+# === TIPOS COMUNES ===
+# feat:     Nueva funcionalidad visible para el usuario
+# fix:      Corrección de un bug que afecta al usuario
+# docs:     Cambios en documentación (README, comentarios, guías)
+# style:    Cambios de formato sin alterar la lógica (espacios, tabulaciones, etc.)
+# refactor: Reescritura o mejora de código sin cambiar comportamiento externo.
+# perf:     Mejoras de rendimiento (velocidad, memoria, etc.).
+# test:     Adición o corrección de pruebas.
+# chore:    Cambios para mantener el proyecto en funcionamiento sin impacto en el usuario.
+# build:    Cambios en el proceso de compilación, instalación o despliegue del proyecto.
+# ci:       Cambios en configuración de CI/CD (Integración continua)
+# revert:   Reversión total o parcial de un commit anterior

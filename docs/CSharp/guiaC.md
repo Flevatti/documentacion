@@ -839,9 +839,9 @@ public void TestDelegate()
 
 
 :::tip Crear una instancia
-- Le podes asignar un método, con  el signo igual (“= metodo”) o creando una instancia de alguna clase Delegate (“= new nombreClaseDelegate<…>()”).
+- Le podes asignar un método, con  el signo igual (“= metodo”) o creando una instancia de alguna clase ``Delegate (“= new nombreClaseDelegate<…>()”)``.
 - "nombreClaseDelegate" puede ser el "nombre" de algún delegate que creamos también.
--  “<…>” se puede omitir en algunos casos (cuando no es genérico).
+-  ``“<…>”`` se puede omitir en algunos casos (cuando no es genérico).
 - Si creas una instancia, en el constructor se debe especificar el método que le vas a asignar.
 
 :::

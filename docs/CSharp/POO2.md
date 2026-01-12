@@ -538,7 +538,7 @@ public class Product
 ## Enumeración
 - Enum es una "clase" especial que representa un grupo de constantes (variables inalterables/de solo lectura).
 - Para crear un enum, use la palabra clave **enum** (en lugar de class o interface) y entre llaves “{}” ponga las constantes separadas con comas.
-- Sintaxis: enum nombre { valor1 , valor2 , ..}.
+- Sintaxis:  ``enum nombre{ valor1 , valor2 , ..}``.
 - El nombre de un enum se utiliza como tipo de dato de una variable , que almacena algun valor que se especifico.
 - Y cada valor es una “propiedad/campo” de la "clase especial", que se accede con el punto (“.”).
 

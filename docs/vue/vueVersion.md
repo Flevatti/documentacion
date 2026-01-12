@@ -263,7 +263,7 @@ Habrás observado que cuando definimos nombres (en data, props y computed), dich
 </script>
 ```
 
-- Las funciones también podrían ser ejecutadas desde un template con un {{ decLife() }} o desde Javascript, de la forma normal que ejecutamos funciones, siempre teniendo en cuenta que desde Javascript hay que hacerlo de la siguiente forma: this.decLife().
+- Las funciones también podrían ser ejecutadas desde un template con un ``{{ decLife() }}`` o desde Javascript, de la forma normal que ejecutamos funciones, siempre teniendo en cuenta que desde Javascript hay que hacerlo de la siguiente forma: this.decLife().
 
 ### Watch
 

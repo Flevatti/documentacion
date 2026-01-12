@@ -1450,7 +1450,7 @@ export default Blog
 - Funciona de manera similar a un envío de formulario tradicional, pero permite controlar cuándo y cómo se envían los datos, y es especialmente útil para realizar acciones como actualizaciones o eliminaciones de datos desde botones u otros eventos sin un formulario explícito.
 - useSubmit() devuelve una función submit() que recibe dos parámetros opcionales:
   - Data (opcional): los datos que quieres enviar en el body o en la query. Puede ser:
-      -	Un objeto de datos (ej. { key: "value" }).
+      -	Un objeto de datos (ej. ``{ key: "value" }``).
       -	Un objeto FormData, útil para trabajar con archivos o formularios completos.
       -	Un elemento de formulario (HTMLFormElement), en cuyo caso useSubmit() recogerá automáticamente los datos del formulario.
   -  Options (opcional): un objeto de configuración que permite especificar:

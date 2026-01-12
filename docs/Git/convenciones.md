@@ -177,7 +177,7 @@ and potential bugs.
 
 :::tip observación
 - `type` : Indica la intención del cambio (qué tipo de cambio es).
-- `scope` (opcional): Indica qué parte del código se modificó (módulo, componente, archivo, etc.).
+- `scope` (opcional): Indica qué parte del código se modificó (módulo, componente, archivo, etc.). También podemos especificar que ticket se trabajó (aplica en Aplicaciones como Jira).
 - `subject` : Describe de forma breve y clara el cambio realizado (en presente e imperativo).
 - `body` (opcional): Aporta contexto adicional o detalles técnicos, explica el por qué del cambio.
 - `footer` (opcional): se usa para breaking changes, referencias a issues, tickets o revisiones.
@@ -206,7 +206,7 @@ and potential bugs.
         - Modificar scripts de npm/yarn.
         - Ajustar archivos de configuración (`.gitignore`, `.env.example`, etc.).
     - `perf`: Cambios que mejoran el rendimiento del sitio.
-    - `build`: ambios en el proceso de compilación, instalación o despliegue del proyecto.
+    - `build`: Cambios en el proceso de compilación, instalación o despliegue del proyecto.
     - `ci`: Cambios en configuración de CI/CD (Integración continua)
     - `revert`: Reversión de un commit anterior.
 
@@ -306,3 +306,89 @@ Reviewed-by: Juan Pérez
 
 #### ¿Todos deben seguir esta convención?
 - No necesariamente. Si el equipo trabaja con `pull requests` y utiliza `squash & merge`, el mensaje final del commit se define al momento del merge. Esto permite ajustar o corregir el mensaje sin cargar al resto del equipo.
+
+
+## Herramientas recomendadas
+#### commitlint
+- Valida que los commits cumplan la convención.
+- [commitlint Lint commit messages](https://commitlint.js.org/)
+####  Commitizen
+- Es una herramienta que te permite crear mensajes de confirmación sencillos y fáciles de entender con solo responder preguntas.
+- [commitizen](https://commitizen-tools.github.io/commitizen/)
+#### Husky
+- Es un hook que te permite ejecutar un script antes de un commit o push para validar o testear.
+- [Husky](https://typicode.github.io/husky/)
+
+
+## Plantilla de commit
+- En el desarrollo de software, la consistencia es fundamental, y uno de los aspectos más importantes donde esto se refleja es en los mensajes de commit: Git permite construir un historial claro de cambios que sirve como documentación y referencia durante la colaboración, pero si cada miembro del equipo escribe sus commits con estilos distintos, se vuelve difícil rastrear y entender esos cambios.
+- Por eso, si estás configurando tu repositorio, implementar una plantilla de commit es una excelente práctica: te ayudará a crear mensajes claros y consistentes, asegurando que siempre respeten la convención que estés siguiendo.
+- Estos tres puntos son las principales razones por las que vale la pena usar una plantilla de commit:
+    1. Consistencia → Evita el caos. Si todos escriben commits con el mismo estilo (por ejemplo: feat: agregar login), es mucho más fácil leer el historial y saber qué hizo cada persona.
+    2. Claridad → No necesitas adivinar qué cambió. Un formato claro te dice de un vistazo si fue una mejora, un bug fix o un cambio de documentación.
+    3. Automatización → La plantilla puede recordarte cosas importantes: “¿Olvidaste el número del ticket?” o “¿Incluiste una descripción breve?”. Esto evita errores y mejora la trazabilidad del trabajo.
+
+#### Configuración de Plantilla
+#### 1- Crea un archivo ``txt`` para tu plantilla
+- Puedes nombrarlo como quieras, aunque generalmente se usa un nombre descriptivo como ``commit_template.txt``.
+#### 2- Modifica el archivo ``txt``
+- El archivo puede contener:
+    - Texto que luego será modificado en cada commit.
+    - Comentarios de una línea que comienzan con el carácter ``#``. Por lo general, las líneas comentadas no se incluyen en el mensaje final del commit.
+- Ejemplo:
+```txt
+[tipo](scope): Descripción
+
+cuerpo
+
+footer
+
+# === INSTRUCCIONES ===
+# • Descripción: breve resumen del cambio en imperativo y presente
+#   (máx. 50 caracteres, primera letra en mayúscula, sin punto final).
+#   Ejemplos: "Agregar validación de email", "Corregir error al guardar perfil"
+# • Scope: parte del código o módulo afectado (ej: auth, ui, api, config).
+#   Opcional pero recomendado.
+# • Cuerpo: explica el "por qué" y el "cómo" del cambio.
+#   Usa líneas de ≤72 caracteres. Deja una línea vacía antes y después.
+# • Footer: metadatos técnicos como:
+#     - Referencias: "Closes #123", "Fixes PROJ-456"
+#     - Breaking changes: comienza con "BREAKING CHANGE:"
+#
+# ⚠️ Nota: El cuerpo y el footer son opcionales.
+#          La línea de descripción es obligatoria.
+#          Las líneas que comienzan con '#' se ignoran en el commit final.
+
+# === TIPOS COMUNES ===
+# feat:     Nueva funcionalidad visible para el usuario
+# fix:      Corrección de un bug que afecta al usuario
+# docs:     Cambios en documentación (README, comentarios, guías)
+# style:    Cambios de formato sin alterar la lógica (espacios, tabulaciones, etc.)
+# refactor: Reescritura o mejora de código sin cambiar comportamiento externo.
+# perf:     Mejoras de rendimiento (velocidad, memoria, etc.).
+# test:     Adición o corrección de pruebas.
+# chore:    Cambios para mantener el proyecto en funcionamiento sin impacto en el usuario.
+# build:    Cambios en el proceso de compilación, instalación o despliegue del proyecto.
+# ci:       Cambios en configuración de CI/CD (Integración continua)
+# revert:   Reversión total o parcial de un commit anterior
+``` 
+
+#### 3- Configurar Git
+- Para que Git muestre esa plantilla cada vez que hagamos un commit, debemos ejecutar el siguiente comando:
+```powershell
+git config commit.template ubicacion_del_archivo.txt
+```
+:::tip
+- 💡 Nota: Asegúrate de reemplazar ``ubicacion_del_archivo.txt`` con la ruta relativa o absoluta del archivo de tu plantilla (por ejemplo: ``.gitmessage``, ``./commit_template.txt``, etc.).
+- Si quieres establecer la plantilla para **TODOS** tus repositorios, añade ``--global``.
+- Puedes comprobar si ya se ha definido una plantilla para un repositorio mediante: ``git config --get commit.template``.  Si el comando no devuelve nada, es que no se ha definido ninguna plantilla para el repositorio actual.
+:::
+
+
+
+
+
+
+
+## Nombres de ramas
+## "Squash Merge" o "Merge Commit"

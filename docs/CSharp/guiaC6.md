@@ -114,7 +114,7 @@ app.Run();
     -	app.MapGet("/saludo", () => "¡Hola, mundo!"); define un endpoint que responde a solicitudes GET en la ruta /saludo y devuelve un saludo simple.
     -	app.MapGet("/persona/{nombre}", (string nombre) => ...) define un segundo endpoint que toma un parámetro en la URL (nombre) y devuelve un saludo personalizado.
 4.	Ejecutar la Aplicación: Finalmente, app.Run(); inicia el servidor web.
-5. Para ejecutar esta Minimal API, necesitarás un entorno de desarrollo de ASP.NET Core. Al iniciar la aplicación y hacer una solicitud GET a http://localhost:&lt;puerto>/saludo, recibirás la respuesta "¡Hola, mundo!". Si accedes a http://localhost:&lt;puerto>/persona/Ana, obtendrás "¡Hola, Ana!".
+5. Para ejecutar esta Minimal API, necesitarás un entorno de desarrollo de ASP.NET Core. Al iniciar la aplicación y hacer una solicitud GET a ``http://localhost:&lt;puerto>/saludo``, recibirás la respuesta "¡Hola, mundo!". Si accedes a ``http://localhost:&lt;puerto>/persona/Ana``, obtendrás "¡Hola, Ana!".
 
 :::
 
@@ -426,10 +426,10 @@ public class Ejemplo
 
 #### Operadores que se pueden sobrecargar
 - Algunos de los operadores que puedes sobrecargar en C# incluyen:
-    -	Aritméticos: +, -, *, /, %
-    -	Comparación: ==, !=, <, >, <=, >=
-    -	Unarios: +, -, !, ~, ++, --
-    -	Otros: [] (indexación), true, false, &, |, ^, <<, >>
+    -	Aritméticos: ``+, -, *, /, %``
+    -	Comparación: ``==, !=, <, >, <=, >=``
+    -	Unarios: ``+, -, !, ~, ++, --``
+    -	Otros: ``[] (indexación), true, false, &, |, ^, <<, >>``
 
 #### Restricciones
 -	No se pueden sobrecargar algunos operadores, como &&, ||, ? : (ternario), =.

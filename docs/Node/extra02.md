@@ -502,8 +502,8 @@ Hello, Alice! Welcome to Wonderland.
 
 ##### Detalles Técnicos
 ##### Definición de Marcadores de Posición:
-- {{.Name}}: Hace referencia al campo Name en los datos pasados.
-- {{.Place}}: Hace referencia al campo Place en los datos pasados.
+- ``{{.Name}}``: Hace referencia al campo Name en los datos pasados.
+- ``{{.Place}}``: Hace referencia al campo Place en los datos pasados.
 ##### Parsear Plantilla:
 - template.New("greeting").Parse(tmpl): Crea un nuevo objeto de plantilla con el nombre "greeting" y analiza el contenido de tmpl.
 ##### Datos:

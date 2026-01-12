@@ -93,7 +93,7 @@ index.html
 - Estamos renderizando la aplicacion(componente principal)  en el div.
 - Estamos creando la aplicación en el DIV.
 - La aplicacion (componente) utiliza los datos que se le asignaron en el data.
-- Con las dobles llaves {{código javascript}} podemos utilizar variables, objetos , operadores ternario( para que devuelva algún valor ) , metodos y muchas expresiones más de javascript.
+- Con las dobles llaves ``{{código javascript}}`` podemos utilizar variables, objetos , operadores ternario( para que devuelva algún valor ) , metodos y muchas expresiones más de javascript.
 - Nombre = ‘fede’
 -  La logica y los datos que utiliza el componente principal lo contiene el objeto que especificamos en el parametro del metodo createApp().
 - Debajo del CAPÓ se ejecuta Javascript para crear los elementos HTML necesarios para renderizar los componentes adentro del elemento HTML que se especifico en el parametro del metodo mount().

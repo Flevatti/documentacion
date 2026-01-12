@@ -541,7 +541,7 @@ git push origin mi_rama –-force
 
 - A muchos desarrolladores les gusta utilizar las fusiones con avance rápido (facilitadas a través del comando rebase) para funciones pequeñas o correcciones de errores, mientras que se reservan las fusiones de tres vías para la integración de funciones con una ejecución de mayor duración. En este último caso, la confirmación de fusión resultante sirve como una unión simbólica de las dos ramas.
 - La opcion **–no-ff** siempre genera una confirmación de fusión , incluso si se trata de una fusión de avance rápido.
-- Si ocurre algún conflicto , el comando git status muestra qué archivos se deben resolver. Los conflictos se marcan con los caracteres: "<<<<<<<, =======, y >>>> >>>".
+- Si ocurre algún conflicto , el comando git status muestra qué archivos se deben resolver. Los conflictos se marcan con los caracteres: ``"<<<<<<<, =======, y >>>> >>>"``.
 - Una vez identificadas las secciones conflictivas, puedes entrar y arreglar la fusión a tu gusto. Cuando estés listo para terminar la fusión, lo único que tienes que hacer es ejecutar **git add** en los archivos conflictivos para indicar a Git que se han resuelto. Seguidamente, ejecutas un **git commit** normal para generar la confirmación de fusión. El proceso es exactamente el mismo que el de la confirmación de una instantánea normal, lo que significa que es fácil para los desarrolladores habituales gestionar sus propias fusiones.
 - Ten en cuenta que los conflictos de fusión solo se producirán en el caso de una fusión de 3 vías. Los cambios conflictivos en una fusión de avance rápido no son posibles.
 

@@ -58,7 +58,7 @@ const FeatureList = [
   },
   {
     title: "C#",
-    url: "docs/C--",
+    url: "docs/csharp",
     Svg: require("@site/static/img/c--4.svg").default,
     description: (
       <>

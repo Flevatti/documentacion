@@ -372,7 +372,7 @@ const element = React.createElement('h1', { className: 'title' }, 'Hello');
 :::tip Observación
 - Aquí:
     - 'h1' es el tipo de elemento (en este caso, un encabezado HTML).
-    - { className: 'title' } son las propiedades (o atributos) del elemento.
+    - ``{ className: 'title' }`` son las propiedades (o atributos) del elemento.
     - 'Hello' es el contenido del elemento.
 :::
 

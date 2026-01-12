@@ -598,7 +598,7 @@ Ya explicamos la mayoria en esta guia
 
 ```
 ### La directiva v-pre 
-- En algunas raras ocasiones, podríamos necesitar escribir literal y textualmente el texto {{ nickname }}, por ejemplo, y no querer que se renderice con el valor de la variable nickname. Para conseguir esto, podemos utilizar la directiva v-pre, la cual trata todo el contenido como texto plano (No se ejecutan los {{ códigos de javascript}} ni ninguna lógica)
+- En algunas raras ocasiones, podríamos necesitar escribir literal y textualmente el texto ``{{ nickname }}``, por ejemplo, y no querer que se renderice con el valor de la variable nickname. Para conseguir esto, podemos utilizar la directiva v-pre, la cual trata todo el contenido como texto plano (No se ejecutan los ``{{ códigos de javascript}}`` ni ninguna lógica)
 
 ```html
 <template>

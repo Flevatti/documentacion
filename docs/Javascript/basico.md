@@ -365,7 +365,7 @@ console.log(resultado);
 Respeta el orden de los parentensis
 
 ### Operadores relacionales
-Los operadores relacionales definidos por JavaScript son idénticos a los que definen las matemáticas: mayor que (>), menor que (<), mayor o igual (>=), menor o igual (<=), igual que (===)  o (==) y distinto de (!==)  o (!=)
+Los operadores relacionales definidos por JavaScript son idénticos a los que definen las matemáticas: mayor que ``(>)``, menor que ``(<)``, mayor o igual ``(>=)``, menor o igual ``(<=)``, igual que ``(===)``  o ``(==)`` y distinto de ``(!==)``  o ``(!=)``
 
 ==   No compara el tipo de dato , 20 = “20” es true . Hago que javascript trabaje mas  , a usar la conversión.
 
@@ -693,7 +693,7 @@ numero++; es un incrementador y suele ser normal en un bucle.
 :::
 ## \`String ${variable/codigo}`
 :::tip
- Con \`Texto` (el signo se hace con alt + 96) -- Te lee el texto tal como esta (reconoce los espacios en blanco , etc). Tambien te permite concatenar con ${variable o codigo}
+ Con     ``"\`Texto`"`` (el signo se hace con alt + 96) -- Te lee el texto tal como esta (reconoce los espacios en blanco , etc). Tambien te permite concatenar con ``${variable o codigo}``
 :::
 
 ```js
@@ -877,7 +877,7 @@ Las funciones son fundamentales en JavaScript. Una función en JavaScript es sim
 Características:
 -	El nombre de la función. Se utiliza el nombre de la función para llamar a la función y ejecutar el código que contiene.
 -	Una lista de parámetros de la función, entre paréntesis y separados por comas. Representa los valores de “entrada” que puede tener.
--	El código JavaScript que contiene la función, esta encerrado entre llaves, { ... }
+-	El código JavaScript que contiene la función, esta encerrado entre llaves, ``{ ... }``
 -  Para invocar a la función se utiliza el nombre del método seguido de paréntesis, entre estos van los argumentos que se les puede pasar a un método (son opcionales): nombreFunción(parametros).
 - Los parámetros son opcionales:
 ```js

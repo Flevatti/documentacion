@@ -475,7 +475,7 @@ NodeElement.addEventListener(event, handler, options);
 - Imagina que tienes una fiesta en tu casa:
     -	La puerta principal (el document) escucha cuando alguien toca el timbre.
     -	Alguien más que esta cerca de la puerta en la fiesta también escucha (un elemento Node del DOM como un botón).
-    -	Puedes decidir que solo una persona escuche el timbre (configurando {once: true}), o que primero escuche la persona que vive más lejos en la casa (fase de captura) antes que la persona cerca del timbre (fase de burbuja).
+    -	Puedes decidir que solo una persona escuche el timbre (configurando ``{once: true}``), o que primero escuche la persona que vive más lejos en la casa (fase de captura) antes que la persona cerca del timbre (fase de burbuja).
 
 
 :::
@@ -1257,7 +1257,7 @@ agregar.forEach((boton) => boton.addEventListener("click", agregarCarrito));
     - El evento comienza en la raíz del documento (document) y "baja" hacia el elemento que lo activó.
     - El manejador del elemento más lejano que escucha el evento se ejecuta primero.
     - El evento “baja” hasta llegar al elemento que lo activó:
-    - Pasa por cada elemento ancestro en el camino, ejecutando los manejadores configurados para captura ({ capture: true }).
+    - Pasa por cada elemento ancestro en el camino, ejecutando los manejadores configurados para captura ``({ capture: true })``.
     - La fase de captura termina al llegar al elemento objetivo:
         -	Si el elemento que activo el evento tiene un manejador:
             -	Este manejador se ejecutará inmediatamente.

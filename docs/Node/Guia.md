@@ -2500,7 +2500,7 @@ app.use((req, res, next) => {
 ```
 :::tip Observacion 
 - Se envia a todas las vistas a traves del middleware.
-- El token se debe enviar después de configurar el body de un formulario (app.use(express.urlencoded({extended:true}))) ya que se envia por POST
+- El token se debe enviar después de configurar el body de un formulario ``(app.use(express.urlencoded({extended:true})))`` ya que se envia por POST
 :::
 
 

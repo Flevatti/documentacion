@@ -22,7 +22,7 @@ WHERE condition
     AND/OR …;
 ```
 
-Más cláusulas complejas pueden construirse usando las palabras clave  AND o OR   (es decir: Ruedas >= 4 y puertas  <= 2). Y a continuación se muestran algunos operadores útiles que puede usar para datos numéricos (es decir, entero o punto flotante):
+Más cláusulas complejas pueden construirse usando las palabras clave  AND o OR   (es decir: Ruedas ``>= 4`` y puertas  ``<= 2``). Y a continuación se muestran algunos operadores útiles que puede usar para datos numéricos (es decir, entero o punto flotante):
 
 
 :::tip AND Y OR
@@ -35,7 +35,7 @@ Más cláusulas complejas pueden construirse usando las palabras clave  AND o OR
 
 | Operador      | Condicion     | Ejemplo  |
 | :-------------: |:-------------:| :-----:   |
-| = , != , < , <= , > , >=      | Operadores numericos estandar | col_name != 4    |
+| ``= , != , < , <= , > , >=``      | Operadores numericos estandar | col_name != 4    |
 | BETWEEN ... AND ...      | El  numero esta dentro del rango de dos valores (inclusive)      |   col_name BETWEEN 1.5 AND 10.5    |
 | NOT BETWEEN ... AND ... | El  numero NO esta dentro del rango de dos valores (inclusive)    |    col_name  NOT BETWEEN 1.5 AND 10.5    |
 | IN (...) | El numero existe en una lista      |    col_name IN (2,4,6)    |
