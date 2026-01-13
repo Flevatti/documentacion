@@ -1,4 +1,4 @@
-[tipo](scope): Descripción
+[feat]: Add commit message
 
 cuerpo
 
@@ -11,6 +11,7 @@ footer
 # • Scope: parte del código o módulo afectado (ej: auth, ui, api, config).
 #   Opcional pero recomendado.
 # • Cuerpo: explica el "por qué" y el "cómo" del cambio.
+
 #   Usa líneas de ≤72 caracteres. Deja una línea vacía antes y después.
 # • Footer: metadatos técnicos como:
 #     - Referencias: "Closes #123", "Fixes PROJ-456"

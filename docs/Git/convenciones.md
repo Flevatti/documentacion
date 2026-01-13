@@ -385,8 +385,65 @@ git config commit.template ubicacion_del_archivo.txt
 :::
 
 
+#### 4- Testear la plantilla
+- Generalmente, cuando vamos a hacer un commit tras añadir los archivos a la zona de staging, utilizamos la instrucción: ``git commit -m "Mi mensaje de commit"``
+- Lo que no todo el mundo tiene claro es que, si omitimos el parametro ``-m`` y ejecutamos simplemente:
+```powershell
+git commit
+```
+- Lo que ocurre es que se abre nuestro editor de código predeterminado, con una plantilla de texto (que puede ser la de por defecto o la que configuramos anteriormente):
+```txt title="COMMIT_EDITMSG"
+[tipo](scope): Descripción
 
+cuerpo
 
+footer
+
+# === INSTRUCCIONES ===
+# • Descripción: breve resumen del cambio en imperativo y presente
+#   (máx. 50 caracteres, primera letra en mayúscula, sin punto final).
+#   Ejemplos: "Agregar validación de email", "Corregir error al guardar perfil"
+# • Scope: parte del código o módulo afectado (ej: auth, ui, api, config).
+#   Opcional pero recomendado.
+# • Cuerpo: explica el "por qué" y el "cómo" del cambio.
+
+#   Usa líneas de ≤72 caracteres. Deja una línea vacía antes y después.
+# • Footer: metadatos técnicos como:
+#     - Referencias: "Closes #123", "Fixes PROJ-456"
+#     - Breaking changes: comienza con "BREAKING CHANGE:"
+#
+# ⚠️ Nota: El cuerpo y el footer son opcionales.
+#          La línea de descripción es obligatoria.
+#          Las líneas que comienzan con '#' se ignoran en el commit final.
+
+# === TIPOS COMUNES ===
+# feat:     Nueva funcionalidad visible para el usuario
+# fix:      Corrección de un bug que afecta al usuario
+# docs:     Cambios en documentación (README, comentarios, guías)
+# style:    Cambios de formato sin alterar la lógica (espacios, tabulaciones, etc.)
+# refactor: Reescritura o mejora de código sin cambiar comportamiento externo.
+# perf:     Mejoras de rendimiento (velocidad, memoria, etc.).
+# test:     Adición o corrección de pruebas.
+# chore:    Cambios para mantener el proyecto en funcionamiento sin impacto en el usuario.
+# build:    Cambios en el proceso de compilación, instalación o despliegue del proyecto.
+# ci:       Cambios en configuración de CI/CD (Integración continua)
+# revert:   Reversión total o parcial de un commit anterior
+```
+
+- O el por defecto:
+```txt title="COMMIT_EDITMSG"
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+#
+# Initial commit
+#
+# Changes to be committed:
+#	new file:   New Text Document.txt
+#
+```
+- Una vez que modifiquemos el archivo `COMMIT_EDITMSG` que se abre con el editor de texto al ejecutar `git commit`, solo tenemos que guardar los cambios y cerrar el archivo. Al hacerlo, Git realizará el commit utilizando como mensaje todo el contenido del archivo que no esté comentado (es decir, las líneas que no comiencen con `#`).
 
 
 

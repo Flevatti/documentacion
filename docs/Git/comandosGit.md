@@ -5,7 +5,7 @@ sidebar_position: 4
 ## Git init
 - Inicializa un repositorio.
 - Ejecutar este comando crea el subdirectorio. git en el  directorio en el que se ejecuta (el  directorio del proyecto); no se agregan ni cambian archivos que no sean en el subdirectorio .git
-- Dentro del directorio .git se crean todos los metadatos que necesita Git (branch de default, objetos, referencias, archivos template…).
+- Dentro del directorio .git se crean todos los metadatos que necesita Git (branch de default, objetos, referencias, archivos template…) para funcionar.
 - Cuando ejecutas git init, Git crea una estructura de directorios y archivos en la ubicación actual para comenzar a rastrear los cambios en el proyecto.
 - La mayoría de los comandos de Git están disponibles solo cuando se ejecutan dentro de un repositorio inicializado.
 - Es importante mencionar que git init se usa generalmente solo una vez al principio del proyecto, cuando se desea iniciar el seguimiento de versiones con Git. Si ya existe un repositorio Git (por ejemplo, si clonaste uno existente con git clone), no necesitas usar git init.
@@ -1176,7 +1176,7 @@ git stash clear
 ```
 #### Cómo funciona git stash
 - Los alijos en realidad están codificados en su repositorio como objetos de confirmación. La referencia especial en .git/refs/stash apunta a su alijo creado más recientemente, y el reflog de la referencia hace referencia a los alijos creados anteriormente por stash.
-- Es por eso que te refieres a los escondites como stash@{n}: porque  en realidad te refieres a  la entrada número "n"  de reflog (representa una lista con todos los alijos creados) de la referencia stash. Dado que un alijo es solo una confirmación, puedes inspeccionarlo con : **git log**.
+- Es por eso que te refieres a los escondites como ``stash@{n}``: porque  en realidad te refieres a  la entrada número "n"  de reflog (representa una lista con todos los alijos creados) de la referencia stash. Dado que un alijo es solo una confirmación, puedes inspeccionarlo con : **git log**.
 - Dependiendo de lo que hayas guardado, una sola operación  git stash crea dos o tres nuevas confirmaciones:
     - stash@{0}, una nueva confirmación para almacenar los archivos rastreados que estaban en su copia de trabajo cuando ejecutó **git stash**.
     - stash@{0} El primer padre, el  commit preexistente que estaba en HEAD cuando ejecutaste **git stash**.
