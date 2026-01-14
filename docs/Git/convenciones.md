@@ -448,4 +448,170 @@ footer
 
 
 ## Nombres de ramas
+- Una buena nomenclatura de ramas en Git es esencial para una gestión eficaz del proyecto.
+
+#### Tipos de ramas de Git
+- Las ramas en Git se pueden clasificar en dos tipos según su longevidad y el tipo de cambio que introducen:
+    - Ramas regulares 
+    - Ramas temporales 
+
+
+
+#### Ramas regulares de Git
+- Las ramas regulares en Git son ramas de larga duración que se utilizan como base para organizar el proyecto.
+- Su función principal es mantener una estructura estable y predecible del repositorio, ya que suelen representar etapas importantes del desarrollo del proyecto.
+- Estas ramas existen de forma permanente en el repositorio y no se eliminan después de un merge, a diferencia de las ramas temporales (como ``feature``, ``bugfix`` o ``hotfix``).
+- Por convención, sus nombres son simples y bien conocidos, lo que facilita su identificación y uso por parte de todos los desarrolladores.
+- Las Ramas Principales son:
+    - ``master`` o ``main``: Es la rama principal del proyecto, donde el código fuente refleja el estado actual y estable del sistema. Cualquier commit en esta rama debería ser apto para desplegarse en producción sin riesgos. En proyectos modernos, se prefiere el nombre ``main`` por convención, ya que es el valor por defecto en plataformas como GitHub.
+    - ``develop`` o ``dev``: En algunos flujos de trabajo —especialmente en Git Flow— se utiliza una rama de desarrollo que agrupa todas las nuevas funcionalidades en curso. Esta rama representa el estado más reciente del software en desarrollo, pero aún no está listo para producción. Habitualmente, cada nueva característica se desarrolla en ramas derivadas de ``develop`` y luego se reintegra en ella. Cuando se alcanza un hito o una versión estable, el contenido de ``develop`` se fusiona (merge) en ``main``.
+    - ``qa`` o ``testing``: En algunos flujos de trabajo se utiliza una rama dedicada al control de calidad y pruebas. Esta rama agrupa el código que ya fue desarrollado e integrado y que se considera funcionalmente completo, pero que aún debe ser validado antes de llegar a producción. En ella se ejecutan pruebas manuales y automatizadas para detectar errores, validar funcionalidades y asegurar la estabilidad del sistema. Solo los cambios que superan correctamente esta etapa se fusionan (merge) en ``main`` o en la rama de lanzamiento correspondiente, reduciendo el riesgo de fallos en el entorno productivo.
+
+
+#### Ramas temporales
+- Las ramas temporales son efímeras y desechables. Cumplen funciones específicas a corto plazo y suelen eliminarse posteriormente.
+- Algunas de las ramas temporales en Git son:
+    - Rama de corrección de errores: Se utiliza para solucionar errores que deben corregirse antes de llegar a la rama de producción correspondiente.
+    - Rama de revisión: Permite aplicar una solución rápida y temporal en situaciones de emergencia, sin seguir el flujo habitual. Generalmente, se fusiona primero en producción y luego en desarrollo.
+    - Rama de características: Se usa para agregar, modificar o eliminar una funcionalidad específica. Parte de la rama de desarrollo y, una vez finalizada, se fusiona nuevamente en ella.
+    - Rama experimental: Se utiliza para probar ideas o tecnologías nuevas que no forman parte del plan actual. No siempre se integran al proyecto principal.
+    - Rama WIP (Work In Progress): Se utiliza para trabajo en curso o pruebas parciales que aún no están terminadas. Estas ramas suelen ser informales, definidas por el propio equipo según sus necesidades, y no siguen un estándar ni reglas globales. Generalmente, no están pensadas para integrarse directamente al flujo principal, sino como un espacio temporal para experimentar o avanzar en tareas incompletas.
+    - Rama de fusión: Es una rama temporal creada para resolver conflictos al combinar otras ramas. Se elimina una vez que los conflictos están resueltos y los cambios verificados.
+
+:::tip
+- La lista anterior no es completa. Existen otras convenciones y formatos para nombrar ramas temporales, que pueden variar según el proyecto.
+:::
+
+
+####  Ramas de Características (Feature Branches)
+- Las ramas de características se utilizan para desarrollar nuevas funcionalidades, mejoras o cambios significativos en el código sin afectar la rama principal (``main`` o ``develop``). 
+- Cada funcionalidad nueva se desarrolla de forma aislada en su propia rama, lo que permite trabajar de manera segura, hacer pruebas y recibir revisiones antes de integrarla al proyecto.
+- Generalmente, estas ramas se crean a partir de ``develop`` (en Git Flow) o directamente desde ``main`` en flujos más simples.
+- Una vez que la funcionalidad está terminada, probada y aprobada, se fusiona (merge) nuevamente en la rama de desarrollo correspondiente.
+- Se suele usar el prefijo ``feature/`` seguido de una descripción clara y concisa de la funcionalidad. Por ejemplo:
+    - ``feature/login-authentication``
+    - ``feature/new-ui-layout``
+    - ``feature/add-user-profile``
+#### Ramas de Corrección de Errores (Bugfix Branches)
+- Las ramas de corrección de errores se utilizan exclusivamente para solucionar fallos detectados durante el desarrollo o las pruebas.
+- Permiten corregir problemas sin mezclar estos cambios con nuevas funcionalidades, lo que facilita la revisión del código y el control de versiones.
+- Normalmente se crean desde ``develop``, ya que suelen corregir errores de funcionalidades que aún no están en producción.
+- Una vez solucionado el problema, la rama se fusiona nuevamente en ``develop``.
+- Se usa el prefijo ``bugfix/`` seguido de una breve descripción del error corregido. Por ejemplo:
+    - ``bugfix/login-error``
+    - ``bugfix/missing-icons``
+    - ``bugfix/404-page-not-found``
+#### Ramas de Lanzamiento (Release Branches)
+- Las ramas de lanzamiento se crean cuando el proyecto alcanza un estado cercano a una versión estable que está lista para publicarse.
+- Su objetivo es preparar el release (lanzamiento), realizando tareas finales como:
+    - Correcciones menores
+    - Ajustes de configuración
+    - Actualización de documentación
+    - Versionado
+- Mientras esta rama existe, no se agregan nuevas funcionalidades; solo se hacen ajustes necesarios para estabilizar la versión.
+- Una vez lista, se fusiona en ``main`` (para producción) y también en ``develop`` para mantener ambos sincronizados.
+- Se nombran generalmente con el prefijo ``release/`` seguido del número de versión. Por ejemplo:
+    - ``release/v1.2.0``
+    - ``release/v1.2.1``
+#### Ramas de Mantenimiento o Parches (Hotfix Branches)
+- Las ramas hotfix se utilizan para corregir errores críticos en producción que requieren una solución inmediata.
+- Se crean directamente desde ``main``, ya que el problema existe en la versión productiva.
+- Estas correcciones suelen ser pequeñas, urgentes y enfocadas únicamente en resolver el error.
+- Una vez solucionado el problema:
+    - Se fusionan en ``main`` para desplegar el parche.
+    - También se fusionan en ``develop`` para que el arreglo no se pierda en futuras versiones.
+- Se utiliza el prefijo ``hotfix/`` seguido de una descripción clara del problema crítico. Por ejemplo:
+    - ``hotfix/critical-login-issue``
+    - ``hotfix/payment-processing-error``
+#### Ramas Personales o de Experimentación
+- Estas ramas se usan para pruebas, prototipos o experimentos, donde el código puede no estar listo para integrarse al proyecto principal.
+- Son útiles para evaluar nuevas tecnologías, frameworks, ideas o enfoques sin comprometer la estabilidad del código base.
+- No siempre terminan fusionándose; muchas veces se eliminan una vez finalizado el experimento.
+- Pueden tener nombres más libres o incluir el nombre del desarrollador para identificar al autor del trabajo.
+- Ejemplos:
+    - ``experiment/new-framework-test``
+    - ``john/prototype-new-feature``
+
+#### Buenas Prácticas
+- Usá nombres de ramas cortos pero descriptivos: El nombre debe permitir entender rápidamente qué se está desarrollando o corrigiendo, sin necesidad de revisar el contenido de la rama.
+- Utilizá letras minúsculas y guiones para separar palabras: Esto mejora la legibilidad y evita problemas de compatibilidad entre sistemas. Ejemplo: ``feature/add-user-profile``
+- Evitá el uso de espacios y caracteres especiales: Los espacios y símbolos pueden generar errores o confusiones al trabajar desde la línea de comandos o con distintas herramientas.
+- Incluí un identificador de tarea o ticket cuando sea posible: Si el proyecto utiliza un sistema de seguimiento (como Jira, Trello o GitHub Issues), es recomendable agregar el ID de la tarea en el nombre de la rama. Ejemplo: ``feature/JIRA-123-add-login`` o ``wip/8712-add-login-moduleCopiar``.
+- Las barras diagonales ``(/)`` se usan para definir prefijos en los nombres de las ramas, permitiendo organizarlas de forma jerárquica y agruparlas por tipo o propósito, como ``feature/``, ``bugfix/``, ``hotfix/``.
+- A veces es una buena práctica usar el nombre del autor en el nombre de la rama de Git para indicar qué desarrollador está trabajando en ella. De esta forma, es más fácil identificar al responsable de una funcionalidad y hacer su seguimiento. Ejemplo: ``johndoe/feature/add-user-profile``.
+
+## Git branching strategy
+- Una estrategia de ramificación en Git (Git branching strategy) es el conjunto de reglas, convenciones y prácticas que define cómo y cuándo se crean, usan, fusionan y eliminan las ramas dentro de un repositorio Git.
+- No es necesario crear una estrategia de ramificación en Git desde cero; existen muchas estrategias conocidas y ampliamente utilizadas que pueden adaptarse a las necesidades de cada proyecto o equipo.
+
+### Trunk-Based Development
+- Esta estrategia de branching minimiza el uso de ramas. En este enfoque, los desarrolladores integran sus cambios directamente en la rama tronco (central o principal), que suele ser ``main`` o ``master``, generalmente al menos una vez al día.
+-  Esta rama central debe mantenerse siempre estable y lista para su despliegue en cualquier momento.
+- Generalmente, los desarrolladores trabajan en ramas temporales —como ramas de características, correcciones, etc— y, cuando los cambios están listos, los integran al tronco y eliminan esas ramas para mantener el repositorio limpio.
+-  Como curiosidad, el nombre trunk-based proviene de la idea de que el proyecto debe asemejarse a un árbol: el tronco representa la parte principal y más robusta del desarrollo, mientras que las ramas son pequeñas desviaciones temporales que deben mantenerse cortas o “podarse” rápidamente.
+- Esta metodología está estrechamente relacionada con el concepto de **feature flags** (o indicadores de características). Estos permiten activar o desactivar funcionalidades específicas mediante una condición o configuración. Gracias a esto, es posible integrar código nuevo incluso cuando una funcionalidad aún no está completa, con la seguridad de que permanecerá deshabilitada hasta que esté lista para usarse.
+##### Rama release
+- Imaginemos que queremos lanzar una versión mensual de nuestro producto. Unos días antes del despliegue, y para no interferir en dicha release, crearíamos la nueva rama ``release`` que saldría del trunk (tronco).
+- Éste sería un lugar estable donde probar y testear la release, protegiéndola del despliegue continuo al que se ve sometida la rama trunk. Durante el trabajo en la rama de release, pueden realizarse correcciones o ajustes mediante nuevos commits, que posteriormente se llevan a la rama principal mediante un cherry-pick.
+
+:::tip cherry-pick
+- Un cherry-pick en Git es una operación que permite copiar uno o varios commits específicos de una rama y aplicarlos en otra, sin fusionar la rama completa.
+- Se realiza con el comando ``git cherry-pick``.
+:::
+
+##### Resumen
+- La estrategia se basa en una única rama principal, llamada tronco, que en Git suele denominarse ``main`` o ``master``.
+- El objetivo es que el tronco se mantenga siempre “saludable”, es decir, listo para desplegarse en producción en cualquier momento.
+- Para el versionado y la preparación de lanzamientos, se utiliza una rama de ``release``.
+- Está basada en desarrollar cambios pequeños y frecuentes, lo que facilita revisiones más simples y permite a los equipos mantener conversaciones claras y tomar decisiones rápidas al analizar áreas limitadas de código.
+- Utiliza el concepto de **feature flags**, que permiten activar o desactivar funcionalidades específicas mediante una condición o configuración.
+- En esta estrategia, las pruebas automatizadas son esenciales para mantener el tronco saludable; por ello, las revisiones de código deben realizarse de forma inmediata y continua.
+- Al minimizar el uso de ramas, se recomienda fusionar las ramas de características, correcciones y otros cambios al tronco al menos una vez al día, y eliminarlas una vez integradas.
+- Salvo la rama principal y la rama de ``release``, no existen otras ramas de larga duración.
+
+
+##### Ventajas
+- Es una estrategia muy rápida que reduce la distancia entre los miembros del equipo. Los desarrolladores siempre van poder trabajar con el código más reciente.
+- El equipo se vuelve mas eficiente y mas ágil para entregar código.
+- Produce menos conflictos en comparación con otras metodologías.
+- Evita la existencia de ramas largas que nunca terminan de fusionarse.
+- Mantiene un historial de cambios limpio, claro y fácil de leer.
+##### Desventajas
+- Requiere un equipo muy maduro y con experiencia para que la metodología se aplique correctamente.
+- Es necesario contar con un sistema de CI/CD sólido y bien implementado.
+- Existe una ausencia de entornos de preproducción tradicionales. Es posible lograr un entorno de PRE, pero requiere un trabajo de DevOps muy cuidadoso. Generalmente, esto se resuelve mediante feature flags, lo que puede ser beneficioso porque evita mezclar cambios en los que distintos desarrolladores están trabajando. Sin embargo, también añade complejidad al sistema.
+- Desde mi punto de vista, la necesidad de mantener feature flags representa un inconveniente importante, ya que pueden convertirse en una fuente de errores o en un overhead de complejidad que no siempre compensa los beneficios de la metodología.
+### GitHub Flow
+- Esta metodología, al igual que otras estrategias modernas, se apoya en una única rama principal, a partir de la cual se crean las ramas de características (feature branches).
+- Cada nueva funcionalidad se desarrolla de forma aislada en su propia rama, y el equipo trabaja en ella hasta que está completamente terminada.
+- Durante el desarrollo, la rama de la feature puede desplegarse para validar su funcionamiento en un entorno real, aun cuando no esté fusionada con la rama principal.
+- Este enfoque encaja muy bien con entornos de despliegue continuo, ya que prioriza la agilidad y la rapidez al momento de liberar nuevas funcionalidades.
+- Una vez que la funcionalidad está totalmente estable y validada, la rama de la feature se fusiona (merge) con la rama principal.
+- Los entornos previos a producción, como staging o testing, también se despliegan desde la rama de la feature, lo que permite probar los cambios antes del despliegue final en producción.
+
+
+:::tip
+- La aplicación puede desplegarse de diferentes maneras.
+- **Desde `main`:**
+    - Es lo más común.
+    - Representa el estado estable y validado del código.
+    - Normalmente es lo que se despliega a producción de forma “oficial”.
+- **Desde una `feature`:**
+    - Se utiliza para probar, validar o revisar cambios.
+    - Puede desplegarse en:
+        - *staging* (entorno previo a producción, muy similar al entorno real)
+        - *testing* (entorno destinado a pruebas funcionales y automatizadas)
+        - entornos temporales (entornos creados solo para validar una feature específica)
+        - o incluso en producción de forma controlada (*feature flags*, usuarios limitados, *canary* —despliegue gradual a un pequeño porcentaje de usuarios—).
+    - No reemplaza a `main` como referencia estable.
+:::
+
+
+
+
+#### GitFlow
+#### GitLab Flow
+
+
+
 ## "Squash Merge" o "Merge Commit"
