@@ -550,7 +550,7 @@ footer
 - Generalmente, los desarrolladores trabajan en ramas temporales —como ramas de características, correcciones, etc— y, cuando los cambios están listos, los integran al tronco y eliminan esas ramas para mantener el repositorio limpio.
 -  Como curiosidad, el nombre trunk-based proviene de la idea de que el proyecto debe asemejarse a un árbol: el tronco representa la parte principal y más robusta del desarrollo, mientras que las ramas son pequeñas desviaciones temporales que deben mantenerse cortas o “podarse” rápidamente.
 - Esta metodología está estrechamente relacionada con el concepto de **feature flags** (o indicadores de características). Estos permiten activar o desactivar funcionalidades específicas mediante una condición o configuración. Gracias a esto, es posible integrar código nuevo incluso cuando una funcionalidad aún no está completa, con la seguridad de que permanecerá deshabilitada hasta que esté lista para usarse.
-##### Rama release
+#### Rama release
 - Imaginemos que queremos lanzar una versión mensual de nuestro producto. Unos días antes del despliegue, y para no interferir en dicha release, crearíamos la nueva rama ``release`` que saldría del trunk (tronco).
 - Éste sería un lugar estable donde probar y testear la release, protegiéndola del despliegue continuo al que se ve sometida la rama trunk. Durante el trabajo en la rama de release, pueden realizarse correcciones o ajustes mediante nuevos commits, que posteriormente se llevan a la rama principal mediante un cherry-pick.
 
@@ -559,7 +559,7 @@ footer
 - Se realiza con el comando ``git cherry-pick``.
 :::
 
-##### Resumen
+#### Resumen
 - La estrategia se basa en una única rama principal, llamada tronco, que en Git suele denominarse ``main`` o ``master``.
 - El objetivo es que el tronco se mantenga siempre “saludable”, es decir, listo para desplegarse en producción en cualquier momento.
 - Para el versionado y la preparación de lanzamientos, se utiliza una rama de ``release``.
@@ -570,24 +570,28 @@ footer
 - Salvo la rama principal y la rama de ``release``, no existen otras ramas de larga duración.
 
 
-##### Ventajas
+#### Ventajas
 - Es una estrategia muy rápida que reduce la distancia entre los miembros del equipo. Los desarrolladores siempre van poder trabajar con el código más reciente.
 - El equipo se vuelve mas eficiente y mas ágil para entregar código.
 - Produce menos conflictos en comparación con otras metodologías.
 - Evita la existencia de ramas largas que nunca terminan de fusionarse.
 - Mantiene un historial de cambios limpio, claro y fácil de leer.
-##### Desventajas
+#### Desventajas
 - Requiere un equipo muy maduro y con experiencia para que la metodología se aplique correctamente.
 - Es necesario contar con un sistema de CI/CD sólido y bien implementado.
 - Existe una ausencia de entornos de preproducción tradicionales. Es posible lograr un entorno de PRE, pero requiere un trabajo de DevOps muy cuidadoso. Generalmente, esto se resuelve mediante feature flags, lo que puede ser beneficioso porque evita mezclar cambios en los que distintos desarrolladores están trabajando. Sin embargo, también añade complejidad al sistema.
 - Desde mi punto de vista, la necesidad de mantener feature flags representa un inconveniente importante, ya que pueden convertirse en una fuente de errores o en un overhead de complejidad que no siempre compensa los beneficios de la metodología.
 ### GitHub Flow
-- Esta metodología, al igual que otras estrategias modernas, se apoya en una única rama principal, a partir de la cual se crean las ramas de características (feature branches).
-- Cada nueva funcionalidad se desarrolla de forma aislada en su propia rama, y el equipo trabaja en ella hasta que está completamente terminada.
-- Durante el desarrollo, la rama de la feature puede desplegarse para validar su funcionamiento en un entorno real, aun cuando no esté fusionada con la rama principal.
+- Esta metodología, al igual que otras estrategias modernas, se apoya en una **única rama principal**, a partir de la cual se crean ramas de características (*feature branches*) o de corrección de errores (*bugfix branches*).
+- Cada nueva funcionalidad o corrección de errores se desarrolla de forma aislada en su propia rama, y el equipo trabaja en ella hasta que el cambio está completamente terminado.
+- Durante el desarrollo, la rama de la feature o del bugfix puede desplegarse para validar su funcionamiento en un entorno real, aun cuando no esté fusionada con la rama principal.
 - Este enfoque encaja muy bien con entornos de despliegue continuo, ya que prioriza la agilidad y la rapidez al momento de liberar nuevas funcionalidades.
-- Una vez que la funcionalidad está totalmente estable y validada, la rama de la feature se fusiona (merge) con la rama principal.
-- Los entornos previos a producción, como staging o testing, también se despliegan desde la rama de la feature, lo que permite probar los cambios antes del despliegue final en producción.
+- Una vez que la funcionalidad o corrección está totalmente estable y validada, la rama correspondiente se fusiona (merge) con la rama principal.
+- Los entornos previos a producción, como staging o testing, también pueden desplegarse desde la rama de la feature o del bugfix, lo que permite probar los cambios antes del despliegue final en producción.
+
+
+
+
 
 
 :::tip
@@ -596,21 +600,245 @@ footer
     - Es lo más común.
     - Representa el estado estable y validado del código.
     - Normalmente es lo que se despliega a producción de forma “oficial”.
-- **Desde una `feature`:**
+- **Desde una `feature` o  `bugfix`:**
     - Se utiliza para probar, validar o revisar cambios.
     - Puede desplegarse en:
-        - *staging* (entorno previo a producción, muy similar al entorno real)
+        - *staging* (entorno que replica el estado actual del proyecto en producción para validar nuevos cambios antes de publicarlos)
         - *testing* (entorno destinado a pruebas funcionales y automatizadas)
         - entornos temporales (entornos creados solo para validar una feature específica)
         - o incluso en producción de forma controlada (*feature flags*, usuarios limitados, *canary* —despliegue gradual a un pequeño porcentaje de usuarios—).
     - No reemplaza a `main` como referencia estable.
 :::
 
+:::tip
+- Además de los prefijos `feature` y `bugfix` al crear ramas, se pueden utilizar otros según las necesidades del proyecto, como `hotfix` o `docs` por ejemplo.
+- Lo más importante es que todas las ramas se creen a partir de la rama principal y, una vez completadas, se fusionen nuevamente en ella.
+:::
+##### Ejemplo
+```powershell
+# Nos aseguramos de estar en la rama principal
+git checkout main
+
+# Traemos los últimos cambios del repositorio remoto
+git pull origin main
+
+# Creamos y nos movemos a una nueva rama de feature
+git checkout -b feature/perfil-de-usuario
+
+# --- Luego de agregar una interfaz ---
+
+# Agregamos los archivos modificados al staging
+git add .
+
+# Creamos un commit con los cambios
+git commit -m "Añadir interfaz de usuario a la página de perfil de usuario"
+
+# Subimos la rama de feature al repositorio remoto
+git push origin feature/perfil-de-usuario
+
+# --- Luego de recibir comentarios o hacer más cambios ---
+
+# Agregamos los nuevos cambios
+git add .
+
+# Commit con correcciones
+git commit -m "Abordar comentarios de la revisión"
+
+# Subimos los commits a la misma rama
+git push
+
+# --- Antes de integrar la feature ---
+
+# Volvemos a la rama de la feature
+git checkout feature/perfil-de-usuario
+
+# Traemos los últimos cambios remotos
+git fetch origin
+
+# Rebaseamos la feature sobre el main actualizado
+git rebase origin/main
+```
+
+:::tip
+- La fusión final (`git merge feature/perfil-de-usuario`) normalmente se hace vía Pull Request, no desde consola.
+:::
+
+#### Ventajas
+- Es una estrategia simple y fácil de entender para todo el equipo.
+- Funciona muy bien con despliegue continuo, ya que los cambios se integran rápido.
+- Reduce la cantidad de ramas, lo que facilita su mantenimiento.
+- Fomenta la colaboración mediante Pull Requests, donde se revisa el código antes de integrarlo.
+- Mantiene un historial de cambios limpio y fácil de leer.
+- La rama master (o main) se mantiene estable y confiable, lista para producción y permite volver atrás (rollback) de forma segura si algo falla.
+- Al salir todas las ramas desde un mismo punto, se evitan conflictos innecesarios y el repositorio se mantiene ordenado.
+#### Desventajas
+- Tiene poco soporte para la gestión de múltiples versiones del producto.
+- No define de forma clara etapas de pruebas o integración separadas.
+- Puede resultar riesgosa si no se cuenta con pruebas automatizadas sólidas.
+- Es difícil mantener varias versiones activas al mismo tiempo.
+- Requiere un equipo de operaciones experimentado, ya que depende de automatización sólida, buenos procesos de CI/CD y mecanismos confiables de despliegue y rollback.
+### GitFlow (Completar)
+-  Es la metodología más conocida de todas y también la más completa.
+- A diferencia del Trunk-Based Development, Gitflow trabaja con más ramas y con cambios que tardan más tiempo en integrarse.
+- En Gitflow, cuando se crea una rama de una funcionalidad, esa rama se mantiene separada durante bastante tiempo mientras se desarrolla toda la feature. Durante ese período, la rama principal de desarrollo sigue avanzando con cambios de otros desarrolladores. Como resultado, cuando finalmente se intenta unir la feature, es común que aparezcan conflictos o diferencias importantes, lo que hace que la integración requiera más trabajo y coordinación.
+- Gitflow es especialmente útil en proyectos con ciclos de lanzamiento planificados, ya que establece de forma clara qué ramas se utilizan para el desarrollo, la preparación de versiones, la corrección de errores y el mantenimiento de producción (es decir, arreglos o ajustes sobre versiones que ya están desplegadas). No introduce nuevos comandos de Git, sino que establece reglas claras sobre cómo y cuándo usar las ramas, lo que ayuda al equipo a trabajar mejor, organizar las versiones y seguir los cambios.
+
+#### Ramas principales 
+- En lugar de utilizar una única rama principal, este flujo de trabajo emplea dos ramas de larga duración para registrar el historial del proyecto:
+    - `main` / `master`: Contiene el código más estable y listo para ser lanzado a producción. Cada commit suele estar asociado a una versión del sistema, por ejemplo: `v0.1`.
+    - `develop`: Es la rama que contiene todas las funcionalidades que todavía no están en producción y siguen en desarrollo. En esta rama se van uniendo las distintas ramas de trabajo para comprobar que las funcionalidades funcionen correctamente juntas antes de pasar a producción.
+- Lo primero que se hace en el proyecto es:
+```powershell
+# Creamos la rama develop a partir de la rama actual (normalmente main)
+git branch develop
+
+# Subimos la rama develop al repositorio remoto y la establecemos como upstream
+git push -u origin develop
+```
+- La rama develop acumula todo el historial del desarrollo del proyecto, incluyendo la integración de nuevas funcionalidades y cambios intermedios. En cambio, la rama main solo refleja las versiones estables que se han publicado.
+- A partir de ese momento, los demás desarrolladores deben clonar el repositorio y trabajar siguiendo la rama develop, creando ramas locales que la tomen como referencia.
+
+
+:::tip Git flow
+- Git Flow es una herramienta complementaria de Git que permite ejecutar comandos específicos para trabajar siguiendo la estrategia Gitflow. En Windows suele venir incluida con Git, mientras que en otros sistemas operativos puede ser necesario instalarla manualmente.
+- Para verificar que Git Flow esté instalado, se puede ejecutar el comando `git flow version`.
+- Al comienzo del proyecto, al ejecutar el comando `git flow init`, se inicializa Git Flow en el repositorio, se crea la rama `develop` y se configuran las ramas principales y los prefijos que se utilizarán durante el desarrollo.
+:::
+
+
+#### Ramas de función
+- Todas las nuevas funcionalidades deben desarrollarse en su propia rama, la cual puede subirse al repositorio central para respaldo o colaboración.
+- A diferencia de otros flujos, estas ramas de funcionalidades no se crean desde `main`, sino desde `develop`, que actúa como rama base.
+- Una vez que la funcionalidad está completa, se fusiona nuevamente en `develop`.
+- Las ramas de funcionalidades nunca se integran directamente en `main`.
+- Suelen utilizar el prefijo `feature/` y se crean a partir de la versión más reciente de la rama `develop`.
+##### Creación de una rama de función
+- Sin git-flow:
+```powershell
+git checkout develop
+git checkout -b feature_branch
+```
+- Con git-flow:
+```powershell
+git flow feature start feature_branch
+```
+##### Finalización de una rama de función
+- Cuando hayas terminado con el trabajo de desarrollo en la función, el siguiente paso es fusionar `feature_branch` en `develop`.
+- Sin git-flow:
+```powershell
+git checkout develop
+git merge feature_branch
+```
+- Con git-flow:
+```powershell
+git flow feature finish feature_branch
+```
+#### Ramas de publicación
+- Cuando la rama `develop` ya reúne suficientes funcionalidades para una nueva versión —o se acerca una fecha de lanzamiento— se crea una rama `release` a partir de `develop`. Esta rama marca el inicio del proceso de publicación: a partir de ese momento no se agregan nuevas funcionalidades, sino que solo se permiten correcciones de errores, ajustes finales y tareas relacionadas con la publicación (como documentación o versionado).
+- Una vez que la versión está lista, la rama `release` se fusiona en `main` y se etiqueta con el **número de versión correspondiente**. Luego, esos mismos cambios se vuelven a fusionar en `develop`, para que el desarrollo continúe sobre una base actualizada.
+- El uso de ramas `release` permite que un equipo prepare y estabilice una versión mientras otros desarrolladores siguen trabajando en nuevas funcionalidades para lanzamientos futuros. Además, hace que las distintas etapas del desarrollo sean claras y visibles en la estructura del repositorio.
+- Las ramas `release`, al igual que las ramas `feature`, se crean siempre a partir de la rama `develop`.
+##### Creación de una rama de publicación
+- Sin git-flow:
+```powershell
+git checkout develop
+git checkout -b release/0.1.0
+```
+- Con git-flow:
+```powershell
+git flow release start 0.1.0
+```
+- Cuando la versión está lista para su lanzamiento, la rama release se fusiona tanto en main como en develop, y luego se elimina. Es importante integrarla nuevamente en develop, ya que durante la preparación de la versión pueden haberse realizado correcciones o ajustes relevantes que deben estar disponibles para las nuevas funcionalidades en desarrollo.
+- Si en la organización se le da mucha importancia a la revisión de código, este momento es ideal para realizar una solicitud de incorporación de cambios (pull request).
+##### Finalización de una rama de publicación
+- Sin git-flow:
+```powershell
+git checkout main
+git merge release/0.1.0
+```
+- Con git-flow:
+```powershell
+git flow release finish '0.1.0'
+```
+
+#### Ramas de corrección
+- Las ramas de `hotfix` (o mantenimiento) se utilizan para corregir errores urgentes detectados en producción. A diferencia de las ramas `feature` o `release`, las ramas `hotfix` se crean directamente desde la rama `main`, ya que parten del código que está actualmente en producción. Esta es la única situación en Gitflow en la que se trabaja directamente a partir de `main`.
+- Una vez aplicada y validada la corrección, la rama `hotfix` se fusiona nuevamente en `main` y también en `develop` (o en la rama `release` activa, si existe), para asegurar que el arreglo no se pierda en futuros desarrollos. Luego, la rama `main` se etiqueta con un nuevo número de versión.
+- Este enfoque permite solucionar problemas críticos sin interrumpir el desarrollo de nuevas funcionalidades ni esperar al próximo ciclo de publicación. En la práctica, las ramas `hotfix` funcionan como ramas `release` puntuales que actúan directamente sobre la versión en producción.
+##### Creación de una rama de corrección
+- Sin git-flow:
+```powershell
+git checkout main
+git checkout -b hotfix_branch
+```
+- Con git-flow:
+```powershell
+git flow hotfix start hotfix_branch
+```
+- Al igual que al finalizar una rama `release`, una rama `hotfix` se fusiona tanto en `main` como en `develop`:
+```powershell
+# Sin git-flow
+git checkout main
+git merge hotfix_branch
+git checkout develop
+git merge hotfix_branch
+git branch -D hotfix_branch
+# Con git-flow
+git flow hotfix finish hotfix_branch
+```
+
+#### Ramas de corrección de errores
+- Las ramas `bugfix` se utilizan para corregir errores no críticos detectados durante el desarrollo que no estan en produccion. A diferencia de las ramas `hotfix`, estas no parten de código en producción, sino del estado más reciente del desarrollo.
+- Las ramas `bugfix` se crean a partir de `develop`, ya que corrigen problemas que aún no han sido liberados a producción. Esto permite resolver defectos sin afectar directamente la versión estable.
+- Una vez aplicada y validada la corrección, la rama `bugfix` se fusiona nuevamente en `develop`.
+- Este enfoque ayuda a mantener la estabilidad del flujo de desarrollo, evitando que errores menores lleguen a producción y sin interrumpir el trabajo en nuevas funcionalidades.
+##### Creación de una rama de corrección (bugfix)
+- Sin git-flow:
+```powershell
+git checkout develop
+git checkout -b bugfix_branch
+```
+- Con git-flow:
+```powershell
+git flow bugfix start bugfix_branch
+```
+##### Finalización de una rama de corrección (bugfix)
+```powershell
+# Sin git-flow
+git checkout develop
+git merge bugfix_branch
+git branch -D bugfix_branch
+# Con git-flow
+git flow bugfix finish bugfix_branch
+
+```
 
 
 
-#### GitFlow
-#### GitLab Flow
+
+#### Ventajas
+- Proporciona una estructura clara y ordenada para el control de versiones.
+- Aísla el desarrollo de nuevas funcionalidades del código ya terminado.
+- Es ideal para lanzamientos programados y procesos formales de control de calidad.
+- Permite el desarrollo en paralelo de distintas versiones.
+- Es sólido y robusto para despliegues con múltiples versiones activas.
+- Permite contar con más de un entorno previo a producción.
+- Ideal para desarrollos largos.
+- Alienta el uso de pull request.
+- Control estricto de los cambios, porque normalmente solo algunos desarrolladores esta autorizados para aprobar los pull request.
+- Después de entender como funciona, es simple de utilizar.
+#### Desventajas
+- Puede resultar complejo de gestionar debido a la gran cantidad de ramas.
+- Introduce un sobrecosto innecesario en proyectos pequeños.
+- No es ideal para entornos de integración o despliegue continuo.
+- Puede generar conflictos de fusión grandes y difíciles de resolver.
+- Resulta poco adecuado para proyectos ágiles y de ritmo rápido.
+- La estructura de ramas puede ralentizar la llegada de cambios a producción.
+- Es más propenso a conflictos que otras metodologías, ya que los commits provienen de ramas que evolucionan en paralelo.
+- Un control excesivo del proceso puede generar dependencia de pocas personas para aprobar cambios y, en algunos casos, derivar en prácticas de micro-management.
+
+
+### GitLab Flow (Completar)
 
 
 
