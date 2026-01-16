@@ -677,7 +677,7 @@ git rebase origin/main
 - Puede resultar riesgosa si no se cuenta con pruebas automatizadas sólidas.
 - Es difícil mantener varias versiones activas al mismo tiempo.
 - Requiere un equipo de operaciones experimentado, ya que depende de automatización sólida, buenos procesos de CI/CD y mecanismos confiables de despliegue y rollback.
-### GitFlow (Completar)
+### GitFlow 
 -  Es la metodología más conocida de todas y también la más completa.
 - A diferencia del Trunk-Based Development, Gitflow trabaja con más ramas y con cambios que tardan más tiempo en integrarse.
 - En Gitflow, cuando se crea una rama de una funcionalidad, esa rama se mantiene separada durante bastante tiempo mientras se desarrolla toda la feature. Durante ese período, la rama principal de desarrollo sigue avanzando con cambios de otros desarrolladores. Como resultado, cuando finalmente se intenta unir la feature, es común que aparezcan conflictos o diferencias importantes, lo que hace que la integración requiera más trabajo y coordinación.
@@ -788,7 +788,7 @@ git flow hotfix finish hotfix_branch
 ```
 
 #### Ramas de corrección de errores
-- Las ramas `bugfix` se utilizan para corregir errores no críticos detectados durante el desarrollo que no estan en produccion. A diferencia de las ramas `hotfix`, estas no parten de código en producción, sino del estado más reciente del desarrollo.
+- Las ramas `bugfix` se utilizan para corregir errores no críticos detectados durante el desarrollo (rama `develop`). A diferencia de las ramas `hotfix`, no parten de código en producción, sino del estado más reciente del desarrollo.
 - Las ramas `bugfix` se crean a partir de `develop`, ya que corrigen problemas que aún no han sido liberados a producción. Esto permite resolver defectos sin afectar directamente la versión estable.
 - Una vez aplicada y validada la corrección, la rama `bugfix` se fusiona nuevamente en `develop`.
 - Este enfoque ayuda a mantener la estabilidad del flujo de desarrollo, evitando que errores menores lleguen a producción y sin interrumpir el trabajo en nuevas funcionalidades.
@@ -812,9 +812,62 @@ git branch -D bugfix_branch
 git flow bugfix finish bugfix_branch
 
 ```
+:::tip Ramas `bugfix` en Git Flow AVH Edition
+- Git Flow AVH Edition es una implementación extendida y mantenida de Git Flow que incorpora la rama  `bugfix `, inexistente en el Git Flow original de Vincent Driessen.
+- En Git Flow AVH Edition, las ramas `bugfix` permiten corregir errores no críticos y ofrecen mayor flexibilidad respecto al destino de la corrección.
+- Por defecto, una rama `bugfix` se crea a partir de `develop` y se fusiona nuevamente en esta rama, lo que la hace ideal para correcciones generales del desarrollo.
+- De forma opcional, puede indicarse una rama `release` como origen y destino cuando el error se detecta durante QA o pruebas sobre una versión en preparación.
+- En ningún caso una rama `bugfix` se fusiona directamente en `main`.
+
+| Comando |  Rama de origen | Destino al finalizar |
+| - | - | - |
+| `bugfix start fix1` |  `develop` (por defecto) |  Se fusiona en `develop` |
+| `bugfix start fix1 release/*` |  `release/` (sobrescribe) |  Se fusiona en  `release/*` |
+:::
 
 
 
+#### Ramas de soporte 
+- La rama `support` no forma parte del Git Flow original propuesto por Vincent Driessen; es una extensión utilizada en algunas implementaciones (como Git Flow AVH Edition).
+- Las ramas `support` se utilizan para dar soporte y mantenimiento a versiones antiguas del software (versiones legacy), permitiendo aplicar correcciones o pequeñas actualizaciones sin afectar el desarrollo actual.
+- Esta rama se crea a partir de una versión específica etiquetada (tag) que ya fue liberada en `main`.
+- La rama `support` se mantiene en paralelo a `main`, lo que facilita mantener múltiples líneas de soporte para clientes que utilizan versiones antiguas mientras el desarrollo principal continúa en `develop`.
+- En resumen: Sirve para arreglar y mantener versiones viejas sin tocar la versión actual del sistema.
+##### Flujo general
+1. Se crea la rama  `support ` a partir de un tag existente (una versión ya liberada).
+2. Se realizan los cambios necesarios (parches, fixes, mantenimiento).
+3. Al finalizar, los cambios se propagan a las ramas principales ( `main ` y  `develop `).
+##### Comandos
+```powershell
+# Iniciar una rama support
+# git flow support start <nombre> <tag>
+# Crea una rama support basada en el tag v1.2.0.
+git flow support start soporte-v1.2 v1.2.0
+
+# Finalizar una rama support
+# git flow support finish <nombre>
+git flow support finish soporte-v1.2
+```
+
+##### Al finalizar una rama `support`, ¿Dónde se fusionan los cambios?
+- Los cambios de una rama  `support` se fusionan en  `main` y  `develop`.
+- Flujo de fusión:
+    -  `main `: recibe el parche para los usuarios de la versión actual en soporte.
+    -  `develop `: recibe el mismo parche para que forme parte de las próximas versiones.
+- Esto asegura que:
+    - Los usuarios de versiones legacy reciban correcciones.
+    - El equipo no tenga que reaplicar manualmente los mismos fixes en el futuro.
+
+##### ¿Se utiliza la rama `support` para hacer deploy?
+- Sí, puede usarse, pero es importante entender cómo y en qué momento.
+- Por lo general, al iniciar una rama `support`, se aplican los fixes necesarios sobre una versión legacy y luego se crea un tag que representa esa versión parcheada:
+```powershell
+git tag -a v2.7.1
+```
+- Con ese tag, se puede iniciar un deploy específico para los clientes que utilizan esa versión en particular.
+- Este deploy es opcional y depende de la estrategia de entrega del proyecto.
+- Alternativamente, también es posible finalizar la rama `support` (`git flow support finish`) y realizar el deploy desde:
+    - El nuevo tag generado en `main` como parte del proceso de finalización.
 
 #### Ventajas
 - Proporciona una estructura clara y ordenada para el control de versiones.
@@ -838,8 +891,122 @@ git flow bugfix finish bugfix_branch
 - Un control excesivo del proceso puede generar dependencia de pocas personas para aprobar cambios y, en algunos casos, derivar en prácticas de micro-management.
 
 
-### GitLab Flow (Completar)
+### GitLab Flow
+- GitLab Flow es un modelo de trabajo con Git que combina:
+    - La simplicidad de GitHub Flow
+    - Con la estructura de Git Flow
+- GitLab Flow prioriza los distintos entornos por los que pasa un sistema antes de desplegarse, por sobre las versiones del software.
+#### Estructura de ramas
+#### Rama principal
+- `main`:
+    - Es la rama central del proyecto.
+    - Siempre contiene código estable y listo para ser desplegado.
+#### Ramas de entorno
+- Representan entornos reales donde el código se ejecuta:
+    - `production`: Entorno en el que se ejecuta la aplicación para los usuarios reales. Cualquier cambio impacta directamente en el sistema en uso.
+    - `staging`: Replica el entorno de producción (estado de la aplicación) para realizar pruebas funcionales, QA y validaciones generales. Sirve para responder la pregunta: ¿Luego de aplicar los nuevos cambios, la aplicación funciona correctamente?
+    - `pre-production`(opcional) : Entorno previo a producción. También replica el entorno de producción, pero está orientado a validar que el proceso de despliegue funcione correctamente (configuraciones, migraciones, variables de entorno, etc.). Es útil en sistemas con despliegues complejos. Responde a la pregunta: ¿Podemos desplegar esto en producción sin problemas?
+
+:::tip
+- Estas ramas no se desarrollan directamente.
+- Solo reciben cambios desde `main` cuando se decide desplegar.
+:::
+
+#### Ramas de características (feature)
+- Se crean desde `main`.
+- Se usan para cualquier trabajo nuevo:
+    - nuevas funcionalidades.
+    - mejoras.
+    - correcciones.
+- Ejemplo:
+```powershell
+feature/login
+feature/payment-validation
+```
+
+#### Flujo de trabajo
+##### 1. Creación de ramas de entorno
+- Al inicio del proyecto, se crean las ramas que representan los entornos reales (`staging`, `pre-production`, `production`) a partir de `main`.
+- Estas ramas se crean una sola vez y no se usan para desarrollar.
+
+##### 2. Desarrollo de funcionalidades
+- Cada nueva funcionalidad o corrección se desarrolla en una rama `feature`, creada desde `main`.
+
+##### 3. Integración a la rama principal
+- Al finalizar el desarrollo, se abre una Merge Request hacia `main`.
+- Una vez aprobada, la rama se fusiona en `main`, que siempre debe permanecer estable.
+
+##### 4. Promoción a entornos
+- Cuando se decide desplegar, el código se promueve entre entornos mediante merges:
+    - `main → staging`
+    - `staging → production`
+    - (`y pre-production`, si existe, se utiliza como paso intermedio).
+##### 5. Despliegue
+- Cada merge hacia una rama de entorno representa un despliegue o una preparación de despliegue en ese entorno.
+
+#### Ventajas
+- Equilibra la simplicidad con una estructura clara.
+- Define etapas de despliegue bien diferenciadas.
+- Permite tanto entrega continua como lanzamientos versionados.
+- Mantiene el foco en el entorno de producción.
+
+#### Desventajas
+- Es más complejo que GitHub Flow.
+- Puede causar que los entornos no estén sincronizados.
+- No es ideal para trabajar con varias versiones al mismo tiempo.
+- Puede generar confusión sobre dónde aplicar las correcciones (rama principal o ramas de entorno).
 
 
-
+### Otros
+#### Ramificación de características
+- La ramificación de características se basa en aislar todo el trabajo relacionado con una funcionalidad específica en una rama separada, lo que proporciona un alto nivel de aislamiento y control.
+- Estructura:
+    - Rama principal:
+        - `main`: contiene código estable y siempre listo para producción.
+    - Ramas de características:
+        - Una rama por cada funcionalidad, corrección de errores o mejora.
+- Flujo de trabajo:
+    1. Crear una nueva rama para cada funcionalidad o tarea, a partir de `main`.
+    2. Desarrollar y probar la función de forma aislada.
+    3. Abrir una Pull Request / Merge Request al finalizar el trabajo.
+    4. Revisar, probar y fusionar la rama con `main` cuando esté lista.
+    5. Eliminar la rama de la funcionalidad después de la fusión.
+- Ventajas:
+    - Aislamiento claro del trabajo.
+    - Funcionalidades fáciles de rastrear.
+    - Permite la experimentación de forma segura.
+    - Facilita el trabajo paralelo e independiente entre equipos.
+- Contras:
+    - Desafíos de integración cuando las ramas son de larga duración.
+    - Riesgo de acumular demasiadas ramas activas.
+    - Puede retrasar la detección de problemas de integración.
+    - Se vuelve más complejo cuando las funcionalidades son interdependientes.
+#### Ramificación del entorno
+- La ramificación de entorno utiliza ramas dedicadas para representar los distintos entornos donde se despliega la aplicación dentro de la infraestructura.
+- Estructura:
+    - `development`: Contiene el trabajo en curso y la integración de nuevas funcionalidades.
+    - `staging`: Entorno de preproducción utilizado para pruebas y validaciones.
+    - `production`: Entorno en vivo utilizado por los usuarios finales.
+- Ramas de características:
+    - Se crean a partir de `development` y se fusionan nuevamente en `development` una vez finalizado el trabajo.
+- Flujo de trabajo:
+    1. El desarrollo se realiza en ramas de características creadas desde `development`.
+    2. Cuando una funcionalidad está lista, se fusiona en `development`.
+    3. Los cambios se promueven entre entornos mediante merges:
+        - `development → staging`
+        - `staging → production`
+    4. Cada promoción de entorno se realiza mediante una operación de fusión.
+- Ventajas:
+    - Representación clara del proceso de despliegue.
+    - Seguimiento visual del estado de cada entorno.
+    - Posibilidad de revertir cambios fácilmente.
+    - Se adapta bien a procesos de despliegue controlados.
+- Contras:
+    - Puede generar merges complejos con el tiempo.
+    - Riesgo de desalineación entre ramas de entorno.
+    - Mayor esfuerzo de mantenimiento por múltiples ramas activas.
+    - No es ideal para despliegues muy frecuentes o continuos.
+#### Liberar ramificación
+#### Flujo de trabajo de bifurcación
+#### [Link](https://dev.to/karmpatel/git-branching-strategies-a-comprehensive-guide-24kh#feature-branching)
 ## "Squash Merge" o "Merge Commit"
