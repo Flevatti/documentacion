@@ -1006,7 +1006,126 @@ feature/payment-validation
     - Riesgo de desalineación entre ramas de entorno.
     - Mayor esfuerzo de mantenimiento por múltiples ramas activas.
     - No es ideal para despliegues muy frecuentes o continuos.
-#### Liberar ramificación
-#### Flujo de trabajo de bifurcación
-#### [Link](https://dev.to/karmpatel/git-branching-strategies-a-comprehensive-guide-24kh#feature-branching)
-## "Squash Merge" o "Merge Commit"
+#### Ramificación de versiones (Release Branching)
+- La ramificación de versiones se centra en mantener versiones específicas del software, mientras el desarrollo continúa en paralelo para futuras versiones.
+- Estructura:
+    - Rama principal:
+        - `main`: contiene código estable y siempre listo para producción.
+    - Ramas de lanzamiento:
+        - `release/x.y.z`:Una rama por cada versión de lanzamiento planificada.
+- Flujo de trabajo:
+    1. El desarrollo ocurre en `main` y/o en ramas de características.
+    2. Cuando comienza un ciclo de lanzamiento, se crea una rama `release/x.y.z` desde `main`.
+    3. En la rama de `release` solo se incorporan correcciones de errores y ajustes finales.
+    4. Las nuevas funcionalidades continúan desarrollándose en `main` y/o en ramas de características.
+    5. Cuando la versión es estable, se crea un tag sobre el commit de la `release` y, según la estrategia del proyecto, la rama `release` se fusiona nuevamente en `main`.
+    6. Las correcciones importantes realizadas en la rama de `release` se propagan nuevamente a `main` (por `merge` o `cherry-pick`).
+- Ventajas:
+    - Permite trabajar en paralelo sobre múltiples versiones.
+    - Proporciona ramas estables para pruebas y validaciones.
+    - Ofrece un esquema claro de control de versiones.
+    - Facilita el mantenimiento de versiones antiguas.
+- Contras:
+    - Requiere un seguimiento cuidadoso de las correcciones en todas las ramas.
+    - Puede generar escenarios de fusión complejos.
+    - Existe riesgo de que algunos fixes no se propaguen correctamente.
+    - Resolver problemas urgentes en múltiples versiones puede ser más desafiante.
+#### Flujo de trabajo de bifurcación (Forking Workflow)
+- El flujo de trabajo de bifurcación es diferente a otros enfoques, ya que cada desarrollador trabaja sobre su propio repositorio remoto, en lugar de hacerlo directamente sobre el repositorio principal.
+- Estructura:
+    - Repositorio principal:
+        - Repositorio oficial del proyecto, mantenido por el equipo central.
+    - Forks (bifurcaciones):
+        - Copias (personales) del repositorio principal en las cuentas de cada colaborador.
+    - Ramas de trabajo::
+        - Ramas creadas dentro del fork de cada colaborador para desarrollar cambios.
+- Flujo de trabajo:
+    1. Los desarrolladores crean un fork del repositorio principal en su cuenta.
+    2. El trabajo se realiza en ramas dentro de ese fork personal.
+    3. Los cambios se suben al fork del desarrollador.
+    4. Cuando el cambio está listo, se abre una Pull Request / Merge Request desde el fork hacia el repositorio principal.
+    5. Tras la revisión y aprobación, los cambios se fusionan en el repositorio principal.
+- Ventajas:
+    - Ofrece un alto nivel de aislamiento entre colaboradores.
+    - No requiere acceso de escritura directo al repositorio principal.
+    - Ideal para proyectos de código abierto.
+    - Fomenta y obliga a revisiones de código.
+- Contras:
+    - Configuración inicial y gestión más complejas.
+    - Mayor esfuerzo para mantener los forks sincronizados con el repositorio principal.
+    - Puede resultar excesivo para equipos pequeños.
+    - Requiere un mayor conocimiento de Git por parte de los colaboradores.
+
+## Merge commit
+- Los merge commits (commits de fusión) son un concepto fundamental en Git, ya que permiten integrar cambios de una rama en otra manteniendo el historial completo del proyecto (historial de commits).
+- Un merge commit se crea cuando se fusiona una rama en otra y Git genera un nuevo commit en la rama destino que conecta los historiales de ambas ramas.
+- A diferencia de estrategias como `rebase` o `squash`, el `merge commit` no reescribe el historial: conserva todos los commits originales y deja explícito cuándo se unieron las ramas.
+- Este enfoque facilita entender el contexto de los cambios, seguir las decisiones de desarrollo y depurar problemas, ya que el historial refleja fielmente el flujo real de trabajo del equipo.
+- El comando `git merge` crea automaticamente una confirmacion de fusion a menos que se deshabilite explícitamente su comportamiento por defecto mediante opciones como `--no-commit` o `--squash`.
+#### Ejemplo práctico
+- Supongamos el siguiente escenario:
+    - Rama principal:  `main `
+    - Rama de trabajo:  `feature/login `
+- En la rama  `feature/login ` se realizaron varios commits:
+```txt
+A --- B --- C   (main)
+      \
+       D --- E   (feature/login)
+```
+- Para integrar la funcionalidad en  `main`:
+```powershell
+git checkout main
+git merge feature/login
+```
+- Git crea automáticamente un merge commit:
+```txt
+A --- B --- C -------- F   (main)
+      \              /
+       D --- E ------     (feature/login)
+
+```
+- F es el merge commit.
+- Este commit tiene dos padres: el último commit de  `main` (C) y el último commit de  `feature/login`(E).
+- El historial de ambas ramas queda intacto.
+
+:::tip
+- Al realizar un commit de fusión, el historial de commits de ambas ramas se conserva en la rama destino (en este caso, `main`). Por eso, aunque se elimine la rama `feature-login`, el historial no se pierde.
+- Al hacer un `merge`, Git agrega los commits de la rama origen (`feature-login`) al final del historial de la rama destino y crea un commit de fusión que indica que se utilizó `git merge` para conectar ambas ramas:
+```txt
+A --- B --- C --- D --- E --- F   (main)
+```
+:::
+
+
+## Squash Merge
+- **Merge Squash** es un método que consiste en aplastar o combinar varios commits en uno solo.
+- Se utiliza para unir todos los commits de una rama de características en un único commit antes de integrarla en otra rama.
+
+¿Qué significa “aplastar” en Git?
+Significa que Git:
+Toma muchos commits pequeños
+Los combina
+Y crea un único commit que los representa a todos
+Los commits originales no pasan a la rama destino como commits separados.
+Ejemplo simple
+Antes (rama de características):
+A --- B --- C --- D   (feature-login)
+Después de un merge squash:
+A --- S   (main)
+S = un solo commit que contiene todos los cambios de B, C y D
+Los commits B, C y D no aparecen en main
+¿Se pierde información?
+No se pierde código
+Sí se pierde el detalle del historial intermedio (commits pequeños)
+Queda un historial más limpio y fácil de leer
+
+- [¿Qué es Git Squash? Guía para principiantes sobre el squash de commits](https://www.carmatec.com/es/blog/what-is-git-squash-guide-to-squashing-commits/)
+- [How to squash commits during git merge](https://graphite.com/guides/git-merge-squash-graphite-cli)
+- [Clean Up Your Git History: How to Squash Commits Before Pushing to Production](https://dev.to/dinakajoy/clean-up-your-git-history-how-to-squash-commits-before-pushing-to-production-15a)
+- [How to Merge Commits in Git?](https://www.geeksforgeeks.org/git/how-to-merge-commits-in-git/)
+- [How to Squash Commits in Git (Step-by-Step with Examples)](https://www.codecademy.com/article/git-squash-commits)
+- [Git Squash](https://www.geeksforgeeks.org/git/git-squash/)
+- [Git Squash Commits: Una guía con ejemplos](https://www.datacamp.com/es/tutorial/git-squash-commits)
+### Rebase interactivo
+### Git merge (Con Squash)
+

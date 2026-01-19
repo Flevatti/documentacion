@@ -239,7 +239,7 @@ const saludar: Saludar = (nombre: string) => {
 - La sobrecarga de métodos es un concepto en programación orientada a objetos (OOP) que permite definir varios métodos o funciones con el mismo nombre pero con diferentes tipos o números de parámetros. Dependiendo de los argumentos con los que se invoque el método, el compilador o el intérprete elegirá la versión adecuada del método.
 - En lenguajes como TypeScript, JavaScript y Java, la sobrecarga de métodos es una forma de tener funciones con el mismo nombre que realizan diferentes tareas dependiendo de los parámetros que reciban.
 - Una interfaz de función puede tener sobrecarga de funciones, lo que permite que una misma función sea llamada de diferentes maneras, especificando varias firmas para una sola función.
-- Una interfaz de función en TypeScript es una interfaz que describe el tipo de una función, es decir, cómo debe ser la [firma de la función](../C--/guiaC.md#firma-del-metodo): qué parámetros toma y qué tipo de valor devuelve. En lugar de describir propiedades de un objeto, describe cómo debe ser llamada la función.
+- Una interfaz de función en TypeScript es una interfaz que describe el tipo de una función, es decir, cómo debe ser la [firma de la función](../CSharp/guiaC.md#firma-del-metodo): qué parámetros toma y qué tipo de valor devuelve. En lugar de describir propiedades de un objeto, describe cómo debe ser llamada la función.
 
 #### Ejemplo de sobrecarga
 ```js
@@ -927,8 +927,8 @@ declare module '*.vue' {
 ```
 
 :::tip Observación
-- La línea import { DefineComponent } from 'vue' importa el tipo DefineComponent de la biblioteca de Vue.js. Este tipo se utiliza para definir componentes de Vue.js.
-- La línea const component: ``DefineComponent<{}, {}, any>`` define una variable component de tipo DefineComponent, lo que significa que es un componente de Vue.js. Los tres parámetros genéricos de DefineComponent especifican el tipo de las props, el tipo de los datos y el tipo de los métodos del componente, respectivamente. En este caso, se especifica que el componente no tiene props ({}), que no tiene datos ({}) y que tiene métodos de cualquier tipo (any). Con esto especificamos el componente como si usaramos Options API.
+- La línea ``import { DefineComponent } from 'vue'`` importa el tipo DefineComponent de la biblioteca de Vue.js. Este tipo se utiliza para definir componentes de Vue.js.
+- La línea const component: ``DefineComponent<{}, {}, any>`` define una variable component de tipo DefineComponent, lo que significa que es un componente de Vue.js. Los tres parámetros genéricos de DefineComponent especifican el tipo de las props, el tipo de los datos y el tipo de los métodos del componente, respectivamente. En este caso, se especifica que el componente no tiene props ({}), que no tiene datos ``({})`` y que tiene métodos de cualquier tipo (any). Con esto especificamos el componente como si usaramos Options API.
 - La línea export default component exporta el componente como el valor predeterminado del módulo, lo que significa que se puede importar de la siguiente manera:
 
 ```js
@@ -1008,8 +1008,8 @@ interface NumberOrStringDictionary {
 
 :::
 
-- En los ejemplos anteriores usamos [index : tipo de dato] para especificar el tipo de dato del índice, pero podemos remplazar la palabra index por cualquier otra, ya que solo es un placeholder, un nombre de variable que se utiliza para indicar que la propiedad es indexada, pero no tiene un valor específico.
-- Entonces se puede utilizar  cualquier nombre de variable en lugar de index, como key, prop, x, y, etc. Lo importante es que la sintaxis [nombre: tipo] indica que la propiedad es indexada y que el tipo de la clave es el especificado , por ejemplo:
+- En los ejemplos anteriores usamos ``[index : tipo de dato]`` para especificar el tipo de dato del índice, pero podemos remplazar la palabra index por cualquier otra, ya que solo es un placeholder, un nombre de variable que se utiliza para indicar que la propiedad es indexada, pero no tiene un valor específico.
+- Entonces se puede utilizar  cualquier nombre de variable en lugar de index, como key, prop, x, y, etc. Lo importante es que la sintaxis ``[nombre: tipo]`` indica que la propiedad es indexada y que el tipo de la clave es el especificado , por ejemplo:
 
 ```typescript
 export interface HistoryState {
@@ -1095,13 +1095,13 @@ console.log(user.age);
 :::tip Observación
 - La función SetAge toma un parámetro age de tipo number. Esta función devuelve otra función que toma un parámetro constructor de tipo T, que es un tipo genérico que extiende la interfaz ``{ new (...args: any[]): {} }``. Esto significa que T debe ser una clase que tenga un constructor que puede ser llamado con cualquier número de argumentos. 
 - Cuando se usa el extends en un tipo genérico es para especificar una [“restricción”](https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-classes) . En este ejemplo que el tipo genérico debe ser una clase que tenga un constructor con cualquier número de argumentos.
-- La sintaxis new (...args: any[]): {} es una forma de definir un tipo de función constructora en TypeScript:
+- La sintaxis ``new (...args: any[]): {}`` es una forma de definir un tipo de función constructora en TypeScript:
   -	new: Indica que se trata de un tipo de función constructora, es decir, una función que se utiliza para crear objetos.
-  -	(...args: any[]): Esta es la lista de parámetros de la función constructora. En este caso, se define como una lista de parámetros variable (...args) de tipo any[], lo que significa que la función constructora puede aceptar cualquier número de argumentos de cualquier tipo.
-  -	: {}: Esta es la parte más importante. El símbolo : se utiliza para indicar el tipo de retorno de la función constructora. En este caso, el tipo de retorno es {}, que es un objeto vacío.
+  -	``(...args: any[])``: Esta es la lista de parámetros de la función constructora. En este caso, se define como una lista de parámetros variable ``(...args)`` de tipo ``any[]``, lo que significa que la función constructora puede aceptar cualquier número de argumentos de cualquier tipo.
+  -	: ``{}``: Esta es la parte más importante. El símbolo : se utiliza para indicar el tipo de retorno de la función constructora. En este caso, el tipo de retorno es ``{}``, que es un objeto vacío.
 - La función devuelta por SetAge devuelve una clase que extiende la clase constructor. Esta clase tiene una propiedad age de tipo number, que se inicializa en el constructor con el valor pasado como parámetro a SetAge.
 - La clase Persona se define con una propiedad age de tipo number. Luego, se aplica el decorador SetAge a la clase Persona, pasando el valor 27 como parámetro.
-- Cuando se crea una instancia de la clase Persona con new Persona(), se llama a la función que devuelve el decorador, este devuelve una “nueva clase” que llama al constructor de la clase Persona. El constructor de la “nueva clase” inicializa la propiedad age con el valor 27. Entonces cuando llamas al constructor de una clase “decorada”, estas llamando al constructor que retorna el decorador.
+- Cuando se crea una instancia de la clase Persona con ``new Persona()``, se llama a la función que devuelve el decorador, este devuelve una “nueva clase” que llama al constructor de la clase Persona. El constructor de la “nueva clase” inicializa la propiedad age con el valor 27. Entonces cuando llamas al constructor de una clase “decorada”, estas llamando al constructor que retorna el decorador.
 - Cuando se aplica el decorador SetAge a una clase, el tipo T se infiere automáticamente a partir de la clase que se está decorando. Por ejemplo, si se aplica el decorador a la clase Persona, el tipo T se infiere como Persona.
 - En este caso, el valor del tipo genérico T sería la clase Persona misma. Es decir, T sería equivalente a Persona.
 - De esta manera, el decorador SetAge puede trabajar con cualquier clase que cumpla con los requisitos mencionados anteriormente, sin necesidad de conocer los detalles específicos de la clase. El tipo genérico T permite que el decorador sea flexible y reusable.
