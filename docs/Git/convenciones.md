@@ -1098,26 +1098,96 @@ A --- B --- C --- D --- E --- F   (main)
 
 
 ## Squash Merge
-- **Merge Squash** es un método que consiste en aplastar o combinar varios commits en uno solo.
-- Se utiliza para unir todos los commits de una rama de características en un único commit antes de integrarla en otra rama.
+- **Merge Squash** es un método que consiste en combinar (aplastar) varios commits en uno solo.
+-  Se utiliza para integrar los cambios de una rama (generalmente de características) en otra rama (normalmente `main`) mediante un único commit.
+- El código final queda exactamente igual; lo único que cambia es el historial.
+- El resultado es un historial más limpio, ordenado y fácil de leer, donde la rama principal refleja cambios relevantes en lugar de todos los pasos pequeños del desarrollo.
 
-¿Qué significa “aplastar” en Git?
-Significa que Git:
-Toma muchos commits pequeños
-Los combina
-Y crea un único commit que los representa a todos
-Los commits originales no pasan a la rama destino como commits separados.
-Ejemplo simple
-Antes (rama de características):
-A --- B --- C --- D   (feature-login)
-Después de un merge squash:
-A --- S   (main)
-S = un solo commit que contiene todos los cambios de B, C y D
-Los commits B, C y D no aparecen en main
-¿Se pierde información?
-No se pierde código
-Sí se pierde el detalle del historial intermedio (commits pequeños)
-Queda un historial más limpio y fácil de leer
+
+
+####  ¿Qué significa “aplastar” en Git?
+- Significa que Git:
+    - Toma muchos commits pequeños
+    - Los combina
+    - Y crea un único commit que los representa a todos
+- Los commits originales no pasan a la rama destino como commits separados.
+- Ejemplo simple:
+    - Antes (rama de características):
+    ```txt
+    A --- B --- C --- D   (feature-login)
+    ```
+   - Después de un merge squash:
+    ```txt
+    A --- S   (main)
+    ```
+    - S = un solo commit que contiene todos los cambios de B, C y D
+    - Los commits B, C y D no aparecen en main
+#### ¿Se pierde información?
+- No se pierde código.
+- Se pierden los commits intermedios, es decir, los pasos pequeños que se hicieron durante el desarrollo.
+- El historial queda más simple y ordenado, con menos commits para revisar.
+#### ¿Por qué aplastar (squash) los commits?
+- Aplastar commits tiene varias ventajas que mejoran el trabajo diario y la calidad del repositorio:
+    - Historial más limpio y fácil de entender:
+        - En lugar de muchos commits pequeños y desordenados, queda un único commit que resume claramente qué se hizo. Esto facilita la lectura y el seguimiento de cambios.
+    - Mejores revisiones de código:
+        - Los revisores pueden enfocarse en el resultado final del cambio, sin tener que analizar cada paso intermedio del desarrollo.
+    - Depuración más sencilla:
+        - Herramientas como git bisect funcionan mejor con menos commits, lo que ayuda a encontrar errores más rápido.
+    - Flujo de trabajo más profesional:
+        - Es una práctica común en equipos y proyectos open source. Presentar cambios consolidados demuestra prolijidad y buenas prácticas.
+    
+#### ¿Cuándo deberías usar Git Squash?
+- Git Squash es especialmente útil en ciertas situaciones. Conviene usarlo cuando:
+    - Tenés muchos commits pequeños para una misma funcionalidad
+        - Si una rama acumula commits intermedios (ajustes, fixes menores, pruebas), squashing permite agrupar todo en un solo commit que represente el cambio completo.
+    - Estás por crear una Pull Request / Merge Request
+        - Antes de enviar los cambios a revisión, aplicar squash ayuda a que la integración sea más clara y fácil de revisar.
+    - Querés mantener un historial limpio y coherente
+        - Es ideal en proyectos donde el historial debe ser fácil de leer y entender, como repositorios empresariales, educativos o de largo mantenimiento.
+
+:::warning
+- Evitá hacer squash sobre commits que ya fueron compartidos en ramas usadas por otros. Como el squash reescribe el historial, puede generar conflictos o problemas en el trabajo del equipo. Si es necesario hacerlo, debe ser coordinado previamente.
+:::
+
+#### Cómo funciona Git Squash
+- Git Squash permite combinar varios commits en uno solo antes de integrar una rama, y puede hacerse principalmente de dos maneras.
+
+#### Rebase interactivo ( `git rebase -i `)
+- Es la forma más común y flexible de hacer squash:
+    - Se realiza localmente, antes de fusionar la rama.
+    - Permite editar, reordenar o combinar commits de una rama.
+    - El historial se reescribe de forma controlada, sin afectar ramas remotas mientras no se haga push.
+- Arma un solo commit a partir de varios commits pequeños, de manera local, y luego la rama se mergea manualmente en la rama destino.
+
+#### Merge con squash (`git merge --squash`)
+- Esta opción combina los commits de la rama origen (la rama que contiene los cambios, por ejemplo una feature) y los integra en la rama destino (la rama donde se quieren aplicar esos cambios, por ejemplo main) en un solo paso:
+    - Git no conserva los commits individuales de la rama origen.
+    - Todos los cambios se aplican juntos y se crea un único commit nuevo en la rama destino.
+    - No se genera un commit de fusión tradicional.
+- En este caso, Git toma el estado final de la rama origen, lo aplica sobre la rama destino y permite crear un solo commit que representa todo el trabajo realizado.
+
+
+:::tip Mergear
+- Mergear significa aplicar los cambios que contiene una rama origen en una rama destino.
+- Dicho de forma simple: es traer los cambios de una rama y aplicarlos sobre otra rama.
+:::
+
+#### Diferencias
+
+| Aspecto | Rebase interactivo | Merge con squash |
+| - | - | - |
+|  ¿Cuándo se usa? |  Antes de integrar la rama |   Al momento de integrar la rama |
+|  ¿Dónde se ejecuta? |  En la rama de origen (local) | En la rama destino   |
+|  ¿Qué hace con los commits? |  Combina varios commits pequeños en uno solo |  Ignora los commits individuales de la rama origen  |
+| ¿Se reescribe el historial?  | Sí, el historial de la rama origen  |    No reescribe historial existente|
+|  ¿Se conservan los commits originales? | No, se reemplazan por uno nuevo  |  No, solo se aplica el resultado final  |
+| ¿Se crea commit de fusión?  | Sí, al hacer luego un `git merge` normal  |  No  |
+| ¿Cuántos commits llegan a la rama destino?  | Uno (el commit creado con rebase)  |  Uno (commit nuevo creado en la rama destino)  |
+| Nivel de control  |  Alto (editar, reordenar, combinar commits) |  Bajo (todo se integra como un solo cambio)  |
+| Uso típico  |  Limpiar el historial antes de hacer merge |   Integrar rápido una rama sin importar su historial |
+
+
 
 - [¿Qué es Git Squash? Guía para principiantes sobre el squash de commits](https://www.carmatec.com/es/blog/what-is-git-squash-guide-to-squashing-commits/)
 - [How to squash commits during git merge](https://graphite.com/guides/git-merge-squash-graphite-cli)
@@ -1127,5 +1197,69 @@ Queda un historial más limpio y fácil de leer
 - [Git Squash](https://www.geeksforgeeks.org/git/git-squash/)
 - [Git Squash Commits: Una guía con ejemplos](https://www.datacamp.com/es/tutorial/git-squash-commits)
 ### Rebase interactivo
+#### Practica
+#### 1. Buscar un repositorio
+- El repositorio debe tener varios commits para poder combinarlos.
+- En la rama que contiene esos commits, ejecutamos el siguiente comando para ver el primer commit de la rama:
+```powershell
+git log --oneline --reverse main..[nombreRama]
+```
+:::tip Observacion
+- `main..[nombreRama]`: muestra solo los commits que están en `[nombreRama]` y no en `main`.
+- `--reverse` : Ordena los commits del más antiguo al más reciente.
+- `--oneline` : Muestra cada commit en una sola línea.
+- Lo ideal es que haya entre 3 y 5 commits para poder experimentar.
+:::
+
+#### 2. Ejecutamos el rebase interactivo
+- Ejecutamos el siguiente comando:
+```powershell
+git rebase -i [base]
+```
+
+:::tip Observación 
+- `-i`: indica que el rebase es interactivo, es decir, Git te permite decidir qué hacer con cada commit que se va a recorrer.
+- `[base]`: indica desde qué punto del historial se van a recorrer los commits. Puede tomar los siguientes valores:
+    - `HEAD~[X]`: Recorre los ultimos X commit
+    - `[ID del commit (hash)]`: Recorre todos los commits posteriores a ese commit (sin incluirlo).
+    - `[Rama]`: Recorre todos los commits que están en la rama actual y no están en esa rama (por ejemplo main).
+     - `[Etiqueta]`: Recorre los commits hechos después de esa versión (sin incluirla).
+     - También se pueden combinar referencias, por ejemplo: `main~2`.
+:::
+
+#### 3. Seleccionar una opcion por commit
+- Al ejecutar el comando del paso 2, se abrirá el editor de texto predeterminado, mostrando una lista similar a la siguiente:
+```txt
+pick a1b2c3d Primer mensaje de confirmación
+pick e4f5g6h Segundo mensaje de confirmación
+pick i7j8k9l Tercer mensaje de confirmación
+```
+- Esta es la lista de commits que Git va a recorrer durante el rebase interactivo, de arriba hacia abajo.
+- Cada línea representa un commit y tiene tres partes:
+    - `pick` : Es la acción que Git va a ejecutar sobre ese commit. `pick` significa: dejar el commit tal como está.
+    - `a1b2c3d`,`e4f5g6h`,`i7j8k9l` : Es el hash corto del commit, su identificador único.
+    - El mensaje del commit : Describe qué cambios se hicieron en ese commit.
+##### Opciones que se pueden aplicar a cada commit
+- La primera parte de cada línea se puede modificar para indicar qué acción queremos realizar:
+    - `p` o `pick` : Indica que el commit se deja tal cual está.
+    - `r` o `reword` :Indica que el commit se deja tal cual está, pero permite cambiar el mensaje.
+    - `e` o `edit` : Se detiene en ese commit para que puedas modificar su contenido (`git commit --amend`).
+    - `s` o `squash`:Combina el commit con el commit anterior. Abre el editor para que decidas cómo queda el mensaje final. Podés combinar, editar o escribir un mensaje nuevo. 
+    - `f` o `fixup` : Combina el commit con el commit anterior. Descarta el mensaje del commit actual automáticamente. Se queda solo con el mensaje del commit anterior. No abre el editor.
+    - `d` o  `drop`: Elimina el commit del historial.
+##### Operaciones avanzadas disponibles
+- Además de las opciones más comunes, el rebase interactivo permite:
+    - Ejecutar comandos automáticamente con `exec`.
+    - Crear etiquetas temporales con `label`.
+    - Mover el HEAD a una etiqueta usando `reset`.
+    - Crear un commit de merge interno con `merge (m)`, para unir dos líneas de commits que se separan desde un punto común.
+    - Crear o actualizar referencias con `update-ref` al finalizar el rebase.
+
+
+
+
+
+
+
 ### Git merge (Con Squash)
 
