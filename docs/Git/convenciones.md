@@ -1162,8 +1162,8 @@ A --- B --- C --- D --- E --- F   (main)
 
 #### Merge con squash (`git merge --squash`)
 - Esta opción combina los commits de la rama origen (la rama que contiene los cambios, por ejemplo una feature) y los integra en la rama destino (la rama donde se quieren aplicar esos cambios, por ejemplo main) en un solo paso:
-    - Git no conserva los commits individuales de la rama origen.
-    - Todos los cambios se aplican juntos y se crea un único commit nuevo en la rama destino.
+    - Los commits individuales de la rama origen no aparecen en la rama destino; en su lugar, se crea un solo commit que contiene todos los cambios.
+    - Todos los cambios se aplican juntos y se registra un solo commit nuevo en la rama destino.
     - No se genera un commit de fusión tradicional.
 - En este caso, Git toma el estado final de la rama origen, lo aplica sobre la rama destino y permite crear un solo commit que representa todo el trabajo realizado.
 
@@ -1189,15 +1189,10 @@ A --- B --- C --- D --- E --- F   (main)
 
 
 
-- [¿Qué es Git Squash? Guía para principiantes sobre el squash de commits](https://www.carmatec.com/es/blog/what-is-git-squash-guide-to-squashing-commits/)
-- [How to squash commits during git merge](https://graphite.com/guides/git-merge-squash-graphite-cli)
-- [Clean Up Your Git History: How to Squash Commits Before Pushing to Production](https://dev.to/dinakajoy/clean-up-your-git-history-how-to-squash-commits-before-pushing-to-production-15a)
-- [How to Merge Commits in Git?](https://www.geeksforgeeks.org/git/how-to-merge-commits-in-git/)
-- [How to Squash Commits in Git (Step-by-Step with Examples)](https://www.codecademy.com/article/git-squash-commits)
-- [Git Squash](https://www.geeksforgeeks.org/git/git-squash/)
-- [Git Squash Commits: Una guía con ejemplos](https://www.datacamp.com/es/tutorial/git-squash-commits)
+
 ### Rebase interactivo
-#### Practica
+- El rebase interactivo te permite reescribir y ajustar el historial de commits antes de integrar los cambios.
+#### ¿Como hacerlo?
 #### 1. Buscar un repositorio
 - El repositorio debe tener varios commits para poder combinarlos.
 - En la rama que contiene esos commits, ejecutamos el siguiente comando para ver el primer commit de la rama:
@@ -1210,6 +1205,13 @@ git log --oneline --reverse main..[nombreRama]
 - `--oneline` : Muestra cada commit en una sola línea.
 - Lo ideal es que haya entre 3 y 5 commits para poder experimentar.
 :::
+
+###### Ejemplo
+```powershell
+git log --oneline --reverse main..feature/new_menu
+```
+
+
 
 #### 2. Ejecutamos el rebase interactivo
 - Ejecutamos el siguiente comando:
@@ -1227,6 +1229,14 @@ git rebase -i [base]
      - También se pueden combinar referencias, por ejemplo: `main~2`.
 :::
 
+###### Ejemplo
+```powershell
+git rebase -i HEAD~3
+```
+
+
+
+
 #### 3. Seleccionar una opcion por commit
 - Al ejecutar el comando del paso 2, se abrirá el editor de texto predeterminado, mostrando una lista similar a la siguiente:
 ```txt
@@ -1239,6 +1249,23 @@ pick i7j8k9l Tercer mensaje de confirmación
     - `pick` : Es la acción que Git va a ejecutar sobre ese commit. `pick` significa: dejar el commit tal como está.
     - `a1b2c3d`,`e4f5g6h`,`i7j8k9l` : Es el hash corto del commit, su identificador único.
     - El mensaje del commit : Describe qué cambios se hicieron en ese commit.
+
+
+##### Encabezado
+- El primer comentario que aparece debajo de la lista de commits es el encabezado. Se ve similar a esto:
+```powershell
+# Rebase f7dfe42..4327a8f onto f7dfe42 (3 commands)
+```
+- Este encabezado indica, en pocas palabras, qué commits va a rehacer Git y sobre qué base:
+    - `f7dfe42..4327a8f`:
+        - Git va a rehacer los commits posteriores a `f7dfe42` (ese commit no se incluye).
+        - El último commit que se va a procesar es `4327a8f`.
+    - `(3 commands)` : 
+        - En total, Git va a ejecutar 3 acciones, una por cada commit listado.
+    - `onto f7dfe42` : 
+        - Todos esos commits se van a volver a construir encima de `f7dfe42`, que actúa como el punto de partida (base) del rebase.
+
+
 ##### Opciones que se pueden aplicar a cada commit
 - La primera parte de cada línea se puede modificar para indicar qué acción queremos realizar:
     - `p` o `pick` : Indica que el commit se deja tal cual está.
@@ -1254,6 +1281,62 @@ pick i7j8k9l Tercer mensaje de confirmación
     - Mover el HEAD a una etiqueta usando `reset`.
     - Crear un commit de merge interno con `merge (m)`, para unir dos líneas de commits que se separan desde un punto común.
     - Crear o actualizar referencias con `update-ref` al finalizar el rebase.
+    - Detener temporalmente el rebase con  `break `, para continuarlo más adelante usando el comando  `git rebase --continue `.
+
+
+###### Ejemplo de archivo sin modificar
+```powershell
+pick 182bd06 Add login button 
+pick 8ee44b0 Fix login button styling 
+pick 4327a8f Rename login button ID 
+
+# Rebase f7dfe42..4327a8f onto f7dfe42 (3 commands)
+#
+# Commands:
+# ....
+```
+
+#### 4. Confirmar las operaciones
+- Una vez que hayas modificado el archivo indicando las acciones que querés ejecutar en cada commit, ya sean básicas como `pick`, `squash` o `reword`, o avanzadas como `exec`, `label`, `reset`, `merge` o `break`, guardá el archivo y cerrá el editor.
+- Git recorrerá los commits en el orden indicado y ejecutará todas las instrucciones definidas en el archivo.
+:::tip
+- Si el archivo está vacío, Git cancelará el rebase.
+- Si borras una línea que representa un commit, Git eliminará ese commit del historial.
+- Git procesa los commits en el orden en que aparecen en el archivo, por lo que el orden es muy importante; cambiarlo puede afectar el historial o el resultado final.
+- Todas las operaciones se realizan localmente, antes de hacer push al repositorio remoto.
+:::
+
+###### Ejemplo de archivo modificado
+```powershell
+pick 182bd06 Add login button 
+squash 8ee44b0 Fix login button styling 
+squash 4327a8f Rename login button ID 
+
+# Rebase f7dfe42..4327a8f onto f7dfe42 (3 commands)
+#
+# Commands:
+# ....
+```
+
+:::tip
+- Por lo general, para realizar un squash, el primer commit se deja como `pick` y los commits siguientes se marcan como `squash` (o `fixup`), de modo que todos se combinen con el primer commit y terminen formando un único commit final.
+:::
+
+##### Otro ejemplo
+```powershell
+pick 6307b4c commit3
+squash f7dfe42 commmit4
+pick c402e88 commit5
+
+# Rebase 6d62f96..c402e88 onto 6d62f96 (3 commands)
+#
+# Commands:
+# ....
+```
+:::tip observación 
+- `commit4` se fusiona con el commit anterior (`commit3`), formando un solo commit.
+- `commit5` se mantiene intacto y no se ve afectado por el squash.
+:::
 
 
 
@@ -1261,5 +1344,242 @@ pick i7j8k9l Tercer mensaje de confirmación
 
 
 
-### Git merge (Con Squash)
+#### 5. Definir un mensaje final
+- Si usaste `squash`, al cerrar el archivo anterior Git abrirá nuevamente el editor con un nuevo archivo.
+- En este paso se te pedirá definir el mensaje del nuevo commit que se crea al combinar (squash) varios commits en uno solo.
+- Por defecto, Git intentará combinar los mensajes de todos los commits involucrados (excepto los marcados como `fixup`), mostrando algo similar a esto:
+```txt
+# This is a combination of 3 commits. 
+# The first commit’s message is: 
+Add login button 
 
+# The commit messages from the other commits: 
+Fix login button styling 
+Rename login button ID 
+```
+###### Ejemplo Por defecto
+```powershell
+# This is a combination of 3 commits.
+# This is the 1st commit message:
+
+Add login button 
+
+# This is the commit message #2:
+
+Fix login button styling 
+
+# This is the commit message #3:
+
+Rename login button ID
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Mon Jan 5 12:37:51 2026 -0300
+#
+# interactive rebase in progress; onto f7dfe42
+# Last commands done (3 commands done):
+#    squash 8ee44b0 Fix login button styling 
+#    squash 4327a8f Rename login button ID 
+# No commands remaining.
+# You are currently rebasing branch 'feature/new_menu' on 'f7dfe42'.
+#
+# Changes to be committed:
+#	new file:   X
+#	deleted:    X
+#	new file:   X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	new file:   X
+#	renamed:    X
+#	deleted:    X
+#	deleted:    X
+#	deleted:    X
+#	deleted:    X
+#	modified:   X
+#	modified:   X
+#	deleted:    X
+#	modified:   X
+#	modified:   X
+#	modified:   X
+#	modified:   X
+#
+```
+
+
+
+- Lo recomendable es editar ese contenido para que el mensaje represente el cambio completo como si fuera un solo commit:
+```txt
+Add login button with proper styling and updated ID
+```
+###### Ejemplo
+```powershell
+Add login button with proper styling and updated ID 
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Mon Jan 5 12:37:51 2026 -0300
+#
+# interactive rebase in progress; onto f7dfe42
+# Last commands done (3 commands done):
+#    squash 8ee44b0 Fix login button styling 
+#    squash 4327a8f Rename login button ID 
+# No commands remaining.
+# You are currently rebasing branch 'feature/new_menu' on 'f7dfe42'.
+#
+# Changes to be committed:
+#	new file:   X
+#	deleted:    X
+#	new file:   X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	renamed:    X
+#	new file:   X
+#	renamed:    X
+#	deleted:    X
+#	deleted:    X
+#	deleted:    X
+#	deleted:    X
+#	modified:   X
+#	modified:   X
+#	deleted:    X
+#	modified:   X
+#	modified:   X
+#	modified:   X
+#	modified:   X
+#
+```
+:::tip
+- Todo el texto sin `#` será el mensaje del commit.
+- Las líneas con `#` son solo comentarios y Git las ignora.
+:::
+
+- Una vez definido el mensaje final, guardá el archivo y cerrá el editor.
+- Si todo sale correctamente, Git mostrará un mensaje de éxito similar al siguiente:
+```txt
+[detached HEAD 1a2b3c4] Add login button with proper styling and updated ID
+Successfully rebased and updated refs/heads/feature-branch.
+```
+
+###### Ejemplo
+```powershell
+[detached HEAD c402e88] Add login button with proper styling and updated ID
+ Date: Mon Jan 5 12:37:51 2026 -0300
+ 21 files changed, 527 insertions(+), 2061 deletions(-)
+ create mode 100644 X
+ delete mode 160000 X
+ create mode 100644 X
+ rename X (98%)
+ rename {X (100%)
+ rename X (100%)
+ rename X (100%)
+ rename X (100%)
+ create X
+ rename X (100%)
+ delete mode 100644 X
+ delete mode 100644 X
+ delete mode 100644 X
+ delete mode 100644 X
+ delete mode 100644 X
+Successfully rebased and updated refs/heads/feature/new_menu.
+```
+
+
+
+### Git merge (Con Squash) (Probar)
+- Mientras que el rebase interactivo permite reescribir y ajustar el historial de commits antes de integrar los cambios, existe una alternativa más simple para unificar el trabajo:  `git merge --squash`.
+- Este comando permite tomar todos los cambios de una rama (por ejemplo, una rama de funcionalidades) y convertirlos en un único commit que se aplica en otra rama, sin conservar los commits individuales de esa rama.
+#### ¿Cuándo es útil este método?
+- Este enfoque es especialmente útil cuando:
+    - Querés que la rama principal tenga un solo commit que resuma todo el trabajo de una funcionalidad.
+    - No te interesa conservar  los commits intermedios o pequeños de la rama de características.
+    - Preferís un flujo más simple, sin rebase interactivo ni edición manual de múltiples mensajes de commit.
+#### ¿Como hacerlo?
+
+##### 0. Crear proyecto y rama de prueba
+- Ejecutamos los siguientes comandos para crear un repositorio y una rama de funcionalidades con varios commits:
+```powershell
+mkdir git-squash-test && cd git-squash-test
+git init --initial-branch=main
+
+echo "Archivo inicial" > archivo.txt
+git add .
+git commit -m "Commit 1: Inicial"
+
+git checkout -b feature/login-form
+
+echo "Cambio 2" >> archivo.txt
+git add .
+git commit -m "Commit 2: Primer cambio"
+
+echo "Cambio 3" >> archivo.txt
+git add .
+git commit -m "Commit 3: Segundo cambio"
+
+echo "Cambio 4" >> archivo.txt
+git add .
+git commit -m "Commit 4: Tercer cambio"
+
+```
+:::tip observación
+- En este punto:
+    - La rama `main` tiene un solo commit inicial.
+    - La rama `feature/login-form` contiene varios commits con cambios incrementales.
+:::
+
+
+#### 1. Cambiar a la rama destino
+- Primero, cambiá a la rama donde querés aplicar los cambios (generalmente `main` o `develop`).
+- Por ejemplo:
+```powershell
+git checkout main
+```
+#### 2. Ejecutar el merge con squash
+- Ahora usá el comando `git merge --squash [nombreRama]` para tomar todos los cambios de `[nombreRama]` y aplicarlos a la rama actual sin traer su historial de commits.
+- Por ejemplo:
+```powershell
+git merge --squash feature/login-form 
+```
+:::tip observación
+- Git aplica todos los cambios de `feature/login-form` como si se hubieran hecho directamente en la rama actual, pero todavía no crea ningún commit.
+- El historial de commits de la rama `feature/login-form` no se incorpora a la rama actual.
+:::
+
+- Veremos una salida como:
+```powershell
+Confirmación de Squash: no se actualiza HEAD
+La fusión automática se realizó correctamente; se detuvo antes de confirmar como se solicitó
+```
+:::tip observación
+- Esto significa que Git dejó todos los cambios preparados en el staging area (el área donde se colocan los archivos al ejecutar `git add`) y espera que ejecutes `git commit` para crear el commit final.
+:::
+
+
+#### 3. Confirmar los cambios 
+- En este punto, Git ya dejó todos los cambios listos en el staging area. Solo falta registrarlos en el historial de commits.
+- Para eso, tenemos que crear un commit con todos los cambios realizados:
+```powershell
+git commit -m "Add login form with validation and styling" 
+```
+:::tip observación
+- Este único commit contiene todos los cambios realizados en la rama `feature/login-form`, pero resumidos en una sola confirmación (commit) clara y ordenada.
+- En el historial de `main` aparecerá un solo commit nuevo, en lugar de los múltiples commits originales de la rama `feature/login-form`.
+:::
+
+
+
+- [How to Merge Commits in Git?](https://www.geeksforgeeks.org/git/how-to-merge-commits-in-git/)
+- [How to Squash Commits in Git (Step-by-Step with Examples)](https://www.codecademy.com/article/git-squash-commits)
+- [Git Squash](https://www.geeksforgeeks.org/git/git-squash/)
+- [Git Squash Commits: Una guía con ejemplos](https://www.datacamp.com/es/tutorial/git-squash-commits)
+
+
+
+
+## Cada cuanto hacer git add
