@@ -219,7 +219,7 @@ services:
 
 
 :::tip
-- El uso de un archivo .env en Docker Compose permite definir variables de entorno que se pueden usar dentro del archivo docker-compose.yml utilizando la sintaxis de interpolación: ${NOMBRE_VARIABLE}. Sin embargo, la utilización del campo env_file dentro de un servicio en docker-compose.yml tiene una funcionalidad ligeramente diferente y no permite el uso directo de las variables de entorno definidas en ese campo en el archivo docker-compose.yml.
+- En Docker Compose se pueden usar variables de entorno utilizando la sintaxis de interpolación `${NOMBRE_VARIABLE}`. Sin embargo, el campo `env_file` dentro de un servicio en `docker-compose.yml` cumple una función distinta: se utiliza para cargar variables de entorno dentro del contenedor en tiempo de ejecución, pero esas variables no están disponibles dentro del propio archivo `docker-compose.yml`. En otras palabras, tienen un alcance (scope) diferente: Las variables de interpolación se resuelven en el `docker-compose.yml` antes de ejecutar los contenedores, mientras que `env_file` solo define variables que estarán disponibles dentro del contenedor en tiempo de ejecución.
 :::
 
 #### [Ver más campos](https://docs.docker.com/compose/compose-file/05-services/)

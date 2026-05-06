@@ -4,35 +4,31 @@ sidebar_position: 3
 # Objeto
 
 -	JavaScript está diseñado en un paradigma simple basado en objetos.
--	Un objeto es una colección de propiedades, y una propiedad es una asociación entre una clave(nombre)  y un valor. (CLAVE Y VALOR)
--	El valor de una propiedad puede ser una función, en cuyo caso la propiedad es conocida como un método.
--	Además de los objetos que están predefinidos en el navegador, puedes definir tus propios objetos.
--	Los objetos son similares a los arreglos (arrays), excepto que en lugar de usar índices para acceder y modificar sus datos, accedes a los datos de un objeto a través de  sus propiedades (properties).
+-	Un objeto es una colección de propiedades, y una propiedad es una asociación entre una clave(nombre)  y un valor (CLAVE Y VALOR).
+-	El valor de una propiedad puede ser cualquier tipo de dato, incluso una función. Cuando una propiedad contiene una función, se le llama método.
+-	Además de los objetos predefinidos en el navegador, también puedes crear tus propios objetos.
+-	Los objetos son similares a los arrays, pero se diferencian en que:
+    - En los arrays se accede a los datos mediante índices numéricos.
+    - En los objetos se accede a los datos mediante propiedades (claves).
 
 
 :::tip 
-- La "clave" se suele llamar "Propiedad" en el mundo de la progamación.
-- Entonces , se utiliza la clave para acceder y modificar los datos de un objeto.
+- La “clave” también se llama “propiedad” en programación.
+- Entonces, la clave se utiliza para acceder y modificar los datos de un objeto.
 :::
 
 ### A tener en cuenta 
-- Se puede utilizar el  punto o  los corchetes para  manipular las propiedades de un objeto.
-- Con los corchetes podes usar variables , espacios en blancos , caracteres especiales , etc
+- Se puede utilizar el punto (`.`) o los corchetes (`[ ]`) para acceder y modificar las propiedades de un objeto.
+- Con los corchetes puedes usar variables, espacios en blanco o caracteres especiales en la clave.
 
 ## Objeto Literal
-
--	Se denomina objeto literal al objeto cuyas propiedades están declaradas textualmente en el código.
--	En el código esta todas las propiedades y valores.
-
-{}  = Objeto
-
-Los :  (dos puntos)  sirven para asignar el valor
-
-Para poner mas propiedades, lo separas con , (coma).
-
-Las propiedades pueden contener cualquier tipo de dato.
-
-Sintaxis: propiedad : valor
+- Un **objeto literal** es aquel en el que sus propiedades están definidas directamente en el código.
+- Es decir, en el código están escritas todas las propiedades y sus valores.
+- `{ }` = objeto
+- Los dos puntos (`:`) se utilizan para asignar el valor a una propiedad.
+- Para agregar más propiedades, se separan con comas (`,`).
+- Las propiedades pueden contener cualquier tipo de dato.
+- Sintaxis: `propiedad: valor`
 ```js
 const gato = {
     nombre: 'Valiente',
@@ -45,8 +41,7 @@ console.log(gato);
 
 ```
 ## Acceder a los valores
-
-1.  con el . (punto).
+1.  Se accede a un valor usando `nombreVariable.propiedad`.
 ```js
 
 console.log(gato.nombre);
@@ -55,7 +50,7 @@ console.log(gato.enemigos[0]);
 
 ```
 
-2. con el [“propiedad”] (corchetes y comilla)
+2. También puedes acceder a una propiedad usando corchetes: `nombreVariable["propiedad"]`.
 
 ```js
 console.log(gato["nombre"]);
@@ -82,6 +77,8 @@ const gato = {
     edad: 10,
     enemigos: ["agua", "perros"]
 }
+
+// Crear
 gato.color = 'Azul'
 console.log(gato);
 
@@ -95,6 +92,7 @@ const gato = {
     edad: 10,
     enemigos: ["agua", "perros"]
 }
+// Actualizar
 gato.edad = 5;
 console.log(gato);
 
@@ -108,6 +106,7 @@ const gato = {
     edad: 10,
     enemigos: ["agua", "perros"]
 }
+// Eliminar
  delete gato.duerme;
 console.log(gato);
 
@@ -275,7 +274,7 @@ gato.comer("pez");
 ```
 ## Ambito (Scope)
 
-Este código no funciona porque ${nombre} hace referencia al ámbito global (afuera de las llaves {})(afuera del objeto).
+Este código no funciona porque `${nombre}` hace referencia al ámbito global (afuera de las llaves {})(afuera del objeto).
 ```js
 
 const gato = {
@@ -316,15 +315,11 @@ gato.comer("pez");
 
 2. Usando el this
 ## This
-- Hace referencia al scope que se está utilizando.
-- Hace referencia al objeto actual.
+- this significa “esto” y hace referencia a quién está ejecutando el código en ese momento. Básicamente, contiene una referencia al objeto que ejecuta la función.
+- No siempre hace referencia al mismo objeto.
+- Antes se usaba `const self = this` para conservar su valor en funciones internas, aunque hoy en día se prefieren las funciones flecha.
 
 
-:::tip THIS
-- El this se queda en el ámbito/scope/en el bloque.
-- Sube un nivel como máximo (un bloque arriba ).
-- Podes hacer una variable llamada self  que contenga el valor de  this para tener acceso al objeto en sub funciones.
-:::
 
  ```js
  const gato = {
@@ -373,10 +368,10 @@ gato.comer("pez");
 El valor de this es el objeto que se usa para llamar el método.
 :::
 #### Scope  de una clase
-- El valor de this es la “nueva instancia” que se crea.
-- El valor de this es el objeto, con el cual se accedió al método.
-- Los métodos estáticos no son propiedades de this. Son propiedades de la clase misma. Por lo tanto, se podría decir que this es una subclase.
-- This se utiliza para inicializar/crear las propiedades-valores de la “nueva instancia”, en la función constructor.
+- El valor de `this` hace referencia a la **nueva instancia** que se crea  con `new`.
+- También puede representar el **objeto con el cual se accedió a un método**.
+- Los métodos estáticos pertenecen a la **clase**, no a los objetos creados a partir de ella. Por eso no forman parte de `this`, ya que `this` hace referencia a la instancia u objeto que ejecuta la función.
+- `this` se utiliza en el **constructor** para inicializar(crear) las propiedades y valores de la nueva instancia.
 ```js
       class Letra {
      constructor(letra) {
@@ -392,7 +387,7 @@ console.log(c.letra)
 Con el constructor, estamos creando la propiedad letra en la nueva instancia.
 :::
 #### Contexto global
-- En el contexto/scope de ejecución global (fuera de cualquier función o clase; puede estar dentro de bloques o funciones de flecha definidas en el ámbito global) , this tiene la referencia del objeto window (objeto global) .
+- En el contexto/scope de ejecución global (fuera de cualquier método o clase; puede estar dentro de bloques o funciones de flecha definidas en el ámbito global) , this tiene la referencia del objeto window (objeto global) .
 ```js
    console.log(this);
 ```
@@ -402,9 +397,8 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 )
 :::
 ## arrow function
-Funciona pero No tiene this o super y no se debe usar como método.
-
-Da como undefined ya que la función flecha no tiene this.
+- Funciona, pero no tiene `this` ni `super`, por lo que no debe usarse como método de un objeto o clase.
+- Su valor de `this` es `undefined` en este contexto, ya que las funciones flecha no tienen su propio `this`.
 
 ```js
 
@@ -421,7 +415,7 @@ const gato = {
 console.log(gato.comer("pez"));
 
 ```
-Pero si puedo utilizarla (funcion flecha) en su interior:
+- Pero la función flecha sí se puede usar dentro de otros métodos:
 
 ```js
 const gato = {

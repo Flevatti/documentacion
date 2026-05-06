@@ -108,20 +108,18 @@ Es para documentar nuestro codigo , no se ejecuta
 
 ```
 ## Palabras reservadas
-
-[Algunas palabras reservadas](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Lexical_grammar#palabras_clave)
-
-alert es una palabra reservada.
+- En JavaScript, las palabras reservadas son palabras que el lenguaje ya utiliza internamente para su funcionamiento, por lo que no pueden usarse como nombres de variables, funciones, etc.
+- [Algunas palabras reservadas](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Lexical_grammar#palabras_clave)
+- alert es una palabra reservada.
 
 ## Consola
-Si abrimos el inspector de elementos, podrás ver una pestaña de consola.
-
-La consola del navegador es una herramienta que nos ayuda a depurar nuestras páginas, facilitando nuestro trabajo diario.
-Para escribir en la consola
+- Si abrimos el inspector de elementos del navegador, podemos encontrar una pestaña llamada Consola.
+- La consola del navegador es una herramienta que nos ayuda a depurar (debuggear o probar) nuestras páginas web, mostrando mensajes, errores y datos útiles durante el desarrollo.
+- Para mostrar mensajes en la consola se usa:
 ```js
  console.log(“mensaje”); 
 ```
-
+- Ejemplo:
 ```js
 console.log("hola esta es la consola 👌");
 ```
@@ -135,10 +133,11 @@ Windows + punto = Para poner iconos.
 Javascript tiene 9 tipos de datos (Lo define el ECMAScript)
 
 :::tip ECMAScript 🤷‍♂️
-
-- ECMAScript es una especificación de lenguaje de programación publicada por ECMA International. El desarrollo empezó en 1996 y estuvo basado en el popular lenguaje JavaScript.
-- Fue propuesto como estándar por Netscape Communications Corporation. Actualmente está aceptado como el estándar de Javascript.
-- Conclusión: Determina cómo emplear el lenguaje Javascript, que permite a los fabricantes de software (navegadores) desarrollar las herramientas adecuada para interpretarlo correctamente (interpretar correctamente js).
+- ECMAScript es el conjunto de reglas que define cómo debe funcionar JavaScript.
+- Gracias a esas reglas, los navegadores pueden interpretar y ejecutar el código JavaScript de forma correcta y uniforme.
+- Fue desarrollada en 1996 y está basada en JavaScript, con el objetivo de estandarizar su funcionamiento.
+- Fue propuesta como estándar por Netscape Communications Corporation y actualmente es el estándar de JavaScript.
+- Es publicada por ECMA International.
 :::
 
 
@@ -176,7 +175,7 @@ console.log(false);
 
 :::tip Info
 - [Estos son los objetos base que representan números, fechas y cálculos matemáticos (Buscar números y fechas)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects#n%C3%BAmeros_y_fechas)
-- [Estos objetos representan cadenas y soporte para manipularlos (Buscar Procesamiento de texto)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects#procesamiento_de_texto )
+- [Estos objetos representan cadenas y permite manipularlos (Buscar Procesamiento de texto)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects#procesamiento_de_texto )
 - [Un listado con todos los tipos de datos, valores, etc.](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects )
 
 :::
@@ -246,8 +245,9 @@ tipovariable nombre = valor;
 
 ## Concatenacion
 
-Concatenar es una elegante palabra de la programación que significa: "unir". Para unir cadenas en JavaScript el símbolo de más +, el mismo operador que usamos para sumar números, pero en este contexto hace algo diferente. Vamos a probar un ejemplo en nuestra consola.
-
+- La concatenación es una forma elegante de decir “unir".
+- En JavaScript, se utiliza el símbolo `+` para unir cadenas de texto (strings). Es el mismo símbolo que se usa para sumar números, pero cuando se aplica a textos, su función es combinar palabras o frases.
+- Podemos probarlo en la consola:
 ```js
 var one = "Hello, ";
 var two = "how are you?";
@@ -257,14 +257,9 @@ console.log(joined);
 
 
 ```js
-
 console.log("Su nombre es: " + nombreUsuario + " y su edad es: " + edad);
-nombreUsuario y edad son variables
 console.log(“mi nombre es: ” + nombreUsuario + edad);
-	
 console.log(“mi nombre es: ” + nombreUsuario +”  “ + edad);
-
-
 ```
 ### Que pasa con los numeros?
 
@@ -691,9 +686,10 @@ numero++; es un incrementador y suele ser normal en un bucle.
 - Con el "do while" el código siempre se va a ejecutar al menos una vez.
 
 :::
-## \`String ${variable/codigo}`
+## &#96;String &#36;&#123;variable/codigo&#125;&#96;
 :::tip
- Con     ``"\`Texto`"`` (el signo se hace con alt + 96) -- Te lee el texto tal como esta (reconoce los espacios en blanco , etc). Tambien te permite concatenar con ``${variable o codigo}``
+ - Con  las comillas invertidas   <code>{'`Texto`'}</code> (el signo se hace con alt + 96) -- El texto se lee tal como está escrito, respetando espacios, formato, etc. Tambien te permite incluir variables o expresiones dentro del string usando  <code>{"`${variable o codigo}`"}</code>.
+ - Cuando se ejecuta el string, los `${...}` se evalúan y se reemplazan por el valor de la variable o el resultado de la expresión que contienen.
 :::
 
 ```js
@@ -738,24 +734,20 @@ let mensaje = (numeroMaquina > numeroUsuario) ? ‘El numero es mayor’ : ‘El
 
 
 ## Array
-Los arrays son objetos similares a una lista cuyo prototipo proporciona métodos  que nos permite efectuar operaciones de recorrido y de mutación. 
+- Los arrays son estructuras de datos que funcionan como una lista de elementos ordenados. Permiten guardar varios valores en una sola variable.
+- Características
+  - En JavaScript, los arrays son dinámicos, es decir, no hace falta definir su tamaño al crearlos.
+  - Pueden almacenar distintos tipos de datos al mismo tiempo (números, strings, etc.).
+  - Todos los valores de un array se definen dentro de corchetes `[]`, separados por comas.
+  - Cada valor de un array tiene un índice o posición. El primer elemento/valor tiene el índice 0, el segundo el 1, y así sucesivamente.
+  - Para acceder a un elemento de un array se usa su nombre de variable seguido del índice entre corchetes: `variable[índice]`
 
-En javascript son dinámicos, no hace falta declarar la dimensión(tamaño).
-
-En javascript podes mezclar datos . Un array puede tener String , números , etc.
 
 
-[] = Array
 
-Con una coma separas los elementos(valores) del array.
 
-Cada valor corresponde a un índice [Numero]
 
-Los índice empiezan en 0 y por cada elemento aumenta 1.
 
-Para  llamar a un elemento del array
-
-variable[índice]
 
 ```js
 let frutas = ["manzana", "platano", "pera"];
@@ -763,11 +755,9 @@ console.log(frutas);
 
 ```
 
-Conceptos claves:
-
-length: Tamaño de array (cantidad de elementos) (NO ES EL INDICE)
-
-índice: Comienzan en cero, es decir, el índice del primer elemento de un array es 0.
+- Conceptos claves:
+  - length: Tamaño de array (cantidad de elementos) (NO ES EL INDICE)
+  - índice: Comienzan en cero, es decir, el índice del primer elemento de un array es 0.
 
 
 
@@ -898,7 +888,7 @@ function nombrefuncion (parámetros) {
 saludar();
 
  ```
-- Es un bloque de código que se puede reutilizar  (en ese ejemplo function saludar() {codigo}).
+- Es un bloque de código que se puede reutilizar  (en ese ejemplo `function saludar() {codigo}`).
 
 - Cada ves que llames al método se ejecuta (en ese ejemplo saludar()).
 

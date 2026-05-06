@@ -111,8 +111,8 @@ app.Run();
 1.	Configuración del Servidor: Se inicia creando un WebApplicationBuilder y configurando los servicios. Aquí puedes añadir servicios si es necesario, aunque para este ejemplo no se necesitan.
 2.	Creación de la Aplicación: Se crea la instancia de la aplicación web con builder.Build().
 3.	Definición de Endpoints:
-    -	app.MapGet("/saludo", () => "¡Hola, mundo!"); define un endpoint que responde a solicitudes GET en la ruta /saludo y devuelve un saludo simple.
-    -	app.MapGet("/persona/{nombre}", (string nombre) => ...) define un segundo endpoint que toma un parámetro en la URL (nombre) y devuelve un saludo personalizado.
+    -	`app.MapGet("/saludo", () => "¡Hola, mundo!");` define un endpoint que responde a solicitudes GET en la ruta /saludo y devuelve un saludo simple.
+    -	`app.MapGet("/persona/{nombre}", (string nombre) => ...)` define un segundo endpoint que toma un parámetro en la URL (nombre) y devuelve un saludo personalizado.
 4.	Ejecutar la Aplicación: Finalmente, app.Run(); inicia el servidor web.
 5. Para ejecutar esta Minimal API, necesitarás un entorno de desarrollo de ASP.NET Core. Al iniciar la aplicación y hacer una solicitud GET a ``http://localhost:&lt;puerto>/saludo``, recibirás la respuesta "¡Hola, mundo!". Si accedes a ``http://localhost:&lt;puerto>/persona/Ana``, obtendrás "¡Hola, Ana!".
 

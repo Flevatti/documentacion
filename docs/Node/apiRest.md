@@ -1299,7 +1299,7 @@ app.use(express.static("public"))
 - Utilizamos el fetch para realizar una solicitud HTTP.
 - Por defecto hace una solicitud en GET
 
-### fetch(url , {configuraciones})
+### `fetch(url , {configuraciones})`
 Parametros:
 
 1.	 Una url, donde se va a hacer la solicitud

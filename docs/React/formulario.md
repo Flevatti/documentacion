@@ -170,9 +170,9 @@ export default FormNoControlado
 :::
 :::tip Como se usa el ref
 - La variable formulario  es de tipo ref ya que se creo con useRef.
-- Con la props(atributo) ref , le asignamos la referencia del elemento actual una variable de tipo ref (en este caso  a la variable formulario)
-- &lt;form ref={formulario} onSubmit={handleSubmit}> -- En esta linea se le asigna una referencia de la etiqueta form a la variable formulario
-- La props ref :  Sirve para  seleccionar un elemento/componete . Su valor es una variable de tipo ref. Es el equivalente a usar   getElementById o querySelector.
+- Con la props(atributo) ref , le asignamos la referencia del elemento actual a una variable de tipo ref (en este caso  a la variable formulario)
+- `<form ref={formulario} onSubmit={handleSubmit}>` -- En esta linea se le asigna una referencia de la etiqueta form a la variable formulario
+- La props ref :  Sirve para  seleccionar un elemento/componente . Su valor es una variable de tipo ref y es donde se almacena la referencia del elemento seleccionado. Es el equivalente a usar   getElementById o querySelector.
 - useRef :  es un hook para crear variables de referencias (de tipo ref) . Estas variables se le asignan al atributo(props) ref para asignarle alguna referencia.
 - No abusar de useRef, que consume memoria.
 - getElementById y querySelector pueden generar problemas ya que REACT trabaja con un VIRTUAL DOM.

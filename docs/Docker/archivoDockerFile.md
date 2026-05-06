@@ -297,7 +297,7 @@ CMD ["bash"]
 docker build --build-arg MI_VARIABLE=curl -t mi_imagen .
 ```
 :::tip Observación
-- En este ejemplo, el valor de MI_VARIABLE se establece en curl, por lo que el comando RUN apt-get install -y ${MI_VARIABLE} se traduce a RUN apt-get install -y curl.
+- En este ejemplo, el valor de MI_VARIABLE se establece en curl, por lo que el comando `RUN apt-get install -y ${MI_VARIABLE}` se traduce a `RUN apt-get install -y curl`.
 :::
 
 #### Combinación de ARG y ENV

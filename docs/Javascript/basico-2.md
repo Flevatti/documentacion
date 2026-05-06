@@ -9,20 +9,19 @@ Preocuparse por la eficiencia puede ser una distracción. Es otro factor más qu
 :::
 
 ## Interpolacion template string
-
-Las plantillas literales son cadenas literales que habilitan el uso de expresiones incrustadas. Con ellas, es posible utilizar cadenas de caracteres de más de una línea, y funcionalidades de interpolación de cadenas de caracteres.
-
-Cuenta el espacio en blanco y habilita el uso de expresiones incrustadas.
-
-
-Interpolación de expresiones
-
--	barra invertida "alt + 92" = Para saltos de linea
--	acento grave "alt + 96"  = Para hacer plantillas
-
-Las plantillas de cadena de caracteres pueden contener marcadores, identificados por el signo de dólar y envueltos en llaves ${expresión}. Las expresiones contenidas en los marcadores, junto con el texto entre ellas, son enviados como argumentos a una función
-la expresión es código js (variable , función , objeto , etc).
-
+- Las plantillas literales son cadenas de texto que permiten incluir expresiones dentro de un string. Gracias a esto, se pueden crear cadenas de varias líneas y usar interpolación de valores de forma sencilla.
+- La interpolación de valores es una forma de insertar variables o expresiones (codigo) dentro de un texto (string).
+- Interpolación de expresiones
+    -	barra invertida "alt + 92" = Para saltos de linea
+    -	acento grave "alt + 96"  = Para hacer plantillas
+- Las plantillas pueden contener marcadores, que se escriben con `${variable o codigo}`.
+- Dentro de `${...}` se puede colocar cualquier expresión de JavaScript, como:
+    - variables
+    - funciones
+    - operaciones
+    - objetos
+- Cuando el string se ejecuta, JavaScript evalúa cada `${...}` y el resultado de cada expresión se inserta directamente en el texto final, ocupando el lugar donde estaba escrito.
+- Ejemplo:
 ```js
 let nombreUsuario = "nombre";
 console.log("Bienvenido: \n" + nombreUsuario + "\n");
@@ -34,10 +33,9 @@ let nombreUsuario = "nombre";
 console.log(`Bienvenido:   :  
  ${nombreUsuario}`);
 ```
-Con la plantilla, usamos la interpolacion (${expresion})
-,Con la interpolación podemos poner variables u otro tipo de código js
-
-En este ejemplo lo mandamos a mayuscula con una función.
+- Con las plantillas literales usamos la interpolación (`${expresión}`).
+- Con la interpolación podemos insertar variables u otro tipo de código JavaScript.
+- En este ejemplo, convertimos el texto a mayúsculas usando una función.
 
 ```js
 
@@ -128,7 +126,7 @@ console.log(estado)
 
 #### Bloque
 - Todo lo que este entre llaves ({}) pertenece a un bloque.
-- bloque = {  código }.
+- `bloque = {  código }`.
 - El Bloque es "donde vive" una variable.
 
 

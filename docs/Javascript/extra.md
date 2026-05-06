@@ -1316,7 +1316,7 @@ boton.addEventListener('click', async () => {
   -	Por qué es importante: No carga el archivo math.js hasta que se ejecuta este código, ahorrando recursos.
 - `await import('./math.js')`
   -	Qué hace: Usa await para esperar a que el módulo sea cargado antes de continuar. Solo funciona dentro de funciones async.
-  -	Resultado: Devuelve un objeto con lo que se importa del módulo. En este caso, devuelve { sumar }.
+  -	Resultado: Devuelve un objeto con lo que se importa del módulo. En este caso, devuelve `{ sumar }`.
 - Desestructuración: `const { sumar } = ...` :
   - Qué hace: Extrae la función sumar del objeto exportado por math.js.
   - Equivalente: Este código:

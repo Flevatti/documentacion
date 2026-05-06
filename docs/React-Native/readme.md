@@ -1746,7 +1746,7 @@ Es el mismo menu, pero con el background rojo
 Main.jsx
 
 - Utilizaremos el método Platform.select() para importar un componente.
-- Los segundos paréntesis que se ubican en “Select ({objeto}) ()” son para ejecutar la funcion que devuelve el método Select. En pocas palabras es porque Select devuelve una funcion y los paréntesis son para ejecutarla.
+- Los segundos paréntesis que se ubican en `“Select ({objeto}) ()”` son para ejecutar la funcion que devuelve el método Select. En pocas palabras es porque Select devuelve una funcion y los paréntesis son para ejecutarla.
 
 ```js
 import React from "react";

@@ -898,7 +898,7 @@ public ActionResult<VillaDto> crearVilla([FromBody] VillaDto villaDto) {
 - A su vez podemos [especificar el tipo de dato](https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2#route-constraints) de un param con la sintaxis : ``{nombreParam: tipoDeDato}``
 - Estos se pueden utilizar en todos los atributos que representen un verbo.
 - Ejemplo:
-   - [HttpGet("{nombrevariable}"]
+   - `[HttpGet("{nombrevariable}"]`
    - la ruta es /api/nombreController/nombrevariable
    - Entonces si vamos a /api/nombreController/620a5b245908e57941d2954c
    - El valor de nombrevariable es 620a5b245908e57941d2954c

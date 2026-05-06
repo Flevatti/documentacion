@@ -1261,7 +1261,7 @@ pick i7j8k9l Tercer mensaje de confirmación
         - Git va a rehacer los commits posteriores a `f7dfe42` (ese commit no se incluye).
         - El último commit que se va a procesar es `4327a8f`.
     - `(3 commands)` : 
-        - En total, Git va a ejecutar 3 acciones, una por cada commit listado.
+        - En total, Git va a ejecutar 3 acciones, una por cada commit listado/indicado.
     - `onto f7dfe42` : 
         - Todos esos commits se van a volver a construir encima de `f7dfe42`, que actúa como el punto de partida (base) del rebase.
 
@@ -1408,7 +1408,15 @@ Rename login button ID
 #	modified:   X
 #
 ```
-
+:::tip Observacion
+- En los comentarios, hay metadata e información que Git muestra para ayudarte a entender el estado del rebase y del commit que se va a crear:
+    - `# Date: Mon Jan 5 12:37:51 2026 -0300`: Indica la fecha y hora en la que se va a crear el commit resultante del squash. Es una fecha nueva, ya que el commit final no existía previamente.
+    - `# interactive rebase in progress; onto f7dfe42` :  Indica que Git se encuentra en la etapa final del rebase interactivo, reconstruyendo los commits sobre el commit `f7dfe42`, que actúa como la base del rebase. El proceso todavía no termina porque Git está esperando que confirmes el mensaje del commit resultante.
+    - `# Last commands done (3 commands done): *` :  Muestra cuántas acciones ejecutó Git durante el rebase hasta ese momento. Aunque indica el número total de comandos procesados (3 en este caso), solo lista aquellos que fueron relevantes, es decir, los que modificaron el historial o tuvieron un efecto especial (como `squash`, `fixup`, `reword`, etc.). Los `pick` no suelen mostrarse porque son la acción por defecto y no alteran el historial.
+    - `# No commands remaining.` : Indica que no quedan más commits ni acciones por procesar.
+    - `# You are currently rebasing branch 'feature/new_menu' on 'f7dfe42'.` : Indica qué rama está siendo modificada (`feature/new_menu`) y sobre qué commit base (`f7dfe42`) se está realizando el rebase.
+    - `# Changes to be committed:` : Lista todos los cambios que quedarán incluidos en el commit final, es decir, la suma de los cambios de todos los commits que fueron combinados.
+:::
 
 
 - Lo recomendable es editar ese contenido para que el mensaje represente el cambio completo como si fuera un solo commit:
@@ -1489,10 +1497,25 @@ Successfully rebased and updated refs/heads/feature-branch.
  delete mode 100644 X
 Successfully rebased and updated refs/heads/feature/new_menu.
 ```
+:::tip Observacion
+-  `[detached HEAD c402e88]`: 
+    - Indica que Git se despega temporalmente de la rama actual para recrear los commits uno por uno durante el rebase.
+    -  Al finalizar, vuelve a apuntar a la rama correspondiente.
+    - `c402e88` es el nuevo hash del commit creado, cuyo mensaje es: `Add login button with proper styling and updated ID`.
+- A continuación se muestra:
+    - La fecha del commit.
+    - El resumen de cambios (archivos modificados, inserciones y eliminaciones). En esta sección se indica:
+        - El archivo que se modificó, eliminó o creó.
+        - Un porcentaje que indica qué tan similar es el archivo nuevo al anterior. Cuanto más cerca del 100%, menos cambios hubo. 100% significa que solo se renombró, sin cambios en el contenido.
+        - `mode [numero]`: Indica el tipo de archivo y qué permisos tiene en Git. Por lo general, `100644` corresponde a un archivo normal (lectura/escritura para el dueño y solo lectura para otros).
+        - La operación realizada sobre el archivo (create, delete, rename, etc.).
+- Por último, el mensaje `Successfully rebased and updated refs/heads/feature/new_menu` indica que:
+    - Todos los commits fueron reaplicados correctamente.
+    - La rama `feature/new_menu` ahora apunta a un nuevo historial de commits.
+:::
 
 
-
-### Git merge (Con Squash) (Probar)
+### Git merge (Con Squash) 
 - Mientras que el rebase interactivo permite reescribir y ajustar el historial de commits antes de integrar los cambios, existe una alternativa más simple para unificar el trabajo:  `git merge --squash`.
 - Este comando permite tomar todos los cambios de una rama (por ejemplo, una rama de funcionalidades) y convertirlos en un único commit que se aplica en otra rama, sin conservar los commits individuales de esa rama.
 #### ¿Cuándo es útil este método?
@@ -1551,13 +1574,77 @@ git merge --squash feature/login-form
 - El historial de commits de la rama `feature/login-form` no se incorpora a la rama actual.
 :::
 
+
 - Veremos una salida como:
 ```powershell
-Confirmación de Squash: no se actualiza HEAD
-La fusión automática se realizó correctamente; se detuvo antes de confirmar como se solicitó
+Updating ac7ab60..816867e
+Fast-forward
+Squash commit -- not updating HEAD
+ archivo.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 ```
 :::tip observación
-- Esto significa que Git dejó todos los cambios preparados en el staging area (el área donde se colocan los archivos al ejecutar `git add`) y espera que ejecutes `git commit` para crear el commit final.
+- `Updating ac7ab60..816867e`:
+    - `ac7ab60` es el hash del commit base, es decir, el commit en la rama destino (`main`) sobre el cual se van a aplicar los cambios de la rama `feature/login-form`.
+    - `816867e` es el hash del último commit de la rama `feature/login-form` que estás incorporando.
+    - El commit base es el último commit común entre ambas ramas. Git lo utiliza como referencia para determinar qué cambios se realizaron en la rama `feature/login-form` y así poder aplicarlos correctamente en la rama destino.
+- `Fast-forward (Fusión de avance rápido)` → Como no hay conflictos y el historial es lineal, Git aplica los cambios directamente en la rama destino sin crear un commit de merge tradicional.
+- `Squash commit -- not updating HEAD` → Todos los cambios fueron preparados en el staging area, pero aún no se creó el commit final.
+- `archivo.txt | 3 +++` → Muestra que el archivo archivo.txt se modificó con 3 líneas nuevas.
+-  `1 file changed, 3 insertions(+)` → Resumen: 1 archivo modificado con 3 líneas añadidas.
+- En resumen, Git dejó todos los cambios preparados en el staging area (el área donde se colocan los archivos al ejecutar `git add`) y espera que ejecutes `git commit` para crear el commit final.
+:::
+
+- En caso de una fusión de 3 vías:
+```powershell
+mkdir git-squash-test && cd git-squash-test
+git init --initial-branch=main
+
+# Commit inicial en main
+echo "Archivo inicial" > archivo.txt
+git add .
+git commit -m "Commit 1: Inicial"
+
+# Creamos la rama feature
+git checkout -b feature/login-form
+
+# Cambios en la rama feature
+echo "Cambio 2" >> archivo.txt
+git add .
+git commit -m "Commit 2: Primer cambio"
+
+echo "Cambio 3" >> archivo.txt
+git add .
+git commit -m "Commit 3: Segundo cambio"
+
+echo "Cambio 4" >> archivo.txt
+git add .
+git commit -m "Commit 4: Tercer cambio"
+
+# Volvemos a main y hacemos cambios allí para que no sea fast-forward
+git checkout main
+
+echo "Cambio en main" >> archivo.txt
+git add .
+git commit -m "Commit 5: Cambio en main"
+```
+- Ahora, si hacemos:
+```powershell
+git merge --squash feature/login-form
+```
+- Veremos una salida como:
+```powershell
+Auto-merging archivo.txt
+CONFLICT (content): Merge conflict in archivo.txt
+Squash commit -- not updating HEAD
+Automatic merge failed; fix conflicts and then commit the result.
+```
+:::tip observación
+- `Auto-merging archivo.txt` → Git intentó integrar automáticamente los cambios del archivo `archivo.txt`.
+- `CONFLICT (content): Merge conflict in archivo.txt` → Git detectó un conflicto de contenido en ese archivo, es decir, no pudo decidir automáticamente qué cambios conservar.
+- `Squash commit -- not updating HEAD` → Aunque el merge se está realizando con `squash`, Git todavía no creó ningún commit ni movió el HEAD.
+- `Automatic merge failed; fix conflicts and then commit the result.` → El proceso se detuvo porque hay conflictos. Primero tenés que resolverlos manualmente, luego agregar los archivos resueltos (`git add`) y finalmente crear el commit (`git commit`).
+- En resumen, Git intentó aplicar todos los cambios de la rama origen como un solo commit, pero al haber conflictos necesita intervención manual para poder continuar y finalizar el proceso.
 :::
 
 
@@ -1565,21 +1652,29 @@ La fusión automática se realizó correctamente; se detuvo antes de confirmar c
 - En este punto, Git ya dejó todos los cambios listos en el staging area. Solo falta registrarlos en el historial de commits.
 - Para eso, tenemos que crear un commit con todos los cambios realizados:
 ```powershell
-git commit -m "Add login form with validation and styling" 
+git commit -m "Actualizar archivo.txt con cambios sucesivos" 
 ```
 :::tip observación
 - Este único commit contiene todos los cambios realizados en la rama `feature/login-form`, pero resumidos en una sola confirmación (commit) clara y ordenada.
 - En el historial de `main` aparecerá un solo commit nuevo, en lugar de los múltiples commits originales de la rama `feature/login-form`.
 :::
 
+- Si durante el proceso hubo conflictos de contenido, primero debés resolverlos manualmente en el editor.
+- Una vez resueltos, tenés que marcar los archivos como solucionados usando `git add`:
+```powershell
+git add archivo.txt
+```
+- Finalmente, creás el commit con:
+```powershell
+git commit -m "Actualizar archivo.txt con cambios sucesivos" 
+```
 
 
-- [How to Merge Commits in Git?](https://www.geeksforgeeks.org/git/how-to-merge-commits-in-git/)
-- [How to Squash Commits in Git (Step-by-Step with Examples)](https://www.codecademy.com/article/git-squash-commits)
-- [Git Squash](https://www.geeksforgeeks.org/git/git-squash/)
-- [Git Squash Commits: Una guía con ejemplos](https://www.datacamp.com/es/tutorial/git-squash-commits)
 
 
 
 
-## Cada cuanto hacer git add
+
+
+
+## ¿Cada cuánto debería hacer "commit"

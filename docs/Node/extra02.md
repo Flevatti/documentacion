@@ -28,10 +28,10 @@ Decir que un endpoint es una interfaz significa que es un punto de acceso(URL) q
     - DELETE: Utilizado para eliminar un recurso.
 - Por ejemplo, en una API de gestión de usuarios, podrías tener endpoints como:
     - GET /users: Para obtener la lista de usuarios.
-    - GET /users/{id}: Para obtener detalles de un usuario específico.
+    - GET `/users/{id}`: Para obtener detalles de un usuario específico.
     - POST /users: Para crear un nuevo usuario.
-    - PUT /users/{id}: Para actualizar un usuario existente.
-    - DELETE /users/{id}: Para eliminar un usuario.
+    - PUT `/users/{id}`: Para actualizar un usuario existente.
+    - DELETE `/users/{id}`: Para eliminar un usuario.
 
 :::tip Observación
 - Cada uno de estos ejemplos representa un endpoint diferente que permite realizar una operación específica en la API. La estructura y la semántica de los endpoints suelen seguir convenciones y patrones definidos por el diseño de la API y las mejores prácticas RESTful.
@@ -137,21 +137,15 @@ function funcionX(){
 ### Callback Queque
 - Aquí se agregan los callback o funciones que se ejecutan una vez las operaciones asíncronas hayan terminado. Se utiliza el método FIFO (first input, first output), traducido, primero en entrar, primero en salir.
 - El event loop es el que se encarga de revisar que el call stack este vacío para añadir lo que está dentro del callback queue y ejecutarlo.
-
 #### Ejemplo
-
 ![callback queque](https://miro.medium.com/v2/resize:fit:828/format:webp/1*Wa6DuSyM3yzvDWqc43-ejA.png)
-
 :::tip Explicación
 -	Linea 1: Obtenemos la librería File System de Nodejs para poder leer un archivo del disco duro.
 -	Linea 3: Implementamos la operación asíncrona readFile, el cual recibirá como parámetros la ruta del archivo y el callback.
 -	Linea 4: Se encuentra un timer, en este caso, setTimeout la cual es una operación asíncrona y posee una función llamada timeout2 que se ejecutará después de 4 segundos.
 -	Linea 9: Operación síncrona que imprimirá en consola el mensaje correspondiente.
 -	Linea 11: Un timer que posee una función llamada timeout que se ejecutará después de 5 segundos.
-
-
 :::
-
 #### Brevemente explicaré que hace el snippet de código mostrado.
 
 - Bueno, pasemos a explicar todo el trabajo que Nodejs hace para correr el programa que escribimos con el siguiente gráfico:
@@ -242,7 +236,7 @@ Hi, I’m executed
     - Ejemplo en IPv6: En la dirección 2001:0db8:85a3:0000:0000:8a2e:0370:7334, los últimos segmentos podrían ser la parte del host, dependiendo de la máscara de subred.
 - La proporción de bits utilizados para la parte de la red y la parte del host se determina mediante una máscara de subred.
 
-##### Máscara de subred
+  ##### Máscara de subred
 - La máscara de subred se utiliza para dividir una dirección IP en su componente de red y su componente de host. Se representa de la misma manera que una dirección IP, y define qué parte de la dirección IP corresponde a la red y qué parte a los hosts.
 - Una máscara de subred ayuda a dividir una red grande en partes más pequeñas, como dividir una ciudad en barrios. Esto hace que sea más fácil manejar y organizar las direcciones IP.
 - Ejemplo de IPv4: 255.255.255.0
@@ -302,7 +296,7 @@ Hi, I’m executed
     - Rango de direcciones: La subred 172.20.0.0/16 abarca desde 172.20.0.0 hasta 172.20.255.255.
     - Número de direcciones: Con 16 bits disponibles para los hosts, hay 2<sup>16</sup>=65,536 direcciones posibles dentro de esta subred. Sin embargo, dos direcciones están reservadas: una para la dirección de red (172.20.0.0) y otra para la dirección de broadcast (172.20.255.255). Esto deja 65,534 direcciones utilizables para hosts.
 
-##### Calcular subredes y hosts
+ ##### Calcular subredes y hosts
 - El número de subredes que puedes crear es 2<sup>n</sup>, donde n es el número de bits adicionales que has tomado.
 - Supongamos que tienes una red con una máscara de subred original de /24 (255.255.255.0).
 - Decides utilizar 2 bits adicionales para subredes. Esto significa que la nueva máscara de subred será /26 (24 + 2 = 26).
@@ -414,7 +408,7 @@ const connection = mysql.createConnection({
 - En este ejemplo, la opción allowPublicKeyRetrieval: true está incluida en la configuración de la conexión. Esto permite al cliente recuperar la clave pública del servidor MySQL si es necesario para la autenticación.
 :::
 
-##  Plantillas Go (Golang templates) 
+  ##  Plantillas Go (Golang templates) 
 - Las plantillas en Go son una forma poderosa de generar contenido dinámico a partir de datos estructurados. 
 - Go proporciona dos paquetes principales para trabajar con plantillas: text/template y html/template. El primero se usa para generar texto sin formato, y el segundo se usa para generar HTML seguro.
 - Componentes Clave:
@@ -423,7 +417,7 @@ const connection = mysql.createConnection({
     - Datos: Un conjunto de datos que se pasará a la plantilla para reemplazar los marcadores de posición.
     - Ejecución de Plantilla: La plantilla se ejecuta con los datos proporcionados, generando el contenido final.
 
-#### Analogía
+ #### Analogía
 - Imagina que estás organizando una fiesta y necesitas enviar invitaciones personalizadas a cada uno de tus amigos. En lugar de escribir cada invitación desde cero, decides crear una plantilla de invitación que puedes rellenar con los detalles específicos de cada amigo.
 - Creas una plantilla con espacios en blanco para el nombre del invitado, la fecha y la hora de la fiesta. Algo así como:
 ```cs
@@ -452,12 +446,12 @@ Carlos
 ```
 - En Golang, las plantillas funcionan de manera similar a tu plantilla de invitación. Las plantillas te permiten definir un formato general con marcadores de posición que puedes rellenar dinámicamente con datos específicos.
 #### Ejemplo Técnico Paso a Paso:
-##### 1- Definir una Plantilla
-- Una plantilla en Go se define como una cadena con acciones delimitadas por {{  }}.
+ ##### 1- Definir una Plantilla
+- Una plantilla en Go se define como una cadena con acciones delimitadas por <code>{'{{  }}'}</code>.
 ```go
 const tmpl = `Hello, {{.Name}}! Welcome to {{.Place}}.`
 ```
-##### 2- Definir una Plantilla
+ ##### 2- Definir una Plantilla
 - Usamos el paquete text/template para crear una nueva plantilla y analizar (parsear) su contenido.
 ```go
 package main
@@ -500,7 +494,7 @@ func main() {
 Hello, Alice! Welcome to Wonderland.
 ```
 
-##### Detalles Técnicos
+ ##### Detalles Técnicos
 ##### Definición de Marcadores de Posición:
 - ``{{.Name}}``: Hace referencia al campo Name en los datos pasados.
 - ``{{.Place}}``: Hace referencia al campo Place en los datos pasados.
@@ -559,4 +553,4 @@ Hello, Alice! Welcome to Wonderland.
 - src/index.js: Punto de entrada donde React monta la aplicación en el DOM.
 - src/App.css: Archivo CSS para estilos globales.
 
-:::
+::: 
