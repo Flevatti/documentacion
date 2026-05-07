@@ -1496,11 +1496,12 @@ export default App;
 - useMemo tiene dos argumentos:
   - Una función que devuelve un “valor”.
   - Un array de dependencias.
+- useMemo es similar a useCallback: permite conservar un valor (el que retorna la función del primer argumento) entre renderizados y solo volver a calcularlo cuando cambia alguna de las dependencias especificadas.
 :::tip
-El arreglo de dependencias no se pasa como argumentos a la función. Sin embargo, conceptualmente, eso es lo que representan: cada valor al que se hace referencia dentro de la función también debe aparecer en el arreglo de dependencias
+El arreglo de dependencias no se pasa como argumentos a la función. Sin embargo, cada valor al que se hace referencia dentro de la función también debe aparecer en el arreglo de dependencias
 :::
 :::tip Valor memorizado
-Significa que esta guardado en la memoria RAM Y no se declara cada vez que se llama.
+Significa que esta guardado en la memoria RAM Y no se declara (vuelve a crear) cada vez que se llama (se renderiza el componente).
 :::
 #### Ejemplo
 ```js

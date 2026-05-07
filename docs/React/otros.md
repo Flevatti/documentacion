@@ -986,8 +986,8 @@ export default App;
 
 :::tip Observación
 - Render es una props cuyo valor es una funcion que recibe un objeto con las propiedades key y description (esto se puede modificar a tu gusto). 
-- Render es una prop que recibe un componente (funcion) que se va a renderizar adentro.
-- Render prop = Es la funcion(componente) que se le pasa a la prop render.
+- La prop `render` se utiliza para indicar qué componente o contenido se debe renderizar dentro de otro componente.
+- Una **Render Prop** es una función (componente) que se pasa como prop para renderizar contenido dinámicamente.
 :::
 
 Por último cabe mencionar que podemos usar cualquier prop en un componente como render prop (salvo algunas reservadas como key y ref), incluso children, por lo que tras un par de ajustes nuestro componente List se podría usar de la siguiente forma:
@@ -1047,10 +1047,9 @@ export default List;
 ```
 - Pero en lugar de enviar un objeto, podes enviar lo que sea.
 #### App.js
-- Cuando especificas la función en la “prop”, los parámetros deben coincidir con los argumentos de la función que se ejecuta en el List.jsx.
-- En este caso estarías recibiendo un objeto con la propiedad key y description.
-- Los parámetros son los “valores” que te envia el componente List.jsx
-- Esta función que recibe la prop es un componente, ósea retorna lo que se va a renderizar.
+- Cuando definís la función en la prop `children` (o `render`), los parámetros tienen que coincidir con los datos que envía `List.jsx`. En este caso, recibís un objeto con las propiedades `key` y `description`.
+- Los parámetros representan la información que te envía `List.jsx`.
+- La función que se pasa como prop funciona como un componente, ya que devuelve el contenido que se va a renderizar.
 
 
 :::tip info

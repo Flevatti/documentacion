@@ -699,3 +699,59 @@ export default Componente;
 :::tip
 - Aunque no es obligatorio usar .jsx o .tsx, es altamente recomendado porque mejora la legibilidad, el mantenimiento del código, y la integración con herramientas. Si estás trabajando en un proyecto moderno o colaborando con otros desarrolladores, es mejor seguir estas convenciones.
 :::
+
+## Renderizado Parcial
+- En React, un “renderizado parcial” no es un término oficial estricto del framework, pero se usa para describir la idea de que solo una parte de la interfaz se vuelve a renderizar cuando cambia el estado o las props, en lugar de volver a renderizar toda la aplicación.
+#### Cómo funciona realmente en React
+- React no “redibuja toda la página” como lo haría una actualización tradicional del DOM. En su lugar:
+  1. Cuando cambia el estado (state) o las propiedades (props),
+  2. React vuelve a ejecutar el componente afectado,
+  3. Compara el nuevo Virtual DOM con el anterior,
+  4. Y actualiza solo las partes del DOM real que cambiaron.
+- Esto es lo que la gente suele llamar “renderizado parcial”.
+#### ¿Que implicar que se vuelva a ejecutar el componente?
+- En React, un componente  es una función pura (idealmente):
+```js
+function MiComponente() {
+  const x = 10;
+  const handleClick = () => {};
+  return <div />;
+}
+```
+- Cada vez que React decide re-renderizar un componente:
+  - React vuelve a ejecutar la función del componente.
+  - Todo el código dentro se ejecuta nuevamente
+  - Se vuelven a crear:
+    - Variables locales
+    - Funciones declaradas dentro del componente
+    - Objetos y arrays definidos en el cuerpo
+  -  Pero hay cosas que NO se reinician aunque el componente se vuelva a ejecutar:
+      - Estado (useState) → se conserva entre renders
+      - Refs (useRef) → mantienen su valor persistente
+      - Props → vienen del componente padre y no se “reinicializan”
+      - Efectos (useEffect) → no se ejecutan en cada render, sino según dependencias
+
+:::warning
+- Si un componente padre se re-renderiza, todos sus hijos también se re-ejecutan.
+- Aunque el componente hijo se vuelva a ejecutar:
+  - React hace reconciliation (comparación Virtual DOM)
+  - Si nada cambió:
+    - No actualiza el DOM real
+    - Solo “lo recalcula”
+  - Entonces:
+    - El padre puede provocar el re-render del hijo cuando cambia su estado o props.
+    - El hijo puede provocar el re-render del padre al llamar un callback que actualiza su estado.
+:::
+
+
+:::warning Definir componentes dentro de otros puede causar problemas
+- Al definir un componente dentro de otro (por ejemplo, el componente B dentro del componente A), en cada render del componente A se vuelve a crear la función de B desde cero (nueva referencia en memoria). React puede interpretarlo como si fuera un componente diferente, aunque para nosotros sea el mismo.
+- Ejemplo:
+  - Render 1: B es una función en memoria (versión A)
+  - Render 2: B se vuelve a crear (versión B)
+  - React ve A ≠ B → piensa que es otro componente
+- Esto puede provocar:
+  - Desmontaje del componente
+  - Pérdida del estado interno
+  - Comportamientos inesperados en hooks y renders
+:::

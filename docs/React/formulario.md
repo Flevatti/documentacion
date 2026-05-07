@@ -68,12 +68,12 @@ Pueden omitir el comando “run”
 ### useRef 
 - [Reactjs.org](https://es.reactjs.org/docs/hooks-reference.html#useref)
 - [Nueva documentación](https://beta.es.reactjs.org/reference/react/useRef)
-- useRef devuelve un objeto ref mutable cuya propiedad .current se inicializa con el argumento pasado (initialValue). El objeto devuelto se mantendrá persistente durante la vida completa del componente.
-- A traves de una prop llamada "ref" , podes asignarle un nuevo valor al objeto ref mutable.
--  Sirve para obtener una referencia del elemento/componente 
--  Sería como el document.getElementById , ósea es la forma de seleccionar un elemento en Reacts
+- `useRef` es un hook de React que devuelve un objeto `ref` mutable cuya propiedad `current` se inicializa con el valor pasado como argumento (initialValue).
+- El objeto `ref` se mantiene persistente durante todo el ciclo de vida del componente, es decir, no se reinicia en cada renderizado.
+-  A través de la prop `ref`, podemos asignar una referencia de un elemento HTML o componente al objeto ref.
+- Es similar a `document.getElementById` en JavaScript, ya que permite acceder a un elemento del DOM, pero de una forma integrada y recomendada en React.
 :::tip 
-React utiliza un virtual DOM para renderizar 
+- React utiliza un virtual DOM para renderizar 
 :::
 App.jsx
 ```js
@@ -131,10 +131,10 @@ const FormNoControlado = () => {
   return (
     <>
      <h2>No controlado</h2>
-     /* Con la props "ref" le asignamos una referencia del  componente actual 
-     (en este caso <form></form>) al objeto ref mutable.*/
-     /* Cuando se renderice/ejecute el codigo de abajo , formulario 
-     tendra una referencia de la etiqueta form */
+    /* Con la prop `ref` le asignamos una referencia del elemento `<form>`
+al objeto ref mutable. */
+   /* Cuando el componente se renderice, `formulario.current`
+contendrá una referencia al elemento `<form>`. */
      <form ref={formulario} onSubmit={handleSubmit}>
      <input
        type="text" 
@@ -169,25 +169,29 @@ export default FormNoControlado
 - En React el textarea tiene el atributo value y lo manejamos como si fuera un input.
 :::
 :::tip Como se usa el ref
-- La variable formulario  es de tipo ref ya que se creo con useRef.
-- Con la props(atributo) ref , le asignamos la referencia del elemento actual a una variable de tipo ref (en este caso  a la variable formulario)
-- `<form ref={formulario} onSubmit={handleSubmit}>` -- En esta linea se le asigna una referencia de la etiqueta form a la variable formulario
-- La props ref :  Sirve para  seleccionar un elemento/componente . Su valor es una variable de tipo ref y es donde se almacena la referencia del elemento seleccionado. Es el equivalente a usar   getElementById o querySelector.
-- useRef :  es un hook para crear variables de referencias (de tipo ref) . Estas variables se le asignan al atributo(props) ref para asignarle alguna referencia.
-- No abusar de useRef, que consume memoria.
-- getElementById y querySelector pueden generar problemas ya que REACT trabaja con un VIRTUAL DOM.
-
+- La variable `formulario` es de tipo ref porque fue creada con `useRef`.
+- Con la prop `ref` asignamos la referencia de un elemento o componente a una variable de tipo ref.
+- `<form ref={formulario} onSubmit={handleSubmit}>` -- En esta línea, la referencia del elemento `<form>` se guarda en `formulario.current` 
+- useRef es un hook de React que permite crear referencias persistentes entre renderizados. Las variables creadas con useRef suelen asignarse a la prop ref para acceder directamente a elementos del DOM.
+- En React se recomienda evitar el uso frecuente de `getElementById` y `querySelector`, ya que React trabaja con un Virtual DOM y administra el DOM automáticamente.
+- useRef debe usarse solo cuando realmente necesitamos acceder directamente a un elemento o guardar un valor mutable sin provocar renderizados.
+- La sintaxis general es: `<elemento ref={variableRef}></elemento>` -- En esta línea de código, se asigna una referencia del elemento a variableRef (que fue creada con useRef).
 :::
 :::warning desventajas
 - No podemos mostrar mensajes de validaciones.
 - No usamos todo el potencial de REACT.
 :::
 ## Formulario controlado
-- En la mayoría de los casos, te recomendamos usar Componentes controlados para implementar formularios.
--	En un componente controlado, los datos del formulario son manejados por un componente React.
-- [link](https://es.reactjs.org/docs/forms.html#controlled-components)
--	Los componentes React que rendericen un formulario también controlan lo que pasa en ese formulario con las subsecuentes entradas del usuario.
--	Ahora vamos a poder detectar los campos input en tiempo real.
+- En la mayoría de los casos, se recomienda usar componentes controlados para implementar formularios en React.
+-	Un formulario controlado es aquel en el que los datos de los campos (input, textarea, select, etc.) son administrados por el estado del componente React. De esta manera, React mantiene el control total sobre los valores ingresados por el usuario.
+- [Documentación oficial de React](https://es.reactjs.org/docs/forms.html#controlled-components)
+-	Los componentes que renderizan un formulario también controlan lo que sucede en él mediante eventos como onChange, actualizando el estado en tiempo real.
+- Gracias a esto, es posible:
+  - Detectar cambios en los campos al instante.
+  - Validar datos mientras el usuario escribe.
+  - Mostrar mensajes de error dinámicamente.
+  - Sincronizar los valores del formulario con el estado de la aplicación.
+- En los formularios controlados suele utilizarse `useState` para almacenar los valores del formulario y el evento `onChange` para actualizar el estado cada vez que el usuario modifica un campo.
 
 App.jsx
 ```js
@@ -312,8 +316,11 @@ export default FormControlado
 ```
 
 :::tip Observacion  
-- Usamos los tipos de evento change(si cambia) y submit(si se envia).
-- …objeto --- Spread (…) de objeto. En lugar de unir Array, Une objetos. En caso que ya exista la propiedad se sobrescribe.
+- En este ejemplo se utilizan los eventos:
+  - `onChange`: se ejecuta cada vez que el usuario modifica el valor de un campo del formulario.
+  - `onSubmit`: se ejecuta cuando el formulario es enviado.
+- La función setTodo actualiza el estado del formulario utilizando el `operador spread (...)`. 
+- Con el `operador spread (...)` copiamos todos los valores anteriores del objeto y luego actualizamos únicamente la propiedad que cambió.
 :::
 
 Ejemplo 2:
@@ -334,7 +341,7 @@ const FormControlado = () => {
   const handleChange = (e) => {
         setTodo({
           ...todo,
-          // Usamos los corchetes para crear la propiedad ya que es dinamica
+          // // Usamos los corchetes ya que el nombre de la propiedad se obtiene dinámicamente desde e.target.name
           [e.target.name] : e.target.value
         })
   }
@@ -430,7 +437,7 @@ const FormControlado = () => {
 Otra alternativa al setTodo:
 ```js
 const handleChange = (e) => {
-        // Estamos devolviendo un objeto a traves de la funcion flecha
+// Retornamos un objeto de forma implícita usando () en el callback de setTodo
         setTodo((old) => ({
             ...old ,
             [e.target.name] : e.target.value
@@ -440,7 +447,7 @@ const handleChange = (e) => {
 ```
 
 :::tip Observacion
-- como se puede ver, el parametro old es el valor anterior al actual de la variable  todo
+- Como se puede ver, el parámetro `old` contiene el valor anterior del estado `todo`, es decir, el estado antes del cambio que estamos haciendo.
 :::
 
 ### El atributo value va antes que onChange

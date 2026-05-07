@@ -199,7 +199,6 @@ document.createElement(String name)
 
 ```js
 console.log(document.getElementById("tituloWeb"));
-console.log(document.getElementById("tituloWeb"));
 console.log(document.getElementById("tituloWeb").textContent);
 console.log(document.getElementById("tituloWeb").innerHTML);
 
@@ -208,10 +207,12 @@ console.log(document.getElementById("tituloWeb").innerHTML);
 - La propiedad texContent te devuelve el texto del elemento.
 - Tambien sirve para asignar un nuevo texto
 ## Propiedad innerHTML
-- La propiedad innerHTML te devuelve el texto del elemento, te permite insertar código html pero no es recomendable porque podemos tener inyecciones.
-- Hace lo mismo que textContent
-- Acepta codigo html
-
+- La propiedad `innerHTML` devuelve todo el contenido HTML del elemento (incluyendo etiquetas y texto).
+- Permite insertar código HTML, pero no es seguro usarlo con datos no confiables porque puede generar inyecciones (XSS).
+- No hace lo mismo que `textContent`:
+  - `textContent` → devuelve o inserta solo texto plano (ignora etiquetas HTML).
+  - `innerHTML` → devuelve o inserta contenido HTML.
+- Conclusión: `innerHTML` permite obtener y asignar contenido HTML (texto + etiquetas), mientras que `textContent` permite obtener y asignar solo texto plano.
 ## Etiqueta script
 la etiqueta <script></script> debe ir antes de la etiqueta cierre del body así primero carga todo el DOM para luego poder manipularlo. En caso contrario al querer acceder a un elemento te dará null.
 

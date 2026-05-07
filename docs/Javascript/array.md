@@ -475,13 +475,11 @@ console.log(array3);
 
  ```
  ## Sintáxis Spread (...)
-
- [
-permite a un elemento iterable tal como un arreglo o cadena ser expandido en lugares donde son esperados.
+ - [
+Permite que un elemento iterable, como un arreglo o una cadena, sea expandido.
 ](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-
-Es lo mismo que concant pero usando los tres puntos (“…”)
-
+- Es similar a `concat`, pero utilizando los tres puntos (`...`).
+- Se usa para unir arrays:
 ```js
 // Todos los elementos del array 1 (…array1) y todos los elementos del array 2 (…array2) se juntan
  const array1 = ["a", "b", "c"];
@@ -518,14 +516,15 @@ const gato = {propiedades del gato}
 const gato2 = {…gato};
 ```
 :::tip Observacion 
-- Al gato2 se le asigna una copia de gato por lo tanto también tiene todas sus propiedades.
-- gato y gato2 tienen las mismas propiedades y valores, pero son totalmente independiente(es una copia)
+- A `gato2` se le asigna una copia de `gato`, por lo tanto también tiene sus mismas propiedades y valores.
+- Aunque gato y gato2 contienen la misma información, son objetos independientes.
 - Conclusion : Sirven para crear una copia de forma independiente.
 :::
 :::warning 
-La copia se hace solo de los elementos superiores (se accede a la propiedad con un punto(objeto.propiedad)), los elementos de “nivel bajo” (se accede a la propiedad con más de un punto  (objeto.propiedad.propiedad) se pasan por referencia.  
+- La copia solo se realiza en los elementos superiores (se accede con `objeto.propiedad`).
+- Los elementos de niveles más profundos (por ejemplo `objeto.propiedad.propiedad`) se pasan por referencia.
+- ⚠️ Cuidado con objetos o arrays complejos.
 
-CUIDADO CON OBJETOS/ARRAY COMPLEJOS
 :::
 #### Descomponen un objeto/array
 ```js

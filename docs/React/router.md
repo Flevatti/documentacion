@@ -2017,3 +2017,10 @@ export default Blog
 ```
 2. Ejecuta `npm run build` para compilar la APP
 3. Subir lo que genero el comando `build`  a Netlify.
+
+
+## Versiones posteriores
+- Es posible que esta documentación esté basada en una versión anterior de React Router. También puede ocurrir que, al momento de leer esto, estés utilizando una versión superior a la mostrada aquí, por lo que se recomienda consultar siempre la documentación oficial.
+- Si sabés v6, ya entendés casi todo en v7 (y versiones posteriores). No hace falta “aprender de cero”, solo ajustar algunas cosas nuevas.
+- Por lo general, los cambios entre versiones incluyen mejoras de rendimiento, integraciones con frameworks, nuevas opciones para data loading (manejo de datos desde APIs) y refactorización o limpieza de la API.
+- [Consultar versión y divertite aprendiendo!](https://reactrouter.com/?utm_source=chatgpt.com)

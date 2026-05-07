@@ -1643,9 +1643,9 @@ export default Register
 ## useRef
 - [link](https://es.reactjs.org/docs/hooks-reference.html#useref)
 - Es un hook de React
-- Nos permite acceder a todas las propiedades de un elemento(input , etc)
-- Sería como el document.getElementById , ósea es la forma de seleccionar un elemento en React
-- React creo el ref para optimizar lo que hace  document.getElementById
+- Nos permite acceder directamente a un elemento del DOM y a sus propiedades (por ejemplo, un input).
+- Es una forma de obtener una referencia de un elemento en React, similar a lo que hace `document.getElementById` en JavaScript.
+- A diferencia de `document.getElementById`, useRef funciona de manera integrada con React y evita manipular el DOM de forma manual innecesariamente.
 
 Ejemplo:
 
@@ -1672,13 +1672,13 @@ export default ExampleRef;
 
 ```
 :::tip Observacion 
-- Al comienzo, ref(inputEl) es null  ya que cuando se inicializa todavia no existe ningún elemento. 
-- Al renderizarse el componente, el valor de ref(inputEl) es una referencia al input. 
-- &lt;elemento ref={variableRef}>&lt;/elemento> -- En esta linea de codigo se asigna una referencia del elemento a la variableRef(se creo con el useRef)
-- &lt;input type="text" ref={inputEl} /> -- En esta linea de codigo se asigna una referencia del input(elemento) a la variable inputEl(se creo con el useRef)
-- Con el atributo(props) ref asignamos el valor(referencia de un elemento/componente) de ref.
-- Con la referencia al input, podemos manipularla (como el focus del ejemplo).
-- El valor(referencia) lo contiene la propiedad current del ref.
+- Al comienzo, `inputEl.current` es `null` porque, cuando se inicializa, todavía no existe ningún elemento renderizado.
+- Una vez que el componente se renderiza, `inputEl.current` pasa a contener una referencia al elemento input.
+- `<elemento ref={variableRef}></elemento>` -- En esta línea de código, se asigna una referencia del elemento a variableRef (que fue creada con useRef).
+- `<input type="text" ref={inputEl} />` -- En esta línea de código, se asigna una referencia del elemento input a la variable inputEl (que fue creada con useRef).
+- Con la prop ref asignamos una referencia de un elemento o componente a una variable creada con useRef.
+- Gracias a la referencia al input, podemos manipular el elemento directamente (por ejemplo, aplicar focus, como en el ejemplo).
+- El valor de la referencia se encuentra en la propiedad `current` del ref.
 :::
 
 ## forwardRef
