@@ -874,7 +874,7 @@ export default function List() {
 #### ¿Por qué React necesita keys? 
 - Imagina que los archivos de tu escritorio no tuvieran nombres. En vez de eso, tú te referirías a ellos por su orden — el primer archivo, el segundo, y así. Podrías acostumbrarte a ello, pero una vez borres un archivo, se volvería algo confuso. El segundo archivo se convertiría en el primero, el tercer archivo se convertiría en el segundo, y así.
 - Los nombres de archivos en una carpeta y las keys JSX en un array tienen un propósito similar. Nos permiten identificar un objeto de manera única entre sus hermanos. incluso si la posición cambia debido a un reordenamiento, la key permite a React identificar al elemento a lo largo de su ciclo de vida.
-- Ten en cuenta que tus componentes no reciben la key como una prop; esta es utilizada únicamente por React como una referencia interna. Si tus componentes necesitan un identificador (ID), debes pasarlo como una prop separada, por ejemplo: &lt;Profile key={id} userId={id} />.
+- Ten en cuenta que tus componentes no reciben la key como una prop; esta es utilizada únicamente por React como una referencia interna. Si tus componentes necesitan un identificador (ID), debes pasarlo como una prop separada, por ejemplo:`<Profile key={id} userId={id} />`.
 - Ejemplo:
   - Tenemos un componente que renderiza un perfil de Usuario.
   - Y Queremos que cada perfil sea "unico" , osea que el estado de uno sea diferente al otro . Tambien necesitamos lograr que al modificar  uno , el otro se mantenga intacto (no se modifique ni se vuelva a renderizar).

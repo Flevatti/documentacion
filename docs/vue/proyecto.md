@@ -1998,26 +1998,34 @@ onMounted(async () => {
 ```
 
 ## Rules 
-- [Explicado en la seccion de React](https://fedeleva.github.io/aprendizaje/React/proyecto.html#regla-de-seguridad)
+- En Firebase, las Security Rules son reglas que determinan quién puede leer o escribir datos en tu base de datos.
+- [Explicado en la sección  de React](../React/proyecto.md#regla-de-seguridad)
 
-### Siempre comienta con : service cloud.firestore 
+### Siempre comienza con : service cloud.firestore 
+- Firebase tiene varios servicios que usan reglas de seguridad:
+    - Cloud Firestore
+    - Cloud Storage
+    - Realtime Database
+- La declaración `service cloud.firestore` le indica a Firebase: Las reglas que vienen a continuación pertenecen a Cloud Firestore.
+### Declaracion `match /databases/{database}/documents`
 
-- Sirve para que no se confunda con Cloud Storage.
-- La declaración service cloud.firestore define el alcance de las reglas a Cloud Firestore, lo que evita conflictos entre las reglas de seguridad de Cloud Firestore y las reglas de otros productos, como Cloud Storage.
-
-### Declaracion match /databases/{database}/documents
-
-- La declaración match /databases/{database}/documents especifica que las reglas deberían coincidir con cualquier base de datos de Cloud Firestore en el proyecto. Actualmente, cada proyecto tiene solo una base de datos llamada (default).
-
+- La declaración `match /databases/{database}/documents` define sobre qué base de datos se aplicarán las reglas:
+    - `/databases/` : Es la parte donde Firestore agrupa o contiene las bases de datos.
+    - `{database}` : Es una variable que representa el nombre de la base de datos. Gracias a esta variable, las reglas funcionan para cualquier BD.
+    - `/documents` : Indica que las reglas se aplicarán a los documentos almacenados dentro de Firestore.
+- Por lo tanto, esta declaración indica que las reglas se aplicarán a los documentos de cualquier base de datos del proyecto.
 :::warning 
 - No confundir colección con base de datos.
+- Las colecciones contienen documentos.
 - En la versión gratis solo tenemos una BD.
 :::
 
 ### Reglas básicas de lectura y escritura
-- Las reglas básicas consisten en una declaración match que especifica la ruta de un documento y una expresión allow que describe cuándo se permite la lectura de los datos especificados (documento especificado)
-- Todas las declaraciones de coincidencia deben apuntar a los documentos, no a las colecciones. Una declaración de coincidencia puede apuntar a un documento específico, como en match /coleccion/ID , o usar comodines para apuntar a cualquier documento en la ruta especificada, como en match /coleccion/{variable}.
-- Cuando se evalúan las expresiones allow en la declaración de coincidencia, la variable  se convierte en el nombre del documento(ID) . 
+- Las reglas básicas consisten en:
+    - una declaración `match` que especifica la ruta del documento al que se aplicarán las reglas.
+    - una expresión `allow`, que define qué operaciones se permiten y bajo qué condiciones.
+- Todas las declaraciones `match` deben apuntar a los documentos, no a las colecciones. Entonces se puede  apuntar a un documento específico, como en `match /coleccion/ID` , o usar comodines para apuntar a cualquier documento en la ruta especificada, como en match `/coleccion/{variable}`.
+- Cuando Firestore evalúa las expresiones allow dentro de un match, la variable toma automáticamente el valor del ID del documento que se está intentando acceder.
 
 ### Resultado Final 
 
@@ -2033,10 +2041,19 @@ service cloud.firestore {
 }
 
 ```
+:::tip observación
+- `read`, `update` y `delete` utilizan la misma condición:
+    - El usuario debe estar autenticado (`request.auth != null`).
+    - Y además debe ser el dueño del documento (`request.auth.uid == resource.data.user`).
+    - Por lo tanto, para leer, actualizar o eliminar documentos, el usuario debe estar autenticado y ser el dueño del documento.
+- `create` permite crear documentos a cualquier usuario autenticado (`request.auth != null`).
+:::
+
+
 
 ## Deploy 
 
-- [Explicacion en la seccion de React](https://fedeleva.github.io/aprendizaje/React/proyecto.html#deploy)
+- [Explicacion en la seccion de React](../React/proyecto.md#deploy)
 
 ```js
 npm install -g firebase-tools

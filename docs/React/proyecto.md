@@ -4036,9 +4036,9 @@ export default LayoutRedirect
 ```
 
 ## Regla de seguridad 
-- [link](https://firebase.google.com/docs/firestore/security/get-started?hl=es)
-- [link 2](https://firebase.google.com/docs/firestore/security/rules-structure?hl=es#basic_readwrite_rules)
-- [link 3](https://firebase.google.com/docs/firestore/security/rules-conditions?hl=es#authentication)
+- [Comienza a usar las reglas de seguridad de Cloud Firestore](https://firebase.google.com/docs/firestore/security/get-started?hl=es)
+- [Reglas básicas de lectura y escritura](https://firebase.google.com/docs/firestore/security/rules-structure?hl=es#basic_readwrite_rules)
+- [Autenticación](https://firebase.google.com/docs/firestore/security/rules-conditions?hl=es#authentication)
 
 ### FireBase
 FireStore DataBase – Reglas
@@ -4060,22 +4060,29 @@ service cloud.firestore {
 ```
 
 :::tip Observacion 
-- Usamos la versión 2
-- Usan el match para encontrar algo (Si lo encuentra ejecuta el bloque {})
-- El siguiente código especifica que que se puede leer y escribir en la colección durante  30 dias. (empieza el dia que iniciaste la BD)
+- Se utiliza la versión 2 de las reglas: `rules_version = '2';`
+- `match` se usa para especificar los documentos donde se aplicarán las reglas. En este caso, se utiliza la línea `match /{document=**}`, que aplica las reglas a todos los documentos de la base de datos.
+- El siguiente código especifica que se puede leer y escribir durante 30 días (comenzando desde el día en que se inició la base de datos):
 ```js
 allow read, write: if
           request.time < timestamp.date(2022, 5, 28);
 
 ```
+- `allow` define los permisos. En este caso, se definieron permisos de lectura (`read`) y escritura (`write`). Luego, con `if`, se especifica la condición que debe cumplirse para poder realizar dichas operaciones.
 :::
 
-:::tip allow 
-Los allow se aplican si se cumple la condicion (se encuentra después del if)
+:::tip allow
+Los permisos definidos con `allow` se aplican únicamente si se cumple la condición especificada después del `if`.
 :::
 
 :::tip Division
-- Una regla read se puede dividir en get y list, mientras que una regla write se puede dividir en create, update y delete
+- Una regla de lectura (`read`) se puede dividir en:
+  - `get`: permite leer un documento específico.
+  - `list`: permite obtener listas o consultas de documentos.
+- Una regla de escritura (`write`) se puede dividir en:
+  - `create`: permite crear documentos.
+  - `update`: permite modificar documentos existentes.
+  - `delete`: permite eliminar documentos.
 :::
 ### Implementamos nuestro match para la colección urls
 - request.auth = Te devuelve la sesion del usuario , en caso de no haber devuelve null.
@@ -4093,7 +4100,8 @@ service cloud.firestore {
 
 ```
 :::tip Observacion 
-- Solo se puede escribir y leer la BD , si existe una sesion del usuario activa.
+- Solo se puede leer y escribir en la base de datos si existe una sesión de usuario activa.
+- `/urls/{document=**}` indica que estas reglas se aplicarán a todos los documentos dentro de la colección `urls`.
 :::
 
 ### Separar los permisos
@@ -4140,8 +4148,8 @@ service cloud.firestore {
 
 :::
 ### Permiso get y list
-- get : Permiso para solo un documento
-- list : Permiso para un conjunto de documentos
+- `get`: permiso para leer un único documento.
+- `list`: permiso para leer un conjunto de documentos (por ejemplo, una consulta).
 
 ```js
 rules_version = '2';
@@ -4159,7 +4167,10 @@ service cloud.firestore {
 :::tip Observacion 
 - Permiso para leer SOLO un documento = Todos
 - Permiso para leer  un  CONJUNTO de documentos (Ej. Seleccionar todos los documentos) : Solo si el uid del documento coincide con el del usuario autenticado.
+- Cuando se realiza una operación `list` (por ejemplo, obtener todos los documentos), Firestore evalúa la regla para cada documento del resultado. Luego, solo devolverá los documentos donde ambos `uid` coincidan.
 :::
+
+
 
 ## Deploy
 - Vamos a usar el hosting de firebase
@@ -4180,15 +4191,16 @@ Si funciona todo, subimos la carpeta dist al hosting.
 :::
 
 
-### En firebase
+#### En firebase
 - Hosting – get started(comenzar)
 
+#### En nuestro proyecto
 Ejecutamos el comando
 ```powershell
 npm install -g firebase-tools
 ```
 :::tip warning 
-se instala de manera global , no hace falta ubicarse en el proyecto
+Se instala de manera global , no hace falta ubicarse en el proyecto
 :::
 
 Iniciamos Sesion con el comando: 
