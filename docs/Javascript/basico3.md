@@ -786,7 +786,7 @@ Ejemplo con freeze()
 
 :::
 ##  Media queries con Window
-[Son de sobra conocidas las CSS Media queries, que nos permiten detectar distintas características de los dispositivos para aplicar unos estilos u otros en función de ellas.](../CSS#media-queries-para-dispositivos-móviles) 
+[Son de sobra conocidas las CSS Media queries, que nos permiten detectar distintas características de los dispositivos para aplicar unos estilos u otros en función de ellas.](../CSS/at-rules.md#media) 
 
 **Es menos habitual que desde Javascript necesitemos detectar si ciertas medias queries se están evaluando positivamente**, pero también nos podemos ver en necesidad de ello
   

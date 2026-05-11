@@ -356,7 +356,7 @@ El texto es Azul.
 - El Elemento tiene menos prioridad que la ID y la Clase.
 :::
 #### A realizar sumas
-- Para saber si un selector de CSS es más específico que otro (y, por lo tanto, el navegador le da prioridad) sólo hay que calcular los dígitos de los componentes anteriores, que forman un número que indica la especificidad:
+- Para saber si un selector CSS es más específico que otro (y, por lo tanto, el navegador le da prioridad), se asigna un valor a cada tipo de selector según su jerarquía y luego se suman. El resultado forma un número que indica la especificidad:
 ```css
 div { ... }                   /* Especificidad: 0,0,1 (1 elemento) */
 div div { ... }               /* Especificidad: 0,0,2 (2 elementos) */

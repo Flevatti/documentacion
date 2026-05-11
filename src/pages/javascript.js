@@ -64,7 +64,7 @@ const FeatureList = [
         ),
     },  {
         title: 'Typescript',
-        url:'/docs/typescript',
+        url:'/docs/Typescript',
         Svg: require('@site/static/img/logo_typescript.svg').default,
         description: (
             <>

@@ -4,26 +4,16 @@ sidebar_position: 6
 # PseudoClase
 
 
-## :is() y :where()
-- Son Pseudo-clases como :hover
-
-
-
-
-- :is() y :where()  se diferencian a nivel de especificidad. Las siguientes son algunas de las diferencias:
-  - :where() no tiene especificidad
-  - :is() toma la especificidad de su selector más específico .Por ejemplo  ":is(a,div,#id)" tiene una especificidad de una ID.
-
-:::tip Especificidad 
-- La especificidad es el medio por el cual los navegadores deciden qué valores de propiedad de CSS son los más relevantes para un elemento
-- Por ejemplo una ID es mas revelante que una clase.
+## `:is()` y `:where()` 
+- `:is()` y `:where()` permiten aplicar estilos cuando un elemento coincide con alguno de los selectores indicados dentro de los paréntesis.
+- `:is()` y `:where()` se diferencian a nivel de especificidad:
+  - `:where()` no tiene especificidad.
+  - `:is()` toma la especificidad del selector con mayor especificidad que exista dentro de sus parámetros.
+:::tip Especificidad
+- La especificidad es el mecanismo mediante el cual los navegadores deciden qué estilos tienen mayor prioridad para un elemento.
+- Por ejemplo, una ID tiene más prioridad que una clase.
 :::
-:::tip Diferencias entre :is() y :where()
 
-La diferencia principal entre estos dos selectores es que con :where() la especificidad es cero, mientras que con :is() la especificidad será la que corresponda al selector de la lista con mayor especificidad.
-
-
-:::
 
 Ejemplo
 ```html
@@ -216,9 +206,9 @@ La pseudo-clase [:nth-last-child](https://developer.mozilla.org/es/docs/Web/CSS/
 - [Selector CSS :nth-child()](https://www.geeksforgeeks.org/css-nth-child-selector/)
 - [:nth-child](https://developer.mozilla.org/es/docs/Web/CSS/:nth-child)
 :::
-## :has()
+## `:has()`
 - Toma un selector CSS como argumento
-- Selecciona el elemento , SI  el selector coincide con algun elemento hijo del  elemento.
+- Selecciona un elemento solo si dentro de él existe un elemento que coincide con el selector especificado en el argumento.
 
 #### Ejemplo
 ```html
@@ -428,7 +418,7 @@ document.getElementById('results').innerHTML = Array.prototype.map.call(
 - [:scope - RuneBook](https://runebook.dev/es/docs/css/:scope)
 - [:scope - Developer Mozilla](https://developer.mozilla.org/en-US/docs/Web/CSS/:scope)
 :::
-## :root
+## `:root`
 - Selecciona el elemento raíz de un árbol que representa el documento.
 - En HTML , :root representa el elemento &lt;html> y es idéntico al selector html , excepto que su especificidad es mayor.
 - Es util para declarar [variables CSS](./funciones#var)
@@ -457,14 +447,14 @@ document.getElementById('results').innerHTML = Array.prototype.map.call(
 - [CSS :root Selector](https://www.w3schools.com/cssref/sel_root.php)
 - [:root -- Runebook](https://runebook.dev/es/docs/css/:root)
 :::
-## :link / :visited
-#### :link
+## `:link / :visited`
+#### `:link`
 - Representa un elemento que aún no se ha visitado.
 - Coincide con cada elemento no visitado &lt;a>, &lt;area>, o &lt;link> que tiene un atributo href.
 - Los estilos definidos por la pseudo-clase :link serán anulados por cualquier pseudo-clase posterior relacionada con el enlace (:active, :hover, o :visited) que tenga al menos la misma especificidad.
 
 
-#### :visited
+#### `:visited`
 - Representa un elemento que el usuario ya ha visitado.
 - Por motivos de privacidad, los estilos que se pueden modificar con este selector son muy limitados.
 - Los estilos definidos por la pseudo-clase :visited serán anulados por cualquier pseudo-clase posterior relacionada con el enlace (:link, :hover o :active) que tenga al menos la misma especificidad
