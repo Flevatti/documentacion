@@ -119,6 +119,29 @@ cd [nombreProyecto]
 - [Iniciar un nuevo proyecto de React](https://es.react.dev/learn/start-a-new-react-project)
 :::
 
+## Usar framework
+- Hoy en día, **Create React App (CRA)** ya no se recomienda como la opción principal para crear aplicaciones con React. De hecho, el propio equipo de React sugiere utilizar React junto con frameworks modernos como:
+  - Next.js
+  - Remix
+  - Gatsby
+  - Expo
+- Esto se debe a que estos frameworks resuelven muchos problemas que CRA ya no cubre de forma eficiente, entre ellos:
+  - **Renderizado del lado del servidor (SSR)**: la página HTML se genera en el servidor antes de enviarse al navegador.
+  - **Generación estática**: las páginas se generan una sola vez durante el proceso de build y luego se sirven como archivos estáticos.
+  - **Routing integrado**: incluyen sistemas de navegación entre páginas listos para usar.
+  - **Carga optimizada de recursos**: el framework decide automáticamente qué recursos cargar y en qué momento.
+  - **Mejor rendimiento**: aplican múltiples optimizaciones automáticamente.
+  - **División automática de código (Code Splitting)**: la aplicación se divide en pequeños archivos JavaScript que se cargan únicamente cuando son necesarios.
+  - **Manejo moderno de datos**: integran herramientas para obtener datos desde APIs o bases de datos de forma eficiente.
+- Debido a todo esto, CRA ha dejado de recibir mantenimiento activo y hoy se considera una herramienta obsoleta.
+- Sin embargo, si querés usar React sin depender de un framework —ya sea para experimentar, aprender cómo funciona React internamente o incluso crear tu propia arquitectura—, se recomienda utilizar herramientas modernas y minimalistas como:
+  - [Vite](https://es.vite.dev/)
+  - [Parcel](https://parceljs.org/)
+  - [Rspack](https://rspack.rs/)
+
+
+
+
 ## Directorios
 
 ### README.md

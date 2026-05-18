@@ -437,10 +437,8 @@ export default Componente
 
 
 ## React.forwardRef
-- React.forwardRef crea un componente React que envía el atributo ref que recibe a otro componente más abajo en el árbol.
-- React.forwardRef acepta una función de componente como un argumento. Esta función tendrá las props y ref como dos argumentos. Esta función debe retornar un nodo React.
-
-
+- `React.forwardRef` crea un componente de React capaz de reenviar la referencia (`ref`) que recibe hacia otro componente o elemento ubicado más abajo en el árbol de componentes.
+- Permite que un componente reciba una `ref` como si fuera una prop especial y la reenvíe a otro componente o elemento hijo.
 :::tip info
 - [React Docs](https://beta.es.reactjs.org/reference/react/forwardRef)
 - [ReactJS.org](https://es.reactjs.org/docs/react-api.html#reactforwardref)

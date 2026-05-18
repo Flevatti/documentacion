@@ -1498,10 +1498,11 @@ export default App;
   - Un array de dependencias.
 - useMemo es similar a useCallback: permite conservar un valor (el que retorna la función del primer argumento) entre renderizados y solo volver a calcularlo cuando cambia alguna de las dependencias especificadas.
 :::tip
-El arreglo de dependencias no se pasa como argumentos a la función. Sin embargo, cada valor al que se hace referencia dentro de la función también debe aparecer en el arreglo de dependencias
+- El arreglo de dependencias no se pasa como argumentos a la función. Sin embargo, cada valor al que se hace referencia dentro de la función también debe aparecer en el arreglo de dependencias
 :::
 :::tip Valor memorizado
-Significa que esta guardado en la memoria RAM Y no se declara (vuelve a crear) cada vez que se llama (se renderiza el componente).
+- Significa que React guarda temporalmente ese valor en memoria para reutilizarlo entre renderizados.  
+- De esta manera, el valor no se vuelve a calcular ni a crear en cada render del componente, a menos que cambie alguna de sus dependencias.
 :::
 #### Ejemplo
 ```js
@@ -1562,7 +1563,134 @@ export default App;
 
 ```
 ### useRef
-- [guia](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)
+
+- `useRef` es un hook de React que permite guardar un valor mutable que persiste entre renderizados.
+- A diferencia de `useState`, cuando el valor de una ref cambia, el componente no se vuelve a renderizar.
+
+#### useRef(initialValue)
+- **Parámetro `initialValue`:**
+  - Define el valor inicial de la propiedad `current` del objeto ref.
+  - Puede ser cualquier tipo de dato.
+  - Este valor solo se utiliza durante el renderizado inicial.
+- El método `useRef()` devuelve un objeto ref con una única propiedad:
+  - `current`:
+    - Inicialmente contiene el valor de `initialValue`.
+    - Puede modificarse posteriormente sin provocar un nuevo renderizado.
+    - Si el objeto ref se asigna a la prop `ref` de un elemento JSX, React guardará la referencia de ese elemento en `current`.
+- El objeto ref mantiene la misma referencia entre renderizados.
+  - Es decir, React no vuelve a crear el objeto en cada render, sino que conserva el mismo objeto durante todo el ciclo de vida del componente, por lo que el valor almacenado en `current` persiste entre renderizados.
+#### Advertencias
+- Puedes modificar `ref.current` porque las refs son mutables.
+- Sin embargo, no deberías mutar(modificar) objetos que React utiliza para actualizar la interfaz, ya que React podría no detectar esos cambios y la UI quedar desactualizada.
+- Cambiar `ref.current` no hace que React renderice nuevamente el componente, ya que React no detecta automáticamente esos cambios.
+- Evita leer o modificar `ref.current` en el cuerpo (adentro) de la función del componente (durante el renderizado), excepto para la inicialización. En su lugar, hazlo desde controladores de eventos o dentro de `useEffect`.
+- En `StrictMode`, React ejecuta el componente dos veces en desarrollo para detectar efectos secundarios accidentales y comprobar que el componente sea predecible y consistente.
+  - Esto no ocurre en producción.
+  - Durante este proceso, cada ref se crea dos veces temporalmente, pero React descarta una de las versiones y conserva la definitiva.
+
+:::tip Efectos secundarios
+- En React, un efecto secundario es cualquier acción que modifica algo fuera del renderizado (de la función del componente).
+- Es decir, acciones que producen cambios externos o adicionales.
+- Por ejemplo:
+  - Modificar variables externas
+  - Hacer peticiones HTTP
+  - Usar `localStorage`
+  - Cambiar el DOM manualmente
+  - Iniciar timers (`setTimeout`, `setInterval`), ya que programan acciones que se ejecutarán más adelante, cuando el renderizado del componente ya terminó, por lo que se consideran efectos fuera del renderizado.
+  - Modificar `ref.current` durante el renderizado
+- Se consideran efectos secundarios “accidentales” cuando ocurren en lugares donde no deberían ejecutarse, especialmente durante el renderizado de la función del componente.
+:::
+
+#### Ejemplo 1
+
+```jsx
+import { useRef } from 'react'
+
+import './App.css'
+
+function App() {
+  const ref = useRef(0);
+
+  function handleClick() {
+    ref.current = ref.current + 1;
+    alert('¡Hiciste clic ' + ref.current + ' veces!');
+  }
+
+  return (
+    <>
+      <button onClick={handleClick}>
+        ¡Hazme clic!
+      </button>
+
+      <p>El valor es {ref.current}</p>
+    </>
+  )
+}
+
+export default App
+```
+:::tip Observación
+- `useRef` devuelve un objeto con una única propiedad llamada `current`, inicializada con el valor que se pasa como argumento.
+- En cada renderizado, React devuelve el mismo objeto `ref`, por lo que el valor almacenado en `current` se conserva entre renderizados.
+- Puedes modificar `ref.current` libremente para guardar información y utilizarla más adelante.
+- A diferencia de `useState`, modificar `ref.current` no provoca un nuevo renderizado del componente.
+- En este ejemplo, el valor de `ref.current` sí aumenta internamente cada vez que se hace clic, pero el `<p>` no se actualiza en pantalla porque cambiar una ref no vuelve a renderizar el componente.
+- Las refs son útiles para almacenar información que no afecta directamente a la interfaz visual, como:
+  - IDs de `setTimeout` o `setInterval`
+  - Referencias a elementos del DOM
+  - Valores anteriores
+  - Contadores internos
+- Al usar una ref:
+  - Puedes almacenar información que persiste entre renderizados.
+  - Cambiar su valor no genera un nuevo renderizado.
+  - Cada componente tiene su propia ref independiente.
+:::
+
+
+#### Ejemplo 2
+```jsx
+import { useRef } from "react";
+
+import "./App.css";
+
+function App() {
+  const inputRef: React.RefObject<null | HTMLInputElement> = useRef(null);
+
+  function handleClick() {
+    inputRef.current?.focus();
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={handleClick}>Focus the input</button>
+    </>
+  );
+}
+
+export default App;
+
+```
+:::tip Observación
+
+- `inputRef` almacena una referencia al elemento `<input>` del DOM.
+- Cuando React renderiza el componente, asigna automáticamente el elemento `<input>` a `inputRef.current`.
+- Inicialmente, `inputRef.current` vale `null` porque el elemento todavía no existe en el DOM.
+- Después del renderizado, `inputRef.current` pasa a contener el elemento HTML real (`HTMLInputElement`).
+- Al hacer clic en el botón, se ejecuta `handleClick`, que llama al método `.focus()`  del input mediante la ref.
+- El operador `?.` evita errores en caso de que `current` sea `null`.
+- En este caso, la ref se utiliza para acceder y manipular directamente un elemento del DOM sin necesidad de volver a renderizar el componente.
+:::
+
+:::tip Más información
+- [useRef - Proyecto](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)
+- [useRef - Formulario no controlado](https://flevatti.github.io/documentacion/docs/React/formulario#useref)
+- [useRef](https://es.react.dev/reference/react/useRef)
+
+:::
+
+
+
 ### useImperativeHandle
 - Le sacamos provecho con:
   - useRef ([guia1](https://flevatti.github.io/documentacion/docs/React/proyecto#useref)  -- [guia 2](https://flevatti.github.io/documentacion/docs/React/formulario#useref))
@@ -1999,6 +2127,14 @@ export default App;
 
 ```
 
+
+### useSyncExternalStore 
+- [useSyncExternalStore: Demystified for Practical React Development](https://www.epicreact.dev/use-sync-external-store-demystified-for-practical-react-development-w5ac0)
+- [¿Para qué sirve el hook `useSyncExternalStore`?](https://www.reactjs.wiki/para-que-sirve-el-hook-use-sync-external-store)
+- [Understanding useSyncExternalStore](https://medium.com/@dwell_the/understanding-usesyncexternalstore-c06618a32d61)
+- [useSyncExternalStore in React — The Right Way to Subscribe to External Data](https://dev.to/saiful7778/usesyncexternalstore-in-react-the-right-way-to-subscribe-to-external-data-p6)
+- [How to use useSyncExternalStore Hook in React ?](https://medium.com/@himashawije/how-to-use-usesyncexternalstore-hook-in-react-ffd0c784718e)
+- [React Concurrent Rendering Tearing: When External Stores Break](https://www.edge-cases.com/react/react-concurrent-tearing)
 ## [Info de hooks]( https://es.reactjs.org/docs/hooks-reference.html)
 ## Formas de añadir CSS
 ### Hoja de estilos externas

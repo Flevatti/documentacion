@@ -1731,7 +1731,7 @@ Ejemplo
 
 :::tip Observacion
 - Ya podes modificar la variable miUsuario  a tu gusto en el componente.
-- [Ver ejemplo completo – Redirrecionar a la actividad Separacion de componente](./actividadbasica##separacion--de-componentes)
+- [Ver ejemplo completo – Redirrecionar a la actividad Separacion de componente](./actividadbasica.md#separacion--de-componentes)
 
 :::
 

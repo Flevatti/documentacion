@@ -755,3 +755,56 @@ function MiComponente() {
   - Pérdida del estado interno
   - Comportamientos inesperados en hooks y renders
 :::
+
+
+## Reenvío de refs en React 19
+
+- A partir de React 19, las `refs` pueden pasarse directamente como una prop normal a los componentes funcionales, sin necesidad de utilizar `forwardRef`.
+- En versiones anteriores de React, las `refs` eran tratadas de forma especial y no podían recibirse directamente mediante `props`.  
+  Por ese motivo existía `forwardRef`, cuya función era permitir que un componente recibiera una `ref` y la reenviara a un elemento hijo.
+- En React 19 esto cambia: los componentes funcionales ahora pueden recibir `ref` directamente dentro de sus props, simplificando el código y eliminando muchos casos de uso de `forwardRef`.
+- Esto hace que el reenvío de referencias sea más simple, más legible y más parecido al manejo normal de props.
+
+##### Ejemplo con React 19
+
+```jsx
+import { useRef } from "react";
+
+import "./App.css";
+
+type InputTextProps = {
+    ref?: React.RefObject<HTMLInputElement | null>;
+    placeholder?: string;
+};
+function InputText({ ref, ...props } : InputTextProps) {
+    return <input ref={ref} {...props} />;
+}
+function App() {
+ const inputRef : React.RefObject<null | HTMLInputElement> = useRef(null);
+
+    const handleFocus = () => {
+        inputRef.current?.focus();
+    };
+  return (
+      <>
+            <InputText
+                ref={inputRef}
+                placeholder="Escribí algo..."
+            />
+
+            <button onClick={handleFocus}>
+                Focus al input
+            </button>
+        </>
+  );
+}
+
+export default App;
+
+```
+:::tip ¿Qué ocurre en este ejemplo?
+- El componente `InputText` recibe la `ref` directamente como una prop.
+- Luego, reenvía esa referencia al elemento `<input />`.
+- Gracias a esto, el componente padre puede acceder directamente al input mediante `inputRef.current`.
+- En React 19, ya no es necesario envolver el componente con `forwardRef` para recibir y reenviar refs.
+:::

@@ -27,8 +27,15 @@ sidebar_position: 1
 :::tip ¿Qué es un módulo(paquete)?
 - Un módulo no es nada más que una unidad de código, la cual puede ser exportada con facilidad para poder reutilizarse en otras partes de la aplicación.  
 - External modules: Son, en esencia, los paquetes de terceros distribuidos a través de npm (aunque pueden provenir de otros repositorios). Estos paquetes se instalan como dependencias y, aportan funcionalidad a la aplicación.
+:::
 
-
+:::tip entorno de ejecución multiplataforma
+- Un entorno de ejecución multiplataforma es un software que permite ejecutar programas en distintos sistemas operativos sin necesidad de cambiar el código principal de la aplicación.
+- Por ejemplo, Node.js puede funcionar en:
+    - Windows
+    - Linux
+    - macOS
+- Eso significa que una aplicación desarrollada con JavaScript puede ejecutarse en cualquiera de esos sistemas usando el mismo entorno de ejecución.
 :::
 
 
