@@ -808,3 +808,73 @@ export default App;
 - Gracias a esto, el componente padre puede acceder directamente al input mediante `inputRef.current`.
 - En React 19, ya no es necesario envolver el componente con `forwardRef` para recibir y reenviar refs.
 :::
+
+
+## Zustand
+- Zustand es una librería ligera para la gestión del estado en aplicaciones JavaScript/React, alternativa a Redux y Context API.
+#### Características principales
+- **Simplicidad y minimalismo**  
+  - API muy simple y fácil de aprender, ideal para principiantes y proyectos pequeños o grandes.
+- **Basado en Hooks**  
+  - Utiliza hooks (como `useStore` de Zustand) para acceder y modificar el estado desde componentes funcionales de React.
+- **Configuración ligera**  
+  - No requiere providers (Context API) ni configuraciones complejas. El estado global se crea de forma simple y directa.
+- **Mutabilidad con seguridad interna**  
+  - Permite actualizar el estado de forma sencilla sin mutarlo directamente, manteniendo la inmutabilidad y evitando efectos secundarios.
+- **Sin arquitectura obligatoria**  
+  - No impone patrones estrictos, lo que da flexibilidad para organizar el estado como se prefiera.
+- **Alto rendimiento**  
+  - Reduce re-renderizados innecesarios y optimiza el uso de recursos.
+- **Soporte para middleware**  
+  - Compatible con herramientas como Redux DevTools y middleware para debugging y extensiones.
+- **Compatibilidad amplia**  
+  - Puede usarse no solo con React, sino también con otras librerías o frameworks.
+
+#### Instalación
+```cmd
+npm install zustand
+```
+#### Creando nuestra primera store
+- En lugar de usar Context, vamos a crear una store global.
+- Una buena práctica es crear una carpeta `store` donde vivirá todo el estado global de la aplicación.
+- Ejemplo de una store de autenticación:
+
+```ts title="store/auth.ts"
+import { create } from 'zustand'
+
+type AuthState = {
+  isLoggedIn: boolean
+  login: () => void
+  logout: () => void
+}
+
+export const useAuthStore = create<AuthState>((set) => ({
+  isLoggedIn: false,
+  login: () => set({ isLoggedIn: true }),
+  logout: () => set({ isLoggedIn: false }),
+}))
+```
+
+:::tip Observación
+- `create()` es el método que crea tu store (estado) global en Zustand.
+- Recibe una función (callback) que define el estado inicial y las acciones (métodos que modifican el estado).
+- El callback recibe varios parámetros:
+  - `set` (obligatorio): Permite actualizar el estado del store.
+  - `get` (opcional): Permite leer el estado(valor) actual sin suscribirse (no te vuelve a notificar si cambia).
+  - `api` (opcional, menos usado): Contiene herramientas internas del store como `setState`, `getState` y `subscribe`.
+- El callback devuelve un objeto que contiene:
+  - Propiedades (valores que representan el estado inicial)
+  - Métodos (acciones que modifican el estado y normalmente usan `set`)
+- Por último, `create()` devuelve un hook personalizado que puedes usar dentro de tus componentes de React para acceder al estado.
+:::
+
+
+
+:::tip Información
+- [Uso de una biblioteca de gestión de estado](https://reactflow.dev/learn/advanced-use/state-management)
+- [Cómo gestionar el estado global en React con Zustand](https://www.luisllamas.es/como-usar-zustand-con-react/)
+- [Zustand: A Guide to Scalable State Management](https://beyondthecode.medium.com/zustand-a-guide-to-scalable-state-management-0186c4208e01)
+- [Introducción a Zustand](https://www.jscamp.dev/estado-global-y-react-router/introduccion-a-zustand)
+- [Zustand in React Native: A Modern State Management Solution](https://dev.to/ersuman/zustand-in-react-native-a-modern-state-management-solution-p6g)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+:::

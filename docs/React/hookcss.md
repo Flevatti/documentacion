@@ -2129,12 +2129,269 @@ export default App;
 
 
 ### useSyncExternalStore 
+- `useSyncExternalStore` es un hook de bajo nivel introducido en React 18 que permite a los componentes interactuar de forma segura con fuentes de datos externas, garantizando consistencia en renderizados concurrentes.
+
+
+:::tip Hook de bajo nivel
+- Un hook de bajo nivel en React es un hook que está más cerca del funcionamiento interno de React y sirve principalmente como base para construir otras herramientas, en lugar de usarse directamente en la mayoría de componentes.
+- Analogía: es como las herramientas básicas de un taller (martillo, destornillador). No están hechas para construir el producto final (aplicación), sino para construir otras herramientas o piezas más complejas que luego se usan para hacer ese producto final.
+:::
+
+##### ¿Para qué sirve useSyncExternalStore?
+- `useSyncExternalStore` permite a React conectarse de forma segura a datos que viven fuera de React (estado externo), asegurando que todos los componentes lean siempre la misma versión (Snapshot) de esos datos durante el renderizado.
+- Cuando decimos “versión de los datos”, nos referimos a una **Snapshot** (“instantánea”), es decir, cómo eran los datos en un momento específico.
+#### Ejemplos de fuentes externas
+- APIs del navegador:
+  - `navigator.onLine` (si estás conectado a internet)
+  - `document.visibilityState` (si la pestaña está visible)
+  - `window.matchMedia` (media queries)
+- Stores o librerías de estado:
+  - Redux, MobX, Zustand, Jotai (especialmente versiones modernas)
+  - Stores personalizados
+- Datos globales:
+  - Variables globales
+  - Sistemas de eventos personalizados
+##### Problema que soluciona (tearing)
+- React 18 introdujo el renderizado concurrente, que permite pausar, reanudar o cancelar renderizados para mejorar el rendimiento y la fluidez de la UI.
+- Gracias a esto, React puede trabajar en varias actualizaciones de renderizado de forma simultánea, pausando, reanudando o priorizando unas sobre otras cuando sea necesario.
+- El problema aparece cuando un estado externo cambia mientras React está renderizando:
+  - Algunos componentes podrían leer una versión antigua de los datos
+  - Mientras otros leen una versión más nueva
+- Esta inconsistencia se llama **“tearing” (desgarro)**.
+- Resultado:
+  - la UI puede mostrar información contradictoria entre componentes.
+##### ¿Cómo lo soluciona `useSyncExternalStore`?
+- `useSyncExternalStore` garantiza que todos los componentes lean la misma Snapshot (versión de los datos) del estado externo durante un renderizado.
+- De esta forma:
+  - React mantiene los datos sincronizados
+  - Evita inconsistencias entre componentes
+  - Funciona correctamente incluso con renderizado concurrente
+#### useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)
+- Parámetros:
+  - `subscribe(callback)`
+    - Es una función que se encarga de avisarle a React cuando el estado externo cambia.
+    - Recibe un `callback` que se ejecutará cada vez que los datos cambien.
+    - Cuando los datos cambian:
+      - Se ejecuta el callback
+      - React vuelve a obtener la Snapshot usando `getSnapshot`
+      - Y, si los datos cambiaron, vuelve a renderizar el componente.
+    - Debe devolver una función de limpieza para que el callback deje de ejecutarse cuando el componente se desmonte.
+  - `getSnapshot`
+    - Es una función que devuelve la Snapshot actual del estado externo que necesita el componente.
+    - Mientras los datos no cambien, debe devolver siempre el mismo valor.
+    - Si devuelve un valor diferente (`Object.is`), React vuelve a renderizar el componente.
+  - `getServerSnapshot` (opcional)
+    - Es una función usada en renderizado del servidor (SSR).
+    - Devuelve la Snapshot inicial que se utilizará:
+      - En el servidor
+      - Y durante la hidratación en el cliente.
+    - La Snapshot debe ser igual tanto en el servidor como en el cliente para evitar inconsistencias.
+    - Si no se proporciona en SSR, React generará un error.
+- Retorno:
+  - Devuelve la Snapshot actual del estado externo, la cual puede usarse dentro de la lógica de renderizado del componente.
+#### Advertencias
+- La Snapshot devuelta por `getSnapshot` debería ser inmutable.
+  - Si los datos cambian:
+    - Se debería devolver una nueva Snapshot.
+  - Si los datos no cambian:
+    - Se debería devolver la misma Snapshot anterior.
+- Si `subscribe` cambia entre renderizados:
+  - React volverá a configurar cómo detecta los cambios del store.
+  - Para evitarlo:
+    - Normalmente `subscribe` se define fuera del componente.
+- Si el store cambia mientras React está realizando una actualización concurrente:
+  - React puede reiniciar el renderizado y hacerlo de forma bloqueante, es decir, terminarlo  sin pausarlo ni interrumpirlo.
+  - Esto garantiza que todos los componentes usen la misma Snapshot.
+- No es recomendable usar valores obtenidos con `useSyncExternalStore` para decidir cuándo mostrar componentes lazy o suspender renderizados (`Suspense`), ya que los cambios del store pueden hacer que React muestre loaders inesperados o reemplace temporalmente contenido visible. Esto pasa porque los cambios en un store externo no pueden manejarse como actualizaciones concurrentes no bloqueantes (React no puede mantener la UI actual mientras prepara la nueva actualización). Entonces, cuando el valor cambia: 
+  - React necesita actualizar la UI inmediatamente
+  - Y si en esa actualización aparece un `Suspense` o un componente lazy:
+    - React muestra el fallback (por ejemplo un loading)
+    - Ocultando temporalmente el contenido actual.
+#### Ejemplo -- Store externo
+
+
+```ts title="todoStore.ts"
+let nextId = 0;
+
+type Todo = {
+  id: number;
+  text: string;
+};
+
+type Listener = () => void;
+
+let todos: Todo[] = [{ id: nextId++, text: 'Todo #1' }];
+
+let listeners: Listener[] = [];
+
+export const todosStore = {
+
+
+  addTodo(): void {
+    todos = [...todos, { id: nextId++, text: 'Todo #' + nextId }];
+    emitChange();
+  },
+
+  subscribe(listener: Listener): () => void {
+    listeners = [...listeners, listener];
+
+    return () => {
+      listeners = listeners.filter(l => l !== listener);
+    };
+  },
+
+  getSnapshot(): Todo[] {
+    return todos;
+  }
+};
+
+function emitChange(): void {
+  for (const listener of listeners) {
+    listener();
+  }
+}
+```
+
+:::tip Observación
+- El "Estado externo" sería un array de objetos que contiene una `id` y un `text`:
+```ts
+let todos: Todo[] = [{ id: nextId++, text: 'Todo #1' }];
+```
+- El método `subscribe(listener)`:
+  - Agrega el listener (callback) al array `listeners`
+  - y devuelve una función de limpieza que elimina ese listener del array.
+- El método `getSnapshot()`:
+  - Devuelve el estado externo actual.
+- El método `emitChange()`:
+  - Recorre todos los callbacks del array `listeners`
+  - Y los ejecuta para avisarle a React que el store cambió.
+- El método `addTodo()`:
+  - Modifica el estado externo agregando una nueva tarea
+  - Y luego ejecuta `emitChange()`
+
+::::
+
+
+
+
+```tsx title="App.jsx"
+
+
+import { useSyncExternalStore } from "react";
+import { todosStore } from "./todoStore.ts";
+import "./App.css";
+
+type Todo = {
+  id: number;
+  text: string;
+};
+
+function App() {
+  const todos : Todo[] = useSyncExternalStore(todosStore.subscribe, todosStore.getSnapshot);
+  return (
+     <>
+      <button onClick={() => todosStore.addTodo()}>Add todo</button>
+
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>{todo.text}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+export default App;
+
+```
+:::tip Observación
+- `useSyncExternalStore()` recibe `subscribe` (que indica cómo registrar una función en la lista de funciones que se ejecutan cuando el store cambia) y `getSnapshot` (que indica cómo obtener la última versión del estado externo).
+- Al hacer click en el botón, se ejecuta el método `addTodo()`, que modifica el estado externo y luego ejecuta todos los callbacks registrados.
+- Es importante entender que React es quien crea internamente el callback para enterarse de los cambios en el store y mantener sincronizada la UI con los datos externos.
+- Ese callback que React crea es el que se pasa a `subscribe()` cuando React se conecta al store mediante `useSyncExternalStore()`.
+:::
+
+#### Ejemplo -- Hook Personalizado
+- Normalmente no escribirás `useSyncExternalStore` directamente en tus componentes. En su lugar, lo usarás dentro de un hook personalizado. Esto te permite reutilizar el mismo store externo en distintos componentes.
+- Por ejemplo, el hook personalizado `useOnlineStatus` permite saber si la red está conectada o no:
+```ts title="useOnlineStatus.ts"
+import { useSyncExternalStore } from 'react';
+
+export function useOnlineStatus() {
+  const isOnline = useSyncExternalStore(subscribe, getSnapshot);
+  return isOnline;
+}
+
+function getSnapshot() {
+  return navigator.onLine;
+}
+
+function subscribe(callback : () => void) {
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => {
+    window.removeEventListener('online', callback);
+    window.removeEventListener('offline', callback);
+  };
+}
+```
+:::tip Observación
+- A diferencia del ejemplo anterior, aquí `subscribe` conecta el callback a eventos del navegador (`online` / `offline`), y son esos eventos los que terminan ejecutándolo cuando cambia el estado de conexión.
+- Esos eventos representan cambios en el estado externo (en este caso, el estado de conexión a internet).
+- Los callbacks siempre se ejecutan después:
+  - Ya sea por el store (ej: `emitChange`)
+  - O por eventos del navegador (ej: `online/offline`)
+- También devuelve un método de limpieza que elimina el callback de los eventos, evitando que se siga ejecutando cuando ya no se necesita.
+- Por último, `useOnlineStatus` es un hook que se actualiza en base al estado de conexión a internet.
+:::
+```tsx title="App.jsx"
+import "./App.css";
+import { useOnlineStatus } from './useOnlineStatus.ts';
+
+
+function StatusBar() {
+  const isOnline = useOnlineStatus();
+  return <h1>{isOnline ? '✅ Online' : '❌ Disconnected'}</h1>;
+}
+
+function SaveButton() {
+  const isOnline = useOnlineStatus();
+
+  function handleSaveClick() {
+    console.log('✅ Progress saved');
+  }
+
+  return (
+    <button disabled={!isOnline} onClick={handleSaveClick}>
+      {isOnline ? 'Save progress' : 'Reconnecting...'}
+    </button>
+  );
+}
+
+
+function App() {
+  
+  return (
+     <>
+      <SaveButton />
+      <StatusBar />
+    </>
+  );
+}
+
+export default App;
+```
+
+
+:::tip Información
+- [useSyncExternalStore](https://react.dev/reference/react/useSyncExternalStore)
 - [useSyncExternalStore: Demystified for Practical React Development](https://www.epicreact.dev/use-sync-external-store-demystified-for-practical-react-development-w5ac0)
 - [¿Para qué sirve el hook `useSyncExternalStore`?](https://www.reactjs.wiki/para-que-sirve-el-hook-use-sync-external-store)
 - [Understanding useSyncExternalStore](https://medium.com/@dwell_the/understanding-usesyncexternalstore-c06618a32d61)
 - [useSyncExternalStore in React — The Right Way to Subscribe to External Data](https://dev.to/saiful7778/usesyncexternalstore-in-react-the-right-way-to-subscribe-to-external-data-p6)
 - [How to use useSyncExternalStore Hook in React ?](https://medium.com/@himashawije/how-to-use-usesyncexternalstore-hook-in-react-ffd0c784718e)
 - [React Concurrent Rendering Tearing: When External Stores Break](https://www.edge-cases.com/react/react-concurrent-tearing)
+:::
 ## [Info de hooks]( https://es.reactjs.org/docs/hooks-reference.html)
 ## Formas de añadir CSS
 ### Hoja de estilos externas
