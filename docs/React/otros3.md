@@ -835,7 +835,7 @@ export default App;
 npm install zustand
 ```
 #### Creando nuestra primera store
-- En lugar de usar Context, vamos a crear una store global.
+- En lugar de usar Context, vamos a crear una store global con Zustand.
 - Una buena práctica es crear una carpeta `store` donde vivirá todo el estado global de la aplicación.
 - Ejemplo de una store de autenticación:
 
@@ -868,6 +868,139 @@ export const useAuthStore = create<AuthState>((set) => ({
 - Por último, `create()` devuelve un hook personalizado que puedes usar dentro de tus componentes de React para acceder al estado.
 :::
 
+#### Usando la store en los componentes
+- Una de las grandes ventajas de Zustand es que no necesitamos providers (como en Context API).
+- Simplemente importamos el hook que creamos con `create()` donde lo necesitemos:
+```ts title="App.ts"
+import "./App.css";
+import { useAuthStore } from "./store/auth";
+function App() {
+    const { isLoggedIn, login, logout } = useAuthStore()
+  return (
+     <>
+         {isLoggedIn ? (
+        <button onClick={logout}>Cerrar sesión</button>
+      ) : (
+        <button onClick={login}>Iniciar sesión</button>
+      )}
+    </>
+  );
+}
+
+export default App;
+```
+:::tip Observación
+- Para usar/consumir el estado (y tener acceso a las propiedades) de la store que creamos, simplemente importamos el hook personalizado generado con `create()` y lo ejecutamos. Este devuelve todas las propiedades y métodos definidos en el objeto retornado por el callback.
+- Como se trata de un estado global reactivo, cada vez que alguno de sus valores cambia, el componente que consume ese estado se vuelve a renderizar automáticamente.
+:::
+
+##### hookPersonalizado(selector)
+- Los hooks creados con Zustand aceptan un *selector* como argumento.  
+- Un selector es una función que recibe el estado completo (`state`) y retorna únicamente la parte que necesitamos consumir.
+- Ejemplo:
+```ts title="App.ts"
+import "./App.css";
+import { useAuthStore } from "./store/auth";
+
+function App() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const login = useAuthStore((state) => state.login);
+  const logout = useAuthStore((state) => state.logout);
+
+  return (
+    <>
+      {isLoggedIn ? (
+        <button onClick={logout}>Cerrar sesión</button>
+      ) : (
+        <button onClick={login}>Iniciar sesión</button>
+      )}
+    </>
+  );
+}
+export default App;
+```
+:::tip Observación
+- `isLoggedIn` solo contiene el valor de `state.isLoggedIn`, `login` solo contiene `state.login`, `logout` solo contiene `state.logout`, y así sucesivamente.
+- En este ejemplo no hay una gran diferencia porque el componente utiliza prácticamente toda la store.
+- Sin embargo, en stores más grandes esto resulta muy útil, ya que permite indicar exactamente qué parte del estado necesita el componente.
+- Gracias a esto, Zustand solo volverá a renderizar el componente cuando cambie la porción seleccionada del estado, y no cada vez que cambie cualquier valor de la store.
+:::
+
+##### `setState` y `getState`
+- Ambos son métodos que contiene el hook creado con Zustand.
+- Generalmente se utilizan fuera de React o fuera del hook personalizado, aunque también pueden usarse dentro de la definición de la store mediante el argumento `api`.
+- `setState`: Se utiliza para actualizar el estado manualmente desde cualquier lugar, sin necesidad de usar el hook dentro de un componente React.
+- `getState`: Se utiliza para obtener el estado actual de la store desde cualquier lugar, sin necesidad de usar el hook dentro de un componente React.
+- Ejemplo:
+```ts title="App.ts"
+import "./App.css";
+import { useAuthStore } from "./store/auth";
+
+function App() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+  const handleLogin = () => {
+    useAuthStore.setState({ isLoggedIn: true });
+  };
+
+  const handleLogout = () => {
+    useAuthStore.setState({ isLoggedIn: false });
+  };
+
+  const currentState = useAuthStore.getState();
+  console.log(currentState);
+
+  return (
+    <>
+      {isLoggedIn ? (
+        <button onClick={handleLogout}>Cerrar sesión</button>
+      ) : (
+        <button onClick={handleLogin}>Iniciar sesión</button>
+      )}
+    </>
+  );
+}
+
+export default App;
+```
+:::tip Observación
+- Este componente solo se vuelve a renderizar por la siguiente línea:
+  ```js
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  ```
+- Esto ocurre porque el componente está suscrito (pendiente) al valor `isLoggedIn`.
+- Cada vez que `state.isLoggedIn` cambia, Zustand vuelve a renderizar el componente automáticamente.
+- En cambio, llamadas como `useAuthStore.getState()` o `useAuthStore.setState()` no generan suscripciones ni renderizados por sí mismas.
+:::
+
+#### Función de actualización
+- El método `set` también puede recibir una función como argumento, de forma similar a `useState`.
+- Esa función tiene un parámetro que contiene el estado anterior (los valores previos al cambio que se va a realizar) (`state`) y debe retornar el nuevo estado actualizado.
+- Esto es útil cuando el nuevo valor depende del estado previo.
+- Ejemplo:
+```ts title="store/counter.ts"
+import { create } from "zustand";
+
+type CounterStore = {
+  count: number;
+  increment: () => void;
+};
+
+export const useCounterStore = create<CounterStore>((set) => ({
+  count: 0,
+
+  increment: () =>
+    set((state) => ({
+      count: state.count + 1,
+    })),
+}));
+```
+
+:::tip Observación
+- `state` representa el estado anterior de la store.
+- `set` recibe una función que debe retornar el nuevo estado.
+- Cada vez que se ejecuta `increment`, el valor de `count` aumenta en `1`.
+:::
 
 
 :::tip Información

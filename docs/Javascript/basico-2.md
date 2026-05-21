@@ -125,7 +125,7 @@ console.log(estado)
 :::
 
 #### Bloque
-- Todo lo que este entre llaves ({}) pertenece a un bloque.
+- Todo lo que este entre llaves (`{}`) pertenece a un bloque.
 - `bloque = {  código }`.
 - El Bloque es "donde vive" una variable.
 

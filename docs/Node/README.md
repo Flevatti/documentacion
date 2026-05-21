@@ -85,9 +85,11 @@ node --experimental-permissions --allow-fs-read=/ruta/a/hola_mundo.js hola_mundo
 
 :::
 ## Modulos 
--	Node tiene un sistema de módulos incorporado.
--	Un archivo Node.js puede importar la funcionalidad expuesta por otros archivos Node.js.
-- Podes especificar la extensión .js o no , es opcional al poner la ruta del archivo.
+- Node.js tiene un sistema de módulos incorporado.
+- Un archivo de Node.js puede importar la funcionalidad expuesta por otros archivos.
+- Al importar, la extensión `.js` es opcional al especificar la ruta del archivo.
+
+
 frutas.js
 ```js
 const frutas = ["banana", "banana", "pera", "banana"];
@@ -110,6 +112,8 @@ frutero.forEach((frutero) => {
 Otro ejemplo:
 -  Solo se puede usar un module.exports por archivo.
 - Pero se puede exportar varios/as objetos/funciones/constantes/etc: Para esto se recurre a un objeto ({}).
+
+
 frutas.js
 ```js
 const frutas = ["banana", "banana", "pera", "banana"];
@@ -142,10 +146,10 @@ console.log(dinero);
 :::
 
 ### require().default
-- Cuando se utilizan exportaciones por defecto de ES6 (export default ) , la “funcionalidad“ exportada por defecto , tiene el formato ``{“default” : funcionalidad}`` .
-- La declaración “import X from archivo” maneja esto, pero si lo hace desde los modulos (require/exports ) , se debe realizar “require(archivo).default”.
-- Para evitar esto, debe utilizar module.exports en lugar de export default.
-
+- Cuando se usan exportaciones por defecto de ES Modules (`export default`), Node.js crea una propiedad llamada `default` que contiene el valor exportado.
+- La declaración `import X from "archivo"` maneja automáticamente las exportaciones por defecto (`export default`), por lo que no necesitas acceder a `.default`.
+- En cambio, cuando se usa CommonJS con `require()`, si el archivo proviene de un módulo ES (con `export default`), el valor exportado se encuentra dentro de la propiedad `default`, por lo que debes acceder así: `require("archivo").default`.
+- Para evitar esta diferencia de comportamiento entre sistemas de módulos, en CommonJS se recomienda usar `module.exports` en lugar de `export default`.
 #### Ejemplo
 Fruta.js
 ```js

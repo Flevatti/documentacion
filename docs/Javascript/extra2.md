@@ -231,3 +231,64 @@ export function sumar(a, b) {
 :::warning
 - Para que este código funcione, es necesario implementar `SystemJS`, ya sea mediante una etiqueta `<script>` o instalándolo desde `npm`.
 :::
+
+## Funciones puras
+- Las funciones puras en JavaScript son aquellas que, dadas las mismas entradas (parámetros), siempre producen la misma salida y no tienen efectos secundarios.
+- Cuando decimos que no tienen efectos secundarios, nos referimos a que no interactúan con código externo (sistemas, APIs, etc.) ni modifican nada fuera del ámbito (scope) de la función.
+- Ejemplo:
+```js
+function suma(a, b) {
+  return a + b;
+}
+
+console.log(suma(2, 3));  // 5
+```
+:::tip Observación
+- En este ejemplo, la función `suma` es pura porque, para los mismos parámetros de entrada, siempre devuelve el mismo resultado y no produce efectos secundarios.  
+- No modifica variables externas, no depende de valores externos ni interactúa con sistemas externos.
+:::
+
+- Ejemplo de función impura:
+```js
+let numero = 5;
+
+function agregar(a) {
+  numero += a;
+}
+
+agregar(10);
+console.log(numero);  // 15
+```
+:::tip Observación
+- En este caso, la función `agregar` es impura porque modifica una variable que está fuera de su alcance (`numero`), es decir, genera efectos secundarios.
+:::
+
+- Ejemplo de ambos tipos:
+
+```js
+// Función pura
+function cuadrado(n) {
+  return n * n;
+}
+
+// Función impura
+function cuadradoImpuro(n) {
+  console.log('Calculando el cuadrado de', n);
+  return n * n;
+}
+```
+
+:::tip Observación
+- El resultado (lo que se retorna) no es lo único que define si una función es pura.
+- `cuadradoImpuro` no es una función pura porque usa `console`, que es algo externo a la función, ya que es un objeto global al que podemos acceder.
+:::
+
+
+:::tip Efectos secundarios
+- Aunque parezca sencillo identificarlos, a veces no lo es.
+- Algunos efectos secundarios son:
+  - Manipular el DOM, ya que para esto se utiliza `document` (otro objeto global).
+  - Actualizar o modificar una variable global.
+  - Interactuar con una API.
+:::
+

@@ -6,31 +6,33 @@ sidebar_position: 10
 ## JS Módulos
 
 ### Antes 
-No había mucho código para trabajar con JavaScript .
+- Los proyectos en JavaScript solían ser pequeños y simples.
+- En muchos casos, el código no superaba las 100 líneas.
+- JavaScript no contaba con una forma nativa de separar o modular archivos.
 
-A lo mucho era 100 lineas de código.
-
-Javascript no tenia una forma nativa de separar archivos.
 
 
 ### Despues
-
-Son mas de 500 lineas de código.
-
-Con el tiempo salieron algunos complementos como CommonJS , AMD y Node.
-
-Aparecieron los [Modulos](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules)
+- Las aplicaciones crecieron y comenzaron a tener cientos de líneas de código.
+- Con el tiempo surgieron soluciones como CommonJS, AMD y Node.js para dividir el código en archivos y mejorar su organización.
+- Gracias a esto aparecieron los [Módulos](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules), que permitieron importar y exportar archivos de forma nativa.
 
 ## Modulos
--	Proporcionar mecanismos para dividir código JavaScript en módulos separados, que se puedan importar cuando sea necesario.
--	Node.js ha tenido esta capacidad durante mucho tiempo, y hay una serie de bibliotecas y marcos de JavaScript que permiten el uso de módulos (por ejemplo, CommonJS y AMD que estan  basados en sistemas de módulos como RequireJS, y recientemente Webpack y Babel).
--	La buena noticia es que los navegadores modernos han comenzado a admitir la funcionalidad de los módulos de forma nativa.
--	Modulo es llevar nuestro código a otro archivo , encapsularlo y luego poder traerlo para poder manejarlo de una forma mas ordenada.
-
+-	Los módulos permiten dividir el código JavaScript en archivos separados y reutilizables que pueden importarse cuando sea necesario.
+- Antes de que existieran los módulos nativos en los navegadores, Node.js ya ofrecía esta capacidad y surgieron distintos sistemas y herramientas para trabajar con módulos, como:
+    - CommonJS
+    - AMD (usado junto con herramientas como RequireJS)
+    - Webpack
+    - Babel
+- Actualmente, los navegadores modernos ya soportan módulos de forma nativa.
+- Un módulo básicamente consiste en:
+    - Mover parte del código a otro archivo,
+    - Encapsular su funcionalidad (guardar o aislar una parte del código dentro de un archivo)
+    - Y luego importarlo cuando se necesite
+- En programación, un módulo es un archivo JavaScript que contiene código (funciones, variables, clases, etc.) y que puede exportar partes de ese código para ser importadas y utilizadas en otros archivos. Por ejemplo, un archivo `math.js` puede exportar funciones matemáticas como `sum()` o `multiply()` para que otros archivos puedan usarlas mediante `import`.
 :::tip .mjs vs .js
-Las dos extensiones son de Javascript , pero mjs es para representar un modulo.
-
-[Link](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules#reflexi%C3%B3n_%E2%80%94_.mjs_versus_.js)
+- Las dos extensiones son de Javascript , pero mjs es para representar un modulo.
+- [Link](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules#reflexi%C3%B3n_%E2%80%94_.mjs_versus_.js)
 :::
 
 ## Problema 
@@ -59,7 +61,7 @@ Error por sobrescribir una variable const
 -	Las expresiones de función ejecutadas inmediatamente (IIFE por su sigla en inglés) son funciones que se ejecutan tan pronto como se definen.
 -	Es un patrón de diseño también conocido cómo función autoejecutable.
 -	Son funciones que se ejecutan automáticamente
--	Se encapsula el código(scope) en la función y no chocaría con otros archivos.
+-	El código queda encapsulado dentro de la función, creando un scope propio. Es decir, nada fuera de la función puede acceder directamente a las variables o funciones que contiene, y el código interno tampoco afecta el exterior salvo que se exponga explícitamente.
 - 	La función se convierte en una expresión de función que es ejecutada inmediatamente. La variable dentro de la expresíon no puede ser accedida desde afuera.
 - [Mas info](https://developer.mozilla.org/es/docs/Glossary/IIFE)
 
@@ -106,18 +108,17 @@ Como se puede ver, no chocan, no se sobrescriben.
 :::
 
 ## export e import
+- Los módulos permiten compartir código entre distintos archivos.
+- Para que otro archivo pueda acceder a funciones o variables de un módulo, primero debes exportarlas; es decir, hacerlas accesibles desde otros archivos.
+- Esto se hace usando la declaración `export`.
+- Puedes exportar funciones, var, let, const y, como veremos más adelante clases.
+- Las exportaciones deben hacerse en el nivel superior del módulo; por ejemplo, no puedes usar `export` dentro de una función.
+- Este tipo de exportación se conoce como exportación con nombre (*named export*) porque cada elemento exportado tiene un nombre específico y debe importarse usando ese mismo nombre.
+#### Analogía
+- Exportar = sacar un producto de nuestro país hacia afuera.
+- Importar = traer y consumir un producto que viene de afuera.
 
-- Es para trabajar con módulos
--	Lo primero que debes hacer para acceder a las funciones del módulo es exportarlas.
--	Esto se hace usando la declaración export.
--	Puedes exportar funciones, var, let, const y, como veremos más adelante clases.
--	Deben ser elementos de nivel superior; no puedes usar export dentro de una función, por ejemplo.
--	Esto se conoce como exportaciones con nombre.
-
-- Exportar = Sacamos del país un producto
-- Importar = Cuando traemos un producto de afuera a nuestro país. (Consumimos algo de afuera)
-
-### Ventaja
+#### Ventaja
 - Solo vamos a  llamar al archivo que va a recibir todas las importaciones (El que consume productos de afuera)
 ```html
  <script src="js/app.js"></script>
@@ -241,18 +242,17 @@ Todos los ejemplos son de exportación con nombre.
 
 
 :::tip Diferencias entre módulos y scripts estándar
-Diferencia entre un módulo y un script(js nativo)
-[link](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules#otras_diferencias_entre_m%C3%B3dulos_y_scripts_est%C3%A1ndar)
+- [Otras diferencias entre módulos y scripts estándar](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules#otras_diferencias_entre_m%C3%B3dulos_y_scripts_est%C3%A1ndar)
 :::
 
 ## export default
--	También hay un tipo de exportación llamado exportación predeterminada.
--	Solo se permite una exportación predeterminada por módulo.
--	Las exportaciones por defecto No necesitan nombre
--	Al importar le podés poner un nombre cualquiera.
--	Al importar, no tenes que ponerlo entre llaves{}.
-
-Ejemplo: Se exporta sandia por defecto y se importa con el nombre melon.
+- También existe un tipo de exportación llamado exportación predeterminada (*default export*).
+- Para realizar una exportación por defecto, se utiliza la sintaxis `export default`.
+- Cada módulo (archivo) solo puede tener una única exportación por defecto.
+- La exportación por defecto representa el valor principal que el módulo quiere exponer.
+- Al importarla, puedes asignarle cualquier nombre.
+- A diferencia de las exportaciones con nombre, no es necesario usar llaves `{}` al importarla.
+- Ejemplo: Se exporta sandia por defecto y se importa con el nombre melon.
 
 fruta.js
 ```js
@@ -280,9 +280,13 @@ export {
 
 app.js
 ```js
-//import {nombre de lo que se importa} from "./ubicacion"
-import {pintarPlatano , frutilla  , Fruta} from "./fruta.js";
-import melon from './fruta.js';
+// import { nombreDeLoQueSeImporta } from "./ubicacion"
+import { pintarPlatano, frutilla, Fruta } from "./fruta.js";
+// Como no se usan llaves {}, se asume que se está importando
+// la exportación por defecto (default export).
+// Además, se le puede asignar cualquier nombre.
+import melon from "./fruta.js";
+
 console.log(melon);
 
 ```
@@ -319,11 +323,16 @@ pintarPlatano();
 ```
 ## export con alias
 
-con la palabra reservada as podemos asignarle un alias.
+- Con la palabra reservada `as` podemos asignarle un alias a una exportación o importación.
+- Un alias es simplemente un nombre alternativo o apodo que le damos a una variable, función o exportación.
+- Esto es útil para:
+  - Evitar conflictos de nombres,
+  - Usar nombres más claros,
+  - O adaptar nombres largos a algo más corto.
+- Ejemplo:
+    - Importamos a la frutilla(función) como fresa.
 
-Ejemplo:
 
-Importamos a la frutilla(función) como fresa.
 app.js
 ```js
 import  pintarPlatano , {frutilla as fresa  , Fruta} from './fruta.js'; 
@@ -344,7 +353,11 @@ No podemos guardar sesiones en el servidor.
 
 Guardar un valor: 
 ```js
-localStorage.setItem("platano" , "🍌");
+// localStorage.setItem(clave, valor);
+// clave → nombre que se usará para identificar el valor.
+// valor → información que queremos almacenar.
+// La clave se utiliza para identificar y acceder al valor guardado.
+localStorage.setItem("platano", "🍌");
 ```
 :::tip 
 Fijarse luego en  consola – Aplicación – Almacenamiento local – http://***  , Que se guardaron los datos.
@@ -356,8 +369,7 @@ localstorage vive en el navegador.
 
 ```js
 //windows.localStorage.setItem("platano" , "🍌");
-// guardar valor
-// Guardar la clave platano con el valor banana
+// Guarda la clave platano con el valor banana
 // banana -> 🍌    clave -> valor
 localStorage.setItem("platano" , "🍌");
 
@@ -368,10 +380,7 @@ console.log(localStorage.getItem("platano"));
 ```
 
 ```js
-//windows.localStorage.setItem("platano" , "🍌");
-// guardar valor
-// Guardar la clave platano con el valor banana
-// banana -> 🍌    clave -> valor
+
 localStorage.setItem("platano" , "🍌");
 
 //obtener valor
@@ -382,15 +391,14 @@ localStorage.setItem("platano" , "🍌");
 
 //Eliminar valor
 // Eliminar la clave -> valor del localStorage
-//removeItem("key/clave") elimina la clave-valor
+// removeItem("key/clave") busca el par clave-valor asociado a la clave proporcionada y lo elimina del localStorage.
     localStorage.removeItem("platano");
 
 ```
 
 ```js
 
-//windows.localStorage.setItem("platano" , "🍌");
-// Guardamos valores
+
 localStorage.setItem("platano" , "🍌");
 localStorage.setItem("sandia" , "🍉");
 	
@@ -419,9 +427,9 @@ No existe en localStorage, más adelante veremos que se tiene que capturar el el
 
 ## JSON.stringify() & JSON.parse()
 ### JSON.stringify() 
-- El método JSON.stringify() convierte un objeto o otro tipo de dato en una cadena de texto JSON.
-- Convierte un objeto/otro tipo de dato(averiguar) en String(JSON)
-- Convierte un objeto/otro tipo de dato en JSON (es un tipo de String)
+- El método `JSON.stringify()` convierte un objeto u otros tipos de datos en una cadena de texto en formato JSON.
+- Convierte un objeto u otro tipo de dato en un string en formato JSON.
+
 
 ```js
 const frutas = [
@@ -443,15 +451,15 @@ const frutas = [
 localStorage.setItem("frutas" , JSON.stringify(frutas));
 
 ```
-## JSON.parse()
-- El método JSON.parse() analiza una cadena de texto como JSON. 
-- Convierte un String(JSON) en un objeto/otro tipo de dato
-- Convierte un JSON(un tipo de string) en un objeto/otro tipo de dato
+### JSON.parse()
+- El método `JSON.parse()` analiza una cadena de texto en formato JSON y la convierte en un objeto u otro tipo de dato.
+- Convierte un string en formato JSON en un objeto u otro tipo de dato.
+- Básicamente analiza el contenido del string JSON y lo convierte al tipo de dato correspondiente en JavaScript.
 ```js
-•	//Convierte un string en un objeto/otro tipo de dato
-•	//JSON.parse(String);
-•	const frutaDesdeLocal = JSON.parse(localStorage.getItem("frutas"));
-•	console.log(frutaDesdeLocal);
+//Convierte un string en un objeto/otro tipo de dato
+//JSON.parse(String);
+const frutaDesdeLocal = JSON.parse(localStorage.getItem("frutas"));
+console.log(frutaDesdeLocal);
 
 ```
 
@@ -478,7 +486,7 @@ if(localStorage.getItem("frutas")) {
 :::
 :::tip trim
 - trim límpia los caracteres en blanco del comienzo o del final.
-- Y si se hace la negación(!todo.trim()) devuelve true si no hay un String en su interior (si solo hay espacio en blanco).
+- Y si se usa la negación (`!todo.trim()`), devuelve `true` si el string está vacío o solo contiene espacios en blanco.
 :::
 
 :::tip return 

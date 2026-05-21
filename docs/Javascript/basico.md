@@ -1122,30 +1122,8 @@ console.log(resultadoSuma);  // Imprimirá 8
 
 
 :::
-
-## hoisting
-
-Una estricta definición de hoisting sugiere que las declaraciones de variables y funciones son físicamente movidas al comienzo del código, pero esto no es lo que ocurre en realidad. Lo que sucede es que las declaraciones de variables y funciones son asignadas en memoria durante la fase de compilación, pero quedan exactamente en dónde las has escrito en el código.
-
-Javascript mete todo en la memoria RAM , ya luego de leer todo (compilacion), empieza a ejecutar , por lo tanto se puede llamar a una funcion y luego declararla:
-
-```js
-saludar();
-function saludar() {
-    console.log("Bienvenido!");
-}
-
-```
-[Mas info](https://developer.mozilla.org/es/docs/Glossary/Hoisting)
-
-```js
-function saludar(nombreUsuario) {
-    console.log("Bienvenido! " + nombreUsuario);
-}
-saludar("Ignacio");
-
-```
-Funcion con parametro
+#### Mas ejemplos
+- Funcion con parametro:
 
 ```js
 function saludar(nombreUsuario) {
@@ -1153,13 +1131,10 @@ function saludar(nombreUsuario) {
 }
 console.log(saludar("Ignacio"));
 ```
-Funcion con retorno
-
-Puede indicar con paréntesis lo que va a retornar.
-
-Lo que esta abajo del return no se ejecutara.
-
-Los parametros se separan con coma
+- Funcion con retorno:
+  - Puede indicar con paréntesis lo que va a retornar.
+  - Lo que esta abajo del return no se ejecutara.
+  - Los parametros se separan con coma
 
 ```js
 function sumar(n1, n2) {
@@ -1194,3 +1169,17 @@ console.log("El total tres es: " + resultadoTres);
 
 
 ```
+
+## hoisting
+- Una estricta definición de hoisting sugiere que las declaraciones de variables y funciones son movidas automáticamente al comienzo del código, pero esto no es lo que ocurre en realidad. Lo que sucede es que las declaraciones de variables y funciones son asignadas en memoria durante la fase de compilación, pero quedan exactamente en dónde las has escrito en el código.
+- Javascript mete todo en la memoria RAM , ya luego de leer todo (compilacion), empieza a ejecutar , por lo tanto se puede llamar a una funcion y luego declararla:
+
+```js
+saludar();
+function saludar() {
+    console.log("Bienvenido!");
+}
+
+```
+[Mas info](https://developer.mozilla.org/es/docs/Glossary/Hoisting)
+
