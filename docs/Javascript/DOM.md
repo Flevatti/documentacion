@@ -1107,29 +1107,48 @@ lista.appendChild(fragment);
 
 ```
 
-## atributo data-nombre
-el atributo  data-nombre de los botones contiene un valor que puede ser leído por javascript.
+## Atributo data-nombre/data-*
+- Los atributos `data-nombre/data-*` sirven para guardar datos dentro de una etiqueta HTML que luego pueden ser accedidos desde JavaScript.
+- El atributo `data-nombre` de los botones contiene un valor que puede ser leído por JavaScript:
 ```html
 <button class="btn btn-primary" data-fruta="frutilla">Agregar</button>
 <button class="btn btn-primary" data-fruta="banana">Agregar</button>
 <button class="btn btn-primary" data-fruta="manzana">Agregar</button>
-
 ```
-Devuelve un DOMSTRING con el nombre y el valor del atributo data-nombre del elemento.
+:::tip Observación
+- Cada botón tiene el atributo personalizado `data-fruta`.
+- El atributo `data-fruta` almacena un dato diferente en cada botón. En este caso, cada botón guarda el nombre de una fruta distinta (`frutilla`, `banana` y `manzana`).
+- JavaScript puede leer el valor de `data-fruta` para identificar qué fruta corresponde al botón presionado.
+- Los atributos `data-*` se utilizan para guardar datos personalizados dentro de elementos HTML.
+:::
 
-fruta es el nombre del data-nombre (data-fruta = "valor")
+- Devuelve un `DOMStringMap` con todos los atributos `data-*` del elemento y sus valores.
 
 ```js
 console.log(element.dataset);
 ```
 
-Devuelve el valor del atributo data-nombre del elemento:
+:::tip Observación
+- Devuelve todos los atributos `data-*` del elemento, donde `nombre` es la clave y el valor asignado al atributo es el valor.
+:::
 
-fruta es el nombre del data-nombre (data-fruta = "valor")
+
+- Devuelve el valor del atributo `data-fruta` del elemento:
+
 
 ```js
     console.log(element.dataset.fruta);
 ```
+:::tip Observación
+- Para acceder a un valor se utiliza `element.dataset.nombre`.
+- En este caso se accede al valor de `data-fruta`, ya que `fruta` es el nombre utilizado como clave.
+:::
+
+##### Resumen
+- Los atributos `data-*` son atributos personalizados de HTML que permiten guardar información dentro de una etiqueta.
+- La parte `nombre` en `data-nombre` puede cambiar por cualquier palabra, por eso se consideran atributos personalizados.
+- El texto que aparece después de `data-` funciona como una clave o identificador del dato. Esa clave se usa para acceder desde JavaScript al valor almacenado en el atributo.
+- El valor asignado al atributo queda asociado a esa clave.
 
 ## Practica 3
 
@@ -1469,24 +1488,24 @@ container.addEventListener("click", (e) => {
 
 ```
 Podemos averiguar a que elemento pertenece atraves del dataset.
-## data-nombre
-El atributo data-nombre es para hacer algo con JavaScript
+## data-nombre/data-*
+- El atributo `data-nombre` es un atributo personalizado que se utiliza para guardar información dentro de una etiqueta HTML y trabajar con ella desde JavaScript.
+- Podemos acceder al valor del atributo `data-nombre` usando `dataset` y el nombre que aparece después de `data-`.
 
-Podemos acceder al valor del atributo data a través del nombre.
 :::tip
-Un elemento puede tener varios dataset.
+- Un elemento puede tener varios dataset.
 :::
 
 :::tip
-Se puede añadir el atributo data por javascript a un elemento.
-
-elemento.dataset.nombre = valor;
-
-el nombre y el valor puede ser cualquiera ya que es el que se va a crear
-
-
+- También se puede crear o modificar un atributo `data-*` desde JavaScript.
+```js
+element.dataset.nombre = valor;
+```
+- `nombre` es la palabra utilizada después de `data-`.
+- `valor` es la información almacenada en el atributo.
+- Tanto el `nombre` como el `valor` pueden ser personalizados.
 :::
-
+- Ejemplo:
 ```js
 const container = document.querySelector(".container");
 container.addEventListener("click", (e) => {
@@ -1496,10 +1515,17 @@ container.addEventListener("click", (e) => {
 });
 
 ```
+:::tip Observación
+- `e.target.dataset` devuelve un objeto con todos los atributos `data-*` del elemento sobre el que se hizo clic.
+- En ese objeto:
+    - El nombre que aparece después de `data-` se utiliza como identificador o clave.
+    - El valor del atributo `data-*` queda asociado a esa clave y solo puede accederse usando ese nombre.
+- Si el elemento no tiene atributos `data-*`, el resultado será un objeto vacío.
+:::
 
-En el ejemplo de arriba , aparece un objeto con el nombre-valor del atributo data del elemento.
 
-Se puede acceder al valor con el punto (dataset.nombre) o corchetes (dataset[‘nombre’])
+
+- Se puede acceder al valor usando la notación con punto (`dataset.nombre`) o con corchetes (`dataset["nombre"]`):
 
 ```js
    console.log(e.target.dataset.div);
@@ -1522,35 +1548,41 @@ container.addEventListener("click", (e) => {
 ```
 
 :::tip
-Puedes seleccionar todo el document, así no tienes que estar detectando el componente principal 🤙
-
+- También puedes agregar el evento al `document` para detectar clics en cualquier parte de la página, sin necesidad de seleccionar un contenedor principal 🤙
+```js
 document.addEventListener()
+```
 :::
 
 ## Práctica
 
 :::tip
-parseInt Para convertir un String a numero entero.
+- `parseInt()` se utiliza para convertir un `String` en un número entero.
 :::
 
 :::tip
-return se puede usar para no devolver nada  (Sirve para eliminar elementos dentro de filter).
-
-return               no es lo mismo que    return item
-
-
-Si un if devuelve algo en solo una línea, no hace falta las llaves ({}).
-
-
+- `return` también puede usarse sin devolver ningún valor:
+```js
+return;
+```
+- En métodos como `filter()`, esto provoca que el elemento no sea incluido en el nuevo array.
+- Si un if devuelve algo en una sola línea, las llaves (`{}`) son opcionales:
+```js
+if (item.id === id) return item;
+```
 :::
 
 :::tip
-en el reduce, podes especificar qué tipo de valor va a devolver en el segundo parámetro.
+En `reduce()`, el segundo parámetro permite indicar el valor inicial del acumulador y determina el tipo de dato que devolverá.
 :::
 
 :::tip
-En los ciclos(bucle) solo se usa el fragment .
+- En los bucles se suele utilizar el `DocumentFragment` para agregar múltiples elementos al DOM de forma más eficiente.
+- `DocumentFragment` se vacía automáticamente cuando sus elementos son agregados al DOM con `appendChild()`.
 :::
+
+
+
 
 
 ```html

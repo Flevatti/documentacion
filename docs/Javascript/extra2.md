@@ -292,3 +292,64 @@ function cuadradoImpuro(n) {
   - Interactuar con una API.
 :::
 
+## Propiedad `offsetHeight` y `clientHeight`
+#### `offsetHeight`
+- `offsetHeight` es una propiedad de solo lectura que devuelve la altura total de un elemento en píxeles.
+- Para calcular la altura tiene en cuenta:
+  - El contenido.
+  - El `padding`.
+  - Los bordes (`border`).
+  - En la mayoría de los casos también incluye la barra de desplazamiento horizontal (`scrollbar`) si está renderizada.
+- No incluye:
+  - Los márgenes.
+  - Los pseudo-elementos (`::before`, `::after`).
+- Si el elemento está oculto (`display: none`), devuelve `0`.
+![An example element with large padding, border and margin. offsetHeight is the layout height of the element including its padding and border, and excluding its margin.](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight/dimensions-offset.png)
+
+
+:::tip Observación
+- `offsetWidth` es una propiedad de solo lectura que devuelve el ancho total de un elemento en píxeles. Para calcularlo, tiene en cuenta lo mismo que `offsetHeight` y también ignora los mismos elementos.
+:::
+
+
+#### `clientHeight`
+- `clientHeight` es una propiedad de solo lectura que devuelve la altura visible de un elemento en píxeles.
+- Para calcular la altura tiene en cuenta:
+  - El contenido.
+  - El `padding`.
+- No incluye:
+  - Los bordes (`border`).
+  - Los márgenes.
+  - La barra de desplazamiento (`scrollbar`).
+  ![Image:Dimensions-client.png](https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight/dimensions-client.png)
+
+
+:::tip Observación
+- `clientWidth` es una propiedad de solo lectura que devuelve el ancho visible de un elemento en píxeles. Para calcularlo, tiene en cuenta lo mismo que `clientHeight` y también ignora los mismos elementos.
+:::
+
+## Propiedad `scrollHeight` y `scrollTop`
+- `scrollHeight` es una propiedad de solo lectura que devuelve la altura total del contenido de un elemento, incluyendo la parte que no es visible por desbordamiento (`overflow`).
+- Para calcular la altura tiene en cuenta:
+  - El contenido completo (visible y no visible).
+  - El `padding`.
+- No incluye:
+  - Los bordes (`border`).
+  - Los márgenes.
+  - La barra de desplazamiento vertical u horizontal.
+- Puede incluir la altura de pseudo-elementos como `::before` y `::after`.
+- Si el contenido cabe sin scroll, `scrollHeight` es igual a `clientHeight`.
+![Image:scrollHeight.png](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight/scrollheight.png)
+:::tip
+- Existe `scrollWidth`, que es equivalente a `scrollHeight` pero en el eje horizontal.
+- Devuelve el ancho total del contenido de un elemento, incluyendo la parte que no es visible por overflow.
+:::
+
+#### Diferencias entre `clientHeight`, `offsetHeight` y `scrollHeight`
+
+
+| Propiedad       | Qué mide | Incluye contenido | Incluye padding | Incluye border | Incluye contenido oculto (overflow) |
+|----------------|----------|------------------|----------------|----------------|--------------------------------------|
+| `clientHeight` | Altura interna(visible) del elemento | Sí | Sí | No | No |
+| `offsetHeight` | Altura total de la caja del elemento | Sí | Sí | Sí | No |
+| `scrollHeight` | Altura total del contenido | Sí | Sí | No | Sí |

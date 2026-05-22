@@ -729,8 +729,179 @@ Ejemplo
 
 :::
 
+## Viewport
+- El **viewport** es el área visible disponible dentro del navegador donde se renderiza (dibuja) el contenido de una página web, es decir, todo lo que está dentro de `<body></body>`.
+- El viewport **no coincide** necesariamente con la resolución de la pantalla:
+  - **Resolución de pantalla:** es la cantidad total de píxeles que puede mostrar una pantalla.  
+    Ejemplo: `1920 × 1080`.
+  - **Viewport:** es el espacio realmente disponible dentro del navegador para mostrar la página web.  
+    Este espacio excluye elementos de la interfaz del sistema y del navegador, como:
+    - la barra de direcciones,
+    - la barra de marcadores,
+    - las pestañas,
+    - y la barra de tareas del sistema operativo.
+
+![Ubicación de Viewport](https://www.inavirtual.ed.cr/pluginfile.php/2896120/mod_resource/content/2/images/viewport.png)
+#### Viewport units 
+- Las **viewport units** (unidades del viewport) son unidades relativas de CSS cuyo valor depende del tamaño del viewport del navegador.
+- Estas unidades permiten crear tamaños que cambian automáticamente según el tamaño de la ventana del navegador.
+- Son muy utilizadas en diseño responsive porque ayudan a crear interfaces que cambian de tamaño según el dispositivo o el espacio disponible.
+- A diferencia de unidades fijas como `px`, las viewport units cambian su valor cuando cambia el tamaño del viewport.
+
+
+| Unidad | Significado |
+|---|---|
+| `vw` | 1% del ancho del viewport |
+| `vh` | 1% del alto del viewport |
+| `vmin` | 1% de la dimensión más pequeña del viewport |
+| `vmax` | 1% de la dimensión más grande del viewport |
+
+
+![Unidades de Viewport](https://web.dev/static/blog/viewport-units/image/a-light-blue-element-set-6daa79ea2e48a_856.png?hl=es-419)
+
+#### Ejemplos
+
+#### `vw` (viewport width)
+
+```css
+div {
+  width: 50vw;
+}
+```
+
+- `50vw` significa que el elemento ocupará el `50%` del ancho del viewport.
+- Si el viewport mide `1200px` de ancho:
+```txt
+50vw = 600px
+```
+- El número puede variar entre `1` y `100`, funcionando de manera similar a un porcentaje:
+  - `100vw` = `100%` del ancho del viewport
+  - `50vw` = `50%`
+  - `25vw` = `25%`
+
+
+---
+
+#### `vh` (viewport height)
+
+```css
+section {
+  height: 100vh;
+}
+```
+
+- `100vh` significa que el elemento tendrá exactamente el mismo alto que el viewport.
+- El número puede variar entre `1` y `100`, funcionando de manera similar a un porcentaje:
+  - `100vh` = `100%` del ancho del viewport
+  - `50vh` = `50%`
+  - `25vh` = `25%`
+- Se usa mucho para:
+  - Pantallas de inicio,
+  - Banners,
+  - Hero sections,
+  - Layouts de pantalla completa.
+
+---
+
+### `vmin`
+
+```css
+.square {
+  width: 20vmin;
+  height: 20vmin;
+}
+```
+
+- `vmin` toma como referencia la dimensión más pequeña del viewport.
+- Si:
+  - ancho = `1200px`
+  - alto = `800px`
+
+Entonces:
+```txt
+1vmin = 8px
+```
+Porque `800px` es la dimensión más pequeña.
+
+
+:::tip
+- El número puede variar entre `1` y `100`, funcionando de manera similar a un porcentaje.
+:::
+
+---
+
+#### `vmax`
+
+```css
+.title {
+  font-size: 10vmax;
+}
+```
+
+- `vmax` usa la dimensión más grande del viewport.
+- Si:
+  - ancho = `1200px`
+  - alto = `800px`
+
+Entonces:
+
+```txt
+1vmax = 12px
+```
+
+Porque `1200px` es la dimensión más grande.
+
+:::tip
+- El número puede variar entre `1` y `100`, funcionando de manera similar a un porcentaje.
+:::
+
+
+---
 
 
 
+
+#### Diferencia entre `px` y viewport units
+
+| Unidad | ¿Es fija? | ¿Depende del viewport? |
+|---|---|---|
+| `px` | Sí | No |
+| `vw` / `vh` | No | Sí |
+
+#### Ventajas
+
+- Permiten crear diseños responsive más fácilmente.
+- Ayudan a adaptar tamaños automáticamente.
+- Reducen la necesidad de usar media queries en algunos casos.
+- Son útiles para pantallas completas y tipografías adaptativas.
+
+#### Desventajas
+
+- En dispositivos móviles el viewport puede cambiar cuando aparece o desaparece la barra del navegador.
+- Un tamaño basado únicamente en viewport puede verse demasiado grande o demasiado pequeño en ciertas pantallas.
+
+> Las viewport units permiten que los tamaños en CSS se adapten automáticamente al tamaño visible del navegador.
+
+
+#### Etiqueta meta viewport 
+- En muchos sitios web encontrarás esta etiqueta:
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+- Esta etiqueta le indica al navegador cómo debe comportarse el viewport en dispositivos móviles.
+- Sin esta configuración, algunos navegadores móviles intentan mostrar la página como si fuera un sitio de escritorio, haciendo que el contenido y el texto se vean muy pequeños.
+- `content="width=device-width, initial-scale=1.0"` significa:
+  - `width=device-width`
+    - Establece que el ancho del viewport será igual al ancho real de la pantalla del dispositivo.
+    - Por ejemplo, en un celular el viewport tendrá el ancho del dispositivo móvil.
+    - Sin esto, algunos navegadores móviles usan un viewport más ancho, parecido al de una computadora.
+    - Como ese viewport es más grande que la pantalla del celular, el navegador reduce visualmente toda la página para que pueda entrar completa en la pantalla.
+  - `initial-scale=1.0`
+    - Define el nivel de zoom inicial cuando la página se carga.
+    - `1.0` significa que la página se mostrará con un zoom normal (`100%`).
+    - Puedes cambiar el valor para aumentar o reducir el zoom inicial.
+- Esta es la configuración recomendada para todas las páginas web, salvo casos especiales.
 ## Cheatsheet
 - [CSS Shorthand](../../static/img/CSS.jpg)
+
+
