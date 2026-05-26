@@ -1130,6 +1130,10 @@ console.log(element.dataset);
 
 :::tip Observación
 - Devuelve todos los atributos `data-*` del elemento, donde `nombre` es la clave y el valor asignado al atributo es el valor.
+- `DOMStringMap` es un objeto, no un array, y tiene las siguientes características:
+  - Cada clave (`nombre`) se convierte en una propiedad del objeto que almacena su valor correspondiente.
+  - Los nombres con guiones (`kebab-case`), como `data-user-id`, se transforman automáticamente a `camelCase` (`userId`).
+  - Todas las claves (`nombres`) y sus valores se representan como cadenas de texto (`string`), incluso cuando contienen números.
 :::
 
 

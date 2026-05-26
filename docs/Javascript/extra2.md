@@ -329,7 +329,8 @@ function cuadradoImpuro(n) {
 :::
 
 ## Propiedad `scrollHeight` y `scrollTop`
-- `scrollHeight` es una propiedad de solo lectura que devuelve la altura total del contenido de un elemento, incluyendo la parte que no es visible por desbordamiento (`overflow`).
+#### `scrollHeight`
+- `scrollHeight` es una propiedad de solo lectura que devuelve la altura total del contenido de un elemento en píxeles, incluyendo la parte que no es visible por desbordamiento (`overflow`).
 - Para calcular la altura tiene en cuenta:
   - El contenido completo (visible y no visible).
   - El `padding`.
@@ -353,3 +354,121 @@ function cuadradoImpuro(n) {
 | `clientHeight` | Altura interna(visible) del elemento | Sí | Sí | No | No |
 | `offsetHeight` | Altura total de la caja del elemento | Sí | Sí | Sí | No |
 | `scrollHeight` | Altura total del contenido | Sí | Sí | No | Sí |
+
+#### `scrollTop`
+- Indica cuántos píxeles del contenido quedaron ocultos arriba porque hiciste scroll hacia abajo.
+- Ejemplo:
+  - `scrollTop = 0`
+    - → Estás al inicio.
+    - → No ocultaste nada arriba.
+  - `scrollTop = 50`
+    - → Bajaste un poco.
+    - → Los primeros 50px del contenido quedaron por encima del área visible.
+  - `scrollTop = 300`
+    - → Bajaste bastante.
+    - → Hay 300px de contenido oculto arriba.
+##### Visualmente
+- Estado inicial:
+```txt
+[VISIBLE DESDE EL INICIO]
+Linea 1
+Linea 2
+Linea 3
+```
+:::tip Observación
+Así estaría con `scrollTop = 0`.
+:::
+- Después de bajar:
+```txt
+(Estas líneas quedaron arriba y ya no se ven)
+Linea 1
+Linea 2
+Linea 3
+[AHORA EMPIEZA LO VISIBLE]
+Linea 4
+Linea 5
+Linea 6
+```
+
+:::tip Observación
+`scrollTop` ahora vale la cantidad de píxeles que “subieron” y quedaron fuera de la vista.
+:::
+
+##### Conclusión
+- La propiedad `Element.scrollTop` obtiene o establece el número de píxeles que el contenido de un elemento se desplazó hacia arriba dentro del área visible.
+- Ese “scroll hacia arriba” normalmente ocurre cuando movés la rueda del mouse hacia abajo o deslizás el contenido hacia abajo.
+- Lo que realmente sube es el contenido interno del elemento, haciendo que la parte superior quede oculta fuera de la vista.
+- En otras palabras, representa la altura en píxeles del contenido oculto arriba.
+
+:::tip
+- La propiedad `Element.scrollLeft` obtiene o establece el número de píxeles que el contenido de un elemento se desplazó hacia la izquierda dentro del área visible.
+- Ese desplazamiento horizontal normalmente ocurre al mover la barra de scroll horizontal hacia la derecha o mediante gestos de desplazamiento lateral.
+- Lo que realmente se mueve es el contenido interno del elemento, haciendo que la parte izquierda quede oculta fuera de la vista.
+- En otras palabras, representa la anchura en píxeles del contenido oculto a la izquierda.
+:::
+
+## Método `getBoundingClientRect` y `offsetParent`
+#### `getBoundingClientRect`
+- `elemento.getBoundingClientRect()` devuelve un objeto `DOMRect` con información sobre el tamaño y la posición del elemento.
+- Sirve para obtener información básica sobre un elemento que ya existe en la página.
+- El objeto `DOMRect` representa el espacio que ocupa el elemento dentro del viewport.
+#### Propiedades del objeto `DOMRect`
+- `height`
+  - Devuelve la altura del elemento.
+  - Incluye `padding` y `border-width`, no solo el contenido.
+  - Si `box-sizing: border-box`, este valor coincide con el `height` definido en CSS.
+- `width`
+  - Devuelve la anchura del elemento.
+  - Incluye `padding` y `border-width`, no solo el contenido.
+  - Si `box-sizing: border-box`, este valor coincide con el `width` definido en CSS.
+- `top`
+  - Distancia desde el borde superior del viewport hasta el borde superior del elemento.
+- `left`
+  - Distancia desde el borde izquierdo del viewport hasta el borde izquierdo del elemento.
+- `right`
+  - Distancia desde el borde izquierdo del viewport hasta el borde derecho del elemento.
+- `bottom`
+  - Distancia desde el borde superior del viewport hasta el borde inferior del elemento.
+- `x`
+  - Equivale a `left`.
+  - Representa la distancia horizontal desde el borde izquierdo del viewport hasta el inicio del elemento.
+- `y`
+  - Equivale a `top`.
+  - Representa la distancia vertical desde el borde superior del viewport hasta el inicio del elemento.
+  ![Objeto DOMRect que representa el rectángulo más pequeño que contiene completamente al elemento.](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect/element-box-diagram.png)
+
+#### Usos comunes
+- Obtener la posición exacta de un elemento dentro del viewport.
+- Detectar si un elemento es visible en pantalla.
+- Calcular distancias entre elementos.
+- Posicionar elementos dinámicamente (`tooltips`, `modals`, `dropdowns`, etc.).
+- Detectar colisiones o superposiciones entre elementos.
+- Obtener el tamaño real que ocupa un elemento en la página.
+- Crear animaciones o efectos que reaccionan a la posición del elemento durante el scroll.
+- Implementar sistemas de `drag and drop`.
+
+#### `offsetParent`
+- La propiedad de solo lectura `HTMLElement.offsetParent` devuelve el elemento contenedor posicionado más cercano que actúa como referencia de posición para el elemento actual (es decir, el elemento que `offsetTop` y `offsetLeft` utilizan como base para calcular sus distancias, y también el que usan propiedades como `top`, `left`, `right` y `bottom` al posicionar el elemento actual).
+- Ese contenedor es el ancestro posicionado más cercano en la jerarquía; es decir, un elemento cuyo `position` tiene un valor distinto de `static` (`relative`, `absolute`, `fixed` o `sticky`).
+- Si el elemento no tiene un ancestro posicionado, el navegador puede devolver elementos como `td`, `th`, `table` o `body`.
+- Resumen: `offsetParent` devuelve el contenedor posicionado más cercano del elemento.
+
+## `offsetLeft` y  `offsetTop`
+#### `offsetLeft`
+- `elemento.offsetLeft` devuelve la distancia en píxeles desde el borde izquierdo del `offsetParent` hasta el borde izquierdo del elemento.
+
+:::tip
+`HTMLElement.offsetParent` es el ancestro posicionado más cercano en la jerarquía.
+:::
+
+:::warning
+- No confundir con `clientLeft`, que devuelve el grosor del borde izquierdo del elemento.  
+- En algunos casos, este cálculo también incluye el ancho de la barra de desplazamiento vertical.
+- Adicionalmente, existe `clientTop`, que devuelve el grosor del borde superior del elemento y, en algunos casos, también incluye el ancho de la barra de desplazamiento horizontal.
+:::
+
+
+#### `offsetTop`
+
+- `elemento.offsetTop` devuelve la distancia en píxeles desde el borde superior del `offsetParent` hasta el borde superior del elemento.
+

@@ -4,12 +4,12 @@ sidebar_position: 6
 # Validaciones (Formulario)
 
 ## Expresiones Regulares
--	Las expresiones regulares (a menudo llamadas RegExp o RegEx) son patrones que se utilizan para hacer coincidir combinaciones de caracteres en cadenas.
+- Las expresiones regulares (a menudo llamadas `RegExp` o `RegEx`) son patrones utilizados para buscar combinaciones de caracteres dentro de cadenas de texto (`string`).
+- Un patrón es una forma de indicar qué texto queremos encontrar.
 -	Son un sistema para buscar, capturar o reemplazar texto utilizando patrones.
--	Estos patrones permiten realizar una búsqueda de texto de una forma relativamente sencilla y abstracta, de forma que abarca una gran cantidad de posibilidades que de otra forma sería imposible o muy costosa.
--	/patron/flags
-- el patrón es lo que vamos a evaluar mientras que el Flag es una pequeña ayuda.
-- Son para buscar patrones 
+- Estos patrones permiten realizar búsquedas de texto de forma sencilla y flexible, abarcando muchas posibilidades que de otra manera serían difíciles o costosas de implementar.
+-	Sintaxis: `/patron/flags`
+- El patrón es lo que vamos a evaluar/buscar mientras que el Flag es una pequeña ayuda.
 - Todos los lenguajes de progamacion tiene expresiones regulares.
 - Los patrones no son String
 
@@ -27,6 +27,11 @@ const expresionRegular = /palabra/
 const expresionObjeto = new RegExp("palabra")
 
 ```
+:::tip Observación
+- Hay dos formas de crear expresiones regulares:
+    - La notación literal (`/patron/`) es la forma más utilizada.
+    - `new RegExp()` suele utilizarse cuando el patrón se crea dinámicamente, por ejemplo, a partir de variables.
+:::
 ### Flags de una RegExp
 
 -	i Ignora mayúsculas y minúsculas. Se suele denominar insensible a mayús/minús.
@@ -45,8 +50,8 @@ const expresionObjeto = new RegExp("palabra" , "i")
 ```
 ## Metodo test()
 
--	El método test() ejecuta la búsqueda de una ocurrencia de una expresión regular en una cadena especificada. Devuelve true o false.
-- Sirve para  evaluar si en el texto hay una coincidencia del patrón (expresión regular).
+- El método `test()` ejecuta la búsqueda de una expresión regular dentro de una cadena de texto y devuelve `true` o `false`. Es decir, busca el texto especificado en el patrón dentro del string pasado.
+- Sirve para evaluar si el texto contiene lo que estamos buscando (según lo definido en el patrón).
 
 ```js
 const expresionObjeto = new RegExp("palabra" , "i")
@@ -257,7 +262,7 @@ Tambien existe el atributo novalidate de la etiqueta form para no validar el  fo
 ```
 ## Capturar valores 
 - Capturar los valores que introduce el usuario
-- Generalmente se accede con la propiedad value del elemento Node que representa un input (este contiene la información que ingreso el usuario).
+- Generalmente se accede con la propiedad value del elemento HTML que representa un input (este contiene la información que ingreso el usuario).
 
 ### Por ID
 :::tip
@@ -534,7 +539,8 @@ formulario.addEventListener("submit", (e) => {
 :::
 
 ## String.match() 
-- El método match() se usa para obtener todas las ocurrencias de una expresión regular dentro de un String.
+- Al igual que `test()`, el método `match()` ejecuta la búsqueda de una expresión regular que se pasa como parámetro en un string. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
+- Se diferencia de `test()`, ya que este devuelve un array con las coincidencias encontradas en el texto. Es decir, todas las partes del string que coinciden con lo que estamos buscando.
 - Sintaxis:
 ```js
 cadena.match(regexp)
@@ -543,7 +549,7 @@ cadena.match(regexp)
 
 Ejemplo:
 
-Todas las letras de A hasta E y de a hasta e son devueltas, en su propio elemento dentro del array.
+Todas las letras de A hasta E (mayúsculas y minúsculas) son devueltas, cada una en su propio elemento dentro del array.
 
 ```js
 
@@ -554,22 +560,17 @@ console.log(array_emparejamientos);
 
 ```
 
-:::tip info 
-
-[developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#ejemplos)
-:::
 
 ## RegExp.prototype.exec()
-
-- El método exec() ejecuta una busqueda sobre las coincidencias de una expresión regular en una cadena especifica. 
+- `exec()` es similar a `match()` ya que permite ejecutar una búsqueda de una expresión regular en un string que se pasa como parámetro. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
+- Sin embargo, a diferencia de `match()`, `exec()` devuelve información más detallada en cada coincidencia.
 - Devuelve el resultado como array, o null.
 ```js
 regexObj.exec(cadena)
 ```
-- cadena : String sobre la cual se quiere aplicar la expresión regular
+- `cadena`: String sobre el cual se quiere aplicar la expresión regular. Es decir, el texto donde se buscarán coincidencias.
 
 
-- El método test() realiza una búsqueda de la coincidencia especificada en la cadena dada. La diferencia entre el método exec() y test() es que el método exec() devolverá la coincidencia especificada si está presente o nulo si no está presente en la cadena dada, mientras que el método test() devuelve un resultado booleano, es decir, verdadero si el la coincidencia especificada está presente o devuelve falso si no está presente.
 
 Ejemplo
 ```js
@@ -583,7 +584,69 @@ Ejemplo
 
 ```
 
+
+#### `exec()` vs `match()`
+#### 1- Origen del método
+- `exec()` es un método del objeto RegExp
+- `match()` es un método del objeto `String`
+- Ejemplo:
+```js
+      const regex = /\d/;
+      regex.exec("a1b2");
+      "a1b2".match(/\d/);
+```
+#### 2- Tipo de resultado
+- `exec()` devuelve un array con la coincidencia encontrada junto con información adicional.
+- `match()` devuelve información detallada solo cuando no se usa la bandera `g` (global). Con `g`, `match()` devuelve únicamente un array con todas las coincidencias como strings.
+- Ejemplo:
+```js
+// EXEC
+// \d -> Cualquier número del 0 al 9
+// (\d) -> Capturamos el número en un grupo
+
+// SIN G
+let regex = /(\d)/;
+let result = regex.exec("a1b2");
+console.log("EXEC SIN G");
+console.log(result);
+
+// CON G
+regex = /(\d)/g;
+result = regex.exec("a1b2");
+console.log("EXEC CON G");
+console.log(result);
+console.log(regex.lastIndex);
+
+// MATCH
+// SIN G
+result = "a1b2".match(/(\d)/);
+console.log("MATCH SIN G");
+console.log(result);
+
+// CON G
+result = "a1b2".match(/(\d)/g);
+console.log("MATCH CON G");
+console.log(result);
+```
+
+:::tip Observación
+
+- `exec()` devuelve un array con índices adicionales:
+  - índice 0: coincidencia encontrada 
+  - índice 1 en adelante: valores capturados con paréntesis (grupos de captura)
+  - `index`: posición dentro del string donde empieza la coincidencia
+  - `input`: string original sobre el que se hizo la búsqueda
+  - `groups`: grupos con nombre (si no existen, es `undefined`)
+- `exec()` devuelve una sola coincidencia por llamada, incluso con `/g`:
+  - La bandera `g` activa el uso de `lastIndex`, lo que permite recorrer todas las coincidencias en un bucle:
+    - `lastIndex` es una propiedad del objeto `RegExp` (no del resultado de `exec()`), y define desde qué posición del string debe continuar la siguiente búsqueda.
+  - No devuelve todas las coincidencias automáticamente.
+- `match()` sin `g` devuelve un resultado similar a `exec()`.
+- `match()` con `g` devuelve únicamente las coincidencias como strings, sin grupos ni metadata.
+:::
+
 :::tip Mas info
 - [developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#sintaxis)
 - [test vs exec](https://www.tutorialspoint.com/difference-between-test-and-exec-methods-in-javascript)
 :::
+
