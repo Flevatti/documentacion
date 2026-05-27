@@ -453,7 +453,7 @@ Linea 6
 - Si el elemento no tiene un ancestro posicionado, el navegador puede devolver elementos como `td`, `th`, `table` o `body`.
 - Resumen: `offsetParent` devuelve el contenedor posicionado más cercano del elemento.
 
-## `offsetLeft` y  `offsetTop`
+## Propiedad `offsetLeft` y  `offsetTop`
 #### `offsetLeft`
 - `elemento.offsetLeft` devuelve la distancia en píxeles desde el borde izquierdo del `offsetParent` hasta el borde izquierdo del elemento.
 
@@ -472,3 +472,500 @@ Linea 6
 
 - `elemento.offsetTop` devuelve la distancia en píxeles desde el borde superior del `offsetParent` hasta el borde superior del elemento.
 
+## `HTMLCollection` y  `NodeList`
+#### `HTMLCollection`
+- Es una colección dinámica de elementos HTML (nodos de tipo elemento).
+- Cada elemento tiene una posición dentro de la colección.
+- Un `HTMLCollection` está vivo (*live collection*), es decir, se actualiza automáticamente cuando cambia el DOM.
+- Por ejemplo, si seleccionas todos los elementos `<p>` con `document.getElementsByTagName("p")`, obtendrás un `HTMLCollection` con todos esos elementos.
+- Aunque se parece a un array, no es un array real.
+- Tiene una propiedad `length` y métodos para acceder a los elementos HTML de la colección.
+- Estos métodos y propiedades retornan un `HTMLCollection`:
+  - `getElementsByTagName()` → Obtiene elementos HTML por nombre de etiqueta.
+  - `getElementsByClassName()` → Obtiene elementos HTML por nombre de clase CSS.
+  - `children` → Devuelve los hijos de un elemento.
+  - `document.forms` → Devuelve todos los formularios del documento.
+- Métodos:
+  - `item(index)` → Devuelve el nodo correspondiente al índice indicado.  
+    Si el índice es `0`, devuelve el primer elemento; si es `1`, el segundo, y así sucesivamente.
+  - `namedItem(key)` → Devuelve el primer elemento HTML cuyo atributo `name` o `id` coincida con la clave especificada.
+- Propiedades:
+  - `length` → Devuelve la cantidad total de elementos de la colección.
+- Se pueden recorrer con un bucle y acceder a sus elementos usando corchetes (`[index]`), como si fuera un array:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="parent">
+      <li id="one" class="children">Apple</li>
+      <li id="two" class="children">Orange</li>
+      <li id="three" class="children">Lime</li>
+      <li id="four" class="children">Banana</li>
+    </ul>
+
+    <script>
+      const getItemsList = document.getElementById("parent");
+      const children = getItemsList.children;
+
+      function bgColor() {
+        for (let j = 0; j < children.length; j++) {
+          children[j].style.color = "blue";
+        }
+
+        children[3].style.color = "orange";
+      }
+
+      bgColor();
+    </script>
+  </body>
+</html>
+```
+
+- También se pueden convertir en un array:
+
+```js
+const getItemsList = document.getElementById("parent");
+const children = getItemsList.children;
+
+const copy = Array.from(children);
+
+console.log(copy);
+
+copy.forEach((item) => {
+  item.style.color = "plum";
+});
+```
+
+- Por último, este ejemplo demuestra que un `HTMLCollection` se actualiza automáticamente cuando el DOM cambia:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    body {
+      background-color: rgb(212, 168, 223);
+    }
+
+    main {
+      width: 40%;
+      margin: 0 auto;
+    }
+
+    .input-value {
+      background-color: rgb(71, 3, 88);
+      padding: 1em;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      border: none;
+      outline: none;
+      padding: 0.4em 1em;
+      color: rgb(71, 3, 88);
+    }
+
+    .button-wrapper {
+      margin-top: 1em;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .btn {
+      border: 1px solid rgb(71, 3, 88);
+      padding: 0.4em 1em;
+      cursor: pointer;
+      color: rgb(71, 3, 88);
+      font-family: Calibri;
+      font-size: 0.8em;
+
+      transition: background 0.5s linear;
+    }
+
+    .add:hover {
+      background-color: rgb(0, 255, 170);
+      color: #fff;
+    }
+
+    .remove:hover {
+      background-color: rgba(214, 7, 121, 0.842);
+      color: #fff;
+    }
+
+    #parent {
+      background-color: #fff;
+      border: 1px solid rgb(71, 3, 88);
+      padding: 1em 0.5em;
+      box-shadow: 4px 6px 10px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    li {
+      list-style-type: none;
+      font-family: Calibri;
+      color: rgb(71, 3, 88);
+      font-size: 0.8em;
+      background-color: rgb(235, 203, 243);
+      border-radius: 4px;
+      margin-bottom: 2px;
+      padding: 2px 4px;
+    }
+  </style>
+
+  <body>
+    <main>
+      <section>
+        <header>
+          <div class="input-value">
+            <input
+              type="text"
+              placeholder="Add favourite fruits"
+              id="inputValue"
+              class="search"
+            />
+          </div>
+
+          <div class="button-wrapper">
+            <button id="btn-add" class="btn add">Add Items</button>
+            <button id="btn-remove" class="btn remove">Remove Items</button>
+          </div>
+        </header>
+
+        <ul id="parent">
+          <li id="one" class="children">Apple</li>
+          <li id="two" class="children">Orange</li>
+          <li id="three" class="children">Lime</li>
+          <li id="four" class="children">Banana</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      // Variables
+      const parent = document.getElementById("parent");
+      const btnAdd = document.getElementById("btn-add");
+      const btnRemove = document.getElementById("btn-remove");
+      const inputValue = document.getElementById("inputValue");
+
+      // HTMLCollection
+      const items = document.getElementsByTagName("li");
+
+      // Add items to the DOM
+      btnAdd.addEventListener("click", () => {
+        const li = document.createElement("li");
+
+        li.textContent = inputValue.value;
+
+        parent.appendChild(li);
+
+        console.log(items.length);
+      });
+
+      // Remove items from the DOM
+      btnRemove.addEventListener("click", () => {
+        const removeEle = document.querySelector("li:last-child");
+
+        removeEle.remove();
+
+        console.log(items.length);
+      });
+    </script>
+  </body>
+</html>
+```
+
+:::tip Observación
+- Cada vez que se agrega o elimina una etiqueta `<li>`, el `HTMLCollection` se actualiza automáticamente.
+- Esto sucede porque `HTMLCollection` es una colección viva (*live collection*).
+:::
+#### `NodeList`
+- Es una colección de nodos del DOM.
+- Puede contener distintos tipos de nodos, no solo elementos HTML.
+- Por ejemplo, puede incluir:
+  - Nodos de elementos
+  - Nodos de texto
+  - Comentarios
+- Cada nodo tiene una posición dentro de la colección.
+- Dependiendo del método usado, un `NodeList` puede ser:
+  - estático (*static*): No se actualiza mediante cambios en el DOM:
+  - o dinámico (*live*) : Se actualiza automaticamente mediante cambios en el DOM:
+- Por ejemplo, `element.childNodes` devuelve un `NodeList` dinámico con todos los nodos hijos del elemento.
+- En cambio, `document.querySelectorAll()` devuelve un `NodeList` estático que no se actualiza automáticamente cuando cambia el DOM.
+- Estos métodos y propiedades retornan un `NodeList`:
+  - `querySelectorAll()` → Devuelve todos los elementos que coinciden con un selector CSS.
+  - `childNodes` → Devuelve todos los nodos hijos de un elemento.
+  - `Node.childNodes` → Retorna nodos de texto, comentarios y elementos.
+- [Métodos y propiedades](https://developer.mozilla.org/es/docs/Web/API/NodeList)
+- Tiene el método `forEach()` integrado para recorrer sus nodos:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeList Example</title>
+  </head>
+
+  <body>
+    <ul>
+      <li class="item">Apple</li>
+      <li class="item">Orange</li>
+      <li class="item">Banana</li>
+      <li class="item">Lime</li>
+    </ul>
+
+    <script>
+      // querySelectorAll retorna un NodeList
+      const items = document.querySelectorAll(".item");
+
+      // Recorremos el NodeList con forEach
+      items.forEach((item, index) => {
+        console.log(index, item.textContent);
+
+        item.style.color = "purple";
+      });
+    </script>
+  </body>
+</html>
+```
+- Al igual que un `HTMLCollection`, se puede acceder a cada nodo usando corchetes (`[index]`), como si fuera un array:
+```js
+console.log(items[0]); // <li class="item">Apple</li>
+```
+
+
+#### Diferencias entre HTMLCollection y NodeList
+#### 1- Nodos devueltos
+- Los nodos de elementos son elementos HTML como `<p>`, `<div>`, `<img>`, y otros. Pero también hay otros tipos de nodos. Por ejemplo, nodos de texto y nodos de atributos.
+- Un `HTMLCollection` incluirá solo nodos de elementos, mientras que un `NodeList` incluye todos tipos de nodos.
+- Ejemplo:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeList Example</title>
+  </head>
+
+  <body>
+   <div>
+  This is a text
+  <p class="paragraph">First paragraph</p>
+  <p class="paragraph">First paragraph</p>
+</div>
+
+    <script>
+      const divElement = document.querySelector('div')
+console.log(divElement.children) // returns an HTMLCollection
+console.log(divElement.childNodes) // returns a NodeList
+    </script>
+  </body>
+</html>
+```
+:::tip Observación
+- El HTMLCollectiontiene dos elementos: los nodos del elemento párrafo. Mientras que NodeListincluye el primer texto (nodo de texto) y los dos párrafos y nodo de atributos como el class.
+:::
+
+#### 2- Colecciones dinámicas frente a colecciones estáticas
+- Un `HTMLCollection` siempre está vivo (*live collection*), por lo que se actualiza automáticamente cuando el DOM cambia.
+- Un `NodeList` no siempre es dinámico. Puede ser:
+  - estático (*static*)
+  - o dinámico (*live*)
+  - Esto depende de cómo se genere.
+  - Por ejemplo, un `NodeList` generado con `querySelectorAll()` es estático, por lo que los cambios en el DOM no se reflejan automáticamente en la colección.
+- Ejemplo:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeList Example</title>
+  </head>
+
+  <body>
+    <p>Paragraph One</p>
+    <p>Paragraph Two</p>
+    <p>Paragraph Three</p>
+
+    <script>
+      // returns an HTMLCollection
+      const paragraphs = document.getElementsByTagName("p");
+      // returns a NodeList
+      const paragraphs2 = document.querySelectorAll("p");
+      console.log("BEFORE UPDATE");
+      console.log("HTMLCollection: ", paragraphs);
+      console.log("NodeList: ", paragraphs2);
+      let newParagraph = document.createElement("p");
+      document.body.appendChild(newParagraph);
+      console.log("AFTER UPDATE: ");
+      console.log("HTMLCollection: ", paragraphs);
+      console.log("NodeList: ", paragraphs2);
+    </script>
+  </body>
+</html>
+```
+:::tip Observación
+- `paragraphs2` es un `NodeList` estático, por lo que no se actualiza automáticamente cuando cambia el DOM.
+- `paragraphs` es un `HTMLCollection` vivo (*live collection*), por lo que se actualiza automáticamente cuando hay cambios en el DOM. Como la colección es viva, después de agregar un nuevo `<p>` al documento, el cambio se refleja tanto en el `console.log()` de `"BEFORE UPDATE"` como en el de `"AFTER UPDATE"`.
+:::
+
+:::tip
+- El método `getElementsByName()` devuelve un `NodeList` dinámico (*live*), por lo que se actualiza automáticamente cuando el DOM cambia.
+:::
+
+#### 3- Acceder a los elementos
+- En un `HTMLCollection`, se puede acceder a los elementos de distintas maneras:
+  - Usando el índice
+  - Usando el método `namedItem()` con el atributo `id`
+  - Usando el método `namedItem()` con el atributo `name`
+- En cambio, en un `NodeList` normalmente se accede a los nodos usando únicamente su índice.
+- Ejemplo:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeList Example</title>
+  </head>
+
+  <body>
+   <div id="container">
+  <button id="btn1" name="first-name">First Button</button>
+  <button id="btn2">Second Button</button>
+  <button id="btn3">Third Button</button>
+</div>
+
+    <script>
+const container = document.querySelector('#container')
+let buttons = container.children // returns HTMLCollection
+console.log(buttons[0])// using the index
+console.log(buttons.namedItem("btn1")) // using the id attribute
+console.log(buttons.namedItem("first-name")) // using the name attribute
+
+
+ buttons = container.childNodes // returns a NodeList
+console.log(buttons[1])// using the index
+console.log(buttons.namedItem("btn1")) // throws an error
+console.log(buttons.namedItem("first-name")) // throws an error
+    </script>
+  </body>
+</html>
+```
+:::tip Observación
+- En un `NodeList`, normalmente se accede a los nodos usando el índice (`[index]`).
+- En un `HTMLCollection`, se puede acceder usando:
+  - el índice
+  - o el método `namedItem()`
+:::
+#### 4- Cómo recorrer la colección
+- Un `HTMLCollection` no tiene el método `forEach()` integrado. Para usar métodos de arrays como `forEach()`, `map()` o `filter()`, primero debes convertirlo en un array.
+-  En cambio, un `NodeList` sí tiene el método `forEach()` integrado para recorrer sus nodos. Pero métodos como `map()` o `filter()` tampoco funcionan directamente sobre un `NodeList` sin antes convertirlo en un array.
+- Ejemplo:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeList Example</title>
+  </head>
+
+  <body>
+   <div id="container">
+<button class="btn">First button</button>
+<button class="btn">Second button</button>
+<button class="btn">Third button</button>
+</div>
+
+    <script>
+// returns an HTMLCollection
+let allButtons = document.getElementsByClassName('btn') 
+allButtons.forEach(button => console.log(button)) // Thrwos an error
+// returns a NodeList
+allButtons = document.querySelectorAll('.btn') 
+allButtons.forEach(button => console.log(button))
+    </script>
+  </body>
+</html>
+```
+:::tip Observación
+- Solo un `NodeList` tiene el método `forEach()` integrado.
+- Un `HTMLCollection` debe convertirse primero en un array para usar `forEach()`.
+:::
+
+
+- Si quieres recorrer un `HTMLCollection` sin convertirlo en un array, puedes usar `for...of`:
+```js
+// returns an HTMLCollection
+const allButtons = document.getElementsByClassName('btn')
+for (button of allButtons) {
+  console.log(button)
+}
+```
+
+## Indexación de arrays
+- Existen dos tipos principales de indexación:
+  - Basada en 1 (*1-based*)
+  - Basada en 0 (*0-based*)
+- La indexación de arrays consiste en numerar los elementos de una colección.
+  - En una indexación basada en `1`, el primer elemento tiene el índice `1`.
+  - En una indexación basada en `0`, el primer elemento tiene el índice `0`.
+
+---
+
+#### Basada en 1 (*1-based*)
+- El primer elemento se numera como `1`.
+- El segundo elemento se numera como `2`, y así sucesivamente.
+- Es la forma más natural e intuitiva para los humanos al contar cosas:
+  - Primer lugar
+  - Página 1
+  - Capítulo 1
+- Es común en herramientas y lenguajes orientados a matemáticas o análisis de datos, como:
+  - `R`
+  - `MATLAB`
+  - `Julia`
+- Ejemplo:
+```text
+Posición:  1    2    3
+Valores:   10   20   30
+```
+:::tip Observación
+- `10` → posición `1`
+- `20` → posición `2`
+- `30` → posición `3`
+:::
+#### Basada en 0 (0-based)
+- El primer elemento se numera como `0`.
+- El segundo elemento se numera como `1`, y así sucesivamente.
+- Es el estándar en la mayoría de los lenguajes de programación modernos, como:
+  - `JavaScript`
+  - `Python`
+  - `Java`
+  - `C`
+  - `C++`
+- Surge de cómo las computadoras manejan la memoria.
+- En bajo nivel, el índice representa el desplazamiento (*offset*) desde el inicio del array.
+- El primer elemento no tiene desplazamiento, por eso su índice es `0`.
+- Ejemplo:
+```text
+Índice:   0    1    2
+Valores: 10   20   30
+```
+:::tip Observación
+- `10` → índice `0`
+- `20` → índice `1`
+- `30` → índice `2`
+:::

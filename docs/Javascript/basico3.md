@@ -635,10 +635,11 @@ foo();
 - [Object.fromEntries()](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries)
 :::
 
-#### Metodo assign(X , Y )
-- Sirve para copiar/clonar un objeto
-- X = En qué lugar “pegamos” el objeto que copiamos. En donde insertamos el objeto del argumento Y.
-- Y = Que copiamos/clonamos. El objeto a copiar/clonar.
+#### Método `Object.assign(X, Y)`
+- Sirve para copiar/clonar un objeto.
+- Copia todas las propiedades de un objeto y las “pega” en otro objeto.
+- `X` = Objeto destino, donde se pegarán las propiedades copiadas.
+- `Y` = Objeto que queremos copiar/clonar. Se copiarán todas las propiedades de este objeto.
 
 ```js
       const persona1 = {
@@ -655,16 +656,23 @@ foo();
      console.log("Persona Clonada" , personaClonada);
 
 ```
-:::tip Observacion
-Ambos objetos son iguales.
-
+:::tip Observación
+- Ambos objetos contienen las mismas propiedades.
+- Como se realiza una copia, ambos objetos son independientes para propiedades primitivas.
+- `Object.assign()` también devuelve el objeto resultante después de copiar las propiedades.
 :::
 
 :::warning
-- Nos permite clonar objetos simples donde los valores son primitivo (o derivado de ello)
-- Los objetos anidados no se copian
-- SOLO SE COPIAN las propiedades de primer nivel (solo se requiere de un punto para acceder a estas propiedades Ej. Objeto.propiedad)
-- Pero las propiedades de SEGUNDO NIVEL o mas (se requiere de mas de un punto) se  copian por referencia.
+- Nos permite clonar objetos simples donde los valores son primitivos (o derivados de ellos).
+- Los objetos anidados no se copian completamente.
+- **SOLO SE COPIAN** las propiedades de primer nivel  (solo se requiere de un punto para acceder a estas propiedades):
+```js
+objeto.propiedad
+```
+- Las propiedades de **SEGUNDO NIVEL o más** (se requiere más de un punto) se copian por referencia:
+```js
+objeto.propiedad.subpropiedad
+```
 :::
 
 A tener en cuenta:
@@ -688,8 +696,8 @@ A tener en cuenta:
 ```
 
 :::tip Observacion
-- Estamos modificando la propiedad calle de ambos objetos ya que es de “segundo nivel” ( Se utilizan dos puntos Ej.  Objeto.propiedad.propiedad)
-- La propiedad calle de personaClonada tiene una referencia de la misma propiedad en persona1.
+- Estamos modificando la propiedad `calle` de ambos objetos porque es una propiedad de segundo nivel.
+- La propiedad `calle` de `personaClonada` tiene una referencia de la propiedad `calle` de `persona1`.
 :::
 ### defineProperty()
 - El método estático Object.defineProperty() define una nueva propiedad sobre un objeto, o modifica una ya existente, y devuelve el objeto modificado.

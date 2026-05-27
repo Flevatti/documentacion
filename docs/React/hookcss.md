@@ -1688,6 +1688,21 @@ export default App;
 - [useRef](https://es.react.dev/reference/react/useRef)
 
 :::
+#### useState vs useRef
+- La principal diferencia es que `useState` provoca una re-renderización del componente cuando su valor cambia, haciendo que la interfaz de usuario refleje los cambios. En contraste, `useRef` no provoca re-renderizaciones; se usa para almacenar valores mutables que persisten entre renderizados, pero que no afectan directamente la interfaz de usuario.
+- Cuándo usar `useState`
+  - Cuando el cambio en el valor debe actualizar la interfaz de usuario.
+  - Para gestionar el estado de un componente visible para el usuario, como la entrada en un campo de texto o un indicador de carga.
+  - Para valores que determinan la lógica de renderizado de una parte del componente.
+- Cuándo usar `useRef`
+  - Para acceder y manipular directamente elementos del DOM, como un campo de entrada, para enfocarlo o establecer su valor sin provocar una re-renderización.
+  - Para almacenar valores mutables que no necesitan generar una nueva renderización, como un temporizador o el identificador de un proceso.
+  - Cuando necesites mantener un valor persistente a través de las renderizaciones sin afectar la UI.
+- Diferencias clave
+  - **Re-renderización:** `useState` provoca re-renderizaciones; `useRef` no.
+  - **Valor devuelto:** `useState` devuelve un array con el valor del estado y una función para actualizarlo; `useRef` devuelve un objeto con una propiedad `current` que contiene el valor.
+  - **Mutabilidad y actualización:** Puedes actualizar directamente la propiedad `current` de una ref. En cambio, `useState` requiere el uso de su función de actualización para modificar el valor.
+
 
 
 

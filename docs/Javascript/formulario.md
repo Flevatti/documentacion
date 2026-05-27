@@ -650,3 +650,45 @@ console.log(result);
 - [test vs exec](https://www.tutorialspoint.com/difference-between-test-and-exec-methods-in-javascript)
 :::
 
+#### 3- Comportamiento con `g`
+- Cada vez que se ejecuta `exec()`, se devuelve una coincidencia y se actualiza `lastIndex` con la posición desde donde debe continuar la siguiente búsqueda:
+    - En el ejemplo anterior, el string es `"a1b2"`. Cuando `exec()` se ejecuta por primera vez, `lastIndex` pasa a valer `2`, ya que esa es la posición desde donde continuará la siguiente búsqueda. De este modo, en la próxima ejecución la búsqueda comienza desde `"b2"` (conceptualmente, como si se hiciera `"a1b2".substring(lastIndex)`) y no desde el string completo.
+    - Cada vez que se ejecuta `exec()` con la bandera `g`, se obtiene la siguiente coincidencia.
+- `match()` con `g` devuelve todas las coincidencias de una sola vez.
+- Ejemplo:
+```js
+const regex = /\d/g;
+// EXEC
+console.log(regex.exec("a1b2") , regex.lastIndex); // "2"
+console.log(regex.exec("a1b2") , regex.lastIndex); // "4"
+console.log(regex.exec("a1b2") , regex.lastIndex); // null
+// MATCH
+console.log("a1b2".match(/\d/g));
+```
+:::tip Observación
+- En `exec()`:
+  - La primera vez que se ejecuta, se obtiene la primera coincidencia (`"1"`) y `lastIndex` pasa a valer `2`, ya que la siguiente búsqueda continuará desde la posición `2` del string. Es decir, la búsqueda continuará desde `"b2"`.
+  - La segunda vez que se ejecuta, se obtiene la segunda coincidencia (`"2"`) y `lastIndex` pasa a valer `4`, ya que la siguiente búsqueda continuará desde la posición `4` del string. En esa posición ya no quedan caracteres para seguir buscando.
+  - La tercera vez, `exec()` devuelve `null` porque ya no quedan coincidencias. Como la búsqueda terminó de recorrer todo el string, `lastIndex` vuelve automáticamente a `0`.
+- En `match()` con `g`, se devuelve directamente un array con todas las coincidencias como strings.
+:::
+
+##### Resumen
+
+
+| Característica | `exec()` | `match()` |
+|---|---|---|
+| Origen del método | Método de `RegExp` | Método de `String` |
+| Sintaxis | `regex.exec(str)` | `str.match(regex)` |
+| Tipo de resultado | Devuelve una coincidencia por llamada junto con información adicional | Depende de si se usa `g` |
+| Sin `g` | Devuelve match + metadata | Similar a `exec()` |
+| Con `g` | Sigue devolviendo una coincidencia por llamada | Devuelve todas las coincidencias como strings |
+| Grupos de captura | ✔ Disponibles | ❌ Se pierden con `g` |
+| `index` | ✔ Disponible | ❌ No disponible con `g` |
+| `input` | ✔ Disponible | ❌ No disponible con `g` |
+| `groups` | ✔ Disponible | ❌ No disponible con `g` |
+| `lastIndex` | ✔ Usa `lastIndex` con `g` | ❌ No usa `lastIndex` |
+| Estado | Stateful (mantiene estado con `g`) | Stateless |
+| Uso típico | Parsing, iteración y extracción detallada | Búsquedas rápidas y simples |
+
+
