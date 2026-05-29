@@ -2579,7 +2579,7 @@ git push -u origin main
 
 ```
 
-## Agregar Interfaz Villa - Patrón Repositorio
+## Agregar Interfaz Villa - Patrón Repositorio -  Inyección de dependencias
 - En un proyecto real, no se acostumbra a trabajar directamente con la BD. Es decir, tener todo el dbContext en el controlador.
 - La forma correcta de trabajar es aplicando patrones de diseños.
 - Nosotros vamos a usar el Patrón repositorio, donde se crea un repositorio que se encargara de todo relacionado a los datos.
@@ -2819,10 +2819,11 @@ var app = builder.Build();
 :::tip Observación
 - AddScoped() recibe dos parámetros de tipo genérico:
     - TService : Es el servicio que se debe agregar (Interfaz).
-    - TImplementation: La implementación que se va a usar (La clase que implementa la interfaz).
-- El servicio (con la implementación especificada) se agrega en los constructores de los controladores.
-- Cuando la aplicación inicia, se invoca el constructor del controlador, con todos los servicios que especificamos en el constructor. 
+    - TImplementation: La implementación que se va a usar (La clase que implementa la interfaz) en los controladores.
+- El servicio  se agrega en los constructores de los controladores.
+- Cuando la aplicación inicia, se invoca el constructor del controlador con todos los servicios que especificamos en sus parámetros, y a cada variable se le asigna automáticamente la implementación correspondiente de ese servicio.
 - Cada parámetro del constructor es un servicio que agregamos, que luego se lo asignamos a una variable privada para su posterior uso.
+- No es obligatorio especificar un TService (interfaz). Si se agrega únicamente una clase concreta (TImplementation), ASP.NET creará automáticamente una instancia de esa implementación y la pasará al constructor cuando sea solicitada. En este caso, en el constructor se debe especificar el TImplementation y no un TService.
 :::
 
 :::tip Métodos para agregar un servicio
