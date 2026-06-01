@@ -189,7 +189,71 @@ sidebar_position: 1
 ### Atributos de imagen
 - Atributo loading="crazy" : La imagen carga cuando el usuario hace scroll hasta esta. 
 
+### Atributo `contentEditable`
+- El atributo `contentEditable` no requiere un valor específico. Al aplicarlo a un elemento, le das al usuario permiso para editar su texto directamente en la página.
+- Sirve para darle permiso al usuario de editar el texto de un elemento HTML de forma nativa en el navegador.
+- El contenido de una página se descarga desde el servidor (hosting o alojamiento web) y se almacena temporalmente en la memoria del navegador del usuario. Es sobre esa copia local donde el usuario realiza las modificaciones.
+- Si el usuario recarga la página, los cambios realizados se pierden, ya que no se envían ni se guardan en el servidor por defecto.
+- Ejemplo:
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>contentEditable</title>
+</head>
+<body>
 
+  <h2 contenteditable>
+    Este texto se puede editar directamente haciendo clic sobre él.
+  </h2>
+
+  <p contenteditable>
+    También puedes editar este párrafo haciendo clic sobre él.
+  </p>
+
+</body>
+</html>
+```
+### Atributos de eventos
+#### Evento
+- Un evento es una acción del usuario sobre un elemento. Es como una señal que indica que algo ocurrió.
+- Todos los nodos del DOM pueden generar estas señales (aunque los eventos no están limitados únicamente al DOM). 
+- Un tipo de evento indica qué acción debe ocurrir para que se emita una señal. Por ejemplo: 
+  - `click`: ocurre cuando el usuario hace click sobre un elemento. 
+  - `mouseover` / `mouseout`: ocurren cuando el cursor del mouse entra o sale de un elemento. 
+  - `mousedown` / `mouseup`: ocurren cuando el botón del mouse es presionado o soltado sobre un elemento.
+
+#### Controladores de eventos
+- Un manejador o controlador de evento indica qué se debe ejecutar cuando se recibe la señal de un tipo de evento.
+- Es decir, define cómo reaccionar ante la acción que ocurrió. 
+- Por ejemplo, cuando el usuario hace click sobre un elemento, se emite una señal. El controlador define qué hacer cuando esa señal es recibida. 
+- Los controladores se pueden asignar mediante atributos HTML.
+#### Atributo HTML
+- Un handler (manejador de evento) puede asignarse en el HTML mediante el atributo:
+```html
+onTipoDeEvento="Código JS que se va a ejecutar"
+```
+- Por ejemplo, para gestionar un click del usuario sobre un elemento `input`:
+```js
+<input value="Haz click aquí" onclick="alert('¡Click!')" type="button">
+```
+:::tip Observacion
+- Cuando se hace click sobre el `input`, se ejecuta el código definido dentro del atributo `onclick`. 
+- `click` es un tipo de evento que indica que se emitirá una señal cuando el usuario haga click sobre el elemento. 
+- El valor del atributo (`onclick`) es el código que se ejecutará cuando se reciba esa señal. 
+- Todo este proceso se conoce como registrar un handler (manejador de evento) a un evento.
+:::
+
+:::warning
+- Si deseamos definir strings dentro del código de un atributo HTML, debemos usar comillas simples (`' '`) o backticks (`` ` ``), pero no comillas dobles (`" "`), ya que entrarían en conflicto con las comillas del atributo HTML y el código no se interpretará correctamente.
+- Un atributo HTML no es un lugar conveniente para escribir mucho código JavaScript, por lo que generalmente se recomienda registrar el handler directamente desde JavaScript. 
+- Otra alternativa, aunque tampoco muy utilizada actualmente, es asignar handlers mediante JavaScript, ya que cada nodo de tipo `Element` posee propiedades `onTipoDeEvento`, cuyo valor es la función que se ejecutará cuando ocurra la acción. Por ejemplo: 
+```html 
+<input type="button" id="button" value="Botón"> 
+<script> button.onclick = function() { alert('¡Click!'); }; </script>
+```
+:::
 
 
 ##   Atributos srcset y sizes en &lt;img>

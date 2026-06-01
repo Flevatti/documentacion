@@ -948,7 +948,7 @@ declare module '*.vue' {
 }
 ```
 - En este código, el tipo DefineComponent se importa fuera del bloque declare module '*.vue', lo que significa que se importa en el ámbito global del archivo. Luego, dentro del bloque declare module '*.vue', se utiliza el tipo DefineComponent importado previamente para definir el tipo de la constante component.
-- En el otro código, el tipo DefineComponent se importa dentro del bloque declare module '*.vue', lo que significa que se importa solo dentro del ámbito de ese módulo. En otras palabras, el tipo DefineComponent solo está disponible dentro del bloque declare module '*.vue' y no se exporta fuera de él.
+- En el otro código, el tipo DefineComponent se importa dentro del bloque declare module '*.vue', lo que significa que se importa solo dentro del ámbito de ese módulo. En otras palabras, el tipo DefineComponent solo está disponible dentro del bloque declare module '*.vue'.
 - Ambos códigos  funcionan correctamente, pero hay una pequeña diferencia en la forma en que se manejan las importaciones. En este código, el tipo DefineComponent se importa en el ámbito global, lo que podría causar conflictos si se utiliza el mismo nombre de importación en otros lugares del archivo. En el segundo código, el tipo DefineComponent se importa solo dentro del bloque declare module '*.vue', lo que reduce el riesgo de conflictos.
 :::
 
@@ -1978,9 +1978,3 @@ fetchData()
 -  then(): Aquí manejas el resultado de la promesa cuando es cumplida.
 -  catch(): Aquí manejas cualquier error si la promesa es rechazada.
 :::
-## Seguir aprendiendo
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [Cursos de Typescript](https://learn.microsoft.com/es-es/training/browse/?terms=typescript)
-- [TypeScript Tutorial](https://www.w3schools.com/typescript/)
-- [typescript cheatSheet](https://rmolinamir.github.io/typescript-cheatsheet/)
-- [typescript cheatSheet2](https://doabledanny.gumroad.com/l/typescript-cheat-sheet-pdf)

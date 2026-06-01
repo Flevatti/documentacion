@@ -45,6 +45,12 @@ console.log('Hola Typescript');
 node script.ts
 ```
 
+:::tip
+- Solo las versiones más modernas de Node.js comenzaron a incorporar soporte nativo para TypeScript, aunque todavía puede ser limitado o experimental dependiendo de la versión y configuración utilizada.
+- Si tu versión de Node.js no puede ejecutar código TypeScript, lo más recomendable es actualizar Node.js o utilizar herramientas como `ts-node` o `tsc`.
+:::
+
+
 - O primero lo podemos compilar con:
 
 ```powershell
@@ -617,7 +623,7 @@ interface Avenger {
 
 ### Enum
 - Es para una colección de datos de solo lectura finita (máximo 20 es lo aconsejable).
-- [Enum en C#](https://flevatti.github.io/documentacion/docs/C--/POO2#enumeraci%C3%B3n)
+- [Enum en C#](https://flevatti.github.io/documentacion/docs/CSharp/POO2#enumeraci%C3%B3n)
 ```typescript
  
 
