@@ -3,15 +3,12 @@ sidebar_position: 10
 ---
 # Extra #03
 ## Uso de la Carpeta "Service"
-- La carpeta "service" en proyectos de Node.js y Express.js es una convención común utilizada para organizar el código relacionado con la lógica de negocio y los servicios de la aplicación. La idea principal es mantener el código modular y separado por responsabilidades, lo que facilita el mantenimiento y la escalabilidad de la aplicación.
+- La carpeta service en proyectos de Node.js y Express.js es una convención común utilizada para organizar el código. Consiste en almacenar en esta carpeta todos los archivos que contienen la lógica de negocio y los servicios de la aplicación.
 
 #### Función y Uso de la Carpeta "Service"
-- Lógica de Negocio: Los archivos dentro de la carpeta "service" contienen funciones y métodos que encapsulan la lógica de negocio de la aplicación. Esta lógica puede incluir cálculos, validaciones, transformaciones de datos y cualquier otra operación que no pertenezca directamente a los controladores ni a la capa de datos.
+- Lógica de Negocio: Los archivos de la carpeta service se encargan de contener la lógica de negocio de la aplicación, como cálculos, validaciones y transformaciones de datos, separando estas tareas de los controladores y de la base de datos. Además, permiten exponer (hacer accesibles) solo los métodos necesarios, aplicando el principio de encapsulación.
 
-:::tip Capa de datos
-- La capa de datos se refiere a la parte de la aplicación que interactúa directamente con la base de datos o cualquier fuente de datos. Es responsable de almacenar, recuperar y manipular los datos. Esto puede incluir modelos o repositorios que realizan operaciones CRUD (crear, leer, actualizar y eliminar) sobre la base de datos.
-- La capa de datos se encarga de manejar cómo esos datos se almacenan o se obtienen de manera eficiente.
-:::
+
 
 :::tip Lógica de negocio
 - La lógica de negocio es el conjunto de reglas, procesos y decisiones que definen cómo una aplicación o sistema debe funcionar para cumplir con los objetivos de la empresa o el propósito específico del software. Representa el "qué" y el "cómo":
@@ -20,17 +17,21 @@ sidebar_position: 10
     - Es decir, la lógica de negocio define qué tareas son importantes para el negocio y cómo deben resolverse en el sistema.
 - En una aplicación, la lógica de negocio se encarga de:
     - Procesar datos: Realiza cálculos, validaciones, transformaciones o combinaciones de datos que sean necesarios para el correcto funcionamiento de la aplicación.
-    - Aplicar reglas específicas: Estas son las reglas o condiciones particulares de la empresa o del contexto de la aplicación. Por ejemplo, en un sistema bancario, la lógica de negocio puede incluir restricciones sobre la cantidad de dinero que se puede transferir entre cuentas.
+    - Aplicar reglas específicas: Son las reglas o requisitos que la aplicación debe cumplir para funcionar correctamente en una situación específica. Por ejemplo, en un sistema bancario, la lógica de negocio puede incluir restricciones sobre la cantidad de dinero que se puede transferir entre cuentas.
     - Coordinar otras capas: La lógica de negocio es la encargada de coordinar la interacción entre la capa de presentación (front-end) y la capa de datos (base de datos).
     - Por ejemplo, si se trata de una aplicación de ventas en línea, la lógica de negocio podría incluir reglas sobre cómo calcular descuentos, cómo aplicar impuestos, verificar inventarios y procesar pagos.
 - En resumen, la lógica de negocio define cómo el sistema debe comportarse para cumplir su propósito de manera efectiva y consistente con las necesidades del negocio.
 
 :::
-- División de la Lógica de Negocio: Los archivos dentro de la carpeta "service" están diseñados para encapsular funciones y métodos específicos relacionados con la lógica de negocio de la aplicación. Cada servicio cumple con una función claramente definida, como realizar operaciones CRUD en la base de datos, aplicar reglas de negocio específicas, manejar integraciones con servicios externos, entre otros.
-- Reutilización y Modularidad: Al dividir la lógica de negocio en servicios independientes, se facilita la reutilización del código en diferentes partes de la aplicación. Por ejemplo, si tienes una operación compleja que se realiza en múltiples controladores, puedes encapsular esa operación en un servicio y llamarlo desde cada controlador correspondiente. Esto evita la duplicación de código y hace que el código sea más mantenible.
+- División de la Lógica de Negocio:  Cada servicio se encarga de una tarea determinada, como realizar operaciones CRUD de una tabla especifica, aplicar reglas de negocio o manejar integraciones con servicios externos. Además, otros módulos no necesitan saber cómo funciona internamente el servicio, sino únicamente utilizar los métodos que este expone.
+- Reutilización y Modularidad: Al separar la lógica de negocio en servicios independientes, el código puede reutilizarse en distintas partes de la aplicación. Por ejemplo, si una operación compleja se usa en varios controladores, puede colocarse dentro de un servicio y ser utilizada desde cada controlador. Esto evita repetir código y facilita el mantenimiento de la aplicación.
 - Independencia y Coherencia: Cada servicio opera de manera independiente, lo cual promueve la coherencia y la separación de responsabilidades en tu código. Los servicios no necesitan conocer detalles internos de otros servicios o de cómo se maneja la interacción con la base de datos; simplemente exponen métodos que pueden ser invocados desde otras partes de la aplicación.
-- Facilidad de Testing: Los servicios son unidades lógicas que pueden ser fácilmente probadas de forma unitaria. Puedes escribir pruebas específicas para cada servicio para asegurarte de que cumple con las expectativas y maneja correctamente los diferentes casos de uso y situaciones.
-- Interacción con la Capa de Datos: Los servicios suelen interactuar con los modelos o repositorios de datos para realizar operaciones CRUD (crear, leer, actualizar, eliminar) en la base de datos. Al encapsular estas operaciones en servicios, los controladores no necesitan saber cómo se accede o manipulan los datos, solo necesitan invocar los métodos del servicio.
+- Facilidad de Testing: Los servicios  pueden ser fácilmente probados de forma unitaria. Puedes escribir pruebas específicas para cada servicio para asegurarte de que cumple con las expectativas y maneja correctamente los diferentes casos de uso y situaciones.
+- Interacción con la Capa de Datos: Los servicios suelen interactuar con los modelos o repositorios de datos para realizar operaciones CRUD (crear, leer, actualizar, eliminar) en la base de datos. Al encapsular  estas operaciones en servicios, los controladores no necesitan saber cómo se accede o manipulan los datos, solo necesitan invocar los métodos del servicio.
+:::tip Capa de datos
+- La capa de datos se refiere a la parte de la aplicación que interactúa directamente con la base de datos o cualquier fuente de datos. Es responsable de almacenar, recuperar y manipular los datos. Esto puede incluir modelos o repositorios que realizan operaciones CRUD (crear, leer, actualizar y eliminar) sobre la base de datos.
+- La capa de datos se encarga de manejar cómo esos datos se almacenan o se obtienen de manera eficiente.
+:::
 - Reutilización de Código: Los servicios permiten reutilizar código en diferentes partes de la aplicación. Por ejemplo, si varios controladores necesitan realizar una operación similar, pueden invocar el mismo método del servicio, reduciendo la duplicación de código.
 - Separación de Responsabilidades: Al utilizar servicios, se logra una clara separación de responsabilidades entre las diferentes capas de la aplicación (controladores, servicios, y datos). Esto sigue el principio de responsabilidad única (Single Responsibility Principle) de las arquitecturas limpias.
 
@@ -52,7 +53,7 @@ sidebar_position: 10
 ```
 :::tip Observación
 - controllers/: Contiene los controladores que manejan las solicitudes HTTP y responden a los clientes.
-- services/: Contiene los servicios que encapsulan la lógica de negocio.
+- services/: Contiene los servicios que encapsulan  la lógica de negocio.
 - models/: Contiene los modelos que interactúan con la base de datos.
 - routes/: Contiene los archivos de rutas que definen los endpoints de la API.
 
