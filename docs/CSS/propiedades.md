@@ -2,15 +2,309 @@
 sidebar_position: 2
 ---
 # Propiedades
-## Propiedad aspect-ratio
+## Propiedad `aspect-ratio`
 
-- El aspecto-ratio  especifica la relación proporcional de un elemento entre su ancho y alto
-- Se expresa como X:Y
-- X es el ancho y Y es el alto
-- Ejemplo:  4:3  , 16:9 , 8:5
+#### Razón (ratio) en matemáticas
+- Una razón compara dos cantidades y muestra la relación entre ellas.
+#### Ejemplo
+- 8 naranjas y 6 limones.
+- Razón naranjas:limones = `8:6`.
+- Simplificando (dividiendo ambos números por 2): `4:3`.
+- Esto significa que por cada 4 naranjas hay 3 limones.
+#### Relación de aspecto en imágenes y diseño web
+- La relación de aspecto (*aspect ratio*) compara el ancho y la altura de una imagen o pantalla y muestra la relación (proporción) entre ellas.
+#### Ejemplo 1
+- Imagen de 800 píxeles de ancho y 600 píxeles de alto.
+- Relación = `800:600`.
+- Simplificando (dividiendo ambos números por el máximo divisor común, que es 200): `4:3`.
+- Esto significa que por cada 4 unidades de ancho hay 3 unidades de alto.
+#### Ejemplo 2
+- Imagen de 1920 píxeles de ancho y 1080 píxeles de alto.
+- Relación = `1920:1080`.
+- Simplificando (dividiendo ambos números por el máximo divisor común, que es 120): `16:9`.
+- Esto significa que por cada 16 unidades de ancho hay 9 unidades de alto.
+
+:::tip Máximo divisor común (MCD)
+- El máximo divisor común (MCD) es el número más grande que divide exactamente a dos o más números.
+- Por ejemplo:
+  - MCD(800, 600) = 200
+  - MCD(1920, 1080) = 120
+:::
+#### Resumen
+- La relación de aspecto (*aspect ratio*) indica la relación (proporción) que existe entre el ancho y el alto de una imagen. Al redimensionar la imagen, esa relación debe respetarse para que conserve su forma original y no se deforme.
+- Por ejemplo, una relación de aspecto de `4:3` significa que por cada 4 unidades de ancho hay 3 unidades de alto.
+- La caja más pequeña que puede representar esta relación utilizando valores enteros es una caja de `4px × 3px`.
+- Al multiplicar ambos valores por el mismo número, la relación de aspecto se mantiene. Por ejemplo, `8px × 6px`, `400px × 300px` y `800px × 600px` conservan la relación de aspecto `4:3`.
+ ![Ejemplo aspect ratio 4:3](https://ishadeed.com/assets/aspect-ratio-css/intro-2.jpg)
+- Al mantener una relación de aspecto constante, obtenemos los siguientes beneficios:
+  - Las imágenes mantienen una apariencia consistente en diferentes tamaños de pantalla. Es decir, conservan la misma forma independientemente de la resolución.
+  - Se evita que las imágenes se deformen al redimensionarlas.
+  - Es posible crear elementos de vídeo adaptables (*responsive*).
+  - Facilita el trabajo entre diseñadores y desarrolladores, ya que establece reglas claras sobre las dimensiones y relaciones que deben conservar las imágenes durante el desarrollo.
+- [Link](https://ishadeed.com/article/css-aspect-ratio/)
+
+#### Medición de la relación de aspecto
+
+- Para medir la relación de aspecto, debemos dividir el ancho entre la altura, como se muestra en la siguiente figura:
+![Ejemplo de medición de la relación de aspecto](https://ishadeed.com/assets/aspect-ratio-css/intro-4.jpg)
+- La relación entre el ancho y la altura es **1,33**. Esto significa que dicha proporción debe mantenerse para evitar deformaciones.
+- Considera el siguiente ejemplo:
+![Dos ejemplos](https://ishadeed.com/assets/aspect-ratio-css/intro-5.jpg)
+- Observa que, en la imagen de la derecha, la relación entre ancho y altura es **1,02**, por lo que no coincide con la relación de aspecto original (**1,33** o **4:3**).
+- Quizás te preguntes de dónde surge el valor **4:3**. Se trata de la **relación de aspecto normal más cercana** (*Nearest Normal Aspect Ratio*), es decir, una aproximación en números enteros que se utiliza habitualmente como estándar.
+- Existen herramientas que permiten calcular esta relación. Por ejemplo, puedes utilizar [este script](https://gist.github.com/jonathantneal/d3a259ebeb46de7ab0de#file-closestaspectratio-js) o esta [calculadora](https://lawlesscreation.github.io/nearest-aspect-ratio/).
+
+#### Implementación de la relación de aspecto en CSS
+
+- Antes, la relación de aspecto se implementaba mediante relleno (padding) porcentual en CSS.
+- Actualmente, todos los navegadores modernos soportan la propiedad `aspect-ratio`.
+
+#### Padding porcentual
+
+- Cuando un elemento tiene un relleno vertical en porcentaje, este se calcula en función del ancho de su elemento padre. Considere la siguiente figura:
+![un elemento con relleno vertical porcentual](https://ishadeed.com/assets/aspect-ratio-css/percentage-padding.jpg)
+- Cuando el elemento tiene `padding-top: 50%`, este valor se calcula en función del ancho de su elemento padre. Dado que el ancho del elemento padre es de 200px, el `padding-top` se convierte en 100px.
+- Para determinar el porcentaje a utilizar, debemos dividir la altura de la imagen entre su ancho. El resultado es el porcentaje que se debe aplicar. Considere que el ancho de la imagen es de 260 píxeles y la altura es de 195 píxeles:
+```txt
+Percentage padding = height / width
+El resultado de 195 / 260 es 0,75 (o 75%).
+```
+##### Situación real
+- Supongamos que hay una galería de imágenes y se supone que todas tienen el mismo ancho y alto.
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Galería de imágenes</title>
+  <style>
+    .galeria {
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      margin-top:10vh;
+      flex-wrap:wrap;
+    }
+
+    .item {
+      overflow: hidden;
+
+    }
+
+    .item img {
+      display: block;
+      border-radius:10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="galeria">
+    <div class="item">
+      <img src="https://picsum.photos/250?random=1" alt="Imagen 1">
+    </div>
+
+    <div class="item">
+      <img src="https://picsum.photos/250?random=2" alt="Imagen 2">
+    </div>
+
+    <div class="item">
+      <img src="https://picsum.photos/200?random=3" alt="Imagen 3">
+    </div>
+
+    <div class="item">
+      <img src="https://picsum.photos/250?random=4" alt="Imagen 4">
+    </div>
+  </div>
+
+</body>
+</html>
+```
+:::tip Observación
+- Por algún motivo, el autor del contenido subió una imagen cuyo tamaño no coincide con el de las demás.
+- La mayoría de las imágenes tienen dimensiones de 250×250, pero una de ellas es de 200×200.
+:::
+
+- Quizás estés pensando que sería buena idea solucionarlo con `object-fit: cover` y una altura fija, pero esta solución no se verá bien en diferentes tamaños de ventanas gráficas, puedes intentarlo:
+```html
+  <style>
 
 
-Ejemplo:
+    .item img {
+      display: block;
+      border-radius:10px;
+       object-fit: cover; 
+       height:250px;
+    }
+  </style>
+```
+- Depende de cómo lo apliques (es decir, de la altura), puede llegar a verse bien o mal. Hay que tener cuidado porque esta solución podría generar recortes en la imagen, lo que puede hacer que se pierdan detalles y, en dispositivos móviles, cuando se muestran en filas, puede hacer que los elementos sean demasiado anchos.
+- Necesitamos que las imágenes conserven un tamaño uniforme independientemente del tamaño de la pantalla. Para ello, debemos implementar una relación de aspecto mediante el uso de relleno porcentual (*percentage padding*):
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Galería de imágenes</title>
+<style>
+.galeria {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.item {
+  width: 250px;
+}
+
+.item__thumb {
+  position: relative;
+  padding-top: 100%;
+}
+
+.item__thumb img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+ <div class="galeria">
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=1" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=2" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/250?random=3" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=4" alt="">
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+```
+
+:::tip Observación
+- Comparado con el código anterior, para utilizar la técnica de *percentage padding*, la imagen debe estar envuelta en un contenedor adicional que genere la relación de aspecto mediante `padding-top` o `padding-bottom` y tenga `position: relative`. 
+- La imagen se posiciona de forma absoluta dentro del contenedor para ocupar todo el ancho y la altura de la caja con la relación de aspecto definida. Se utiliza `object-fit: cover` para cargar imágenes de diferentes tamaños.
+- El valor del `padding` se obtiene dividiendo la altura entre el ancho  y multiplicando el resultado por `100`. En este caso: `(250 / 250) × 100 = 100`.
+- Como los porcentajes de `padding-top` y `padding-bottom` se calculan respecto al ancho del elemento, es indistinto utilizar cualquiera de las dos propiedades para generar una relación de aspecto mediante la técnica de *percentage padding*.
+- El ancho puede definirse tanto en `.item` como en `.item__thumb`. El porcentaje de `padding-top` o `padding-bottom` se calcula sobre el ancho de `.item__thumb`. Si no se le asigna un ancho, ocupará por defecto todo el ancho disponible de su contenedor padre, aunque también puede definirse explícitamente.
+- Para crear una relación de aspecto mediante la técnica de *percentage padding* se utiliza un `padding` vertical (`padding-top` o `padding-bottom`), ya que permite definir la altura del elemento a partir de su ancho. Un `padding` horizontal no modifica la altura y, por lo tanto, no sirve para este propósito.
+- **Conclusión:** Se utiliza un `padding` vertical para definir la altura del contenedor a partir de su ancho y, de esta forma, crear una relación de aspecto. Esto permite mantener una relación constante entre el ancho y la altura del elemento.
+
+:::
+
+#### Propiedad `aspect-ratio`
+- Esta propiedad reemplaza la técnica de *percentage padding* para definir una relación de aspecto.
+- Si volvemos al ejemplo anterior, podemos reescribirlo de la siguiente manera:
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Galería de imágenes</title>
+<style>
+.galeria {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.item {
+ width: 250px;
+}
+
+.item__thumb {
+  position: relative;
+  aspect-ratio: 1/1;
+   
+}
+
+.item__thumb img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+ <div class="galeria">
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=1" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=2" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/250?random=3" alt="">
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item__thumb">
+      <img src="https://picsum.photos/200?random=4" alt="">
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+```
+:::tip Observación
+- Estábamos utilizando una relación de aspecto de `1:1`.
+- Una relación de aspecto de `1:1` significa que el ancho y el alto son iguales.
+- Al ingresar `250 × 250` en esta [calculadora](https://lawlesscreation.github.io/nearest-aspect-ratio/), obtenemos una relación de aspecto de `1:1`.
+:::
+
+:::tip
+- Para que `aspect-ratio` funcione, una de las dimensiones (`width` o `height`) no debe estar definida y debe quedar con su valor por defecto (`auto`).
+- Una dimensión está definida cuando tiene un valor de `width` o `height` establecido directamente, o cuando el contenedor determina su altura o anchura.
+- `aspect-ratio` ajusta la que no está definida para mantener la proporción/relación indicada.
+- Si tienen un width y height definido  `aspect-ratio` no tiene efecto.
+- También es necesario que una de las dimensiones esté definida, ya que su valor se utiliza para calcular la otra. En caso contrario, `aspect-ratio` no sabría qué valor usar como referencia y no funcionaría.
+- En este caso, como el ancho lo define `.item` y la altura no está definida, `aspect-ratio` establece la altura automáticamente para mantener la proporción/relación.
+
+:::
+
+#### Mas ejemplos
 
 ```html
 <!DOCTYPE html>
@@ -48,16 +342,56 @@ Ejemplo:
 
 ```
 
+
+
+
+:::tip info
 - [aspect-ratio INFO](https://css-tricks.com/almanac/properties/a/aspect-ratio/)
-
-
-:::tip Elemento remplazado
-- Para entender la INFO de  aspect-ratio  , debe comprender este concepto
+- Para entender la INFO de  aspect-ratio  , debe comprender el concepto "Elemento remplazado".
 - En términos más simples, son elementos que no se ven afectados por los estilos(css) del documento actual.
 - Algunos elementos reemplazados, como los &lt;iframe>, pueden tener sus propias hojas de estilo, pero no heredan los estilos del documento principal.
 - En CSS , un elemento reemplazado es un elemento cuya renderización está fuera del alcance de CSS
 - [Mas info del concepto](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)
 :::
+
+#### Mejora progresiva
+- La **mejora progresiva** (*progressive enhancement*) es una estrategia que consiste en implementar primero una solución compatible con la mayoría de los navegadores y, luego, aprovechar características más modernas cuando están disponibles.
+- En el caso de las relaciones de aspecto, se puede utilizar inicialmente la técnica basada en `padding` porcentual y reemplazarla por `aspect-ratio` en los navegadores que la soportan.
+- Ejemplo:
+```css
+.card {
+  --aspect-ratio: 16/9;
+  padding-top: calc((1 / (var(--aspect-ratio))) * 100%);
+}
+
+@supports (aspect-ratio: 1) {
+  .card {
+    aspect-ratio: var(--aspect-ratio);
+    padding-top: initial;
+  }
+}
+```
+:::tip Observación
+- La regla `@supports` permite aplicar estilos únicamente cuando el navegador reconoce o soporta una determinada característica o propiedad CSS. En este caso, se utiliza para reemplazar el `padding` porcentual por la propiedad `aspect-ratio`.
+:::
+
+
+#### Casos de uso
+- Logos de imágenes: Ahora es fácil que tengan un ancho fijo, usando `object-fit` y `aspect-ratio`.
+- Elementos circulares: se logran fácilmente con `aspect-ratio: 1 / 1` y un `width`. Luego, aplicando `border-radius: 50%`, el elemento toma forma circular.
+- Imágenes de una tarjeta: Como en el ejemplo visto.
+- Enlaces: Para hacer que se adapten al ancho de su contenedor.
+- Iframe: Para hacer un `iframe` responsivo, se puede usar `width: 100%`, dejar una dimensión sin definir (`height:auto`) y establecer un `aspect-ratio`.
+- Elementos con imágenes de fondo.
+- Layouts: Para generar consistencia en la proporción de los elementos.
+
+:::tip Información
+- [Let's Learn About Aspect Ratio In CSS](https://ishadeed.com/article/css-aspect-ratio/)
+- [aspect-ratio Is One Of My Favorite CSS Properties](https://blog.webdevsimplified.com/2024-08/css-aspect-ratio/)
+- [aspect-ratio](https://css-tricks.com/almanac/properties/a/aspect-ratio/)
+:::
+
+
 ## Propiedad line-clamp
 - Solo funciona en combinación con la  propiedad  display establecida en -webkit-box o -webkit-inline-box y la propiedad  -webkit-box-orient establecida en vertical.
 - Establece el numero de lineas a mostrar.

@@ -1676,5 +1676,138 @@ git commit -m "Actualizar archivo.txt con cambios sucesivos"
 
 
 
+## ¿Que hace "~" en git?
+- El símbolo `~` se usa para referirse a los commits "anteriores" (ancestros) de uno especificado.
+- Sintaxis:
+```git
+<commit>~n
+```
+:::tip Observación
+- Obtenemos el commit que está `n` commits atrás de `<commit>`, siguiendo la cadena de padres.
+:::
+#### Ejemplos
+```git
+HEAD~1 
+HEAD~
+```
+:::tip Observación
+- Con las dos opciones obtenemos el commit anterior de `HEAD`.
+- `HEAD~` significa: el padre de `HEAD` (un commit atrás).
+:::
+```git
+HEAD~2
+```
+:::tip Observación
+- Obtenemos el commit que está dos commits atrás de `HEAD`.
+- Es decir, obtenemos el padre del padre de `HEAD`.
+:::
+```git
+HEAD~3
+```
+:::tip Observación
+- Obtenemos el commit que está tres commits atrás de `HEAD`.
+- Es decir, obtenemos el padre del padre del padre de `HEAD`.
+:::
 
-## ¿Cada cuánto debería hacer "commit"
+#### Uso común
+- Se puede usar en cualquier comando que permita indicar un commit.
+- `HEAD` es el caso más común, pero también puede usarse con:
+  - hashes de commits
+  - ramas
+  - etiquetas (tags)
+- Por ejemplo:
+```
+git show HEAD~1
+git diff HEAD~1
+git reset --hard HEAD~1
+```
+:::tip Observación
+- La expresión `<commit>~n` siempre significa: "partiendo de `<commit>`, retrocede `n` commits siguiendo la cadena de padres".
+:::
+
+#### No confundir con `^`
+- Aunque `~` y `^` suelen producir el mismo resultado en commits normales, no significan exactamente lo mismo.
+```git
+HEAD~
+HEAD^
+```
+:::tip Observación
+- En un commit normal, ambas expresiones apuntan al commit padre de `HEAD`.
+- Por lo tanto, `HEAD~` y `HEAD^` suelen ser equivalentes.
+:::
+
+- La diferencia aparece en los **merge commits**, ya que estos tienen más de un padre.
+```text
+      A
+     / \
+    B   C
+     \ /
+      M
+```
+:::tip Observación
+- El merge commit `M` tiene dos padres:
+  - `B` (primer padre)
+  - `C` (segundo padre)
+:::
+
+```git
+M^1
+```
+:::tip Observación
+- Obtiene el primer padre de `M` (`B`).
+:::
+
+```git
+M^2
+```
+:::tip Observación
+- Obtiene el segundo padre de `M` (`C`).
+:::
+
+```git
+M~1
+```
+:::tip Observación
+- Obtiene el primer padre de `M` (`B`).
+- `~` siempre sigue la cadena del primer padre.
+:::
+
+```git
+M~2
+```
+:::tip Observación
+- Obtiene el padre del primer padre de `M` (`A`).
+:::
+
+#### Conclusión
+- `~` = Retrocede uno o varios commits partiendo del primer padre.
+- `^` = Selecciona un padre específico de un commit (especialmente útil en merges).
+
+## ¿Cada cuánto debería hacer commit?
+
+- Se recomienda dividir una tarea en varios pasos y hacer un commit al completar cada uno de ellos.
+- Una buena práctica es hacer commits frecuentes para tener puntos a los que volver si aparece un bug o algún problema.
+- Un commit puede contener pocas líneas de código, siempre que representen un cambio concreto y que el proyecto siga compilando o funcionando correctamente. Esto facilita revertir cambios cuando sea necesario.
+- Antes de enviar los cambios al repositorio remoto, puedes limpiar el historial utilizando técnicas como **Squash Commits** o **Interactive Rebase**, dejando un historial más claro y fácil de entender.
+- Algunos momentos comunes para hacer commit son:
+  - Al terminar una primera versión funcional de una característica.
+  - Al corregir un bug.
+  - Antes de realizar un refactor importante.
+  - Antes de cambiar de tarea o de rama.
+  - Al finalizar la jornada de trabajo.
+
+:::tip Recomendación
+- Cuando la tarea esté terminada, revisa que todo funcione correctamente, limpia el historial si es necesario y luego envía los cambios al repositorio con un `git push` o crea un Pull Request para que el equipo pueda revisarlos.
+:::
+
+:::tip tip
+- Si olvidaste agregar algún archivo al último commit, puedes añadirlo al área de preparación (`git add`) y luego ejecutar:
+
+```bash
+git commit --amend --no-edit
+```
+
+- Esto reemplaza el último commit por uno nuevo que incluye los cambios agregados.
+- El mensaje del commit se conserva porque se utiliza la opción `--no-edit`.
+- Es útil para corregir pequeños olvidos sin crear un commit adicional.
+:::

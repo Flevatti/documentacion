@@ -235,7 +235,7 @@ Cannot find module or type declarations for side-effect import of './globals.css
 - Independientemente de la versión de TypeScript que tengas en tu proyecto, Visual Studio Code suele cargar su propia versión, que puede ser la misma o diferente a la que estás usando en dicho proyecto.
 
 #### Soluciones
-#### 1- Forzar VS Code a usar la versión de TypeScript del proyecto
+#### 1- Forzar VS Code a usar la versión de TypeScript del proyecto (recomendada)
 1. Abre un archivo  `.tsx`
 2. Presiona  `Ctrl + Shift + P` (o `Cmd + Shift + P` en Mac)
 3. Escribe:  `TypeScript: Select TypeScript Version`
@@ -246,8 +246,37 @@ Cannot find module or type declarations for side-effect import of './globals.css
 - Con estos pasos estamos usando la versión de TypeScript que tenemos en la carpeta `node_modules` y no la que se usa por defecto en VS Code.
 - Esto, en frameworks como Next.js, debería funcionar ya que está configurado para permitir importaciones de archivos `.css`.
 :::
-
-
+#### 2-  Crear un archivo de declaración
+- Crea un archivo llamado `css.d.ts` o `global.d.ts`:
+```ts
+declare module "*.css";
+```
+:::tip Observación
+- Esta declaración le indica a TypeScript que los archivos con extensión `.css` deben tratarse como módulos válidos, incluso cuando se importan únicamente por sus efectos secundarios (*side-effect imports*).
+:::
+#### 3-  Ajustar configuración de TypeScript
+- En `tsconfig.json`:
+```ts
+{
+  "compilerOptions": {
+    "noUncheckedSideEffectImports": false
+  }
+}
+```
+:::tip Observación
+- La opción `noUncheckedSideEffectImports` controla si TypeScript debe verificar las importaciones que se realizan únicamente por sus efectos secundarios (*side-effect imports*), como la importación de archivos CSS.
+- Al establecer esta opción en `false`, TypeScript deja de reportar errores relacionados con este tipo de importaciones.
+- Esta configuración puede ser útil cuando aparecen errores al importar archivos `.css`, imágenes u otros recursos que no exportan valores, sino que se cargan únicamente para producir un efecto durante la ejecución de la aplicación.
+:::
+#### 4- Actualizar TypeScript
+- Lo recomendable es utilizar una versión de TypeScript compatible con el framework que estás usando. 
+- Por ejemplo, si estás usando TypeScript 6 y existe algún problema de compatibilidad con Next.js, puedes instalar una versión compatible:
+```powershell
+npm install typescript@5.9
+```
+:::tip Observación
+- Después de instalar la nueva versión, asegúrate de que VS Code esté utilizando la versión de TypeScript instalada en `node_modules` de tu proyecto (workspace) y no la versión global integrada en el editor.
+:::
 
 ## Seguir aprendiendo
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
