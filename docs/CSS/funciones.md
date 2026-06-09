@@ -13,16 +13,25 @@ sidebar_position: 8
 :::
 
 ## var()
-- La función var() puede ser utilizada como valor en cualquier propiedad css de un elemento.
-- La función var() no puede ser usada como nombre de una propiedad, selector o cualquier cosa que no sea un valor de propiedad
-- Recibe dos argumentos:
-1.	El nombre de una variable 
-2.	Un valor por defecto (por si no existe la variable)
-- La función var() toma una variable para utilizarla como valor de una propiedad css.
+- La función `var()` se utiliza para acceder al valor de una variable CSS (custom property).
+- Solo puede utilizarse como valor de una propiedad CSS, no como nombre de propiedad, selector ni ninguna otra parte de la sintaxis CSS.
+- Recibe hasta dos argumentos:
+  1. El nombre de la variable (obligatorio).
+  2. Un valor por defecto (opcional), que se usa si la variable no existe o no está definida.
+- Devuelve el valor de la variable indicada o, en caso de no existir, el valor por defecto.
+- En resumen, `var()` permite utilizar valores definidos en variables CSS como valores de propiedades.
 
-
-
-Ejemplo:
+#### Sintaxis para definir variables
+- Las variables CSS (custom properties) se definen utilizando `--` seguido del nombre de la variable.
+- Se declaran dentro de un selector CSS (habitualmente `:root`).
+- Su valor se asigna con `:` como en cualquier otra propiedad CSS.
+- Por lo tanto, su sintaxis sería:
+```css
+selector {
+  --nombre-variable: valor;
+}
+```
+#### Ejemplo
 ```html
 <body>
  <style>
@@ -49,6 +58,53 @@ Ejemplo:
 </body>
 
 ```
+
+:::tip Observación
+- Las variables CSS (custom properties) suelen definirse en `:root` para que puedan utilizarse en cualquier elemento (selector) del documento HTML.
+- Luego se accede a su valor mediante la función `var()`.
+- Si la variable no existe o no está definida, se utiliza el valor por defecto (si se proporciona).
+:::
+
+#### ¿De dónde saca el valor `var()`?
+- En el ejemplo anterior, CSS empieza a buscar `--red` de la siguiente forma:
+  - Empieza en el elemento actual (el que usa la propiedad).
+  - Si no existe, sube al elemento padre.
+  - Sigue subiendo hasta llegar a `:root` (`html`).
+  - Si no la encuentra en ningún nivel, utiliza el valor por defecto (`blue` en el ejemplo).
+
+#### Una variable se puede definir varias veces
+- Una variable CSS puede estar definida en diferentes elementos del documento.
+- Cuando esto ocurre, CSS aplica la regla de la cascada: gana la variable más cercana al elemento que la está usando.
+- Ejemplo:
+```html
+<body>
+ <style>
+
+   :root {
+         --color : red
+   }
+
+   body {
+
+    --color : green;
+
+      background-color : var(--color , blue);
+   }
+     
+ </style>
+
+</body>
+```
+:::tip Observación
+- En este ejemplo:
+  - `:root` define `--color` como `red`.
+  - `body` redefine `--color` como `green`.
+  - Por lo tanto, `body` usa `green`, ya que es la definición más cercana según la cascada de CSS.
+:::
+
+:::tip
+- Las variables CSS pueden sobrescribirse. En caso de conflicto, gana la que esté más abajo en el código o la que tenga mayor especificidad, según las reglas de la cascada de CSS.
+:::
 
 - [Mas info](https://developer.mozilla.org/es/docs/Web/CSS/var)
 

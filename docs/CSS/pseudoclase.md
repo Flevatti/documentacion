@@ -419,9 +419,10 @@ document.getElementById('results').innerHTML = Array.prototype.map.call(
 - [:scope - Developer Mozilla](https://developer.mozilla.org/en-US/docs/Web/CSS/:scope)
 :::
 ## `:root`
-- Selecciona el elemento raíz de un árbol que representa el documento.
-- En HTML , :root representa el elemento &lt;html> y es idéntico al selector html , excepto que su especificidad es mayor.
-- Es util para declarar [variables CSS](./funciones#var)
+- Selecciona el elemento raíz del documento HTML.
+- El elemento raíz es el contenedor principal que encierra o contiene todos los elementos HTML del documento.
+- En HTML , :root representa el elemento `<html>` y es idéntico al selector `.html` , excepto que su especificidad es mayor.
+- Es util para declarar [variables CSS](./funciones#var) porque permite definir valores globales que pueden reutilizarse en todo el documento.
 #### Ejemplo
 ```html
 <html>

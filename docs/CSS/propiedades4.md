@@ -269,3 +269,252 @@ Es lo mismo que:
   overflow: auto; /* Agregamos la propiedad overflow */
 }
 ```
+
+
+## Palabras clave `min-content`, `max-content` y `fit-content`
+#### `min-content`
+- Es el tamaño mínimo que puede tener una caja sin que su contenido se desborde.
+#### `max-content`
+- Es el tamaño que necesita una caja para mostrar todo su contenido en una sola línea.
+#### `fit-content`
+- Utiliza el espacio disponible del contenedor, pero garantiza que el tamaño final nunca sea menor que `min-content` ni mayor que `max-content`.
+#### Función `fit-content(argument)`
+- Permite indicar un tamaño deseado para el elemento.
+- El navegador intentará utilizar ese tamaño siempre que sea posible.
+- Utiliza la siguiente fórmula:
+```css
+min(max-content, max(min-content, argument))
+```
+- Es decir, toma el valor más pequeño entre:
+  - `max-content`.
+  - El valor más grande entre `min-content` y `argument`.
+- Esto implica que:
+  - Nunca será más pequeño que `min-content`.
+  - Intentará utilizar el valor indicado en `argument`.
+  - Nunca será más grande que `max-content`.
+  - En otras palabras, el tamaño final estará comprendido entre `min-content` y `max-content`, intentando utilizar el valor indicado como argumento.
+
+#### Ejemplo
+
+```html
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>min-content, max-content y fit-content</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+  }
+
+  .container {
+    width: 400px;
+    border: 2px dashed #999;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .box {
+    border: 2px solid black;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #f5f5f5;
+  }
+
+  /* 1. min-content */
+  .min-content {
+    width: min-content;
+  }
+
+  /* 2. max-content */
+  .max-content {
+    width: max-content;
+  }
+
+  /* 3. fit-content */
+  .fit-content {
+    width: fit-content;
+  }
+
+  /* 4. fit-content(argument) */
+  .fit-content-arg {
+    width: fit-content(200px);
+  }
+</style>
+</head>
+<body>
+
+  <h1>Palabras clave de tamaño intrínseco</h1>
+
+  <div class="container">
+
+    <h2>min-content</h2>
+
+    <div class="box min-content">
+      Esta es una frase bastante larga para demostrar cómo funciona min-content.
+    </div>
+
+    <p>
+      La caja se reduce al mínimo posible sin que el contenido se desborde.
+    </p>
+
+  </div>
+
+  <div class="container">
+
+    <h2>max-content</h2>
+
+    <div class="box max-content">
+      Esta es una frase bastante larga para demostrar cómo funciona max-content.
+    </div>
+
+    <p>
+      La caja crece lo necesario para mostrar todo el contenido en una sola línea.
+    </p>
+
+  </div>
+
+  <div class="container">
+
+    <h2>fit-content</h2>
+
+    <div class="box fit-content">
+      Esta es una frase bastante larga para demostrar cómo funciona fit-content.
+    </div>
+
+    <p>
+      La caja utiliza el espacio disponible, pero nunca será menor que
+      min-content ni mayor que max-content.
+    </p>
+
+  </div>
+
+  <div class="container">
+
+    <h2>fit-content(200px)</h2>
+
+    <div class="box fit-content-arg">
+      Esta es una frase bastante larga para demostrar cómo funciona fit-content(200px).
+    </div>
+
+    <p>
+      El navegador intentará utilizar 200px, respetando siempre los límites
+      de min-content y max-content.
+    </p>
+
+  </div>
+
+</body>
+</html>
+```
+:::tip Observación
+`fit-content()` no funciona con la propiedad `width` en algunos navegadores. Su uso más habitual es en CSS Grid, por ejemplo en `grid-template-columns`.
+:::
+
+## Propiedad `text-wrap` 
+- Permite controlar cómo se distribuye el texto dentro de un elemento. 
+- Es decir, permite indicar al navegador si el texto puede dividirse en varias líneas y, en caso de hacerlo, bajo qué criterio.
+#### Valores
+- `wrap`: El texto se dividirá en varias líneas para ajustarse al ancho del contenedor y evitar desbordamientos. Cuando ya no haya espacio para una palabra, se generará un salto de línea.
+- `nowrap`: El texto no tendrá saltos de línea automáticos y continuará en una sola línea.
+- `balance`: Al igual que `wrap`, el texto se ajustará al contenedor sin desbordarse. Sin embargo, intentará que todas las líneas tengan una longitud similar, evitando líneas demasiado largas o demasiado cortas. Es especialmente útil para títulos.
+- `pretty`: Al igual que `wrap`, el texto se ajustará al contenedor sin desbordarse. A diferencia de `balance`, utiliza un algoritmo más complejo que prioriza la legibilidad. Para ello intenta: 
+  - Evitar que una única palabra quede sola en la última línea. 
+  - Evitar líneas excesivamente largas o demasiado cortas. 
+  - Reducir el uso de guiones al dividir palabras.
+  - Evitar que el lector se distraiga mejorando la apariencia visual del texto.
+- `stable`: Es una opción pensada para elementos con `contenteditable` o contenido editable. Se comporta de forma similar a `wrap`, pero mientras el usuario edita el texto mantiene estables (congeladas) las líneas anteriores a la que se está modificando, evitando que se reorganicen constantemente.
+- `auto`: El navegador decide qué valor usar.
+#### Ejemplo
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>text-wrap ejemplos</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+  }
+
+  .box {
+    width: 250px;
+    border: 2px solid #333;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .wrap {
+    text-wrap: wrap;
+  }
+
+  .nowrap {
+    text-wrap: nowrap;
+  }
+
+  .balance {
+    text-wrap: balance;
+  }
+
+  .pretty {
+    text-wrap: pretty;
+  }
+
+  .stable {
+    text-wrap: stable;
+  }
+
+  .auto {
+    text-wrap: auto;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Propiedad text-wrap</h1>
+
+<h2>wrap</h2>
+<div class="box wrap">
+  Esta es una frase bastante larga para demostrar cómo el texto se ajusta al contenedor y se divide en varias líneas.
+</div>
+
+<h2>nowrap</h2>
+<div class="box nowrap">
+  Esta es una frase bastante larga para demostrar cómo el texto no se divide en varias líneas.
+</div>
+
+<h2>balance</h2>
+<div class="box balance">
+  Esta es una frase bastante larga para demostrar cómo el texto intenta equilibrar las líneas para que tengan longitudes similares.
+</div>
+
+<h2>pretty</h2>
+<div class="box pretty">
+  Esta es una frase bastante larga para demostrar cómo el texto intenta mejorar la legibilidad evitando cortes incómodos.
+</div>
+
+<h2>stable</h2>
+<div class="box stable" contenteditable="true">
+  Puedes editar este texto para ver cómo stable mantiene estables las líneas anteriores mientras escribes.
+</div>
+
+<h2>auto</h2>
+<div class="box auto">
+  Esta es una frase bastante larga para demostrar cómo el navegador decide automáticamente el comportamiento del texto.
+</div>
+
+</body>
+</html>
+
+```

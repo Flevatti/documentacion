@@ -592,9 +592,10 @@ Ejemplo:
 ```css
 object-fit: contain;
 ```
-- Mantiene la resolución ajustándose al contenedor, pero no rellena espacio.
-- Si el contenedor es más grande que la imagen, dejara espacio en blanco y dejara la imagen centrada.
-  
+- La imagen aumenta de tamaño (si es necesario) manteniendo la resolución para ajustarse al contenedor sin recortarse.
+- Si el contenedor es más grande que la imagen, quedará espacio vacío alrededor.
+- La imagen se mantiene centrada dentro del contenedor.
+- En resumen: la imagen se escala lo más posible dentro del contenedor, manteniendo la resolución y sin ser recortada.
 #### Valor cover
 
 ```css
@@ -927,14 +928,22 @@ Para evitar problemas en el futuro (por si quiere poner elementos en el medio) ,
 :::
 
 ## Lógical properties
-- Es una forma de maquetar como float , flex y grid.
-- Es un modulo CSS que introduce propiedades y valores lógicos
-- Sirve para controlar el diseño de forma lógica.
-- Remplazaria a las propiedades fisicas.
-- Nos permiten dar estilos sin necesidad de usar width , height , padding , etc.
-- Nos permite “simplificar” el uso de propiedades de box-model (propiedades físicas) con “propiedades lógicas”.
-- Todas las propiedades lógicas se van a aplicar en base al writting mode.
-- Todas las propiedades “lógicas” también tienen shorthand.
+- Es un módulo de CSS que introduce propiedades y valores lógicos.
+- Permiten definir estilos teniendo en cuenta la dirección de escritura (*writing mode*). Esta puede ser:
+  - De izquierda a derecha (*left-to-right*), como en español o inglés.
+  - De derecha a izquierda (*right-to-left*), como en árabe o hebreo.
+- Son una alternativa a muchas propiedades físicas como `width`, `height`, `margin`, `padding` o `border`.
+- Ayudan a crear diseños que se adaptan mejor a distintos idiomas y modos de escritura.
+- Simplifican el uso del *box model* ya que trabajan con cuatro conceptos:
+  - `block`: dirección del contenido (normalmente de arriba hacia abajo).
+  - `inline`: dirección del texto (normalmente de izquierda a derecha).
+  - `start`: el comienzo de una dirección (`block` o `inline`).
+  - `end`: el final de una dirección (`block` o `inline`).
+- La ventaja es que, si cambia el *writing mode* (por ejemplo, para un idioma que se escribe de derecha a izquierda), las propiedades lógicas se adaptan automáticamente sin necesidad de cambiar los estilos.
+
+:::tip Propiedad física
+- Una propiedad física es una propiedad de CSS que aplica estilos a un elemento sin tener en cuenta el *writing mode*.
+:::
 
 
 :::tip info
@@ -967,18 +976,32 @@ Para evitar problemas en el futuro (por si quiere poner elementos en el medio) ,
             }
 
             .logico {
+               /* Equivale a width */
               inline-size:80px;
+                /* Equivale a height */
               block-size: 80px;
               background: yellow;
+                /* Equivale a border-left y border-right */
               border-inline: solid 1em black;
+                /* Equivale a border-top y border-bottom */
               border-block: solid 1em blue;
+                /* Equivale a margin-top y margin-bottom */
               margin-block:2em;
+               /* Equivale a margin-left y margin-right */
               margin-inline: auto;
             }
        </style>
   </body>
 
 ```
+
+:::tip Observación
+- Ambos elementos se verán prácticamente iguales con el writing mode por defecto. La diferencia es que las propiedades lógicas se adaptarán automáticamente si cambia la dirección de escritura de la página.
+:::
+
+
+
+
 
 ## Propiedad transform-origin
 - Se utiliza junto con la  [propiedad transform](../CSS/propiedades2#propiedad-transform)
