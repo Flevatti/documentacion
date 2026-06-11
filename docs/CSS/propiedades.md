@@ -595,37 +595,54 @@ object-fit: contain;
 - La imagen aumenta de tamaño (si es necesario) manteniendo la resolución para ajustarse al contenedor sin recortarse.
 - Si el contenedor es más grande que la imagen, quedará espacio vacío alrededor.
 - La imagen se mantiene centrada dentro del contenedor.
-- En resumen: la imagen se escala lo más posible dentro del contenedor, manteniendo la resolución y sin ser recortada.
+- En resumen: La imagen se escala lo más posible dentro del contenedor, manteniendo la resolución y sin ser recortada.
 #### Valor cover
 
 ```css
 object-fit: cover;
 ```
-- Sirve para que la imagen ocupe todo el contenedor
-- Se ajusta la imagen al contenedor .
-- Recorta la imagen si es necesario.
-- Hace que se agrande lo mas posible, manteniendo la escala de resolución.
+- La imagen aumenta de tamaño (si es necesario) manteniendo la resolución para ajustarse al contenedor.
+- La imagen ocupa todo el contenedor.
+- Si es necesario, la imagen será recortada para cubrir completamente el contenedor.
+- La imagen se mantiene centrada dentro del contenedor.
+- En resumen: la imagen se escala lo más posible para cubrir todo el contenedor, manteniendo la resolución, aunque parte de ella pueda quedar recortada.
   
+#### valor fill
+```css
+object-fit: fill;
+```
+- La imagen se ajusta al tamaño del contenedor.
+- Si es necesario, la imagen se estira o se achica para ocupar todo el contenedor.
+- No mantiene el `aspect-ratio` original de la imagen.
+- Como consecuencia, la imagen puede verse deformada.
+- `fill` es el valor por defecto de `object-fit`.
+- En resumen: la imagen ocupa todo el contenedor, aunque para ello tenga que deformarse.
+
+
 
 #### Valor none
 ```css
 object-fit: none;
 ```
-- Usa la resolución por defecto
-- Agranda la imagen a la resolución que tiene que ser
-- Usa el tamaño original de la imagen
-
-
-
+- La imagen mantiene su tamaño original.
+- No se ajusta al tamaño del contenedor.
+- Se muestra utilizando su resolución original.
+- Si la imagen es más grande que el contenedor, no se reducirá de tamaño para adaptarse a él.
+- En resumen: la imagen conserva su tamaño y resolución originales, sin adaptarse al contenedor.
   
 #### Valor scale-down
 ```css
 object-fit: scale-down;
 ```
-- Se queda con la mejor propiedad
-- ¿Qué es mas chiquito? El valor contain o none
-- El mas chiquito lo elige.
+- Compara el resultado de `none` y `contain`.
+- El navegador elige el tamaño más pequeño de los dos.
+- Si la imagen ya es pequeña y entra en el contenedor, utilizará `none`.
+- Si la imagen es demasiado grande para el contenedor, utilizará `contain`.
+- En resumen: utiliza el tamaño más pequeño entre el resultado de `none` y `contain`.
 
+:::tip 
+- Tanto `cover`, `contain`, `fill` como `scale-down` son valores dinámicos, por lo que pueden aumentar o reducir el tamaño de la imagen para adaptarse al contenedor.
+:::
 
 :::tip Info
 - [developer mozilla](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)

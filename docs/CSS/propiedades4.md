@@ -518,3 +518,128 @@ min(max-content, max(min-content, argument))
 </html>
 
 ```
+## Propiedad `object-position` 
+- Se suele utilizar junto con `object-fit` para definir la posición de la imagen dentro del contenedor.
+- Su valor por defecto es `50% 50%`, lo que significa que el centro de la imagen se ubica en el centro del contenedor.
+- Permite indicar qué parte de la imagen debe mostrarse cuando esta ha sido ajustada mediante `object-fit`.
+- Es como `background-position`, pero para imágenes o videos, no para imágenes de fondo.
+- Al igual que `background-position`, puede recibir 1, 2 o 4 valores:
+  - 1 valor: Define únicamente el desplazamiento horizontal, dejando el vertical en `center`.
+  - 2 valores: Definen el desplazamiento horizontal y vertical.
+  - 4 valores: Cada desplazamiento se define mediante una palabra clave acompañada de un valor (ver `background-position`).
+- Ejemplo:
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>object-position</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.example {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.container {
+  width: 300px;
+  height: 180px;
+  border: 2px solid #333;
+  overflow: hidden;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 1 valor */
+.one img {
+  object-position: right;
+}
+
+/* 2 valores */
+.two img {
+  object-position: right bottom;
+}
+
+/* 4 valores */
+.four img {
+  object-position: right 50px bottom 20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Ejemplos de object-position</h1>
+
+<div class="grid">
+
+  <div class="example one">
+    <h2>1 valor</h2>
+
+    <pre><code>object-position: right;</code></pre>
+
+    <div class="container">
+      <img src="https://picsum.photos/id/237/800/500" alt="">
+    </div>
+  </div>
+
+  <div class="example two">
+    <h2>2 valores</h2>
+
+    <pre><code>object-position: right bottom;</code></pre>
+
+    <div class="container">
+      <img src="https://picsum.photos/id/237/800/500" alt="">
+    </div>
+  </div>
+
+  <div class="example four">
+    <h2>4 valores</h2>
+
+    <pre><code>object-position: right 50px bottom 20px;</code></pre>
+
+    <div class="container">
+      <img src="https://picsum.photos/id/237/800/500" alt="">
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+```
+
+## Propiedad `scrollbar-width` y `user-select`
+#### Propiedad `scrollbar-width`
+- Define el grosor o ancho de la barra de desplazamiento (scroll), permitiendo ajustar su apariencia dentro del diseño de la página.
+- Valores posibles:
+  - `auto`: Ajusta automáticamente el ancho de la barra según la configuración predeterminada del navegador. Es el valor por defecto.
+  - `thin`: Establece una barra de desplazamiento más delgada que la predeterminada.
+  - `none`: Oculta completamente la barra de desplazamiento, aunque el contenido sigue siendo desplazable.
+  - `initial`: Restablece el valor por defecto de la propiedad.
+  - `inherit`: Hereda el valor del elemento padre.
+#### Propiedad `scrollbar-color`
+- Permite cambiar el color de la barra de desplazamiento (scroll).
+- Si se indican dos valores, el primero es para el control de la barra de scroll (el que desliza el usuario, llamado `thumb`) y el segundo para el fondo de la barra de scroll (llamado `track`).
+![thumb and track](https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/04/scrollbar-track-2.jpg?ssl=1)
+#### Propiedad `scrollbar-gutter`
+#### Propiedad `user-select`

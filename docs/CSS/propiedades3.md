@@ -728,26 +728,47 @@ Para que un elemento tenga un mecanismo de desplazamiento , debe tener la propie
 :::
 
 ### Propiedad background-position
-- Te permite mover una imagen de fondo.
-- Define la posición de la imagen de fondo.
-- Tiene tres tipos diferentes de valores:
-  -	Valores de longitud (p. ej 100px 5px.)
-  -	Porcentajes (por ejemplo 100% 5%)
-  -	Palabras clave (p. ej top right.)
+- Permite mover y posicionar una imagen de fondo.
+- Define la posición inicial de la imagen de fondo.
+- Admite tres tipos de valores:
+  - Valores de longitud (por ejemplo, `100px 5px`).
+  - Porcentajes (por ejemplo, `100% 5%`).
+  - Palabras clave (por ejemplo, `top`, `right`, `bottom`, `left` o `center`).
 
 #### Palabras claves
-- Aquí hay una lista de las cinco palabras clave y sus valores equivalentes:
-  -	top: 0% verticalmente
-  -	right: 100% horizontalmente
-  -	bottom: 100% verticalmente
-  -	left: 0% horizontalmente
-  -	center: 50% horizontalmente si la horizontal aún no está definida. Si es así, esto se aplica verticalmente.
+- Las palabras clave representan posiciones predefinidas dentro del elemento.
+- Equivalen a los siguientes valores:
+  - `top`: `0%` verticalmente.
+  - `right`: `100%` horizontalmente.
+  - `bottom`: `100%` verticalmente.
+  - `left`: `0%` horizontalmente.
+  - `center`: `50%`. Se aplica horizontalmente si la posición horizontal aún no está definida; en caso contrario, se aplica verticalmente.
 
 
 #### Declarando valores
--	Si declara un valor , ese valor es el desplazamiento horizontal. El navegador establece el desplazamiento vertical en center.
--	Cuando declara dos valores , el primer valor es el desplazamiento horizontal y el segundo valor es el desplazamiento vertical.
-- Se puede declarar tres o cuatros valores pero ya es mucho mas complejo.
+- Si se declara un único valor, este representa el desplazamiento horizontal. El desplazamiento vertical se establece automáticamente en `center`.
+- Si se declaran dos valores, el primero representa el desplazamiento horizontal y el segundo el desplazamiento vertical.
+- También es posible declarar tres o cuatro valores, aunque su sintaxis es más avanzada y menos habitual.
+
+:::tip
+- Con cuatro valores, `background-position` permite indicar desde qué borde se mide cada desplazamiento. 
+- `left` y `right` definen el desplazamiento horizontal, mientras que `top` y `bottom` definen el desplazamiento vertical.
+- Por ejemplo:
+```css
+background-position: right 20px bottom 10px;
+```
+- Significa:
+  - `right 20px` → la imagen se posiciona a `20px` del borde derecho.
+  - `bottom 10px` → la imagen se posiciona a `10px` del borde inferior.
+- Con tres valores, uno de los ejes (horizontal o vertical) se define únicamente con una palabra clave (`center`, `top`, `bottom`, `left` o `right`), mientras que el otro se define con una palabra clave (que indica el eje que se modifica y el borde desde el que se mide el desplazamiento) acompañada de un valor.
+- Por ejemplo:
+```css
+background-position: right 20px center;
+```
+- Significa:
+  - `right 20px` → la imagen se posiciona a `20px` del borde derecho.
+  - `center` → la imagen se posiciona en el centro del eje vertical.
+:::
 
 
 #### Ejemplo

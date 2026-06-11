@@ -264,22 +264,17 @@ flex-basis: 500px;
 ```
 
 ### flex-shrink
+- Aunque tenga width, los item-flex no van a tener el width especifico.
+- Mientras no haya espacio suficiente en el contenedor, los elementos serán más pequeños que el `width` especificado.
+- Solo cuando todos puedan entrar respetando su `width`, cada elemento tendrá el tamaño indicado.
+- Con esta propiedad especificamos cuánto espacio va a ceder cada elemento (puede aplicarse a todos los elementos o a algunos en particular) hasta que todos alcancen el `width` especificado. 
+- Cuanto mayor sea su valor, más espacio cederá el elemento y más se reducirá su tamaño.
+- En otras palabras, `flex-shrink` decide qué elementos se achican más cuando no hay suficiente espacio para que todos alcancen su `width`.
 
-:::warning
-Aunque tenga width, los item-flex no van a tener el width especifico(generalmente tiene menos, a menos que se llegue al espacio adecuado del contenedor donde entren todos los ítems con sus width especifico y ahí si todas van a tener al mismo tiempo el width que se especifico) .
-Eso pasa porque estamos siendo flexible con el espacio que se saca.
 
-:::
-
-Con esta propiedad especificamos cuanto de espacio va a ceder cada item. (puede aplicarse en general o algún/algunos item-flex en especifico)
-
-Mientras  el  valor sea mas grande, mas espacio va a ceder a las demás.(se achicara para que crezcan las demás)
-
-Basicamente sirve para especificar que caja va a ceder mas espacio mientras no se alcance el width especifico.
-:::warning
-Se espera a que todos lleguen al width especifico para luego repartir el espacio que sobra (flex-grow).
-
-Se empieza a repartir el espacio sobrante cuando todas las cajas alcancen el espacio asignado.
+:::warning Observación
+- Primero se intenta que todos los elementos alcancen el `width` especificado.
+- Una vez que todos lo alcanzan, el espacio sobrante comienza a repartirse mediante `flex-grow`.
 :::
 
 ```css
@@ -290,6 +285,18 @@ flex-shrink: .5;
 /* Que no ceda espacio */
 flex-shrink: 0;
 ```
+
+:::tip `flex-shrink: 0`
+- Al utilizar `flex-shrink: 0`, indicamos que el elemento no debe reducir su tamaño cuando falte espacio en el contenedor.
+- Esto significa que intentará mantener el `width` (o tamaño base) que tenga asignado.
+- Si el contenedor no tiene suficiente espacio, el elemento no se encogerá y puede terminar desbordándose.
+- En cambio, con el valor por defecto (`flex-shrink: 1`), el elemento sí podrá reducir su tamaño para adaptarse al espacio disponible.
+- En resumen:
+  - `flex-shrink: 0` → el elemento no cede espacio.
+  - `flex-shrink: 1` → el elemento puede ceder espacio cuando sea necesario.
+:::
+
+
 
 ### flex
 
