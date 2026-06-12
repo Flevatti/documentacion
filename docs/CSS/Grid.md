@@ -267,7 +267,7 @@ EL FR NO TIENE DIMENSIONES(MEDIDA MINIMA)
 
 
 ## repeat()
-Especificar un puñado de columnas con la misma anchura puede ser aburrido. Afortunadamente hay una función repeat que te ayudará con eso.
+- Especificar muchas columnas con la misma anchura puede ser tedioso. Afortunadamente, existe la función `repeat()`, que te ayudará a hacerlo más fácilmente.
 
  ```css
  /* previamente hemos definido cinco columnas al 20% de 
@@ -276,15 +276,15 @@ Esto puedes simplificarse */
  grid-template-columns: repeat(5, 20%);
  ```
 
-Tanto en  grid-template-columns y grid-template-rows podemos usar la funcion repeat()
+- Tanto en `grid-template-columns` como en `grid-template-rows` podemos utilizar la función `repeat()`.
 ```css
 grid-template-columns:repeat(8,12.5%);
 
 ```
 
 ### Parametros
-1. Cantidad de columnas/filas
-2. Tamaño
+1. **Cantidad de columnas o filas**
+2. **Tamaño de cada fila o columna**
 ```css
 /*grid-template-columns: 150px 150px 150px 150px ; */
 grid-template-columns: repeat(4,150px);
@@ -295,6 +295,23 @@ grid-template-columns: repeat(3,100px 100px) 1fr;
 ```css
 grid-template-rows: repeat(3,150px);
 ```
+
+## Palabra clave `auto`
+- Se puede usar como valor de tamaño en `repeat()`.
+- Si se aplica a las filas:
+  - La palabra clave `auto` indica que cada fila tendrá una altura calculada automáticamente según su contenido.
+  - Si una fila contiene poco contenido, será baja.
+  - Si una fila contiene mucho contenido, crecerá para acomodarlo.
+  - Cada fila puede tener una altura diferente.
+  - En resumen: cada fila tendrá la altura necesaria para mostrar su contenido.
+- Si se aplica a las columnas:
+  - La palabra clave `auto` indica que cada columna tendrá un ancho calculado automáticamente según su contenido.
+  - Si una columna contiene poco contenido, será angosta.
+  - Si una columna contiene mucho contenido, se ensanchará para acomodarlo.
+  - Cada columna puede tener un ancho diferente.
+  - En resumen: cada columna tendrá el ancho necesario para mostrar su contenido.
+
+
 
 ## Grid implicito y Grid explicito 
 

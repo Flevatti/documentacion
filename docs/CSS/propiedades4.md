@@ -176,9 +176,12 @@ Es lo mismo que:
 ## Propiedades  overflow - overflow-wrap - word-break
 
 #### Propiedad overflow-wrap
-- La propiedad overflow-wrap en CSS permite  dividir líneas de texto dentro de un elemento  para evitar que el texto se desborde de su contenedor cuando una palabra es demasiado larga para caber en una línea.
-- Por ejemplo, puedes utilizar overflow-wrap de la siguiente manera:
-
+- La propiedad `overflow-wrap` en CSS permite dividir palabras largas cuando no hay suficiente espacio para mostrarlas completas en una línea, evitando que el texto se desborde de su contenedor.
+- Los valores de `overflow-wrap` son:
+  - `normal`: Las palabras no se dividirán. Si una palabra es demasiado larga para caber en el contenedor, podría desbordarse. (Valor predeterminado).
+  - `break-word`: Si una palabra es demasiado larga para caber en una línea, el navegador podrá dividirla para evitar el desbordamiento.
+  - `anywhere`: Similar a `break-word`, pero el navegador tiene más libertad para decidir dónde dividir una palabra.
+- Por ejemplo:
 ```html
 <p class="overflow-wrap-anywhere">
   This is a very very very very very very very very very very very very very very very very long word that will not fit in its container.
@@ -199,27 +202,16 @@ Es lo mismo que:
 }
 
 ```
-:::tip Observación
-- Esto permitirá al navegador dividir palabras largas en varias líneas si se desbordan del contenedor.
-- Al utilizar overflow-wrap, puedes evitar que el texto se desborde de su contenedor y mejorar la apariencia y la legibilidad de tu página web.
-:::
-- Los valores para overflow-wrap son:
-   - normal: Las palabras no se dividirán, incluso si se desbordan del contenedor. (Este es el valor predeterminado)
-   - break-word: Las palabras demasiado largas para caber en un contenedor se dividirán en dos líneas.
-   - anywhere: Permite que el navegador divida una palabra en  dos o más líneas.
-
 
 #### Propiedad word-break
-- La propiedad CSS word-break especifica cuando  se deben romper(dividir) las palabras.
-- La propiedad word-break puede tomar los siguientes valores:
-   - normal: Utiliza las reglas de salto de línea predeterminadas.
-   - break-all: Rompe las palabras en cualquier carácter para prevenir el desbordamiento.
-   - keep-all: No se deben realizar saltos de línea dentro de las palabras, excepto en los espacios en blanco. Este valor no debe utilizarse para texto CJK (chino, japonés, coreano).
-   - break-word: Rompe las palabras en puntos arbitrarios para prevenir el desbordamiento. (Ya no se usa)
-   - auto-phrase: Tiene el mismo efecto que  word-break: normal excepto que se realiza un análisis específico del idioma para mejorar los saltos de palabras al no colocarlos en medio de frases naturales. (Experimental)
-
-
-   - Ejemplo:
+- La propiedad `word-break` en CSS indica cómo puede dividir el navegador las palabras cuando no hay suficiente espacio para mostrarlas en una sola línea.
+- La propiedad `word-break` puede tomar los siguientes valores:
+  - `normal`: Utiliza el comportamiento predeterminado del navegador para dividir el texto.
+  - `break-all`: Permite dividir una palabra en cualquier carácter para evitar que se desborde del contenedor.
+  - `keep-all`: Evita dividir las palabras. Los saltos de línea solo se realizarán en los espacios en blanco.
+  - `break-word`: Tiene el mismo efecto que `overflow-wrap: anywhere` combinado con `word-break: normal`. Es un valor obsoleto y se recomienda utilizar otras opciones.
+  - `auto-phrase`: Similar a `normal`, pero intenta evitar saltos de línea que separen partes de una misma frase. (Experimental).
+- Por ejemplo:
 
 
 ```html
@@ -239,10 +231,10 @@ Es lo mismo que:
 ```
 
 #### Diferencias entre overflow-wrap y word-break
--  La propiedad overflow-wrap se utiliza para especificar si el navegador debe insertar saltos de línea para evitar que el texto se desborde de su contenedor. Enfatiza cómo manejar el desbordamiento.
-- La propiedad word-break  se utiliza para especificar cómo el navegador debe dividir una palabra al final de una línea. Enfatiza cómo dividir palabras.
-- La principal diferencia entre overflow-wrap y word-break es que overflow-wrap solo rompe una palabra si es más larga que el ancho máximo de la caja de línea, mientras que word-break puede romper una palabra en cualquier carácter, incluso en medio de una palabra.
-- En resumen, overflow-wrap se utiliza para evitar el desbordamiento de texto, mientras que word-break se utiliza para dividir palabras al final de una línea. 
+- `overflow-wrap` se utiliza para evitar que las palabras largas se salgan de su contenedor.
+- `word-break` se utiliza para definir cómo pueden dividirse las palabras.
+- La principal diferencia es que `overflow-wrap` divide una palabra solo cuando es necesario para evitar que se salga del contenedor, mientras que `word-break` permite definir cómo se pueden dividir las palabras.
+
 
 #### Propiedad overflow
 - La propiedad overflow en CSS se utiliza para controlar qué sucede cuando el contenido de un elemento excede el tamaño de la caja. Se especifica si se debe recortar el contenido, mostrar barras de desplazamiento(scroll) o mostrar el contenido excedente fuera de la caja del elemento.
@@ -628,7 +620,7 @@ img {
 </html>
 ```
 
-## Propiedad `scrollbar-width` y `user-select`
+## Propiedades de scroll
 #### Propiedad `scrollbar-width`
 - Define el grosor o ancho de la barra de desplazamiento (scroll), permitiendo ajustar su apariencia dentro del diseño de la página.
 - Valores posibles:
@@ -639,7 +631,232 @@ img {
   - `inherit`: Hereda el valor del elemento padre.
 #### Propiedad `scrollbar-color`
 - Permite cambiar el color de la barra de desplazamiento (scroll).
-- Si se indican dos valores, el primero es para el control de la barra de scroll (el que desliza el usuario, llamado `thumb`) y el segundo para el fondo de la barra de scroll (llamado `track`).
+- Si se indican dos valores:
+  - El primero define el color del control de la barra de scroll (el elemento que desliza el usuario, llamado `thumb`). También puede afectar el color de las flechas en algunos navegadores.
+  - El segundo define el color del fondo de la barra de scroll (llamado `track`).
 ![thumb and track](https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/04/scrollbar-track-2.jpg?ssl=1)
 #### Propiedad `scrollbar-gutter`
-#### Propiedad `user-select`
+- Permite reservar espacio para la barra de desplazamiento (scroll).
+- Evita cambios de diseño cuando el scroll aparece o desaparece.
+- Define si el espacio reservado para el scroll se mantiene siempre o solo cuando es necesario.
+- El "gutter" es el espacio donde se muestra la barra de desplazamiento dentro del elemento.
+- El navegador puede usar dos tipos de barras de desplazamiento:
+  - **Clásicas**: Ocupan espacio dentro del elemento cuando aparecen.
+  - **Superpuestas**: Se dibujan encima del contenido sin ocupar espacio.
+- Valores posibles:
+  - `auto`: Valor inicial. Las barras de desplazamiento clásicas ocupan espacio en la interfaz cuando hay `overflow: auto` o `scroll`. En cambio, las barras superpuestas se muestran encima del contenido sin ocupar espacio.
+  - `stable`: Reserva espacio para la barra de desplazamiento incluso con `overflow: hidden`. Es ideal para evitar cambios de diseño.
+  - `both-edges`: Reserva espacio en ambos lados del contenedor para lograr diseños más simétricos.
+##### Ejemplo
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propiedades de scroll</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+section{
+  margin-bottom: 40px;
+}
+
+.box{
+  width: 300px;
+  height: 150px;
+  border: 2px solid #333;
+  overflow: auto;
+}
+
+/* scrollbar-width */
+.thin-scroll{
+  scrollbar-width: thin;
+}
+
+.none-scroll{
+  scrollbar-width: none;
+}
+
+/* scrollbar-color */
+.color-scroll{
+  scrollbar-color: red lightgray;
+}
+
+/* scrollbar-gutter */
+.gutter-auto{
+  scrollbar-gutter: auto;
+}
+
+.gutter-stable{
+  scrollbar-gutter: stable;
+}
+
+.gutter-both{
+  scrollbar-gutter: stable both-edges;
+  color:red;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Propiedades de scroll</h1>
+
+<section>
+<h2>scrollbar-width</h2>
+
+<div class="box thin-scroll">
+<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum cum doloremque dolores nihil accusamus velit similique quas explicabo dicta reiciendis vitae quam minus numquam adipisci sapiente maiores aliquid, dignissimos optio?
+Unde eum impedit repellat illum asperiores, cumque nobis amet. Amet, repellendus blanditiis impedit dolorem modi ad iure voluptas, quis ducimus consequatur vel dolores error dolor cumque omnis, odio exercitationem consequuntur.
+Ratione ab exercitationem qui iure vero animi nostrum, at est incidunt? Doloribus, obcaecati excepturi. Tempore sit nulla deleniti, voluptas accusantium in aut quae maiores quaerat, ea dolores sapiente corrupti modi?</p>
+</div>
+
+<br>
+
+<div class="box none-scroll">
+<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum cum doloremque dolores nihil accusamus velit similique quas explicabo dicta reiciendis vitae quam minus numquam adipisci sapiente maiores aliquid, dignissimos optio?
+Unde eum impedit repellat illum asperiores, cumque nobis amet. Amet, repellendus blanditiis impedit dolorem modi ad iure voluptas, quis ducimus consequatur vel dolores error dolor cumque omnis, odio exercitationem consequuntur.
+Ratione ab exercitationem qui iure vero animi nostrum, at est incidunt? Doloribus, obcaecati excepturi. Tempore sit nulla deleniti, voluptas accusantium in aut quae maiores quaerat, ea dolores sapiente corrupti modi?</p>
+</div>
+</section>
+
+<section>
+<h2>scrollbar-color</h2>
+
+<div class="box color-scroll">
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam blanditiis tempore animi praesentium fuga neque obcaecati, quas tenetur inventore sequi minima ipsum eveniet aperiam mollitia iste maiores quasi quaerat quia?
+Aperiam esse quae quasi corporis. Iste, eaque sint consequuntur, id minus aperiam delectus facilis perferendis ad vero asperiores sed amet nobis officiis corporis enim voluptas. Consequatur ipsam magnam libero? Incidunt!
+Praesentium officia, maiores error quisquam quibusdam debitis, perferendis, animi ad cupiditate enim ipsum delectus minus laudantium veniam illum eveniet laboriosam ex modi ut asperiores fugiat consectetur. Eaque quia non expedita.</p>
+</div>
+</section>
+
+<section>
+<h2>scrollbar-gutter</h2>
+
+<div class="box gutter-auto">
+<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore consectetur recusandae fugit consequuntur, quos itaque quo iusto cupiditate rem ipsam similique cum commodi aut? Voluptates quas nam repellat nulla unde.
+Recusandae, distinctio dolorem, at voluptate asperiores enim, voluptas quasi iste dolor cumque illo? Harum voluptatibus asperiores natus dolorem mollitia laboriosam, expedita dicta ducimus porro itaque ea aperiam architecto deleniti. Non!
+Possimus illum, ab rerum harum quaerat excepturi corrupti maiores tenetur, fuga quos eius distinctio reprehenderit ipsam, magni architecto numquam accusantium? Doloremque quaerat maiores eveniet soluta praesentium ut rerum vel nemo?</p>
+</div>
+
+<br>
+
+<div class="box gutter-stable">
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem fuga, nemo molestiae consectetur provident laudantium officiis laborum expedita, sequi tenetur a sint sed dolorem, sunt aut officia magnam dignissimos voluptatibus!
+Delectus consequuntur dolores necessitatibus reiciendis numquam, nesciunt vel est cupiditate nihil perspiciatis, quidem consectetur natus voluptatem? Asperiores qui maxime numquam, saepe, voluptatibus quae hic, iusto impedit blanditiis incidunt minus. Non.
+Molestias esse autem, nulla explicabo reprehenderit obcaecati labore dicta eligendi aut nam, beatae ea quam. Quia, quaerat consectetur architecto porro corrupti optio reiciendis aliquid, ipsum soluta magni odio cupiditate voluptatem.</p>
+</div>
+
+<br>
+
+<div class="box gutter-both">
+<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic a accusantium autem dolorem saepe voluptas soluta odio necessitatibus quaerat dolores? Ex harum quidem sint omnis porro veritatis ipsa voluptates laborum!
+Ullam tempora obcaecati porro repellendus quo! In, praesentium culpa nam quaerat tempore beatae ipsa ab optio nemo, inventore repellendus corrupti eligendi sapiente blanditiis omnis aperiam tempora? Sit quae vel culpa?
+Fugiat nostrum quisquam esse neque, earum voluptatibus a consequatur tenetur excepturi sunt sed eaque id iste ullam rerum possimus nisi optio, maiores quam ducimus autem. Quod doloremque distinctio numquam iste?</p>
+</div>
+</section>
+
+</body>
+</html>
+```
+
+:::tip Observacion
+- Si ejecutaste el ejemplo y lo analizaste, notarás que el navegador reserva un espacio para la barra de desplazamiento (el navegador lo muestra como si fuera un padding, aunque no es un padding real ni se puede modificar como tal).
+- Con estas propiedades le indicamos al navegador cómo manejar ese espacio:
+  - `auto`: El espacio para el scroll solo se crea cuando la barra aparece; si no se usa, desaparece.
+  - `stable`: El espacio se reserva siempre.
+  - `both-edges`: El espacio del scroll se reparte en ambos lados del contenedor, logrando un diseño más simétrico.
+- El valor `both-edges` solo funciona si se combina con `stable`.
+- Puedes comprobarlo modificando el contenido.
+:::
+
+
+:::tip info
+- [scrollbar-color](https://css-tricks.com/almanac/properties/s/scrollbar-color/)
+- [scrollbar-color y scrollbar-gutter de CSS](https://web.dev/blog/baseline-scrollbar-props?hl=es-419)
+:::
+## Propiedad `user-select`
+- Controla si el usuario puede seleccionar el texto de un elemento.
+- Solo afecta al contenido del elemento.
+
+:::warning
+- Esta propiedad no es completamente estándar, ya que no funciona en todos los navegadores.
+:::
+
+- Valores posibles:
+  - `none`: El texto del elemento y sus hijos no se puede seleccionar. El objeto [`Selection`](https://developer.mozilla.org/en-US/docs/Web/API/Selection) aún puede contener estos elementos.
+  - `auto`: El navegador decide el valor según el contexto:
+    - En `::before` y `::after`, el valor es `none`.
+    - Si el padre tiene `user-select: none`, también se aplica `none`.
+    - Si el padre tiene `user-select: all`, se aplica `all`.
+    - En cualquier otro caso, se usa `text`.
+  - `text`: El usuario puede seleccionar el texto normalmente.
+  - `all`: El contenido del elemento se selecciona de forma atómica (como si fuera un todo). Es decir, si se selecciona una parte del elemento, automáticamente se selecciona todo el texto del elemento (incluyendo sus descendientes).
+
+
+:::tip
+- También existe el valor `contain`, que permite limitar la selección solo dentro del elemento.
+- Sin embargo, no es compatible con la mayoría de los navegadores.
+:::
+
+#### Ejemplo
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>user-select</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.box{
+  border: 2px solid #333;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.none{
+  user-select: none;
+}
+
+.text{
+  user-select: text;
+}
+
+.all{
+  user-select: all;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Ejemplo de user-select</h1>
+
+<div class="box none">
+  <h2>user-select: none</h2>
+  <p>Este texto no se puede seleccionar.</p>
+</div>
+
+<div class="box text">
+  <h2>user-select: text</h2>
+  <p>Este texto se puede seleccionar normalmente.</p>
+</div>
+
+<div class="box all">
+  <h2>user-select: all</h2>
+  <p>Si seleccionas una parte, se selecciona todo el bloque.</p>
+</div>
+
+</body>
+</html>
+```

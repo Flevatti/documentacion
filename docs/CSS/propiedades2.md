@@ -451,11 +451,53 @@ Todas tardan los mismo segundos en terminar pero realizan la transición de dife
 ```css
         transition-delay:1s;
 ```
-## Propiedad transform
+
+
+## Transformaciones
+#### Los 2 ejes
+- Todos los elementos pueden moverse en dos ejes:
+  - Eje X: Representa el movimiento horizontal (de izquierda a derecha y viceversa).
+  - Eje Y: Representa el movimiento vertical (de arriba hacia abajo y viceversa).
+#### Eje Z
+- Cuando trabajamos en 3D, además de los ejes X e Y, aparece el eje Z.
+- El eje Z representa la profundidad.
+- Los valores altos acercan el elemento al usuario, mientras que los valores bajos lo alejan.
+- Gracias al eje Z es posible crear efectos de profundidad (es decir, dar la sensación de que los objetos están a diferentes distancias del usuario) y hacer que los elementos parezcan más reales.
+:::tip tip
+- Puede resultar útil imaginar el eje Z como el movimiento de un objeto hacia ti o alejándose de ti.
+:::
+![Imagen de 3 ejes](https://previews.123rf.com/images/miraleks/miraleks2002/miraleks200200008/143011637-three-axis-coordinate-system-xyz-of-iron-nails-version-2-0.jpg)
+
+###  Transformaciones 3D 
+- Para trabajar con transformaciones 3D, hay dos propiedades importantes que debemos conocer.
+#### Propiedad `transform-style`
+- Indica si los elementos hijos se mostrarán en 2D o en 3D.
+- Esta propiedad afecta a todos los elementos hijos.
+- Por defecto su valor es `flat` es decir, trata a los elementos como elementos 2D.
+- Para trabajar con elementos 3D, se utiliza el valor `preserve-3d`.
+
+
+#### Propiedad `transform-origin`
+- Define el punto desde el cual se aplicará una transformación.
+- Todas las transformaciones comienzan desde un punto (una coordenada definida por los ejes). Esta propiedad permite cambiar la posición de ese punto.
+- Puede recibir de 1 a 3 valores:
+  - El primer valor corresponde al eje X.
+  - El segundo valor corresponde al eje Y.
+  - El tercer valor corresponde al eje Z.
+- También se pueden utilizar palabras clave:
+  - `left` y `right` para el eje X.
+  - `top` y `bottom` para el eje Y.
+  - `center`: Se utiliza en el eje X y en el eje Y, representa el centro del elemento.
+- El eje Z no admite palabras clave.
+
+
+
+
+### Propiedad transform
 - Te permite modificar (rotar, mover , inclinar , etc ) un elemento.
 - Se puede trabajar con 2D Y 3D.
 
-### 2D
+#### 2D
 #### translate()
  - Mueve el objeto en el eje X y el  eje Y . 
  - Es un shorthand de :
@@ -464,8 +506,8 @@ Todas tardan los mismo segundos en terminar pero realizan la transición de dife
 - Si tiene dos parámetros , uno es el del eje X y el otro eje Y
 - Si tiene un parámetro , representa ambos ejes.
 #### rotate()
-- Gira el objeto en el sentido de las agujas del reloj o en el sentido contrario a las agujas del reloj.
-- Tipo de valor :   grado (deg ) que va entre 0 y 360.
+- Gira el objeto en el sentido de las agujas del reloj o en el sentido contrario (usando valores negativos).
+- Se utiliza con valores en grados (`deg`), normalmente entre 0 y 360.
 #### scale()
 - Aumenta o Disminuye el tamaño del objeto.  
 - Si el valor del parámetro es mayor a 1 , el tamaño aumenta, en caso contrario lo disminuye
@@ -481,17 +523,24 @@ Todas tardan los mismo segundos en terminar pero realizan la transición de dife
     - scaleX() : Se estira en el eje X
     - scaleY() : Se estira en el eje Y
 #### skew()
-- Te permite distorsionar un elemento usando los angulos creados entre sus lineas horizontales y verticales.
-- Tipo de valor:   grado(deg), deg y rad.
-- El valor puede ser entre 0 y 360 deg.
+- Permite inclinar o deformar un elemento.
+- La deformación se hace usando ángulos en grados (`deg`) o radianes (`rad`).
+- Los valores pueden ir normalmente de 0 a 360 (en grados).
+- `skew()` puede recibir uno o dos parámetros:
+  - El primer valor inclina el elemento hacia la izquierda o la derecha.
+  - El segundo valor inclina el elemento hacia arriba o hacia abajo.  
+- Si solo se usa un valor, se aplica en el eje horizontal.
+
+
 :::tip
-Si desea que un texto se ajuste a un contenedor distorsionado, tenes que poner la misma propiedad (con su valor correspondiente), pero con su valor en negativo.
+- Si quieres que un texto se adapte a un contenedor distorsionado, debes aplicar la misma propiedad pero con el valor en negativo.
+- Esta propiedad solo inclina el elemento, pero no cambia su posición.
 :::
 #### matrix()
 - Combina todos los métodos de transformación 2D en uno
 
 #### Hay muchos mas!!!
-### 3D
+#### 3D
 #### rotateX() 
 - Gira el objeto alrededor del eje X
 #### rotateY()
