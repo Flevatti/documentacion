@@ -477,7 +477,7 @@ Todas tardan los mismo segundos en terminar pero realizan la transición de dife
 - Para trabajar con elementos 3D, se utiliza el valor `preserve-3d`.
 
 
-#### Propiedad `transform-origin`
+#### Propiedad ` transform-origin`
 - Define el punto desde el cual se aplicará una transformación.
 - Todas las transformaciones comienzan desde un punto (una coordenada definida por los ejes). Esta propiedad permite cambiar la posición de ese punto.
 - Puede recibir de 1 a 3 valores:
@@ -555,9 +555,88 @@ Todas tardan los mismo segundos en terminar pero realizan la transición de dife
 :::
 
 :::tip
-Todos aceptan valores negativos y positivos.
+- Todos aceptan valores negativos y positivos.
 :::
 
+#### Ejemplo general
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>user-select</title>
+
+<style>
+.contenedor {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+  perspective: 600px;
+
+  display: inline-block;
+}
+
+.tarjeta {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: rotateY(45deg);
+   border: 5px solid black;
+}
+
+/* Ejemplo 2D */
+.contenedor-2d .tarjeta {
+  transform-style: flat;
+}
+
+/* Ejemplo 3D */
+.contenedor-3d .tarjeta {
+  transform-style: preserve-3d;
+   
+}
+
+.cara {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+.frente {
+  background: steelblue;
+}
+
+.atras {
+  background: tomato;
+  transform: translateZ(50px);
+}
+</style>
+</head>
+
+<body>
+<div class="contenedor contenedor-2d">
+  <div class="tarjeta">
+    <div class="cara frente">Frente</div>
+    <div class="cara atras">Atrás</div>
+  </div>
+</div>
+
+<div class="contenedor contenedor-3d">
+  <div class="tarjeta">
+    <div class="cara frente">Frente</div>
+    <div class="cara atras">Atrás</div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+:::tip Observacion
+- Las transformaciones aplicadas a un elemento también afectan a sus elementos hijos. En este ejemplo, los dos `div` dentro de `.tarjeta` se transforman junto con su elemento padre.
+- Para entender el eje Z, piensa en `z-index`: los elementos con valores más altos se muestran por encima de los que tienen valores más bajos.
+:::
 
 :::tip info
 - [transform -  css tricks](https://css-tricks.com/almanac/properties/t/transform/)
@@ -565,9 +644,10 @@ Todos aceptan valores negativos y positivos.
 - [CSS 3D Transforms](https://www.w3schools.com/css/css3_3dtransforms.asp)
 - [transform  - developer mozilla](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)
 - [CSS transform Property](https://www.w3schools.com/cssref/css3_pr_transform.php)
+- [Transformaciones 3D](https://lenguajecss.com/css/transformaciones/transform-3d/)
 :::
 
-#### Ejemplos
+#### Otros ejemplos
 
 ```html
        <div class="box"></div>
@@ -614,87 +694,241 @@ Todos aceptan valores negativos y positivos.
 ```
 
 :::tip
-- La propiedad transform puede recibir varios valores
+- La propiedad transform puede recibir varios valores:
 ```css
 transform:scaleY(2) translate(30px);
 ```
-
-
-
 :::
+
+
+
+
 
 ## Propiedad perspective
-- Determina la distancia entre el plano z y el usuario para dar cierta perspectiva a un elemento 3D (con la propiedad [transform](#propiedad-transform))
-- Define qué tan lejos está el objeto del usuario. Por lo tanto, un valor más bajo dará como resultado un efecto 3D más intenso que un valor más alto.
-- La fuerza del efecto está determinada por el valor. Cuanto menor sea el valor, más cerca estará del plano Z (y por lo tanto más cerca del usuario) y más impresionante será el efecto visual. Cuanto mayor sea el valor, más sutil será el efecto.
-- Son los elementos HIJOS los que obtienen la vista en perspectiva, NO el elemento en sí.
+- Determina la distancia desde la que el usuario observa un elemento 3D.
+- Define qué tan cerca o lejos parece estar el usuario del elemento.
+- Cuanto menor sea el valor, más intenso será el efecto de profundidad.
+- Cuanto mayor sea el valor, más suave será el efecto de profundidad.
+- La perspectiva se aplica a los elementos hijos, no al elemento que tiene la propiedad.
 
-
-:::tip ¿Que es el eje Z?
- - Es lo que ordena la propiedad z-index.
- - Es la distancia entre el objeto y el “ojo humano”.
+:::tip
+- Puedes imaginar `perspective` como la distancia desde la que observas una escena. Cuanto más cerca estés, más se nota la profundidad. Cuanto más lejos estés, menos se aprecia.
+- La forma más sencilla de entenderlo es imaginar a una persona observando un objeto en el mundo real: si se acerca mucho, el objeto se ve grande y las deformaciones son más evidentes; si se aleja, el objeto se ve más pequeño y plano. 
+- Esta propiedad suele aplicarse a un contenedor. El contenedor actúa como el observador y sus elementos hijos son los objetos observados. Por eso, el efecto se verá en los hijos y no en el contenedor.
 :::
+
+
+#### El papel del eje Z en la profundidad visual
+- Cuando trabajamos con transformaciones 3D, entra en juego el eje Z.
+- Los valores positivos acercan el elemento al usuario, mientras que los valores negativos lo alejan.
+- La propiedad `perspective` determina qué tan exagerado o sutil será el efecto de profundidad.
+
+#### Cómo funciona perspective en CSS
+- La propiedad `perspective` no transforma el elemento en sí. En cambio, crea un espacio 3D compartido para que todos sus elementos hijos puedan mostrar profundidad.
+- Cuando empecé a trabajar con efectos 3D, cometí el error típico de aplicar `perspective` directamente al elemento que rotaba. No fue hasta entender que debía colocarse en el padre cuando todo empezó a tener sentido.
+
+#### Qué significan los valores pequeños y grandes
+- Valores pequeños (por ejemplo, `200px`): El observador está muy cerca → efecto de profundidad intenso.
+- Valores grandes (por ejemplo, `1200px`): El observador está lejos → efecto de profundidad más sutil y realista.
+- Para comprender esta propiedad, imagina una persona observando un objeto en el mundo real. La propiedad `perspective` permite variar la distancia entre el observador y el objeto. En este caso, el objeto puede ser cualquier elemento HTML.
+
+#### Por qué perspective se aplica al elemento padre
+- Al definir `perspective` en un contenedor, todos sus elementos hijos se observarán desde el mismo punto de vista. Es decir, todos serán observados por el mismo observador, lo que ayuda a que la escena 3D parezca más realista.
+
+
 
 #### Ejemplo
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>CSS Perspective</title>
-  <style>   
-    #boxcont {
-      background-color: orange;
-      width: 200px;
-      height: 200px;
-      border: 1px solid black;
-      margin: 70px;
-      perspective: 200px;
-    }
-    #boxint {
-      background-color: green;    
-      width: 200px;
-      height: 200px;
-      border: 1px solid black;
-      transform: perspective( 400px ) rotateY( 45deg );
-    }
-  </style>  
+<meta charset="UTF-8">
+<title>Perspective</title>
+
+<style>
+*{
+  box-sizing: border-box;
+}
+
+body{
+  font-family: Arial, sans-serif;
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.escena{
+  perspective: 200px; /* observador cerca */
+}
+
+.escena-lejos{
+  perspective: 1200px; /* observador lejos */
+}
+
+.tarjeta{
+  width: 150px;
+  height: 150px;
+  background: green;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotateY(45deg);
+}
+
+h3{
+  text-align: center;
+}
+</style>
 </head>
-<body>    
-  <div id="boxcont">
-    <div id="boxint"></div>
+
+<body>
+
+<div>
+  <h3>Observador cerca</h3>
+
+  <div class="escena">
+    <div class="tarjeta">200px</div>
   </div>
+</div>
+
+<div>
+  <h3>Observador lejos</h3>
+
+  <div class="escena escena-lejos">
+    <div class="tarjeta">1200px</div>
+  </div>
+</div>
+
 </body>
 </html>
-
 ```
+
+:::tip Observación
+- En `200px`, estamos bastante cerca de la tarjeta, por lo que la transformación se nota más y el efecto de profundidad es más intenso.
+- En `1200px`, estamos más lejos de la tarjeta, por lo que la transformación se nota menos y el efecto de profundidad es más sutil.
+:::
+
 
 :::tip info
 - [CSS perspective Property](https://www.w3schools.com/cssref/css3_pr_perspective.php)
 - [perspective](https://css-tricks.com/almanac/properties/p/perspective/)
 - [How CSS Perspective Works](https://css-tricks.com/how-css-perspective-works/)
+- [perspective CSS property](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/perspective)
+- [Perspectivas CSS](https://lenguajecss.com/css/transformaciones/perspective/)
+- [La propiedad perspective (perspectiva) en CSS y ejemplos 3D reales](https://www.desarrollolibre.net/blog/css/entendiendo-la-propiedad-perspective-perspectiva-en-css)
 
 :::
 
 ## Propiedad perspective-origin
-- Define en que posición el usuario está mirando el elemento posicionado en [3D](#3d)
-- Si contiene dos valores , uno es el Eje X y el otro el eje Y
-- Si contiene un valor , es ambos Ejes.
+- Como vimos antes, `perspective` define qué tan lejos está el observador del objeto. La propiedad `perspective-origin`, en cambio, permite modificar la posición o ubicación del observador; es decir, desde dónde se observa la escena (el punto de vista).
+- Por defecto, `perspective-origin` se ubica en el centro del elemento (50% 50%). Es decir, el observador mira la escena desde el centro. Imagina que estás viendo una película en el cine y estás sentado en el medio de la sala.
+- Puede tener uno o dos valores:
+  - Si tiene dos valores, el primero corresponde al eje X y el segundo al eje Y.
+  - Si tiene un solo valor, se aplica a ambos ejes.
 
 #### Valores del eje X
-- left (0 de longitud)
+- left (0%)
 - center (50%)
 - right (100%)
-- Porcentaje
+- También se pueden usar porcentajes
+
 #### Valores del eje Y
-- top (0 de longitud)
+- top (0%)
 - center (50%)
 - bottom (100%)
-- Porcentaje
+- También se pueden usar porcentajes
+#### Ejemplo
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Perspective Origin</title>
+
+<style>
+body{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  margin-top:80px;
+  font-family:Arial;
+}
+
+.escena{
+  width:180px;
+  height:180px;
+  perspective:600px;
+  border:1px solid black;
+}
+
+.centro{
+  perspective-origin: center;
+}
+
+.izquierda{
+  perspective-origin: left;
+}
+
+.derecha{
+  perspective-origin: right;
+}
+
+.tarjeta{
+  width:100%;
+  height:100%;
+  background:orange;
+  transform: rotateY(45deg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div>
+  <h3>Left</h3>
+  <div class="escena izquierda">
+    <div class="tarjeta">left</div>
+  </div>
+</div>
+
+<div>
+  <h3>Center</h3>
+  <div class="escena centro">
+    <div class="tarjeta">center</div>
+  </div>
+</div>
+
+<div>
+  <h3>Right</h3>
+  <div class="escena derecha">
+    <div class="tarjeta">right</div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+:::tip Observación
+- Siguiendo la analogía del cine:
+  - Con `left`, vemos la película (tarjeta) desde el lado izquierdo de la sala.
+  - Con `center`, la vemos desde el centro.
+  - Con `right`, la vemos desde el lado derecho.
+:::
+
+
 
 :::tip info
 - [perspective-origin](https://developer.mozilla.org/en-US/docs/Web/CSS/perspective-origin)
 - [CSS perspective-origin Property](https://www.w3schools.com/cssref/css3_pr_perspective-origin.php)
-
 :::
+
+
 

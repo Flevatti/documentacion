@@ -923,25 +923,21 @@ right:30px
 bottom:300px;
 ```
 ### Propiedad z-index
-- Se aplica en todos los elementos posicionados (elementos cuya propiedad position tenga cualquier valor menos static)
-- Es el orden para poner un elemento por encima del otro (el que tenga mayor valor se va a poder ver primero/mejor/superponer).
-- Ordena en el eje Z.
-- Por defecto el valor de z-index es 0 (y tiene mas prioridad el ultimo por jerarquia cascada)
-  
-:::tip
-Para evitar problemas en el futuro (por si quiere poner elementos en el medio) , se recomienda usar como valor  intervalos de 50.
+- Se aplica a los elementos posicionados (aquellos cuya propiedad `position` tiene un valor distinto de `static`).
+- Permite definir qué elemento se mostrará por encima de otro cuando ambos ocupan el mismo espacio (ya sea parcial o totalmente).
+- El elemento con el valor de `z-index` más alto se mostrará por encima de los demás.
+- Puede entenderse como el orden de los elementos en el eje Z.
+- Si dos elementos tienen el mismo `z-index`, normalmente se mostrará por encima el que aparezca después en el HTML.
 
+:::tip
+- Para mantener un código más organizado, se recomienda dejar espacio entre los valores de `z-index` (por ejemplo, 50, 100, 150, 200, etc.). Esto facilita agregar nuevos elementos en el futuro.
 :::
 
-
 :::warning
-- El z-index tiene problemas entre los padres e hijos.
-- Afecta a las demas cajas que no estan posicionada pero AL HIJO NO
-- Ósea que podés poner el  z-index que quieras pero el hijo va a seguir superponiéndose.
-- Para que el padre se sobreponga, al hijo hay que ponerle un z-index: -1 y al padre no darle un z-index.
-- Esto puede generar problemas
-
-
+- Cambiar el `z-index` de un elemento no modifica automáticamente el `z-index` de sus elementos hijos.
+- Es decir, puedes aumentar el `z-index` del elemento padre, pero sus elementos hijos seguirán manteniendo su propio `z-index`, lo que puede provocar que, en algunos casos, el hijo tape al padre.
+- En algunos casos, puede ser necesario reducir el `z-index` del elemento hijo para que el padre quede por encima.
+- Sin embargo, esto puede generar otros problemas de visualización.
 :::
 
 ## Lógical properties
