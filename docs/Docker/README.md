@@ -1765,3 +1765,49 @@ CMD ["wait-for", "db:3306", "-t", "60", "--", "npm", "start"]
 -	Control de Dependencias: Permite que las aplicaciones gestionen dependencias de manera eficiente, asegurando que los servicios necesarios estén listos antes de iniciar.
 -	Flexibilidad: Funciona en una variedad de entornos y puede integrarse fácilmente en scripts de inicio y Dockerfiles.
 -	Simplicidad y Ligereza: Fácil de entender y utilizar, con una sintaxis mínima y sin necesidad de muchas dependencias.
+
+
+## Exportar y importar imagenes
+#### `docker save`
+- Con el siguiente comando podemos exportar una imagen:
+```powershell
+docker save -o [ubicacion.extension] [nombreImagen]
+```
+:::tip Observación
+- `docker save` se utiliza para exportar una imagen de Docker existente a un archivo.
+- `-o [ubicacion.extension]` indica dónde se guardará el archivo generado (que contiene la imagen exportada) y bajo qué nombre. Se incluye la extensión para especificar el tipo de archivo resultante.
+- `[nombreImagen]` es el nombre de la imagen que se quiere exportar.
+- Conclusión: guarda la imagen de Docker `nombreImagen` en un archivo llamado `ubicacion.extension`.
+:::
+
+- Ejemplo:
+```powershell
+docker save -o tabby-offline.tar tabby-offline
+```
+:::tip Observación
+- Guarda la imagen de Docker `tabby-offline` en un archivo llamado `tabby-offline.tar`.
+:::
+#### `docker load`
+- Con el siguiente comando podemos importar una imagen:
+```powershell
+docker load -i [ubicacion.extension]
+```
+:::tip Observación
+- `docker load` se utiliza para importar una imagen de Docker desde un archivo.
+- Busca el archivo `[ubicacion.extension]` y lo carga en Docker, creando la imagen que contiene.
+:::
+
+- Ejemplo:
+```powershell
+docker load -i tabby-offline.tar
+```
+:::tip Observación
+- Crea en Docker la imagen que está contenida en `tabby-offline.tar`.
+:::
+
+#### Beneficios
+- Portabilidad: Permiten mover imágenes de Docker entre máquinas sin necesidad de internet ni de un registro (como Docker Hub).
+- Uso offline: Puedes trabajar en entornos sin conexión descargando la imagen una sola vez y luego reutilizándola.
+- Control y seguridad: No dependes de repositorios externos. Tú decides exactamente qué imagen estás moviendo.
+- Backup: Sirven como copia de seguridad de imágenes importantes.
+- Facilidad de transferencia: Puedes compartir una imagen con solo un archivo .tar, sin configuraciones adicionales.

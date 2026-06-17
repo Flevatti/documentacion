@@ -159,7 +159,7 @@ Tambien podes poner un valor por defecto , investiga!
 ## clamp()
 - La función clamp() toma una lista de 3 parametros: un mínimo, un valor deseado y un máximo
 -  El valor deseado será utilizado en el css si no es más pequeño que el valor mínimo o más grande que el valor máximo.
-- Los parámetros pueden ser valores o funciones matemáticas. Es importante que el valor resultante sea un argumento válido  (unidades de longitud, ángulos, unidades de tiempo etc... según el caso).
+- Los parámetros pueden ser valores o funciones matemáticas. Es importante que el valor resultante sea válido para la propiedad a la que se aplica.
   
 
 
@@ -445,3 +445,53 @@ width: calc(100% - 80px);
 - [A Complete Guide to calc() in CSS](https://css-tricks.com/a-complete-guide-to-calc-in-css/)
 - [Cálculos en el CSS con calc() de CSS3](https://xitrus.es/blog/80/C%C3%A1lculos_en_el_CSS_con_calc()_de_CSS3)
 :::
+
+## `min()` y `max()`
+
+#### `min()`
+- Recibe varios valores y devuelve el más pequeño de ellos.
+- El valor devuelto será el que se aplique en la propiedad CSS correspondiente.
+
+#### `max()`
+- Recibe varios valores y devuelve el más grande de ellos.
+- El valor devuelto será el que se aplique en la propiedad CSS correspondiente.
+
+:::tip
+- Existe `minmax()`, pero se usa únicamente en CSS Grid.
+:::
+
+#### Ejemplo
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo min() y max()</title>
+  <style>
+    .box-min {
+      width: min(300px, 50%);
+      background: lightblue;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .box-max {
+      width: max(300px, 50%);
+      background: lightcoral;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box-min">
+    Este bloque usa <code>min()</code>: nunca será mayor que 300px.
+  </div>
+
+  <div class="box-max">
+    Este bloque usa <code>max()</code>: nunca será menor que 300px.
+  </div>
+
+</body>
+</html>
+```
