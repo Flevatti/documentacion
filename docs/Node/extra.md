@@ -529,7 +529,7 @@ const fs = require("fs");
 // Creamos un stream de Lectura con la información que contiene el archivo que especificamos (nombres.txt)
 const readStream = fs.createReadStream("./nombres.txt");
 
-// Creamos un stream de escritura , y todo lo que vamos a "modificar" se va a añadir en el archivo que especificamos(nombres_copia.txt)
+// Creamos un stream de escritura , y todo lo que vamos a "escribir" se va a añadir en el archivo que especificamos(nombres_copia.txt)
 const writeStream = fs.createWriteStream("./nombres_copia.txt");
 
 readStream.pipe(writeStream);
@@ -987,21 +987,9 @@ console.log(`Tiempo de actividad: ${process.uptime()}`);
 
 ```
 
-Un proceso de Node.js se inicializa con tres descriptores de archivos abiertos: stdin, stdout y stderr . Estos descriptores de archivos son básicamente  streams.
+Un proceso de Node.js se inicializa con tres descriptores de archivos abiertos: stdin, stdout y stderr . Estos descriptores de archivos son básicamente  [streams](#streams).
 
-:::tip Pero, ¿qué son los streams?
-- Imagina que estás en un restaurante y quieres beber agua. Hay dos maneras principales de obtener agua: en una jarra o directamente de un grifo.
-- Jarra:
-  - La jarra representa el manejo tradicional de archivos y datos en un programa.
-  - Tienes que esperar a que el camarero traiga la jarra llena de agua a tu mesa antes de poder beber.
-  - Esto es similar a leer un archivo completo en memoria antes de procesarlo. Debes esperar a que todo el archivo se cargue antes de empezar a trabajar con los datos.
-- Grifo:
-  - El grifo representa los flujos (streams).
-  - Puedes abrir el grifo y empezar a beber agua inmediatamente, incluso si el tanque de agua que alimenta el grifo sigue llenándose en segundo plano.
-  - Esto es similar a procesar datos a medida que llegan, sin tener que esperar a que se cargue todo el archivo. Puedes empezar a trabajar con los datos tan pronto como comiencen a fluir.
 
-- En Node.js, los streams permiten manejar grandes cantidades de datos de manera eficiente y en tiempo real. En lugar de cargar un archivo completo en memoria (jarra), los datos se procesan en pequeños fragmentos a medida que se reciben (grifo).
-:::
 
 :::tip Descriptor de archivo
 - Un descriptor de archivo es un número entero que identifica de manera única un archivo abierto dentro de un proceso en un sistema operativo. Este concepto es fundamental para el manejo de archivos y la comunicación de datos en sistemas informáticos.
@@ -1011,19 +999,30 @@ Un proceso de Node.js se inicializa con tres descriptores de archivos abiertos: 
     - 0 (stdin): Para entrada estándar (usualmente el teclado).
     - 1 (stdout): Para salida estándar (usualmente la pantalla).
     - 2 (stderr): Para mensajes de error estándar (usualmente la pantalla también).
-    - Otros Descriptores: Los descriptores también se asignan a archivos abiertos explícitamente por el programa, como archivos de datos, dispositivos, sockets de red, etc.
-- Imagina que cada archivo abierto en tu computadora tiene un número especial que lo identifica como un casillero único. Este número te permite abrir el archivo cuando lo necesitas, leer lo que contiene, escribir cosas nuevas y cerrarlo cuando ya no lo necesitas. Así, el descriptor de archivo es como una llave única para cada casillero de archivo que tienes disponible mientras trabajas con tu computadora.
+    - Otros Descriptores: Cualquier otro recurso (archivo, socket, dispositivo, etc.) que abra el programa recibe un descriptor de archivo, que es un número que el proceso utiliza para identificarlo y gestionarlo. Estos pueden representar archivos de datos, sockets de red, dispositivos, entre otros.
+- Imagina que cada archivo abierto tiene un número único asignado por el proceso. Ese número permite al programa identificarlo para leerlo, escribir en él o cerrarlo. Ese número es lo que se conoce como descriptor de archivo.
 - Un descriptor de archivo es esencialmente un número que representa un archivo abierto dentro de un proceso. Permite al sistema operativo y a los programas interactuar con archivos de manera efectiva, proporcionando acceso para leer, escribir y manejar los datos almacenados en esos archivos.
+- Por defecto, un proceso arranca con tres descriptores estándar:
+  - **0**: Identifica el medio, dispositivo o archivo desde el cual el proceso recibe datos.
+  - **1**: Identifica el medio, dispositivo o archivo por el cual el proceso muestra datos.
+  - **2**: Identifica el medio, dispositivo o archivo por el cual el proceso muestra mensajes de error.
+
+
 :::
 
 Múltiples procesos pueden ejecutar el mismo programa. Pero cada proceso tiene su propia copia del programa.
 
-Además, cada proceso tiene su propio espacio de direcciones y un hilo de control . Lo mismo ocurre con los flujos de E/S estándar como stdin, stdouty stderr.
+Además, cada proceso tiene su propio espacio de direcciones y un hilo de control. Lo mismo ocurre con los flujos de E/S estándar como stdin, stdout y stderr.
 
-- En el contexto de un proceso, cada uno de estos flujos tiene un propósito específico:
-  -	stdin es el flujo de entrada estándar y una fuente de entrada para el programa.
-  -	Stdout es el flujo de salida estándar y una fuente de salida para el programa.
-  -	Stderr es el flujo de error estándar y se utiliza para los mensajes de error.
+> 💡 **Tip:** El *espacio de direcciones* es la memoria que el sistema operativo asigna a cada proceso, donde se encuentran su código, variables y datos.  
+
+> El *hilo de control* es la secuencia de instrucciones que el procesador ejecuta para llevar a cabo la ejecución del programa.
+
+En el contexto de un proceso, cada uno de estos flujos (streams) tiene un propósito específico:
+
+- **stdin** es el flujo de entrada estándar y se utiliza para recibir datos para el programa.  
+- **stdout** es el flujo de salida estándar y se utiliza para mostrar datos del programa.  
+- **stderr** es el flujo de error estándar y se utiliza para mostrar mensajes de error.
 
 
 :::tip
@@ -1186,6 +1185,10 @@ fs.open("./log-file.txt", "w", (err, fd) => {
 });
 
 ```
+:::tip
+- Te recomiendo leer la documentación del módulo `fs` para entender qué se está haciendo aquí. Te dejo una pista: el `fd` representa el descriptor del archivo abierto.
+:::
+
 
 Después de abrir un archivo en modo de escritura, utilizamos el flujo de entrada process.stdin para recibir los mensajes de registro entrantes y escribirlos en el archivo.
 
@@ -1195,7 +1198,10 @@ En la consola , lo ejecutamos:
 ```powershell
 node logger.js | node store-logs.js
 ```
-
+:::tip Observación
+- La línea `|` funciona como un `pipe()`: conecta la salida (`stdout`) de un comando con la entrada (`stdin`) del siguiente.
+- Básicamente, los datos que genera `node logger.js` a través de `stdout` los recibe `node store-logs.js` a través de su entrada estándar (`stdin`).
+:::
 
 
 Los registros normales se escriben en el archivo, mientras que los registros de errores se canalizan a través del descriptor stderr de archivo y se imprimen en el terminal. Esto es según el comportamiento estándar de stderr.

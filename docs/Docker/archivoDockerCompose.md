@@ -700,17 +700,24 @@ docker compose up
 - Todos los contenedores que crea y ejecuta los agrupa con un nombre.
 - Al ejecutar el comando se bloquea la consola, por lo tanto, si pulsamos "control + c" se detiene. Para evitar esto puedes usar la [opción -d del comando docker run](./README.md#comportamiento-de-la-consola).
 :::
-
-- Para eliminar el grupo que contiene todos los contenedores que creamos:
-
-```powershell
-docker compose down
-```
-
+#### Opción `--build`
 - Tambien podemos usar la opcion --build  para arrancar los servicios definidos en un archivo docker-compose.yml. La opción --build añade un paso adicional: fuerza la construcción de las imágenes de los servicios antes de arrancarlos. Esto es útil cuando has realizado cambios en los Dockerfiles o en el contexto de construcción y necesitas que se reflejen esos cambios en las imágenes.
 - Sin --build: Docker Compose usa las imágenes que ya están disponibles  y solo las construye si no existen.
 - Con --build: Fuerza la construcción de las imágenes para todos los servicios, asegurando que cualquier cambio reciente en el Dockerfile o en el contexto de construcción se aplique.
 - Ejemplo:
 ```powershell
 docker compose up  --build
+```
+#### Eliminar un grupo
+- Para eliminar el grupo que contiene todos los contenedores que creamos:
+
+```powershell
+docker compose down
+```
+#### Opción `-v`
+- `docker compose down` elimina todos los contenedores del grupo, pero no borra los volúmenes, es decir, los datos persistentes que utilizaron los contenedores eliminados.
+- Con la opción `-v` podemos borrar los volúmenes y todo lo que creó el comando `docker compose up`.
+- Ejemplo:
+```powershell
+docker-compose down -v
 ```

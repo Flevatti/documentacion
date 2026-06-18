@@ -397,8 +397,26 @@ docker ps
 
 
 ```powershell
-docker run [opciones] nombreImagen
+docker run [opciones] nombreImagen [argumentos]
 ```
+
+:::tip Opciones
+- El comando `docker run` dispone de varias opciones, entre ellas:
+  - `-p`: Permite asignar puertos (ya la vimos).
+  - `--name`: Permite asignar un nombre al contenedor (ya la vimos).
+  - `--rm`: Elimina automáticamente el contenedor cuando este se detiene.
+:::
+
+
+:::tip Argumentos
+- Los argumentos son comandos o instrucciones que se ejecutarán en el contenedor apenas se inicie. Son opcionales.
+- Su comportamiento depende de cómo esté construida la imagen (consulta la sección Dockerfile, especialmente `CMD` y `ENTRYPOINT`):
+  - Si `ENTRYPOINT` está definido, los argumentos se pasan como parámetros de este. En otras palabras, sobrescriben al `CMD`, pero no al `ENTRYPOINT`.
+  - Si `ENTRYPOINT` no está definido, los argumentos sobrescriben al `CMD` y pasan a ser el comando que se ejecutará al iniciar el contenedor.
+:::
+
+
+
 
 - Tambien puede usar --name y -p.
 - Por ejemplo:
@@ -410,7 +428,17 @@ docker run -p27019:27017 --name mongodb3 mongo
 - Al ejecutar este comando el contenedor se crea y se ejecuta en primer plano, lo que significa que el contenido del contenedor se ejecuta en la consola actual.
 - El contenedor se inicia y se ejecuta, y la consola se bloquea esperando a que el contenedor termine su ejecución. Esto significa que no podrás ejecutar otros comandos en la consola hasta que el contenedor se detenga o se cierre.
 - Mientras el contenedor se ejecuta, verás la salida del servidor de MongoDB en la consola, incluyendo mensajes de inicio, errores y otros registros. 
+:::
 
+
+:::tip Comandos largos
+- En comandos largos se puede usar el carácter `\` para dividir un comando en varias líneas y mejorar la legibilidad. Es equivalente a escribir todo el comando en una sola línea.
+- Dependiendo de la consola y el sistema operativo, el carácter puede cambiar. Por ejemplo, el carácter `\` solo funciona en terminales de Linux y macOS (y en entornos compatibles como Git Bash en Windows), mientras que en Windows PowerShell se utiliza el carácter `` ` `` (backtick).
+- Ejemplo:
+```bash
+docker run -p 27019:27017 \
+  --name mongodb3 \
+  mongo
 :::
 #### Comportamiento de la consola
 - Al ejecutar el comando anterior el contenedor se crea y se ejecuta en primer plano, lo que significa que el contenido del contenedor se ejecuta en la consola actual. La consola se bloquea esperando a que el contenedor termine su ejecución. Esto significa que no podrás ejecutar otros comandos en la consola hasta que el contenedor se detenga o se cierre.
@@ -1777,7 +1805,7 @@ docker save -o [ubicacion.extension] [nombreImagen]
 - `docker save` se utiliza para exportar una imagen de Docker existente a un archivo.
 - `-o [ubicacion.extension]` indica dónde se guardará el archivo generado (que contiene la imagen exportada) y bajo qué nombre. Se incluye la extensión para especificar el tipo de archivo resultante.
 - `[nombreImagen]` es el nombre de la imagen que se quiere exportar.
-- Conclusión: guarda la imagen de Docker `nombreImagen` en un archivo llamado `ubicacion.extension`.
+- Conclusión: guarda la imagen de Docker `[nombreImagen]` en un archivo llamado `[ubicacion.extension]`.
 :::
 
 - Ejemplo:
@@ -1806,8 +1834,8 @@ docker load -i tabby-offline.tar
 :::
 
 #### Beneficios
-- Portabilidad: Permiten mover imágenes de Docker entre máquinas sin necesidad de internet ni de un registro (como Docker Hub).
-- Uso offline: Puedes trabajar en entornos sin conexión descargando la imagen una sola vez y luego reutilizándola.
-- Control y seguridad: No dependes de repositorios externos. Tú decides exactamente qué imagen estás moviendo.
-- Backup: Sirven como copia de seguridad de imágenes importantes.
-- Facilidad de transferencia: Puedes compartir una imagen con solo un archivo .tar, sin configuraciones adicionales.
+- **Portabilidad:** Permiten mover imágenes de Docker entre máquinas sin necesidad de conexión a Internet ni de utilizar Docker Hub.
+- **Uso offline:** Permiten utilizar imágenes de Docker en entornos sin conexión a Internet una vez que han sido descargadas.
+- **Control y seguridad:** Permite distribuir imágenes sin depender de repositorios externos.
+- **Backup:** Sirven como copia de seguridad de imágenes importantes.
+- **Facilidad de transferencia:** Puedes compartir una imagen mediante un único archivo `.tar`, sin configuraciones adicionales.

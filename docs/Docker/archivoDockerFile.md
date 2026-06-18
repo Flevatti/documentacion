@@ -3,6 +3,8 @@ sidebar_position: 2
 ---
 # DockerFile
 - DockerFile es un archivo que contiene las instrucciones  de como generar una imagen.
+- El nombre del archivo es `Dockerfile` (sin extensión, es decir, no lleva `.txt`, `.md`, etc.). 
+- Debe llamarse exactamente `Dockerfile` para que Docker lo reconozca por defecto al ejecutar `docker build`.
 - Básicamente sirve para crear una imagen de tu aplicación.
 - Es un archivo con "comandos" que especifican como crear una imagen.
 
@@ -12,11 +14,11 @@ sidebar_position: 2
 
 
 #### Exec Form
-- Utiliza una lista de cadenas JSON y no invoca un shell, evitando problemas de manejo de variables y manejo de señales.
-- Cuando decimos que un comando se ejecuta "sin manejar un shell" en el contexto de Docker, nos referimos a que el comando se ejecuta directamente como un proceso hijo del proceso Docker, sin pasar por un intérprete de comandos como /bin/sh (en sistemas Unix) o cmd.exe (en Windows).
+- Utiliza una lista (array) de cadenas JSON (strings) y no invoca un shell, evitando problemas en el manejo de variables y de señales.
+- Cuando decimos que un comando se ejecuta "sin invocar una shell" en el contexto de Docker, nos referimos a que el comando se ejecuta directamente dentro del contenedor como un proceso hijo del proceso principal del contenedor (el proceso que inicia el contenedor), sin pasar por un intérprete de comandos como `/bin/sh` (en sistemas Unix) o `cmd.exe` (en Windows). Es decir, el comando no es ejecutado por una consola (intérprete de comandos).
+- En otras palabras, se podría decir que el proceso principal del contenedor inicia o ejecuta el programa especificado en el comando, creando un nuevo proceso dentro del contenedor y le pasa los argumentos correspondientes.
 - Los procesos iniciados directamente sin un shell pueden recibir y manejar señales del sistema operativo (como SIGTERM, SIGINT, etc.) de manera más directa y precisa. Esto es crucial para una correcta terminación de aplicaciones.
-- Sin un shell, se evitan problemas relacionados con variables del shell, la ejecución de comandos adicionales no deseados y posibles inyecciones de comandos.
-- De esta manera evitamos usar las variables de entorno que están definidas en el SO del localhost.
+- Sin una shell, se reducen los problemas relacionados con la interpretación de variables, la ejecución de comandos adicionales no deseados y posibles inyecciones de comandos.
 - Sintaxis:
 ```powershell
 INSTRUCCION [ "comando", "argumento1", "argumento2", ..., "argumentoN"]
@@ -95,7 +97,7 @@ CMD ["echo Hola, mundo"]
 :::
 
 #### Shell form
-- El "shell form" pasa el comando a un shell (/bin/sh -c en sistemas Unix), lo que puede llevar a diferencias en el comportamiento del comando, especialmente en cómo se manejan las variables de entorno y las señales.
+- El "shell form" pasa el comando a un shell (intérprete de comandos, `/bin/sh -c` en sistemas Unix), lo que puede llevar a diferencias en el comportamiento del comando, especialmente en cómo se manejan las variables de entorno y las señales. Es decir, el comando se ejecuta dentro de una consola (intérprete de comandos).
 - Para comandos simples que no requieren muchos argumentos, el shell form puede ser más conciso y fácil de escribir.
 - Puedes aprovechar las características y funcionalidades del shell, como variables, la redirección de entrada/salida, el encadenamiento de comandos con && y ||, y los caracteres comodín.
 - Sintaxis:
@@ -833,8 +835,8 @@ CMD "Hola, mundo"
 :::
 
 #### Sobreescritura al Ejecutar el Contenedor
-- 
-Cuando ejecutas el contenedor, puedes sobrescribir el CMD, pero no el ENTRYPOINT:
+
+- Cuando ejecutas el contenedor, puedes sobrescribir el CMD, pero no el ENTRYPOINT:
 ```powershell
 docker run --rm mi_imagen echo "¡Hola desde fuera del contenedor!"
 ```
