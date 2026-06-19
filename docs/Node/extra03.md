@@ -3,7 +3,8 @@ sidebar_position: 10
 ---
 # Extra #03
 ## Uso de la Carpeta "Service"
-- La carpeta service en proyectos de Node.js y Express.js es una convención común utilizada para organizar el código. Consiste en almacenar en esta carpeta todos los archivos que contienen la lógica de negocio y los servicios de la aplicación.
+- La carpeta `service` en proyectos de Node.js y Express.js es una convención común utilizada para organizar el código. En ella se almacenan los archivos que contienen la lógica de negocio que puede ser utilizada en diferentes partes de la aplicación.
+- Cada archivo representa un servicio dentro de la aplicación.
 
 #### Función y Uso de la Carpeta "Service"
 - Lógica de Negocio: Los archivos de la carpeta service se encargan de contener la lógica de negocio de la aplicación, como cálculos, validaciones y transformaciones de datos, separando estas tareas de los controladores y de la base de datos. Además, permiten exponer (hacer accesibles) solo los métodos necesarios, aplicando el principio de encapsulación.
@@ -58,6 +59,39 @@ sidebar_position: 10
 - routes/: Contiene los archivos de rutas que definen los endpoints de la API.
 
 :::
+### Libs vs Utils vs Services
+
+#### Carpeta `libs`
+- Esta carpeta, abreviatura de "biblioteca", contiene código bien estructurado y reutilizable que, en muchos casos, podría publicarse como un paquete o módulo independiente.
+- Aquí se incluyen piezas de código más extensas y elaboradas, como una biblioteca personalizada para la manipulación de fechas, una biblioteca matemática o una copia local de un paquete de terceros.
+- Suelen ser conjuntos de funciones o clases que resuelven un problema específico y están diseñadas para ser utilizadas en diferentes partes de la aplicación, e incluso en otros proyectos.
+- Las bibliotecas son más completas que las utilidades (`utils`). Piensa en ellas como mini paquetes dentro de tu aplicación que podrían funcionar de forma independiente.
+#### Carpeta `utils`
+- Abreviatura de "utilidades", esta carpeta sirve para agrupar pequeñas funciones genéricas que pueden utilizarse en distintas partes del código, o fragmentos de lógica que no pertenecen a un módulo específico.
+- Son funciones sin estado, es decir, no utilizan información externa ni dependen de datos que puedan cambiar con el tiempo. Siempre devuelven el mismo resultado si reciben los mismos parámetros.
+- Aquí se incluyen funciones sencillas y sin estado, como formatear fechas, generar identificadores aleatorios o analizar URLs. Estas funciones suelen ser específicas de cada proyecto y no están lo suficientemente completas como para formar una biblioteca independiente.
+- Se utilizan para código que se desea reutilizar, pero que no es lo suficientemente complejo ni amplio como para convertirse en una biblioteca. Si la carpeta de utilidades crece demasiado y se vuelve desordenada, podría ser una señal de que conviene replantear su estructura.
+#### Carpeta `services`
+- Esta carpeta contiene la lógica de negocio y las interacciones con servicios externos; básicamente, los "servicios" que proporciona o consume tu aplicación.
+- Aquí se incluye todo aquello que interactúa con APIs, bases de datos, autenticación o sistemas externos. Por ejemplo, un `userService` que recupera o guarda datos de usuario, o un `emailService` que envía correos electrónicos.
+- Los servicios se encargan de tareas específicas. En general, manejan la comunicación con el exterior de la aplicación (como APIs o bases de datos) y la lógica más importante del negocio. Se enfocan en realizar acciones concretas.
+
+#### Resumen
+
+| Tipo | En una palabra / idea clave | Qué hace |
+|------|----------------------------|----------|
+| Bibliotecas (`libs`) | Módulos independientes | Bloques de código completos que pueden usarse en varios proyectos |
+| Utilidades (`utils`) | Funciones pequeñas | Funciones simples para tareas comunes |
+| Servicios (`services`) | Lógica de la aplicación | Manejan la lógica e interactúan con servicios externos (APIs, bases de datos, etc.) |
+
+**Regla rápida:**
+
+- ¿Es un mini paquete o módulo? → bibliotecas  
+- ¿Es una función simple? → utils  
+- ¿Es lógica o interactúa con algo externo? → services
+
+
+
 
 ## Modelo Vista Controlador (MVC)
 - El patrón Modelo Vista Controlador (MVC) es un enfoque arquitectónico que separa una aplicación en tres componentes principales: el Modelo, la Vista y el Controlador. Cada uno de estos componentes tiene responsabilidades específicas que ayudan a organizar y estructurar el código de manera modular y escalable.

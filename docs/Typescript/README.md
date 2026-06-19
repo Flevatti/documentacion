@@ -142,8 +142,12 @@ console.log(myString)
 ```
 
 :::tip Observación
-- Los tipos de datos en minúsculas son primitivos.
-- Se le puede especificar tipo de dato a variables,parametros,etc.
+- En TypeScript se recomienda especificar los tipos de datos primitivos en minúscula (`string`, `number`, `boolean`, etc.).
+- Los tipos con mayúscula (`String`, `Number`, `Boolean`, etc.) representan los [objetos envoltorio (*wrapper objects*)](../Javascript//basico-2.md#un-primitivo-como-objeto) de JavaScript y rara vez se utilizan.
+- De forma similar, existen `object` y `Object`:
+  - `object` representa cualquier valor no primitivo.
+  - `Object` representa cualquier valor, ya sea un objeto o un valor primitivo.
+- En general, se recomienda utilizar los tipos en minúscula siempre que sea posible.
 :::
 
 :::tip RECORDATORIO

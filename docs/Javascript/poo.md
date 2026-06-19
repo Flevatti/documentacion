@@ -1210,3 +1210,21 @@ class Profesor extends Persona {
 Para copiar la siguiente ocurrencia
 
 :::
+
+
+## Propiedades y métodos de una instancia
+- Además de los métodos y propiedades definidos en la clase, una instancia también hereda propiedades y métodos de `Object`.
+
+#### Propiedad `constructor`
+- Devuelve la función constructora que creó el objeto.
+- Esa función constructora posee la propiedad `name`, que devuelve el nombre de la función. Como el objeto fue creado a partir de una clase, este valor coincide con el nombre de la clase.
+- Ejemplo:
+```js
+class Dashboard {}
+const dashboard = new Dashboard();
+console.log(dashboard.constructor.name);
+```
+:::tip Observación
+- La propiedad `constructor` devuelve una referencia a la función constructora que creó la instancia.
+- La función constructora posee la propiedad `name`, que devuelve el nombre de la clase con la que se creó el objeto.
+:::

@@ -1391,6 +1391,62 @@ export default function ChatRoom() {
 
 :::
 
+#### Funciones asincronas
+- La función que recibe `useEffect` no puede ser asíncrona (`async`), porque React espera que el return sea una función de cleanup o `undefined`, no una Promise.
+- Esto está mal:
+```js
+useEffect(async () => {
+  const res = await fetch("/api/data");
+  const data = await res.json();
+  console.log(data);
+}, []);
+```
+- Lo ideal y lo más usado es crear una función `async` dentro del efecto.
+```js
+useEffect(() => {
+  const fetchData = async () => {
+    const res = await fetch("/api/data");
+    const data = await res.json();
+    console.log(data);
+  };
+
+  fetchData();
+    console.log("terminó el effect");
+}, []);
+```
+:::tip Observación
+- El `useEffect` no espera a que termine la función async, sino que ejecuta el `console.log` inmediatamente, al mismo tiempo que se ejecuta `fetchData`.
+- Dentro de `fetchData`, los `await` sí funcionan, por lo que se espera a que cada instrucción se ejecute.
+:::
+
+- La función de limpieza de `useEffect` no puede ser asíncrona (`async`), porque React espera que retorne `void`, no una `Promise`. Esto está mal:
+```js
+useEffect(() => {
+  return async () => {
+    await fetch("/api/data"); // ❌ NO permitido
+  };
+}, []);
+}
+```
+- Si necesitas lógica asíncrona, debe hacerse dentro de una función auxiliar, no en el cleanup:
+```js
+useEffect(() => {
+  const doAsyncCleanup = async () => {
+    await fetch("/api/save-state");
+  };
+
+  return () => {
+    doAsyncCleanup(); // 👈 se llama async pero NO se espera
+  };
+}, []);
+```
+:::tip Observación
+- El cleanup sigue siendo síncrono.
+- La función async se ejecuta “en segundo plano”.
+- React no la espera.
+:::
+
+
 :::tip Más información
 - [Sincronizar con Efectos](https://es.react.dev/learn/synchronizing-with-effects#challenges)
 - [Quizás no necesites un Efecto](https://es.react.dev/learn/you-might-not-need-an-effect)

@@ -546,38 +546,57 @@ console.log('%cHola' , "color:red;font-size:2rem;");
 
 
 #### Un primitivo como objeto
+- Los tipos primitivos (`string`, `number`, `boolean`, `symbol`, `bigint`) fueron diseñados para ser valores simples, rápidos y livianos.
+- Sin embargo, sería muy útil que estos valores pudieran utilizar métodos y propiedades. Por ejemplo:
 
-- Aquí el dilema que enfrentó el creador de JavaScript:
-  -	Hay muchas cosas que uno quiere hacer con los tipos primitivos, como un string o un number. Sería grandioso  usar métodos en datos primitivos.
-  -	Los Primitivos deben ser tan rápidos y livianos como sea posible.
-- La solución es algo enrevesada, pero aquí está:
-   -	Los primitivos son aún primitivos. Con un valor único, como es deseable.
-   -	El lenguaje permite el acceso a métodos y propiedades de strings, numbers, booleans y symbols.
-   -	Para que esto funcione, se crea una envoltura especial, un “object wrapper” (objeto envoltorio) que provee la funcionalidad extra y luego es destruido.
-- Los “object wrappers” son diferentes para cada primitivo y son llamados: String, Number, Boolean, Symbol y BigInt. Así, proveen diferentes sets de métodos.
+```js
+const message = "Hola mundo";
+console.log(message.toUpperCase());
+```
+- Aquí surge un problema: los primitivos no son objetos, por lo que en teoría no deberían tener métodos ni propiedades.
+- Para resolver esta situación, JavaScript utiliza **objetos envoltorio** (*wrapper objects*):
+    1. Cuando se accede a una propiedad o método de un primitivo, JavaScript crea temporalmente un objeto especial (*wrapper object*) asociado a dicho valor. Es decir, para crear dicho objeto especial se pasa el valor del primitivo como argumento del constructor que crea el objeto envoltorio (*wrapper object*).
+    2. Ese objeto proporciona los métodos y propiedades.
+    3. Una vez finalizada la operación, el objeto es descartado automáticamente.
+- Gracias a este mecanismo, un valor primitivo puede comportarse temporalmente como si fuera un objeto:
+```js
+const message = "Hola mundo";
+message.toUpperCase(); // "HOLA MUNDO"
+message.length;        // 10
+```
+
+#### Objetos envoltorio
+- Cuando se accede a una propiedad o método de un valor primitivo, JavaScript crea temporalmente un objeto envoltorio (*wrapper object*).
+- Ese objeto envoltorio se crea a partir de una clase. Dicha clase cambia según el tipo de dato primitivo:
+
+
+| Primitivo | Clase |
+|------------|------------------|
+| `string` | `String` |
+| `number` | `Number` |
+| `boolean` | `Boolean` |
+| `symbol` | `Symbol` |
+| `bigint` | `BigInt` |
+
+
+:::tip Observación
+- A veces utilizamos estas clases para "instanciar" valores primitivos o usar sus métodos estáticos.
+:::
 
 
 #### Ejemplo
-- String tiene el método toUpperCase() que devuelve un String en mayúscula.
-
-
+- String tiene el método `toUpperCase()` que devuelve un string en mayúscula:
 ```js
   const myVariable = "hola";
       console.log(myVariable.toUpperCase());
 
 ```
-:::tip Simple, ¿no es así? Lo que realmente ocurre en str.toUpperCase()
-1.	El string  myVariable es primitivo. Al momento de acceder a su  metodo, un objeto especial es creado, uno que conoce el valor del string y tiene métodos útiles como toUpperCase().
-2.	Ese método se ejecuta y devuelve un nuevo string (mostrado con  console.log).
-3.	El objeto especial es destruido, dejando solo el primitivo  myVariable.
-
-
+:::tip Observación
+- Al invocarse `myVariable.toUpperCase()` JavaScript hace lo siguiente:
+    1. Crea una instancia del wrapper object: `wrapper_object = new String("hola")`.
+    2. Invoca desde esa instancia el método que solicitamos: `wrapper_object.toUpperCase()`.
+    3. Al terminar de usar el método, la instancia del wrapper object se destruye, quedando solo el valor primitivo.
 :::
-
-- Así los primitivos pueden proveer métodos y aún permanecer livianos.
-- El motor JavaScript optimiza este proceso enormemente. Incluso puede saltarse la creación del objeto extra por completo. Pero aún se debe adherir a la especificación y comportarse como si creara uno.
-- De igual forma, también existen las clases String/Number/Boolean/etc. Estas sirven para “instanciar” valores primitivos y tienen algunos métodos estáticos.
-
 
 #### null/undefined no poseen métodos
 - Los primitivos especiales null y undefined son excepciones. No tienen “wrapper objects” correspondientes y no proveen métodos. En ese sentido son “lo más primitivo”.
