@@ -23,6 +23,75 @@ sidebar_position: 1
 - [Instalación](https://www.typescriptlang.org/download/)
 
 
+### `tsc` y `tsx`
+- Puedes ejecutar código TypeScript de dos maneras.
+#### `tsc`
+- `tsc` es el compilador oficial de TypeScript.
+- Convierte archivos `.ts` y `.tsx` en archivos `.js`.
+- Genera archivos físicos en disco.
+- Utiliza la configuración definida en `tsconfig.json`. Si no existe, utiliza los valores por defecto del compilador o las opciones (flags) pasadas por consola.
+- Se usa normalmente para compilar aplicaciones antes de ejecutarlas o desplegarlas.
+- Este comando puede utilizarse con `npx` (no es necesario instalar TypeScript de forma global o local):
+```powershell
+npx tsc [ubicacion_de_archivo]
+```
+:::tip Observación
+- Este comando compila el archivo `.ts` o `.tsx` ubicado en `[ubicacion_del_archivo]` y genera su equivalente en JavaScript.
+- Dónde se guarda el archivo generado dependerá de la configuración definida en `tsconfig.json`. Si no existe dicha configuración, se generará en la misma ubicación que el archivo especificado.
+:::
+
+
+
+
+- Para ejecutar `tsc` sin `npx`, debes instalar TypeScript localmente o globalmente:
+```powershell
+npm install typescript      # Instala TypeScript en el proyecto actual.
+npm install -g typescript   # Permite ejecutar el comando tsc desde cualquier ubicación.
+```
+:::tip Observación
+- La instalación local permite que cada proyecto utilice su propia versión de TypeScript.
+- La instalación global hace que el comando `tsc` esté disponible en todo el sistema.
+- Si TypeScript está instalado tanto local como globalmente, la versión utilizada dependerá de cómo se ejecute el comando:
+  - Si ejecutas `npx tsc`, se utilizará la versión local del proyecto.
+  - Si ejecutas `tsc` directamente desde la terminal, normalmente se utilizará la versión global.
+  - Si ejecutas `tsc` desde un script de `npm` (por ejemplo, `npm run build`), se utilizará la versión local del proyecto.
+:::
+
+- Una vez instalado, puedes ejecutar `tsc` directamente:
+```powershell
+tsc [ubicacion_del_archivo]
+```
+
+
+
+#### `tsx`
+- `tsx` es una herramienta que permite ejecutar archivos TypeScript directamente.
+- Compila el código en memoria y ejecuta el resultado inmediatamente mediante Node.js.
+- No genera archivos `.js` en disco.
+- Maneja mejor la interoperabilidad (compatibilidad) entre módulos ESM y CommonJS.
+- Es especialmente útil durante el desarrollo.
+- Puede utilizar `tsconfig.json` si existe, pero no depende de él. Cuando lo usa, solo aplica las opciones relevantes para la ejecución. Si no existe, utiliza una configuración por defecto del compilador.
+- Su sintaxis es:
+```powershell
+tsx [ubicacion_del_archivo]
+```
+:::tip Observación
+- A diferencia de `tsc`, `tsx` no genera archivos JavaScript.
+- `tsx` compila en memoria el código ubicado en `[ubicacion_del_archivo]` y lo ejecuta mediante Node.js.
+- `tsx` está pensado para ejecutar y probar código TypeScript rápidamente durante el desarrollo.
+:::
+
+:::tip
+- Al igual que `tsc`, `tsx` se puede ejecutar con `npx` o sin `npx`.
+- No siempre es necesario instalar TypeScript  para usar `tsx` sin `npx`, pero en la mayoría de los proyectos se instala junto con `tsx` para garantizar compatibilidad.
+:::
+
+:::tip comando `node [ubicacion_del_archivo]`
+- Node puede ejecutar un archivo `.ts` siempre que no contenga características propias de TypeScript como `types` o `interfaces`, que requieren ser compiladas previamente.
+- En versiones modernas de Node.js, es posible ejecutar archivos TypeScript con sintaxis de TypeScript directamente sin compilarlos a JavaScript.
+- Es más limitado que `tsx` y `tsc`, ya que elimina la sintaxis propia de TypeScript y ejecuta solo el JavaScript resultante.
+- No utiliza `tsconfig.json`.
+:::
 
 
 #### Ejemplo
@@ -50,6 +119,13 @@ node script.ts
 - Si tu versión de Node.js no puede ejecutar código TypeScript, lo más recomendable es actualizar Node.js o utilizar herramientas como `ts-node` o `tsc`.
 :::
 
+:::info **ts-node**
+- Es un paquete/módulo que se instala en el proyecto.
+- `ts-node` no viene con Node.js y necesita tener TypeScript instalado para funcionar, ya que usa su compilador.
+- Compila el archivo `.ts` en el momento y lo ejecuta inmediatamente en Node.js.
+- No genera archivos `.js` en disco (a menos que lo configures).
+- Es similar a `tsx`, pero `tsx` suele ser más moderno y la opción recomendada en muchos casos.
+:::
 
 - O primero lo podemos compilar con:
 

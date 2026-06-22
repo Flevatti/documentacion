@@ -1886,6 +1886,52 @@ Cuando ejecutas tsc -b, TypeScript:
 -	Simplicidad: TypeScript se encarga de gestionar todo esto automáticamente sin necesidad de intervención manual.
 :::
 
+## esModuleInterop
+- Es una opción de configuración del archivo `tsconfig.json`.
+- Por defecto es `false`.
+- Su objetivo es mejorar la compatibilidad entre módulos CommonJS y módulos ES Modules (ESM) en TypeScript.
+#### Valor `false`
+- Cuando esta opción es `false`, TypeScript toma los módulos CommonJS, AMD o UMD y les aplica ciertas transformaciones para hacerlos compatibles con ES Modules.
+- TypeScript intenta que siempre uses sintaxis de ES Modules, pero muchas librerías están escritas en CommonJS.
+- En ese proceso de “conversión” pueden aparecer problemas o comportamientos inconsistentes.
+#### Problema 1
+- Cuando usamos `*` para importar todo lo que exporta un módulo y le asignamos un alias:
+```ts
+import * as moment from "moment";
+```
+:::tip Observación
+- Importamos todo lo que exporta `moment`.
+- El resultado es un objeto que contiene todas las exportaciones del módulo (`moment` en este caso).
+- Si el módulo tiene una exportación por defecto, esta se expone en la propiedad `default` dentro del objeto.
+- Por último, se le asigna un nombre usando `as`.
+:::
+
+- El código anterior en TypeScript es equivalente a:
+```ts
+const moment = require("moment");
+```
+- El problema con esto es que no estás importando algo específico del módulo, sino que estás importando un objeto que contiene todas las funcionalidades del módulo.
+- En lugar de importar solo lo que necesitas, estás importando todo lo que contiene el módulo.
+
+#### Problema 2
+- Cuando importamos algo por defecto:
+```js
+import moment from "moment";
+```
+- TypeScript lo interpreta como:
+```js
+const moment = require("moment").default;
+```
+- El problema es que muchas librerías están escritas en CommonJS, donde no existe el concepto de exportación por defecto como en ES Modules, y cuando TypeScript intenta adaptarlas, a veces busca una propiedad `default` que no siempre existe.
+
+
+
+#### Valor `true`
+- Le dice a TypeScript que trate los módulos como ES Modules y no haga conversiones raras.
+
+
+
+
 
 ## Afirmaciones de asignación definida
 - En TypeScript, la afirmación de asignación definida se utiliza cuando estás seguro de que una variable o propiedad será inicializada antes de que se utilice, pero TypeScript no puede verificarlo automáticamente.
