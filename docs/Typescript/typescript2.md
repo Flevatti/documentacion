@@ -391,7 +391,8 @@ function jugar(personaje: Personaje) {
 :::
 ## Never
 - Es un tipo de dato.
-- Es una especie de undefined para especificar un valor que nunca se va a producir/generar ya que por lo general se reproduce un error o algo que interrumpe el método y que impide que se llegue a esa línea de código.
+- `never` se utiliza para indicar un valor que nunca se va a producir, generar o usar, ya que por lo general ocurre un error o una interrupción del flujo del programa que impide que se llegue a ese punto del código.
+- Es diferente a `undefined`, que representa un valor que existe pero no está definido todavía, básicamente una variable a la que aún no se le asignó un valor. En el caso de `never`, representa una variable que nunca va a tener un valor, porque ese punto del código nunca llega a producirse o ejecutarse.
 - Ejemplo:
 ```typescript
 
@@ -416,7 +417,38 @@ function fn(x: string | number) {
 - La X en el else es de tipo Never ya que nunca se va a llegar a esa línea (¿adivina por qué?).
 :::
 
+#### ¿Por qué puede aparecer never con `.forEach()`?
 
+- Asignar un valor a una variable dentro de un `.forEach()` puede hacer que su tipo termine siendo `never`.
+- Esto pasa porque TypeScript no puede detectar con precisión los cambios que ocurren dentro del callback.
+- El callback funciona como una “caja negra” donde TypeScript no puede entrar para ver qué cambios se están realizando.
+- Si el tipo es complejo (por ejemplo una unión como `string | number | undefined`), como TypeScript no puede ver qué sucede dentro del callback, no está seguro de que se esté asignando un valor válido y, ante la duda, puede terminar asignando `never`.
+- En estos casos la solución es usar `for...of`, ya que al no ejecutarse en un  callback, TypeScript puede seguir los cambios hechos dentro del `for...of` y mantener el tipo correcto.
+
+#### ¿Por qué es difícil para TypeScript seguir los cambios en un callback?
+
+- Porque TypeScript analiza el código de forma estática (sin ejecutarlo), por lo que no puede saber con certeza:
+  - ¿Se va a ejecutar el callback? 
+  - ¿Se va a asignar un valor válido en todas las situaciones?
+  - ¿Podría haber errores de tipo dentro del callback que hagan que la asignación sea inválida?
+- Cuando el tipo de la variable es simple, como `string | undefined`, TypeScript suele manejarlo bien.
+
+:::tip
+- Usa `for...of` cuando el bucle modifique variables externas o trabaje con tipos no primitivos.
+- Usa `.forEach()` solo para operaciones simples sin efectos secundarios importantes (como imprimir o enviar datos).
+:::
+
+:::tip 🧩 Analogía: el chef y el aprendiz
+- Tú eres un chef (TypeScript) que prepara una receta.
+- Con `.forEach()`:
+  - Le das la receta a un aprendiz (callback) y le dices: "Por cada paso, agrega un ingrediente a la olla".
+  - Pero el aprendiz trabaja en otra habitación.
+  - Cuando termina, no ves el proceso de forma completamente lineal (cómo realiza cada paso), y en algunos casos puede ser más difícil conocer con certeza el estado final del plato.
+- Con `for...of`:
+  - Tú mismo realizas cada paso en tu cocina.
+  - Ves claramente si cada ingrediente se agregó correctamente, paso a paso.
+  - Al final, conoces con certeza el estado del plato.
+:::
 
 
 ## Convencion d.ts
@@ -950,6 +982,25 @@ declare module '*.vue' {
 - En este código, el tipo DefineComponent se importa fuera del bloque declare module '*.vue', lo que significa que se importa en el ámbito global del archivo. Luego, dentro del bloque declare module '*.vue', se utiliza el tipo DefineComponent importado previamente para definir el tipo de la constante component.
 - En el otro código, el tipo DefineComponent se importa dentro del bloque declare module '*.vue', lo que significa que se importa solo dentro del ámbito de ese módulo. En otras palabras, el tipo DefineComponent solo está disponible dentro del bloque declare module '*.vue'.
 - Ambos códigos  funcionan correctamente, pero hay una pequeña diferencia en la forma en que se manejan las importaciones. En este código, el tipo DefineComponent se importa en el ámbito global, lo que podría causar conflictos si se utiliza el mismo nombre de importación en otros lugares del archivo. En el segundo código, el tipo DefineComponent se importa solo dentro del bloque declare module '*.vue', lo que reduce el riesgo de conflictos.
+:::
+#### Los módulos se pueden extender
+- En TypeScript los módulos se pueden extender. Esto permite modificar su estructura agregando nuevas propiedades en algunas interfaces o tipos, sin reemplazar ni eliminar lo que ya estaba definido.
+- Ejemplo:
+```ts
+declare module "react" {
+    interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+        webkitdirectory?: string;
+    }
+}
+
+```
+
+:::tip Observación
+- En este ejemplo se está extendiendo el módulo `"react"` para agregar una nueva propiedad (`webkitdirectory`) al tipo `InputHTMLAttributes`. De esta forma, ahora los inputs en React pueden usar esa propiedad sin modificar el código original de la librería.
+:::
+
+:::tip
+- Dentro de `declare module` solo describes lo que un módulo exporta; es como una interfaz en C#. Solo especificas qué se puede hacer, pero no cómo (no hay implementación).
 :::
 
 ## Firmas de índice
@@ -1613,7 +1664,7 @@ tsc src/index.ts
 :::
 
 
-## Tipos de tsconfig
+### Tipos de tsconfig
 - Hay diferentes tipos de archivos tsconfig que se usan para distintos propósitos, y todos se basan en el mismo formato JSON. Estas variaciones permiten que los proyectos sean más organizados y flexibles, especialmente cuando hay múltiples entornos que se deben compilar de manera diferente. Aquí te detallo los tipos comunes de tsconfig y cuándo se utilizan.
 
 #### tsconfig.json (Global)
@@ -1886,7 +1937,7 @@ Cuando ejecutas tsc -b, TypeScript:
 -	Simplicidad: TypeScript se encarga de gestionar todo esto automáticamente sin necesidad de intervención manual.
 :::
 
-## esModuleInterop
+### esModuleInterop
 - Es una opción de configuración del archivo `tsconfig.json`.
 - Por defecto es `false`.
 - Su objetivo es mejorar la compatibilidad entre módulos CommonJS y módulos ES Modules (ESM) en TypeScript.
@@ -1927,11 +1978,73 @@ const moment = require("moment").default;
 
 
 #### Valor `true`
-- Le dice a TypeScript que trate los módulos como ES Modules y no haga conversiones raras.
+- Le indica a TypeScript que trate los módulos como ES Modules y evite conversiones innecesarias entre distintos sistemas de módulos.
+- Si queremos acceder a una exportación por defecto, podemos seguir utilizando la sintaxis del problema 1, ya que su comportamiento no cambia al establecer `esModuleInterop` en `true`. Sin embargo, esta forma suele considerarse una mala práctica porque importa el módulo completo en lugar de únicamente la exportación que necesitamos.
+- Al habilitar `esModuleInterop`, se resuelve el problema 2 y podemos importar la exportación por defecto:
+```js
+import moment from "moment";
+```
 
+#### ¿Por qué funciona?
+- Recordemos que el problema 2 ocurría porque muchas librerías CommonJS no tienen una propiedad `default`.
+- Sin `esModuleInterop` en `true`, TypeScript podía generar algo similar a:
+```js
+const moment = require("moment").default;
+```
+- Si la propiedad `default` no existía, la importación fallaba.
+- Cuando `esModuleInterop` está en `true`, TypeScript utiliza una función auxiliar llamada `__importDefault`:
+```js
+function __importDefault(mod) {
+  return (mod && mod.__esModule)
+    ? mod
+    : { default: mod };
+}
+```
+:::tip Observación
+- `function __importDefault(mod)` define una función que recibe el módulo importado.
+- `mod && mod.__esModule` comprueba si el módulo existe y si ya es un ES Module:
+  -  Si la condición es verdadera, devuelve el módulo sin modificar.
+  -  si la condición es falsa, crea un objeto con una propiedad `default` que apunta al módulo.
+:::
+- De esta forma, aunque la librería no tenga una propiedad `default`, TypeScript la crea automáticamente y la importación puede funcionar correctamente.
 
+:::tip info
+- [ES Module Interop - esModuleInterop](https://www.typescriptlang.org/tsconfig/#esModuleInterop)
+- [esModuleInterop](https://duckwho.codes/posts/esmoduleinterop/)
+- [Understanding esModuleInterop in tsconfig file](https://stackoverflow.com/questions/56238356/understanding-esmoduleinterop-in-tsconfig-file)
+:::
 
+### `module` y `moduleResolution`
+- Son dos opciones de `tsconfig.json` relacionadas con el uso de módulos.
 
+#### `module`
+- Define cómo TypeScript genera los `import` y `export` en el archivo JavaScript final.
+
+| Valor       | Descripción |
+|-------------|-------------|
+| `commonjs`  | Convierte los `import/export` a `require` y `module.exports`. Se utiliza principalmente en proyectos Node.js antiguos. |
+| `esnext`    | Mantiene los `import/export` como módulos ES modernos. No los convierte a `require`. El código CommonJS escrito manualmente se conserva tal cual. |
+| `nodenext`  | Genera las importaciones y exportaciones siguiendo las reglas modernas de Node.js . Por ejemplo, exige que las importaciones incluyan la extensión del archivo (`./file.js`). Aplica las reglas de Node.js según el tipo de módulo (ESM o CommonJS) y valida cómo se resuelven los imports (cómo se buscan los archivos). |
+| `preserve`  | Conserva cada importación o exportación tal como fue escrita. |
+
+#### `moduleResolution`
+- Define cómo TypeScript busca y encuentra los archivos cuando realizas un `import`.
+- Determina las reglas que se utilizan para buscar un módulo.
+
+| Valor | Descripción |
+|---------|-------------|
+| `node` | Usa la manera clásica de Node.js para encontrar archivos. Ej: si escribes `import "./math"`, busca `math.js`, `math.ts`, etc. |
+| `nodenext` | Usa la manera moderna de Node.js. En algunos casos te obliga a escribir la extensión: `import "./math.js"`. |
+| `bundler` | Usa la manera en que trabajan herramientas como Vite o Webpack. |
+| `classic` | Método antiguo de TypeScript. Casi no se usa hoy. |
+
+#### Combinaciones comunes
+
+| `module` | `moduleResolution` | Cuándo se usa |
+|----------|--------------------|---------------|
+| `commonjs` | `node` | Proyectos Node.js antiguos o tradicionales. |
+| `esnext` | `bundler` | Proyectos modernos con Vite, Webpack u otros bundlers. |
+| `nodenext` | `nodenext` | Proyectos Node.js modernos con ESM. Es la opción más “estricta” y actual. |
 
 ## Afirmaciones de asignación definida
 - En TypeScript, la afirmación de asignación definida se utiliza cuando estás seguro de que una variable o propiedad será inicializada antes de que se utilice, pero TypeScript no puede verificarlo automáticamente.
