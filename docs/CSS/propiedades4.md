@@ -860,3 +860,62 @@ body{
 </body>
 </html>
 ```
+
+## Propiedad `inset`
+- Es una propiedad CSS abreviada para definir [top, right, bottom y left](./propiedades.md#propiedad-leftrighttopbottom) en una sola declaración.
+- No tiene efecto cuando el elemento no está posicionado (su `position` es `static`).
+- Esta propiedad surgió como parte de la especificación de CSS Lógico.
+
+#### Sintaxis
+- Funciona igual que `margin` y `padding`, acepta hasta cuatro valores:
+```cs
+inset: top right bottom left
+```
+:::tip Observación
+- Los valores fluyen en sentido horario, comenzando con `top`.
+:::
+- Podemos indicar tres valores, donde el primero es `top`, el segundo `left/right` y el tercero `bottom`.
+```cs
+inset: top right/left bottom
+```
+
+
+- Podemos especificar dos valores, donde el primero corresponde a `top/bottom` y el segundo a `left/right`:
+```cs
+inset: top/bottom right/left
+```
+
+
+- Por último, podemos definir un solo valor que se aplica a las cuatro propiedades:
+```cs
+inset: top/right/left/bottom
+```
+
+#### ¿Qué hace `inset: 0` con `position: absolute`?
+
+- Es equivalente a:
+```css
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+```
+- Explicación del código:
+  - `position: absolute` → posiciona el elemento respecto a su ancestro posicionado.
+  - `top: 0` → pega el borde superior del elemento al borde superior del ancestro.
+  - `left: 0` → pega el borde izquierdo del elemento al borde izquierdo del ancestro.
+  - `bottom: 0` → pega el borde inferior del elemento al borde inferior del ancestro.
+  - `right: 0` → pega el borde derecho del elemento al borde derecho del ancestro.
+  - Como resultado, el elemento se expande para ocupar exactamente todo el contenedor posicionado.
+
+#### Conclusión
+- Cuando posicionas un elemento con `top`, `right`, `bottom` y `left`, el elemento ajusta su ancho o alto para poder adaptarse correctamente a la posición indicada.
+- No solo posicionas el elemento, sino que también defines sus dimensiones (tamaño) de forma implícita.
+
+#### Valor auto en top-right-bottom-left
+- Cuando un elemento es posicionado con `position: absolute` o `position: fixed`, pierde su espacio reservado en el flujo normal del documento (DOM).
+- En este contexto, el tamaño del elemento se ajusta en función de las propiedades `top`, `right`, `bottom` y `left`, y del tamaño del contenedor posicionado.
+
+
+

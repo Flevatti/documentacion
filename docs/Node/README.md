@@ -286,7 +286,7 @@ Ver un listado con las dependencias  locales
 ```powershell
 npm list
 ```
-Ver un listado con las dependencias globales
+Ver un listado de las dependencias globales
 ```powershell
 npm list -g
 ```
@@ -294,6 +294,10 @@ Instalar una version especifica de una dependencia
 - X.XX.X  = Version
 ```powershell
 npm i nombre-paquete@X.XX.X
+```
+Obtener información sobre un paquete instalado
+```powershell
+npm list nombre-paquete
 ```
 
 
@@ -336,6 +340,75 @@ npm install express --save
 - A partir de la versión 5.0.0 de npm, la opción --save ya no es necesaria, ya que npm guardará automáticamente el paquete como una dependencia cuando se instale.
 
 :::
+
+#### Opciones `--legacy-peer-deps` y `--force`
+#### ¿Qué son las *peer dependencies*?
+- Una *peer dependency* es una dependencia que un paquete espera que ya exista en tu proyecto.
+- A diferencia de las dependencias normales, el paquete no la instala por sí mismo, sino que espera que el proyecto la tenga instalada en una versión compatible.
+- Por ejemplo:
+```js
+{
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}
+```
+:::tip Observación
+- Le dice a npm: "Yo necesito React, pero no lo instalaré. Espero que tu proyecto ya lo tenga instalado en una versión compatible."
+:::
+
+#### `--legacy-peer-deps`
+- Desde npm 7, npm intenta instalar y validar que se cumplan las `peerDependencies`.
+- Si encuentra conflictos, lanza un error como:
+```powershell
+ERESOLVE unable to resolve dependency tree
+```
+- Ejemplo:
+```txt
+Tu proyecto:
+React 19
+
+Paquete A:
+peerDependency React 18
+```
+:::tip Observación
+- Al instalar el paquete A con `npm install paqueteA`, npm detecta que hay una incompatibilidad de versiones (el paquete A requiere React 18 y tu proyecto tiene React 19) y la instalación falla.
+:::
+- Si ejecutas:
+```powershell
+npm install paqueteA --legacy-peer-deps
+```
+:::tip Observación
+- Le estás diciendo a npm: "Compórtate como npm 6. Ignora los conflictos de `peerDependencies` y continúa con la instalación."
+:::
+
+#### Resumen
+- La opción `--legacy-peer-deps` le dice a npm que se comporte como npm 6 y que no valide si las versiones requeridas por las `peerDependencies` son compatibles con las instaladas en tu proyecto.
+- Como resultado, npm instalará el paquete aunque exista un conflicto de versiones.
+- El lado negativo es que el programador asume la responsabilidad de gestionar manualmente estas dependencias y garantizar que sean compatibles.
+
+#### `--force`
+- La opción `--force` le indica a npm que realice la instalación aunque detecte problemas o conflictos.
+- Puede ignorar:
+  - Conflictos de dependencias.
+  - Conflictos de `peerDependencies`.
+  - Algunas verificaciones de seguridad.
+  - Algunas protecciones internas de npm.
+- Ejemplo:
+```powershell
+npm install react@19 paquete-viejo --force
+```
+:::tip Observación
+- Aunque npm detecte que existen incompatibilidades o conflictos, intentará completar la instalación igualmente.
+:::
+
+
+
+
+
+
+
+
 ## Locales vs Globales
 -	Existen paquetes o dependencias que se instalan en nuestro proyecto (como lo hemos trabajado hasta ahora) . 
 - Para los locales se utiliza: npm install nombre-paquete y crea la carpeta node_modules
@@ -563,6 +636,193 @@ npm uninstall moment
 npm i moment
 ```
 Se instala la última versión disponible 2.29.1 (al 3 enero 2021, puede que tu veas otra versión más reciente)
+
+
+
+#### Cómo actualizar a la última versión
+- Si no especificamos una versión al usar `npm install`, npm instala la versión marcada como `latest`.
+- Por ejemplo:
+```powershell
+npm install react
+```
+- También podemos usar `@latest` después del nombre del paquete para indicar explícitamente que queremos instalar la última versión disponible:
+```powershell
+npm install react@latest
+```
+:::tip Observación
+- En una instalación nueva, `npm install react` y `npm install react@latest` suelen producir el mismo resultado.
+- El uso de `@latest` es más común cuando queremos actualizar un paquete que ya está instalado.
+:::
+:::warning
+- Al instalar la última versión disponible, estamos ignorando el rango de versiones definido actualmente en `package.json`.
+- Por eso, una actualización puede introducir cambios incompatibles, especialmente si incluye una nueva versión mayor (*major*).
+:::
+
+#### ¿Qué pasa si el paquete ya está instalado?
+- Si el paquete ya está instalado, al ejecutar `npm install`:
+  - Se actualiza la versión en `node_modules`.
+  - Se actualiza `package.json`.
+  - Se actualiza `package-lock.json`.
+  - Solo se actualiza la parte de `package.json` y `package-lock.json` que contiene la información del paquete, indicando la nueva versión que se utilizará.
+
+#### Luego de actualizar un paquete, se recomienda realizar los siguientes pasos
+1. Eliminar `node_modules` y `package-lock.json`:
+```powershell
+# Linux / macOS
+rm -rf node_modules
+rm package-lock.json
+```
+
+```powershell
+# Windows (CMD)
+rmdir /s /q node_modules
+del package-lock.json
+```
+:::tip Observación
+- Estos comandos eliminan la carpeta `node_modules` y el archivo `package-lock.json`.
+:::
+2. Reinstalar las dependencias:
+```powershell
+npm install
+```
+:::tip Observación
+- Reinstala todas las dependencias indicadas en `package.json`.
+- Genera un nuevo `package-lock.json`.
+- Resuelve nuevamente las dependencias y subdependencias compatibles según los rangos definidos en `package.json`.
+:::
+
+#### ¿Es obligatorio?
+##### ❌ No
+- La mayoría de las veces basta con:
+```powershell
+npm install paquete@latest
+```
+- y npm actualizará correctamente el proyecto.
+
+#### ¿Cuándo es recomendable?
+- Cuando actualizas una versión mayor (*major*). Por ejemplo:
+```txt
+Docusaurus 2.x → 3.x
+React 18 → 19
+```
+- Cuando aparecen errores extraños después de una actualización.
+- Cuando sospechas que existen dependencias duplicadas o incompatibles dentro de `node_modules`.
+- Cuando quieres asegurarte de que el árbol de dependencias se reconstruya completamente desde cero.
+
+## npm create
+- Algunas librerías o frameworks como Vite, Next o Vue te piden ejecutar el comando `npm create` para iniciar un proyecto.
+- Por ejemplo, Vite permite generar la estructura básica de un proyecto con:
+```powershell
+npm create vite@latest
+```
+- La CLI que se ejecuta te solicita información sobre cómo deseas que se genere la estructura del proyecto.
+- Alternativamente, también puedes pasar argumentos a `npm create`. Por ejemplo, si quisieras generar un proyecto React con TypeScript, ejecutarías:
+```powershell
+npm create vite@latest -- --template react-ts
+```
+:::tip Observación
+- El parámetro adicional `--` antes de `--template` es necesario para pasar argumentos desde npm hacia la interfaz de línea de comandos (CLI).
+- Si utilizas Yarn o pnpm, no es necesario en todos los casos, ya que el manejo de argumentos puede ser diferente.
+:::
+
+#### ¿Qué sucede exactamente cuando ejecutas `npm create`?
+- Lo primero que hay que tener en cuenta es que `npm create` en realidad es un alias de `npm init`.
+- Si profundizas en la documentación de `npm init`, verás que cuando se le pasa un argumento, se ejecuta como “inicializador”.
+- Un inicializador consiste en descargar un paquete temporalmente y ejecutarlo a través de `npm exec`.
+- En otras palabras, npm descarga el paquete indicado y ejecuta los archivos definidos en el campo `bin` del `package.json`, lo que permite crear el proyecto.
+- El nombre del paquete inicializador y el nombre del paquete que se está instalando no coinciden. 
+- Los inicializadores se transforman, es decir, el paquete que se especifica en `npm create` se transforma en otro paquete que es el que realmente se descarga y ejecuta.
+- Entonces, en el caso de `npm create vite@latest`, el paquete que realmente se está ejecutando es `create-vite`.
+  1. Se descarga la última versión de `create-vite`.
+  2. Se ejecuta `npm exec create-vite@latest`.
+  3. Se ejecuta el archivo principal (`index.js`) del paquete `create-vite` con Node.js.
+
+#### Ejemplo para entenderlo
+- Creamos un proyecto con dos archivos:
+```js title="package.json"
+{
+  "name": "create-example",
+  "version": "0.0.1",
+  "bin": "index.js"
+}
+```
+:::tip Observación
+- Las partes importantes aquí son `name` y `bin`.
+- Todo paquete inicializador, es decir, el que realmente se descarga y ejecuta, suele empezar con `create-`.
+- En `bin` se especifica el archivo (script) que se ejecuta al instalar y ejecutar el paquete.
+:::
+
+```js title="index.js"
+#!/usr/bin/env node
+console.log("Hello world!");
+```
+:::tip Observación
+- Es importante que tengas `#!/usr/bin/env node` como primera línea del archivo, de lo contrario el script no será ejecutado por Node.js y no se mostrará en la consola.
+- Esta línea (llamada *shebang*) le indica al sistema operativo que debe usar Node.js para ejecutar el archivo.
+:::
+
+- Ejecutamos el comando:
+```powershell
+npm exec .
+```
+:::tip Observación
+- Con el punto (`.`) básicamente le estamos indicando el paquete actual. Es decir, npm buscará el `package.json` del proyecto y ejecutará lo indicado en el campo `bin`.
+- El comando `npm exec` busca el `package.json` del paquete indicado, lee su configuración y ejecuta el script definido en el campo `bin`.
+:::
+
+- Vamos a modificar el `index.js` para que acepte un argumento y así hacerlo un poco más parecido a una línea de comandos. Usaremos `process.argv` de Node.js para acceder a los argumentos:
+```js title="index.js"
+#!/usr/bin/env node
+const { argv } = require("node:process");
+const name = argv[2] || "world";
+console.log("Argumento 1:", argv[0]);
+console.log("Argumento 2:", argv[1]);
+console.log(`Hello ${name}!`);
+```
+:::tip Observación
+- `argv` proviene de `node:process` y contiene todos los argumentos que se pasan por consola.
+- El primer argumento (`argv[0]`) es el ejecutable de Node.js (la ruta del ejecutable de Node que se está usando para correr el script).
+- El segundo argumento (`argv[1]`) es la ruta del archivo que se está ejecutando (en el caso de paquetes ejecutados con `npm exec`, suele ser una ruta dentro del caché de npm).
+- A partir del tercer argumento (`argv[2]`) comienzan los argumentos que el usuario pasa por consola.
+:::
+
+- Ahora ejecutamos:
+```powershell
+npm exec . -- Pepe
+```
+:::tip Observación
+- El `--` se utiliza para separar los argumentos de npm de los argumentos que se pasan al script.
+- En este caso, `Pepe` es el primer argumento que se pasa al script y se encuentra en `argv[2]`.
+- Cada argumento está separado por un espacio en blanco.
+:::
+
+:::tip 
+- Este es un ejemplo relativamente sencillo del uso de argumentos en CLI.
+- Sin duda, existen bibliotecas como `yargs`, `prompts` y `oclif` que permiten manejar argumentos de forma más avanzada y estructurada.
+:::
+
+#### Comando `npm link`
+- El comando `npm link` crea un acceso directo (enlace simbólico) del proyecto (paquete) actual.
+- Este acceso directo se puede utilizar desde cualquier parte de la computadora como si el paquete estuviera instalado globalmente.
+- Entonces, si ejecutamos:
+```powershell
+ npm link
+npm list -g
+```
+:::tip Observación
+- Con `npm list -g` veremos que nuestro paquete está instalado como si fuera global.
+:::
+
+- Ahora podemos ejecutar:
+```powershell
+ npm link
+npm exec create-example -- Pepe
+```
+:::tip
+- Observa cómo hacemos referencia al paquete sin `@latest`. Esto se debe a que ya hemos instalado el paquete localmente.
+- Si usas `@latest`, npm intentará buscar el paquete en el registro de npm en lugar de usar la copia local, incluso si la versión local es la más reciente.
+:::
+
 
 ## devDependencies
 -	devDependencies hace referencia a los paquetes que no se necesitan para producción.

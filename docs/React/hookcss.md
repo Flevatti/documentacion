@@ -2649,6 +2649,80 @@ Puedes combinarlos con Module CSS y sacarle un mayor provecho
 
 - Cada framework te da componentes prediseñados para solo importarlos y evitar todo el estilado por tu parte
 
+### CSS Dinamico
+
+- En React puedes crear CSS dinámico, es decir, hacer que las clases de un elemento cambien según el estado del componente.
+- La forma más común y limpia de hacerlo es usando *template literals* con condicionales ternarios, o con librerías como `classnames` o `clsx`.
+- Ejemplo de CSS dinámico en React:
+```tsx title="App.tsx"
+import { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [activo, setActivo] = useState(false);
+  const [cargando, setCargando] = useState(true);
+
+  const toggleActivo = () => {
+    setActivo((prev) => !prev);
+  };
+
+  const toggleCargando = () => {
+    setCargando((prev) => !prev);
+  };
+
+  return (
+    <div className="container">
+      <button
+        className={`boton 
+          ${activo ? "boton--activo" : ""} 
+          ${cargando ? "boton--cargando" : ""}
+          texto-grande
+        `}
+        onClick={toggleActivo}
+      >
+        Cambiar color de fondo
+      </button>
+
+
+      <button className="control-btn" onClick={toggleCargando}>
+        {cargando ? "Activar botón" : "Desactivar botón"}
+      </button>
+    </div>
+  );
+}
+
+export default App;
+```
+```css title="App.css"
+.boton {
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}
+
+.boton--activo {
+  background-color: green;
+}
+
+.boton--cargando {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.texto-grande {
+  font-size: 18px;
+}
+```
+:::tip Observación
+- Este ejemplo muestra **CSS dinámico en React**, donde las clases de un elemento cambian según el estado del componente.
+- Se utiliza `useState` para definir el estado de este componente.
+- Dependiendo de estos estados, se agregan o quitan clases CSS de forma condicional usando *template literals*.
+- Esto permite modificar la apariencia del mismo elemento sin cambiar su estructura, solo aplicando o quitando clases.
+:::
 ## Componentes en clases
 #### ¿Qué pasa si le agrego clases a un componente?
 Componente Hijo 
