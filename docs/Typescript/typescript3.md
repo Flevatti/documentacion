@@ -278,6 +278,100 @@ npm install typescript@5.9
 - Después de instalar la nueva versión, asegúrate de que VS Code esté utilizando la versión de TypeScript instalada en `node_modules` de tu proyecto (workspace) y no la versión global integrada en el editor.
 :::
 
+## Escape Hatch
+- A veces, convertir un tipo de dato a otro más complejo puede generar un error en TypeScript.
+- Por ejemplo:
+```js
+interface CustomRequestGenerateHtml extends Request {
+  relativePathsTemp: string[];
+  relativePathIndex: number;
+}
+```
+:::tip Observación
+- Este tipo hereda todas las propiedades de `Request` y agrega dos propiedades más.
+- Al intentar convertir un `Request` a `CustomRequestGenerateHtml` usando `as`, TypeScript puede generar un error porque no puede garantizar que el objeto tenga las propiedades adicionales requeridas.
+:::
+
+#### `any` y `unknown`
+- Primero hay que entender los tipos `any` y `unknown`:
+  - `any`: Es el tipo menos seguro. Le dice a TypeScript: "Este valor puede ser cualquier cosa, no me hagas verificaciones de tipo". Puedes realizar prácticamente cualquier operación sobre una variable de tipo `any` sin que TypeScript genere errores.
+  - `unknown`: Es más seguro que `any`. Le dice a TypeScript: "Este valor puede ser cualquier cosa, pero antes de usarlo debes verificar o indicar su tipo". TypeScript requiere que verifiques o indiques el tipo de una variable `unknown` antes de permitirte acceder a sus propiedades o métodos.
+
+#### Explicación del error
+- Imagina que tienes dos cajas:
+  - **Caja A:** `Request<{}, any, any, ParsedQs, Record<string, any>>`. Esta caja representa el objeto `req` que Express entrega por defecto. Tiene ciertos compartimentos (propiedades) y acciones (métodos) bien definidos.
+  - **Caja B:** `CustomRequestGenerateHtml`. Esta es tu caja personalizada. Sabes que debe contener todo lo que tiene la Caja A, además de algunos compartimentos extra que agregaste (`relativePathsTemp`, `relativePathIndex`, etc.).
+##### ¿Qué pasa cuando intentas hacer `req as CustomRequestGenerateHtml`?
+- Estás diciendo: "Toma la Caja A y conviértela en la Caja B" (más precisamente, dile a TypeScript que trate la Caja A como si fuera la Caja B).
+- TypeScript compara ambos tipos y dice: "La Caja B exige propiedades adicionales que la Caja A no garantiza tener. No puedo asegurar que esta conversión sea correcta".
+- Por eso puede aparecer un error como:
+```ts
+Conversion of type 'Request<...>' to type 'CustomRequestGenerateHtml'
+may be a mistake because neither type sufficiently overlaps...
+```
+- TypeScript está intentando evitar que accedas a propiedades que podrían no existir realmente en tiempo de ejecución.
+
+#### Solución
+- La solución consiste en realizar una doble conversión, conocida como **escape hatch**:
+```ts
+req as unknown as CustomRequestGenerateHtml
+```
+- **Primera conversión (`req as unknown`)**: Le dices a TypeScript: "Olvida todo lo que sabes sobre este valor y trátalo simplemente como algo desconocido". TypeScript acepta esta conversión porque cualquier tipo puede convertirse a `unknown`.
+- **Segunda conversión (`unknown as CustomRequestGenerateHtml`)**: Ahora le dices a TypeScript: "Confía en mí, sé que este valor es un `CustomRequestGenerateHtml`". TypeScript responde: "No puedo comprobarlo, pero como el valor viene desde `unknown`, asumiré que sabes lo que estás haciendo" y permite la conversión.
+
+#### Resumen
+- Cuando surge un problema en la conversión entre tipos complejos como el que vimos, se puede recurrir a un **escape hatch**.
+- Primero conviertes el valor a `unknown` para que TypeScript deje de comprobar la compatibilidad entre ambos tipos. Luego lo conviertes al tipo deseado y, de esta manera, TypeScript, confiando completamente en el programador, permite la conversión.
+
+:::warning
+- Es importante entender que el doble cast no hace que el objeto tenga realmente esas propiedades; simplemente le dice al compilador que deje de verificarlas y confíe en ti.
+- Si las propiedades no existen en tiempo de ejecución, el error seguirá ocurriendo aunque TypeScript no se queje.
+:::
+
+## `as const`
+- En TypeScript, `as const` le indica al compilador que trate un valor como inmutable (**no se puede modificar**) y que le asigne el tipo de dato más específico posible (normalmente un valor literal), evitando que se usen tipos genéricos como `string` o `number`.
+- La sintaxis es:
+```ts
+valor as const
+```
+:::tip Observación
+
+- `valor` puede ser una asignación como:
+```ts
+const roles = ["admin", "user", "guest"];
+const status = "success";
+```
+- También puede utilizarse con objetos, arreglos o valores literales.
+:::
+#### Ejemplos
+
+```ts
+const color = "red" as const;  
+// Para TypeScript es como: const color: "red"
+
+const roles = ["admin", "user", "guest"] as const;  
+// Para TypeScript es como: readonly ["admin", "user", "guest"]
+
+type Role = typeof roles[number];  
+// Para TypeScript es como: "admin" | "user" | "guest"
+
+const user = {
+  name: "Rodrigo"
+} as const; 
+
+// Para TypeScript es como:
+// {
+//   readonly name: "Rodrigo";
+// }
+```
+
+:::tip
+- Con `roles[number]` le estamos diciendo a TypeScript que nos devuelva el tipo de dato de cada elemento y los una con una **union**.
+- Entonces podemos acceder a los tipos de un array con la sintaxis `tipoDeDato/variable[indice]`, como si fuera un array normal, o obtener todos los tipos que contiene el array con `tipoDeDato[number]`, donde `number` representa el tipo de índice del array.
+
+:::
+
+
 ## Seguir aprendiendo
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Cursos de Typescript](https://learn.microsoft.com/es-es/training/browse/?terms=typescript)

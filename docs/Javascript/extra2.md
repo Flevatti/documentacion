@@ -1083,3 +1083,38 @@ Valores: 10   20   30
 - [Comprender los árboles de sintaxis abstracta (AST): cómo las herramientas modernas analizan, procesan y transforman su código.](https://medium.com/@dtianshan7/the-understanding-abstract-syntax-trees-ast-how-modern-tools-parse-analyze-and-transform-your-c3edc7e1e687)
 - [Generador de AST](https://astexplorer.net/)
 :::
+
+## Truco para permitir que el navegador pueda renderizar algo entre tareas
+- Para entenderlo, hay que considerar la [pila de llamadas (call stack) y la cola de callbacks](../Node/extra02.md#event-loop).
+- Este truco se usa para dividir la ejecución en partes, dejando una pausa entre una y otra.
+- En esa pausa, el navegador puede ejecutar otras tareas pendientes antes de continuar con nuestro código.
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 0));
+```
+#### Qué hace el código?
+- Técnicamente, lo que hace este código es:
+  - Posponer la función.
+  - Enviar el código que falta ejecutarse (la continuación de la función) a la cola de callbacks (macrotasks).
+  - Permitir que la pila de llamadas se vacíe.
+- Recordemos que recién cuando la pila de llamadas está vacía se ejecutan los callbacks, por lo que con este truco se le da la oportunidad al navegador de procesar otras tareas pendientes en la cola, como:
+  - Renderizar cambios pendientes en el DOM.
+  - Procesar eventos de usuario.
+  - Ejecutar otras tareas del event loop.
+- Cuando se vuelve a continuar la ejecución en la siguiente iteración del loop, la función sigue desde el `await`.
+
+## requestAnimationFrame(callback)
+- Esta función recibe un callback que se ejecuta justo antes de que el navegador realice el próximo render (pinte la pantalla).
+- Sintaxis:
+```js
+requestAnimationFrame(() => {
+  // código
+});
+```
+- El navegador tiene las siguientes fases (es parecido al [event loop](../Node/extra02.md#event-loop) de Node):
+  1. Ejecuta JavaScript (pila de llamadas y APIs del navegador en segundo plano)
+  2. Se vacía la pila de llamadas (termina la ejecución del JS actual)
+  3. Se ejecutan los callbacks de `requestAnimationFrame`
+  4. Se recalculan estilos y layout
+  5. Se renderiza (se dibuja en pantalla) el nuevo estilo y layout
+  6. Vuelve a comenzar el ciclo, tomando nuevas tareas de la cola de callbacks

@@ -85,12 +85,12 @@ Decir que un endpoint es una interfaz significa que es un punto de acceso(URL) q
 - Se trata de registrar handlers o funciones callbacks asociados a eventos que se producen en la interfaz gráfica. Dicho registro se lleva a cabo en un hilo distinto al principal. Cuando se produce un evento dicho hilo notifica al hilo principal que ejecute la función de callback asociada al evento.
 - Es una estrategia utilizada desde hace mucho tiempo en el diseño de interfaces gráficas. 
 - De esta forma las llamadas a una operación de entrada/salida devuelven el control inmediatamente sin necesidad de haber completado la operación de lectura o escritura en el recurso. Cuando finalizan generan un evento que notifica al hilo que las llamó para que las procese. Como vemos el mecanismo es similar al de los eventos generados por los widgets de una interfaz gráfica, solo que la generación de eventos la realiza el sistema operativo cuando la operación ha concluido.
-- El siguiente gráfico proporciona un modelo que sirve para explicar el funcionamiento del bucle de eventos en ambas tecnologías:
+- El siguiente gráfico proporciona un modelo que sirve para explicar el funcionamiento del bucle de eventos:
 
-![Bucle de eventos](https://juandarodriguez.es/images/bucle_de_eventos.png)
+![Bucle de eventos](https://media.uncodigo.com/images/blog/event-loop-y-call-stack-en-javascript.webp)
 
 
-- Cuando se lleva a cabo la ejecución de la aplicación, cada vez que se invoca una función se añade a la pila de llamadas. Cuando las funciones terminan y devuelven el control, se sacan de la pila. Si todas las llamadas fuesen bloqueantes (síncronas), llega un momento en que la pila se vacía completamente que se corresponderá con el fin del programa.
+- Cuando se lleva a cabo la ejecución de la aplicación, cada vez que se invoca una función se añade a la pila de llamadas (task queue). Cuando las funciones terminan y devuelven el control, se sacan de la pila. Si todas las llamadas fuesen bloqueantes (síncronas), llega un momento en que la pila se vacía completamente que se corresponderá con el fin del programa.
 - Pero tanto en Node.js como en Chrome desde cualquiera de las funciones de la pila puede ocurrir que se realicen llamadas que responden al siguiente patrón:
 ```js
 function funcionX(){
@@ -105,9 +105,9 @@ function funcionX(){
 :::tip Observación
 - Lo normal es que la función asíncrona funcAsícrona() sea mucho más lenta que la propia función funcionX(), y como es no bloqueante el código sigue ejecutándose finalizando la función funcionX() antes que la función funcAsincrona().
 -  La función funcionX() desaparece de la pila y se ejecuta la que queda en su cima. 
-- Por otro lado, la función asíncrona se está ejecutando en otro hilo y cuando finaliza se añade su función callback asociada a la cola de eventos, pasándole como argumento el resultado de la función asíncrona.
+- Por otro lado, la función asíncrona se está ejecutando en otro hilo y cuando finaliza se añade su función callback asociada a la cola de eventos (call stack), pasándole como argumento el resultado de la función asíncrona.
 - Mientras tanto, el bucle de eventos vigila por un lado que no haya más funciones en la pila de llamadas y por otro la existencia de callbacks en la cola de eventos. Cuando la pila esté vacía, el bucle de eventos colocará en dicha pila el primer callback de la cola de eventos. Por supuesto, las funciones de callback, que no dejan de ser funciones de Javascript, también pueden hacer llamadas asíncronas a la API.
-- El proceso se repite indefinidamente hasta que no haya más elementos en el hilo donde residen las API’s (Es el cuadrado que dice Web Apis Chrome o Node.js API, es el hijo “secundario” de la segunda solución). Es decir, hasta que no haya más posibilidades de generación de eventos. 
+- El proceso se repite indefinidamente hasta que no haya más elementos en el hilo donde residen las API’s (Es el hilo “secundario” de la segunda solución). Es decir, hasta que no haya más posibilidades de generación de eventos. 
 - Puede ocurrir que el proceso se repita indefinidamente y sólo finalice abortando o cerrando la aplicación. Es el caso de las aplicaciones de escritorio y los servidores.
 :::
 
