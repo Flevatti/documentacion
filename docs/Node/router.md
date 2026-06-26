@@ -3,21 +3,17 @@ sidebar_position: 3
 ---
 # Router
 
--	Sirve para ordenar nuestras rutas(url)
+- El Router sirve para organizar y ordenar las rutas de una aplicación (URLs/URIs).
 - [Info](https://expressjs.com/es/guide/routing.html)
--	Express tiene una forma de trabajar con el direccionamiento y para eso utilizamos Router.
--	Esto es para generar un orden.
--	 Para esto se utiliza express.Router().
+- En lugar de definir todas las rutas en el archivo principal (`index.js`), podemos separarlas en distintos archivos utilizando el objeto `Router` que proporciona `express.Router()`.
 
 
-1. Creamos una carpeta llamada router:
-2. En dicha carpeta creamos un archivo.js (En mi caso Rutas.js)
-- Todas las rutas (peticiones get / post / etc de una url) las ponemos en este archivo.
-- Todos los métodos HTTP lo manejamos con el router y no con express()
-
-
-3. exportamos el router 
-- Los Router Se exportan por defecto asi cuando se importa se le puede poner el nombre que quieras
+1. Creamos una carpeta llamada `router`.
+2. Dentro de esa carpeta creamos un archivo `.js` (en este caso `Rutas.js`):
+    - En este archivo colocamos todas las rutas (peticiones `GET`, `POST`, etc.) que tienen en común una parte de la URL (ruta).
+    - Todos los métodos HTTP se manejan con `Router` y no directamente con `express()`.
+3. Exportamos el `router`:
+    - Los routers se exportan por defecto, por lo que al importarlos podemos asignarles cualquier nombre.
 
 
 Rutas.js
@@ -50,7 +46,7 @@ app.use(express.static(path.join(__dirname,"public")));
 app.set('view engine' , 'ejs')
 app.set('views' , __dirname + '/views');
 
-// use('/' , 'importacion de router')
+// use('/' , importacion de router)
 app.use('/' , require("./router/Rutas"))
 
  app.use((req , res , next) => {
@@ -64,16 +60,13 @@ app.listen(port, () => {
 :::tip Observacion 
 - peticion get a  servicios : http://localhost:3000/servicios
 - peticion get a home (/) : http://localhost:3000/
-
 :::
 
 
-
-:::tip cambios en el index.js
-- Si cambiamos "/" por otra "ruta"
-- Todas las rutas se van a renderizar en “ruta”/direccionDelRouter.
-:::
-Ejemplo:
+#### Cambios en el index.js
+- Si cambiamos `"/"` por otra "ruta".
+- Todas las rutas del router se van a acceder usando esa base, quedando como: `ruta/direccionDelRouter`.
+- Ejemplo:
 ```js
 app.use('/api' , require("./router/Rutas"))
 ```

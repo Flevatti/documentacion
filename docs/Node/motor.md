@@ -2,11 +2,11 @@
 sidebar_position: 2
 ---
 # Motores de plantillas/vistas
-- Si bien podríamos trabajar con archivos estáticos HTML, existe una manera más dinámica de crear nuestros sitios web utilizando motores de plantillas.
-- Entre los más populares (ejs|hbs|hjs|jade|pug|twig|vash)
-- Express tiene un soporte con esos Template Engine(Motores de plantillas)
-- [info](https://expressjs.com/en/resources/template-engines.html)
-- React , Vue , etc tienen sus propios framework para configurar las vistas.
+- Si bien podríamos trabajar con archivos estáticos HTML, existe una forma más dinámica de crear sitios web utilizando motores de plantillas.
+- Algunos de los más populares son: `ejs`, `hbs`, `hjs`, `jade`, `pug`, `twig`, `vash`.
+- Express tiene soporte para estos *template engines* (motores de plantillas).
+- [Info](https://expressjs.com/en/resources/template-engines.html)
+- Frameworks como React o Vue manejan sus propias formas de renderizar vistas y componentes.
 
 ## EJS y Express
 - Utilizaremos [Ejs](https://ejs.co/) 
@@ -51,10 +51,9 @@ index.ejs (dentro de views)
 </html>
 
 ```
-:::tip Ejs
-Como se ve, hay HTML.
+:::tip EJS
+- EJS se parece mucho a HTML.
 :::
-
 3. Ahora hay que especificar en que carpeta están ubicado las plantillas (carpeta views en este caso):
 
 index.js
@@ -67,6 +66,9 @@ app.set('view engine' , 'ejs')
 app.set('views' , __dirname + '/views');
 
 ```
+:::tip Plantillas
+- Las plantillas son los archivos `.ejs`.
+:::
 4. Vamos a renderizar el index.ejs cuando se haga una petición get en la raiz del sitio web.
 
 index.js:
@@ -85,6 +87,12 @@ app.listen(port, () => {
 });
 
 ```
+
+:::tip Observación
+- El método `render("[nombre del archivo]", { datos opcionales })` busca en la carpeta especificada en `app.set('views', X)` un archivo con el nombre `[nombre del archivo]`, en este ejemplo `index` (que debe utilizar la extensión definida en `app.set('view engine', X)`).
+- Luego ejecuta esa plantilla y la convierte en HTML, que finalmente es enviado al cliente.
+:::
+
 Para pintar el título, se modifica el  index.ejs 
 
 index.js:
@@ -395,7 +403,7 @@ El nombre del proyecto debe ser diferente al nombre del framework/librería/etc 
 :::
 
 :::tip 
-[Existe una variante](https://github.com/ericf/express-handlebars)
+[Existe una variante llamada Express Handlebars](https://github.com/ericf/express-handlebars)
 :::
 
 :::warning

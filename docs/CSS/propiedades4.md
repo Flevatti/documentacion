@@ -916,6 +916,43 @@ left: 0;
 #### Valor auto en top-right-bottom-left
 - Cuando un elemento es posicionado con `position: absolute` o `position: fixed`, pierde su espacio reservado en el flujo normal del documento (DOM).
 - En este contexto, el tamaño del elemento se ajusta en función de las propiedades `top`, `right`, `bottom` y `left`, y del tamaño del contenedor posicionado.
+- Cuando una propiedad `top`, `right`, `bottom` o `left` tiene el valor `auto` (en un elemento con `position: absolute` o `fixed`), el navegador ignora ese lado y calcula la posición y, si es necesario, el tamaño del elemento utilizando las demás propiedades (`top`, `right`, `bottom`, `left`) y `width`/`height`.
 
 
+#### Dos funciones clave de `auto` en este contexto:
+#### 1. **Para el posicionamiento**
+- Si escribes:
+```css
+   left: 100%;
+   right: auto;
+```
+:::tip Observación
+- Le estás diciendo al navegador: "Posiciona el elemento utilizando únicamente `left`. Ignora `right` para calcular la posición."
+:::
 
+#### 2. **Para el tamaño** (`width` o `height`)
+- Si ambos lados de un eje están definidos, por ejemplo:
+```css
+  left: 0;
+  right: 0;
+```
+:::tip Observación
+- El navegador ajusta automáticamente el tamaño del elemento para que cumpla ambas restricciones.
+- Como consecuencia, `width` deja de determinar el ancho y el elemento se estira.
+:::
+
+- En cambio, si uno de los lados es  `auto `, por ejemplo:
+```css
+left: 100%;
+right: auto;
+width: 200px;
+```
+:::tip Observación
+- El navegador ya no necesita estirar el elemento, por lo que el ancho vuelve a estar determinado por `width` (o por el contenido, si `width` es `auto`).
+:::
+
+:::tip 📌 Regla rápida para porcentajes
+- Con `position: fixed`, los porcentajes de `top`, `right`, `bottom`, `left`, `width` y `height` se calculan respecto al *viewport*.
+- Con `position: absolute`, esos porcentajes se calculan respecto al contenedor posicionado (el ancestro con `position` distinto de `static`) más cercano.
+- En resumen: `fixed` usa el viewport como referencia y `absolute` usa el contenedor posicionado más cercano.
+:::

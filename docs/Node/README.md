@@ -177,15 +177,15 @@ console.log(fruta);
   - description: una descripción breve del proyecto.
   - main: el punto de entrada del proyecto.
   - scripts: un conjunto de scripts que se pueden ejecutar utilizando el comando npm run.
-  - dependencies: una lista de dependencias de producción y sus versiones.
-  - devDependencies: una lista de dependencias de desarrollo y sus versiones.
+  - dependencies: una lista de dependencias que utiliza el proyecto.
+  - devDependencies: una lista de dependencias de desarrollo.
   - author: el autor del proyecto.
   - license: la licencia bajo la cual se distribuye el proyecto.
   - repository: el repositorio donde se aloja el proyecto.
   - bugs: la URL para reportar errores.
   - homepage: la URL de la página de inicio del proyecto.
 - Estas propiedades proporcionan información importante sobre el proyecto y facilitan su gestión y distribución.
--	Sirve para mantener un orden de los paquetes.
+-	Sirve para gestionar los paquetes.
 -	Contiene información de nuestro proyecto 
 -	Tiene un listado de los paquetes (y sus versiones) que utiliza el proyecto 
 -	Tiene información sobre nuestro proyecto, lo más relevante en estos momentos serán sus dependencias y scripts
@@ -201,14 +201,15 @@ npm init -y
 - versión = versión del proyecto
 - description = descripción del proyecto
 - type (no está, pero lo puedes añadir) : Especifica que [sistema de módulo ](https://lenguajejs.com/automatizadores/introduccion/commonjs-vs-es-modules/) usar.  Con el valor "module" usa ESM, en caso contrario usa CommonJS.
-- el objeto scripts sirve para añadir lineas de comando 
+- el objeto scripts sirve para añadir comandos.
 
 
 
  Ejemplo de scripts: 
  ```js
- // “nombre del comando”: “lo que se va a ejecutar al invocarlo”
+
  "scripts": {
+   // “nombre del comando”: “lo que se va a ejecutar al invocarlo”
   "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
   "start": "npm run dev",
   "unit": "jest --config test/unit/jest.conf.js --coverage",
@@ -225,7 +226,7 @@ npm init -y
 -	Estos scripts son comandos. Puede ejecutarlos llamando npm run XXXX, donde "XXXX" es el nombre del comando. Ejemplo: npm run dev
 -	Puede usar el nombre que desee para un comando y los scripts pueden hacer literalmente cualquier cosa que desee.
   ```js
-  // cómo se puede ver , escribir node index.js es lo mismo que escribir npm run start
+  // cómo se puede ver , ejecutar node index.js es lo mismo que npm run start
   "scripts": {
   "start": "node index.js"
 }
@@ -233,7 +234,6 @@ npm init -y
   ```js
   // Al escribir npm run start por consola estaría ejecutando el app.js
   // npm run start === node app.js
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1" ,
     "start" : "node app.js"
@@ -252,7 +252,7 @@ npm init -y
  - Cuando instalamos Node, instalamos [NPM](https://www.npmjs.com/)
 -	Es el administrador de paquetes o dependecias estándar de Node.js.
 -	Repositorio de código de un solo idioma más grande de la Tierra.
--	axios, express, jsonwebtoken, sequelize, son algunos paquetes, dependencias (códigos) que solucionan problemas, es tu elección utilizarlos (A menos que quieras reinventar la rueda).
+-	axios, express, jsonwebtoken, sequelize, son algunos paquetes que solucionan problemas, es tu elección utilizarlos (A menos que quieras reinventar la rueda).
 - [yarn ](https://yarnpkg.com/) es una alternativa al cli(Interfaz de línea de comandos) de npm.
 
 Ejemplo: 
@@ -312,12 +312,12 @@ npm install --save-dev nombre-paquete
 
 
 #### Opcion --save
-- La opción --save en Node.js se utiliza para instalar un paquete y guardarlo como una dependencia en el archivo package.json. Esto significa que el paquete se agregará a la sección "dependencias" del archivo package.json.
+- La opción --save en Node.js se utiliza para instalar un paquete y guardarlo como una dependencia en el archivo package.json. Esto significa que el paquete se agregará a la sección "dependencies" del archivo package.json.
 - Por ejemplo, si deseas instalar el paquete "express" y guardarlo como una dependencia, puedes usar el siguiente comando:
 ```powershell
 npm install express --save
 ```
-- Este comando instalará el paquete "express" y lo agregará a la sección "dependencias" del archivo package.json.
+- Este comando instalará el paquete "express" y lo agregará a la sección "dependencies" del archivo package.json.
 - Aquí hay un ejemplo de cómo se vería el archivo package.json después de ejecutar el comando anterior:
 
 ```json
@@ -338,7 +338,7 @@ npm install express --save
 ```
 :::tip
 - A partir de la versión 5.0.0 de npm, la opción --save ya no es necesaria, ya que npm guardará automáticamente el paquete como una dependencia cuando se instale.
-
+- Las **dependencias** (`dependencies`) son paquetes que el proyecto necesita para funcionar correctamente.
 :::
 
 #### Opciones `--legacy-peer-deps` y `--force`
@@ -411,7 +411,7 @@ npm install react@19 paquete-viejo --force
 
 ## Locales vs Globales
 -	Existen paquetes o dependencias que se instalan en nuestro proyecto (como lo hemos trabajado hasta ahora) . 
-- Para los locales se utiliza: npm install nombre-paquete y crea la carpeta node_modules
+- Para instalar una dependencia local se utiliza `npm install nombre-paquete`; si la carpeta `node_modules` no existe, npm la crea automáticamente y, si ya existe, simplemente agrega el nuevo paquete junto con sus dependencias en la carpeta `node_modules`.
 -	Pero también existe la posibilidad de hacer instalaciones de manera global (imagina que es como instalar un programa en tu pc que puede ser accedido de cualquier parte)
 - Para los globales se utiliza: npm install -g nombre-paquete y se instala en la PC
 
@@ -427,8 +427,9 @@ Comando en el proyecto por consola:
 ```powershell
 npm i cowsay
 ```
- Al instalar paquetes de forma local, se crea la carpeta node_modules que contiene todos los modulos de node que gestionamos con package.json.
-
+:::tip
+La carpeta `node_modules` contiene las dependencias del proyecto especificadas en `package.json` que fueron instaladas.
+:::
 2. Utilizamos el paquete que instalamos
 
 app.js
@@ -522,8 +523,8 @@ Independiente de la carpeta que nos encontremos, podemos ejecutar estos comando 
 - Cada dependencia se instala en su propia carpeta dentro de node_modules. Cada carpeta contiene los archivos de la dependencia, incluyendo el archivo package.json de la dependencia.
 - Es importante mencionar que no se recomienda subir el directorio node_modules a GitHub porque puede aumentar significativamente el tamaño del repositorio y además, cada desarrollador puede tener diferentes versiones de las dependencias. En su lugar, se recomienda especificar las dependencias en el archivo package.json y ejecutar npm install en cada máquina donde se vaya a ejecutar el proyecto.
 ## NPX
-- Ejecuta un código sin necesidad de instalarlo de forma global.
-- Ejecuta algo que no esta instalado en nuestra computadora, pero simula lo que hubiéramos hecho de forma global.
+- **`npx`** permite ejecutar paquetes sin necesidad de instalarlos de forma global.
+- **`npx`** descarga el paquete (si es necesario), lo ejecuta y luego lo descarta, evitando instalarlo de forma global.
 - Posiblemente se toparán con este comando a futuro (sobretodo si trabajan con React.js), bueno esto ejecuta un paquete de npm sin necesidad de instalarlo de forma global o local.
 
 ```powershell
@@ -557,10 +558,10 @@ npx cowsay javascript
 
 -	En la versión 5, npm introdujo el archivo package-lock.json.
 -	El objetivo del package-lock.json es realizar un seguimiento de la versión exacta de cada paquete que se instala.
--	package-lock.json sencillamente evita este comportamiento general de actualizar versiones  por notación ([iconos](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)) de modo que cuando alguien clona nuestro repositorio y ejecuta npm install en su equipo, npm examinará package-lock.json e instalará la versión exacta de los paquete que nosotros habíamos instalado, ignorando así los ^ y ~ de package.json.
--	Realmente npm install no ignora las versiones de package.json así como no ignora package-lock.json.  Lo que hace es verificar que package.json y package-lock.json esten en sincronía.  Esto es, si las notaciones ([iconos](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)) descritas en package.json concuerdan con las versiones fijadas en package-lock.json, npm install usará estas última completamente
+- `package-lock.json` evita que npm instale versiones más recientes permitidas por la **notación de versiones** (`^` y `~`) de `package.json` ([más información](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)). De este modo, cuando alguien clona el repositorio y ejecuta `npm install`, npm utiliza `package-lock.json` para instalar exactamente las mismas versiones de los paquetes que fueron instaladas originalmente, ignorando la notación de versiones (`^` y `~`) de `package.json`.
+- Realmente, `npm install` no ignora las versiones de `package.json` ni tampoco `package-lock.json`. Lo que hace es verificar que ambos archivos estén en sincronía. Es decir, si las [notaciones de versiones](https://dev.to/typescripttv/understanding-npm-versioning-3hn4) descritas en `package.json` concuerdan con las versiones fijadas en `package-lock.json`, npm utilizará estas últimas completamente.
 -	Si se modifica el package.json manualmente , npm considera al package.json la verdad absoluta , de modo que instala dicha versión y actualiza el package-lock.json.
--	cuando ejecute npm install, será capaz de reproducir el mismo árbol que el de su compañero sin problemas asociados (la misma versión)
+- Cuando ejecute `npm install`, será capaz de reproducir el mismo árbol de dependencias que el de su compañero sin problemas de versiones.
 
 :::tip npm update 
 - [npm 7 actualización  ](https://github.com/npm/cli/issues/708)
@@ -571,11 +572,45 @@ npx cowsay javascript
 :::
 
 ## Actualizaciones de modulo
-- [npm-update 1 ](https://docs.npmjs.com/cli/v7/commands/npm-update#description)
-- [semantica](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)
--	~1.2.3 Actualiza las versiones parches, por ende actualizará menor > 1.3.0
--	^1.2.3 Actualiza versiones menores incluyendo parches, por ende actualizará menor > 2.0.0
-- [versionlens ](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) te ayuda a visualizar los paquetes actualmente utilizados.
+#### Entendiendo cómo se especifica la versión de un módulo
+- Los módulos tienen versiones que se especifican así:
+```txt
+major.minor.patch
+```
+:::tip Observación
+- **major**: Es un número. Suele incrementarse cuando se producen cambios que generan incompatibilidad con la versión anterior. Esto indica que el software ya no es compatible con versiones anteriores y que los usuarios podrían necesitar modificar su código para poder usarlo. Ejemplo: versión 1.0.0, versión 2.0.0, etc.
+- **minor**: Es un número. Se incrementa cuando se añaden nuevas funciones al software o cuando se introducen mejoras significativas en las funciones existentes. Estos cambios suelen ser compatibles con versiones anteriores, lo que significa que los usuarios pueden actualizar a la nueva versión sin tener que realizar cambios importantes en su código. Ejemplo: versión 1.1.0.
+- **patch**: Es un número. Se incrementa cuando se corrigen errores o problemas de seguridad en el software. Estos cambios suelen ser menores y no implican modificaciones importantes en la funcionalidad o las características del software. Ejemplo: versión 1.2.1.
+:::
+
+
+#### Notaciones de versiones
+
+- A la hora de especificar una versión, podemos usar símbolos llamados notaciones de versiones.
+- Estos símbolos sirven para definir un rango de versiones. Entonces, cuando los usamos con `npm install` o `npm update`, npm se encarga de encontrar la versión más reciente dentro de ese rango.
+#### Circunferencia (`^`)
+- Al poner el símbolo `^` seguido de una versión, permitimos solo actualizaciones **minor** y **patch**, pero no de **major**.
+- Por ejemplo, `^5.0.2` obtendría la versión más reciente dentro de la misma versión principal (major). Es decir, podríamos actualizar a `5.1.0` o incluso `5.0.3`, pero no a una nueva versión principal como `6.0.0`.
+#### Tilde (`~`)
+- Al poner el símbolo `~` seguido de una versión, permitimos solo actualizaciones **patch**.
+- Por ejemplo, `~5.0.2` obtendría la versión `5.0.3` si estuviera disponible, pero no `5.1.0`.
+#### Notaciones de versiones alternativas
+- En lugar de usar símbolos, podemos usar `x` para especificar la versión más reciente de un **major**, **minor** o **patch**.
+- Ejemplos:
+  - `5.0.x`: esto instalará el parche (patch) más reciente de la versión `5.0`.
+  - `5.x.x`: esto instalará la versión menor (minor) más reciente de la versión principal `5`.
+
+:::tip 
+- Al ejecutar `npm install`, se instalan las dependencias del proyecto y también las dependencias de esas dependencias (dependencias transitivas). Además, se crea el archivo `package-lock.json` si no existe.
+- Importante: si no existe `package-lock.json`, npm instalará versiones compatibles dentro de los rangos definidos en `package.json`. Esto significa que no siempre se recibirá la última versión disponible dentro de ese rango.
+- Para asegurarte de obtener la última versión, se utiliza `npm update`.
+:::
+
+:::tip info
+- [npm-update](https://docs.npmjs.com/cli/v7/commands/npm-update#description)
+- [Understanding npm Versioning](https://dev.to/typescripttv/understanding-npm-versioning-3hn4)
+- [Extensión para visualizar los paquetes  utilizados](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens)
+:::
 
 Ejemplo:
 1. Instalamos una version especifica de [moment](https://www.npmjs.com/package/moment)
@@ -825,9 +860,9 @@ npm exec create-example -- Pepe
 
 
 ## devDependencies
--	devDependencies hace referencia a los paquetes que no se necesitan para producción.
--	están destinados a instalarse solo en una máquina de desarrollo.
--	no son necesarios para ejecutar el código en producción.
+- `devDependencies` hace referencia a los paquetes que no se necesitan en producción.
+- Están destinados a instalarse únicamente en entornos de desarrollo.
+- No son necesarios para ejecutar el código en producción.
 
 Ejemplo:
 
@@ -843,7 +878,7 @@ npm install --save-dev nodemon
 
 ```
 :::tip
- [nodemon](https://www.npmjs.com/package/nodemon) es una herramienta que ayuda a desarrollar aplicaciones basadas en node.js al reiniciar automáticamente la aplicación de node cuando se detectan cambios de archivo en el directorio.
+[`nodemon`](https://www.npmjs.com/package/nodemon) es una herramienta que ayuda a desarrollar aplicaciones basadas en Node.js, ya que reinicia automáticamente la aplicación cuando detecta cambios en los archivos del proyecto.
 :::
 ## Nodemon
 - Nodemon es una herramienta que  reinicia automáticamente el servidor cuando se detectan cambios en los archivos de la aplicación. Es útil ya que evita tener que reiniciar manualmente el servidor cada vez que se realizan cambios en el código.
@@ -875,12 +910,12 @@ nodemon app.js
 
 
 ## Servidor HTTP
-- [Link](https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module)
--	Hypertext Transfer Protocol: El Protocolo de transferencia de hipertexto es el protocolo de comunicación que permite las transferencias de información en la World Wide Web.
--	Intercambia  información entre cliente y servidor.
--	El servidor queda a la espera de alguna solicitud HTTP  que le envie el cliente para proporcionar una respuesta.
--	Cuando visitamos un sitio web, hacemos una solicitud GET de HTTP, y el servidor nos devuelve por ejemplo un index.html con el sitio web.
--	Nosotros configuraremos estas respuestas en nuestro "servidor web o servidor http" con node.js
+- [How To Create a Web Server in Node.js with the HTTP Module](https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module)
+- Hypertext Transfer Protocol (HTTP): es el protocolo de comunicación que permite la transferencia de información en la World Wide Web (Web o Internet).
+- Intercambia información entre cliente y servidor.
+- El servidor permanece a la espera de solicitudes HTTP enviadas por el cliente para poder responderlas.
+- Cuando visitamos un sitio web, realizamos una solicitud HTTP GET, y el servidor nos devuelve, por ejemplo, un `index.html` con el sitio web.
+- Nosotros configuramos estas respuestas en nuestro "servidor web" o "servidor HTTP" con Node.js.
 
 :::tip Iniciar proyecto
 - Al iniciar el proyecto, hay que crear nuestro package.json y configurarlo.
@@ -888,7 +923,7 @@ nodemon app.js
 
 npm init -y  
 ```
-- la -y es para que sea todo automatico.
+- La opción `-y` hace que la inicialización sea automática, aceptando los valores por defecto sin hacer preguntas.
 - No hace falta poner la extensión.js
 - Esta es la configuración del package.json:
 ```js
@@ -931,6 +966,7 @@ const server = http.createServer((req, res) => {
 
     // Para cualquier solicitud/peticion del cliente le enviamos esta respuesta.
     // res tiene metodos para devolver una respuesta
+    // end() envía una respuesta al cliente y da por cerrada la petición
     res.end("esta es la respuesta");
 });
 
@@ -993,14 +1029,14 @@ server.listen(puerto , () => {
 - Cuando renderizas una vista, Express utiliza un motor de plantillas (como EJS, Pug o Handlebars) para combinar los datos (por ejemplo, variables o estructuras como objetos o listas) con la estructura HTML predefinida en la plantilla. El resultado es una página HTML completamente construida, que luego se envía como respuesta al cliente.
 - Pasos que se siguen:
   - El servidor recibe una solicitud (por ejemplo, el cliente solicita una página /home).
-  - El controlador busca los datos necesarios para esa solicitud (por ejemplo, el título de la página y un mensaje de bienvenida).
+  - El servidor busca los datos necesarios para esa solicitud (por ejemplo, el título de la página y un mensaje de bienvenida).
   - El motor de plantillas toma una plantilla predefinida (como un archivo .ejs, .pug, etc.), la combina con los datos que el servidor ha proporcionado.
   - El servidor envía el HTML generado como respuesta al navegador del cliente.
 
 
 :::
 :::tip Plantilla
-- Una plantilla dinámica es un archivo de estructura HTML que contiene marcadores de posición, variables o fragmentos de código que son reemplazados o generados en tiempo de ejecución con datos específicos antes de ser enviados al cliente. Estas plantillas permiten generar contenido HTML que cambia dinámicamente en función de los datos que el servidor maneja o recibe de los usuarios.
+- Una plantilla dinámica es un archivo de estructura HTML que contiene marcadores de posición, variables o fragmentos de código que son reemplazados con datos específicos antes de ser enviados al cliente. Estas plantillas permiten generar contenido HTML que cambia dinámicamente en función de los datos que el servidor maneja o recibe de los usuarios.
 - Componentes clave de una plantilla dinámica:
   1.	Marcadores de posición: Son variables o fragmentos de código que se sustituyen por datos reales cuando la página es renderizada.
   o	Ejemplo en EJS (un motor de plantillas): ``<%= message %>``
@@ -1037,7 +1073,7 @@ server.listen(puerto , () => {
 
 ## Verbos o métodos HTTP
 - [Info](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)
--	HTTP define un conjunto de métodos/verbos HTTP para indicar la acción que se desea realizar para un recurso determinado.
+- HTTP define un conjunto de métodos (o verbos) para indicar la acción que se desea realizar sobre un recurso determinado.
 -	Los más populares son: GET, POST, PUT, DELETE.
 -	En el siguiente apartado crearemos nuestro servidor web (con express) y pondremos en práctica cada uno de estos métodos.
 -	Si entramos a una URL y nos devuelve una página web es con el método GET.
@@ -1047,10 +1083,9 @@ server.listen(puerto , () => {
 ## Express
 - [Info](https://expressjs.com/es/)
 -  Nos permite hacer nuestro servidor HTTP de una manera sencilla.
-- Nos permite gestionar las solicitudes que nos hacen los - clientes.
+- Nos permite gestionar las solicitudes que nos hacen los clientes.
 Podemos conectarnos a BD y pintar información en un HTML.
--	Nos permite crear una infraestructura web rápida, minimalista y flexible para Node.js
--	Con miles de métodos  HTTP y un middleware a su disposición, la creación de una API sólida es rápida y sencilla.
+
 
 
 ### Instalacion
@@ -1085,7 +1120,10 @@ app.listen(port , () => console.log('Funciona'))
 
 ## Rutas
 - [Info](https://expressjs.com/es/starter/basic-routing.html)
-- El direccionamiento hace referencia a cómo responde una aplicación a una solicitud de cliente en un determinado punto final, que es un URI o una vía de acceso (sea uno o el otro se parece a una url) y un método de solicitud HTTP específico (GET, POST, etc.).
+- El direccionamiento (routing) hace referencia a cómo una aplicación responde a una solicitud del cliente en un punto final específico.
+- Un punto final (endpoint) es una ruta específica de la aplicación a la que el cliente puede hacer una solicitud HTTP para obtener o enviar información. Está compuesto por una URL (o URI) y un método HTTP (como GET o POST), y representa el lugar donde el servidor recibe y responde a una petición especifica.
+
+
 
 index.js:
 ```js
@@ -1132,27 +1170,27 @@ app.listen(port , () => console.log('Funciona'))
 :::
 ## Archivos estáticos
 - [Info](https://expressjs.com/es/starter/static-files.html)
--	Para el servicio de archivos estáticos como, por ejemplo, imágenes, archivos CSS y archivos JavaScript, utilice la función express.static  que la brinda el middleware de Express.
-- express.static nos permite habilitar una carpeta que va a contener archivos estaticos
--	Pase el nombre del directorio que contiene los activos estáticos a la función express.static para empezar directamente el servicio de los archivos.
-- La carpeta que contiene los archivos estaticos se suele llamar public 
-- Esta "carpeta" representa el frontend.
+- Para servir archivos estáticos como imágenes, archivos CSS o archivos JavaScript, se utiliza la función `express.static`, proporcionada por el middleware de Express.
+- `express.static` permite habilitar una carpeta que contendrá archivos estáticos.
+- Se debe pasar el nombre del directorio que contiene estos archivos a `express.static` para comenzar a servirlos directamente.
+- La carpeta que suele contener estos archivos se llama `public`.
+- Esta carpeta representa el frontend de la aplicación.
 
 :::tip ¿Que son los archivos estaticos?
-- Son todos los archivos que lo  interpreta  y ejecuta el navegador
-- Ej. HTML , CSS , JS , imagénes.
+- Son archivos que el navegador interpreta y ejecuta directamente.
+- Ejemplos: HTML, CSS, JavaScript e imágenes.
 :::
-- Todas las demas carpetas es el backend (se ejecuta en el servidor/maquina)
+- Todas las demás carpetas pertenecen al backend (se ejecutan en el servidor o máquina).
 
-:::tip Middleware 
-- En palabras simples es una acción que se ejecuta antes de nuestra función de ruta(el servidor responda a la peticion)
-- El middleware  intercepta/atrapa la peticion antes que llegue al servidor.
-- Cuando el cliente envía una petición, el middleware detiene la petición, lo analiza y si esta todo bien ejecuta el método que gestiona solicitud o el proximo middleware.
-- Express viene con su middleware
--	La palabra use representa el middleware
+:::tip Middleware
+- En palabras simples, es una función que se ejecuta antes de que la petición llegue a la función que gestiona la solicitud (antes de que el servidor responda).
+- El middleware intercepta la petición antes de que llegue al servidor.
+- Cuando el cliente envía una petición, el middleware puede detenerla, analizarla y, si todo está correcto, permitir que continúe hacia el siguiente middleware o la función que maneja la solicitud.
+- Express ya incluye middlewares incorporados.
+- La palabra `use` se utiliza para definir middlewares en Express.
 :::
-- express.static es para ver donde van los archivos “públicos”.
- - Los middleware se ejecutan antes de hacer la petición (que responda el servidor).
+- `express.static` se utiliza para indicar dónde se encuentran los archivos “públicos”.
+- Los middlewares se ejecutan antes de que el servidor responda a la petición.
 
  index.js:
 ```js
@@ -1203,6 +1241,16 @@ En dicha carpeta, creamos un index.html
 </html>
 
 ```
+
+:::tip Observación
+- `express.static("public")` permite que cualquier archivo dentro de la carpeta `public` sea accesible directamente desde el navegador sin necesidad de definir rutas específicas en Express.
+- Si existe un archivo `index.html` dentro de `public`, este se sirve automáticamente cuando se accede a la ruta raíz (`/`), a menos que exista una ruta definida manualmente que lo reemplace.
+- Las rutas definidas con `app.get()` y `app.post()` tienen prioridad sobre los archivos estáticos si coinciden con la misma URL.
+- El método `GET` se utiliza para solicitar información, mientras que `POST` se utiliza para enviar datos al servidor (por ejemplo, desde un formulario).
+- El servidor Express escucha en el puerto definido (`5000` en este caso) y queda a la espera de solicitudes HTTP.
+:::
+
+
 ## req.query
 #### Query
 - Las query strings (o parámetros de consulta) son una parte de la URL que se utiliza para enviar información adicional al servidor. Se colocan después del signo de interrogación (?) en la URL y constan de pares clave-valor. Las query strings no forman parte de la ruta en sí, sino que proporcionan datos adicionales que se pueden usar para filtrar, ordenar, buscar o modificar la solicitud de alguna manera.
@@ -1245,8 +1293,7 @@ index.html de la carpeta public
 
 ```
 :::tip Observación
--	GET:Envia los datos del formulario en la URL como pares de nombre=valor, La longitud de una URL es limitada (alrededor de 3000 caracteres), GET es mejor para datos no seguros, como cadenas de consulta en Google.
-
+- **GET**: envía los datos del formulario a través de la URL como *query parameters* (parámetros de consulta), es decir, pares `nombre=valor` que forman parte de la query string. La longitud de una URL es limitada (aproximadamente 3000 caracteres). GET es más adecuado para datos no sensibles, como búsquedas o consultas (por ejemplo, en Google).
 :::
 index.js: 
 ```js
@@ -1365,7 +1412,7 @@ app.post('/formulario' , (req,res)=> {
 ## fs
 - [Tutorial](https://kinsta.com/es/base-de-conocimiento/nodejs-fs/)
 - [Opciones](https://nodejs.org/api/fs.html#filehandlewritefiledata-options)
-- Es un módulo incorporado
+- `fs` es un módulo de Node.js que permite manipular archivos del sistema, como leer, escribir, crear o eliminar archivos.
 
 index.html de la carpeta public:
 ```html
@@ -1376,8 +1423,7 @@ index.html de la carpeta public:
       </form>
 
 ```
-:::tip
-El return en las validaciones es para evitar dos res.send() que puede generar errores
+
 ```js
 const fs = require('fs');
 const express = require("express");
@@ -1400,11 +1446,13 @@ app.post('/formulario' , (req,res)=> {
 })
 
 ```
-
-:::
 :::tip
-También se puede direccionar (como se hace en el ejemplo)
+- El `return` en las validaciones se utiliza para evitar ejecutar más de una vez `res.send()`, lo cual puede generar errores.
+- Un servidor no puede enviar dos respuestas para la misma petición; si ocurre, se produce un error.
 :::
+
+
+
 
 
 error.html dentro de public:
@@ -1459,6 +1507,8 @@ app.post('/formulario' , (req,res)=> {
       // writeFile(nombre-archivo y ubicacion , contenido , callback )
       // writeFile no crea carpetas
       //el archivo se crea en la carpeta archivos
+      // El callback se ejecuta cuando finaliza la operación de escritura del archivo.
+      // Puede ejecutarse cuando el archivo se crea correctamente o si ocurre un error durante el proceso.
      fs.writeFile(`archivos/${nombre}.txt` , apellido , (err) => {
            if (err) return   res.send('Fallo al crear el archivo  ' );
            res.send("se creo el archivo");
@@ -1467,9 +1517,12 @@ app.post('/formulario' , (req,res)=> {
 })
 
 ```
+:::tip
+- También se puede utilizar el direccionamiento (routing), como en el ejemplo, para evitar que se envíen dos respuestas (`res.end`, `res.send`, etc.) en una misma petición.
+:::
 ## res.download
 - [info](http://expressjs.com/en/api.html#res.download)
-- Es para descargar algo.
+- Se utiliza para enviar un archivo al cliente y forzar su descarga en el navegador.
 
 index.js
 ```js
@@ -1497,7 +1550,7 @@ app.post('/formulario' , (req,res)=> {
      fs.writeFile(`archivos/${nombre}.txt` , apellido , (err) => {
            if (err) return   res.send('Fallo al crear el archivo  ' );
            // __dirname es la ubicacion de este archivo
-           //download(ubicacion del archivo a descargar)
+           //download(ubicacion del archivo que se le manda al cliente)
            res.download(__dirname + `/archivos/${nombre}.txt`);
      })
      
@@ -1512,7 +1565,7 @@ app.listen(port , () => console.log('Funciona'))
 
 ```
 ## res.sendFile
-- Abre un archivo en especifico.
+- Envía un archivo específico al cliente para que el navegador lo muestre (por ejemplo, HTML, imágenes o PDFs).
 ```js
 // Si no encuentra una ruta configurada (No existe la ruta)
 app.use((req, res, next) => {
@@ -1526,7 +1579,7 @@ app.use((req, res, next) => {
 - __dirname es la ruta( dinámica) en donde se ejecuta el código . 
 - Es la ubicación del archivo en la máquina.
 ### metodo path.join
-He visto varios ejemplos con path.join, este nos sirve hacer uniones de rutas 
+`path.join` sirve para unir rutas de archivos de forma segura. Es como concatenar partes de una ruta, pero teniendo en cuenta las reglas del sistema operativo (por ejemplo, Windows usa `\` y Linux/macOS usan `/`). Esto evita errores al construir rutas manualmente y garantiza que la ruta final sea válida en cualquier entorno.
 ```js
 app.use(express.static(path.join(__dirname, "public")));
 ```
@@ -1708,9 +1761,8 @@ module.exports = verifyToken;
 - Cada respuesta tiene un status.
 - El Status es el código de respuesta.
 - Indica si la petición ha sido exitosa, o no, y debido a que.
-- [link1](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
-- [link2](https://http.cat/)
-
+- [Códigos de estado de respuesta HTTP](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
+- [HTTP Cats](https://http.cat/)
 - La respuesta tiene el status 400:
 ```js
 // Con el metodo status especificamos el código de respuesta
@@ -1723,7 +1775,7 @@ res.status(400).json({error: 'token no es válido'})
 - Los params en Express se refieren a los parámetros de ruta que se definen en la URL. Estos son “fragmentos dinámicos” en las rutas que permiten que partes de la URL sean variables. Los params se utilizan para capturar valores que cambian de una solicitud a otra (como un ID de usuario, un nombre de producto, etc.).
 - Definición de una ruta con params: Se definen como partes de la URL que están precedidas por dos puntos (:) en la declaración de la ruta. En el contexto de Express, cuando defines una ruta como /users/:id, :id es un parámetro de ruta.
 - Acceso a los params: Estos valores capturados se pueden acceder a través del objeto req.params. Cada parámetro definido en la ruta se convierte en una propiedad de este objeto, donde el nombre del parámetro se convierte en la clave.
-- Coincidencia de rutas: Express compara las rutas de la solicitud con las rutas definidas en el servidor y, si encuentra una coincidencia con un parámetro de ruta, asigna el valor correspondiente a req.params.
+- Coincidencia de rutas: Express compara la ruta de la solicitud con las rutas definidas en el servidor y, si encuentra una coincidencia con un parámetro de ruta, asigna el valor correspondiente a req.params.
 
 
 :::tip Explicación no tan técnica
