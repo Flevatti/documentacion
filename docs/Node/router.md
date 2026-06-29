@@ -63,9 +63,9 @@ app.listen(port, () => {
 :::
 
 
-#### Cambios en el index.js
-- Si cambiamos `"/"` por otra "ruta".
-- Todas las rutas del router se van a acceder usando esa base, quedando como: `ruta/direccionDelRouter`.
+#### Cambios en el `index.js`
+- Si en `app.use('/', require("./router/Rutas"))` cambiamos `"/"` por otra "ruta".
+- Todas las URI definidas en ese router comenzarán con esa "ruta", quedando como: `ruta/direccionDelRouter`.
 - Ejemplo:
 ```js
 app.use('/api' , require("./router/Rutas"))
@@ -160,8 +160,17 @@ app.use('/' , require("./router/Rutas"));
 
 ```
 
-:::tip Texto plano ``=== <%=``
-- Un Texto plano (plain text), son aquellos archivos formados exclusivamente por texto (sólo caracteres), sin ningún formato; es decir, no requieren ser interpretados para leerse (aunque pueden ser procesados en algunos casos). También son llamados archivos de texto llano, simple o sin formato. 
-- ``<%=`` especifica un texto plano
+:::tip Texto plano (`<%=`)
+- Un texto plano (*plain text*) es un contenido formado únicamente por caracteres, sin formato ni código que deba ejecutarse.
+- En EJS, `<%=` se utiliza para insertar ese contenido en el HTML generado. Es decir, muestra el valor de una variable o expresión como texto dentro de la página.
 
+**Ejemplo:**
+
+```ejs
+<p>Hola <%= nombre %></p>
+```
+- Si `nombre` vale `"Juan"`, el HTML generado será:
+```html
+<p>Hola Juan</p>
+```
 :::

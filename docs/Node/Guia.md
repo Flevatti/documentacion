@@ -411,7 +411,7 @@ views/components/Card.hbs
 ```
 ## Configurar Partials
 
-- partials = sirve para  separar trozos de hbs que se van a repetir. (ciclos (each) , menu , footer , etc)
+- partials = sirve para  separar trozos de hbs que se van a repetir. (menu , footer , etc)
 - en el partials puede ir  footer.hbs , navbar.hbs , etc.
 
 ### Configuracion 
@@ -437,7 +437,7 @@ home.hbs
 
 ```
 :::tip Explicacion 
-por cada iteración , invoca al Card.hbs  pasando como url cada componente del array urls
+por cada iteración , se renderiza  Card.hbs, al cual le pasamos la url como valor de this (son como los props).
 :::
 
 Otra manera:
@@ -522,12 +522,13 @@ Creamos la carpeta llamada routes
 Y dentro el archivo home.js
 
 
-:::tip routes 
-- Usamos el Router para crear manejadores de rutas modulares (permite trabajar en módulos )
-- Sirve para poner la lógica de una o varias rutas en un archivo y poder separarlos (módulos), de forma que cada archivo es una ruta o un conjunto de rutas relacionadas.
-- Lo recomendable es que cada archivo contenga la lógica de una  ruta para poder trabajar con módulos.
-
+:::tip routes
+- Usamos `Router` para organizar las rutas en partes más pequeñas.
+- Cada archivo puede tener un grupo de rutas relacionadas.
+- Esto ayuda a que el código sea más ordenado y fácil de mantener.
 :::
+
+
 routes/home.js
 ```js
 const express = require('express');
@@ -612,7 +613,7 @@ Cambiamos las rutas en el navbar.hbs
 - nuestra IP (para mayor seguridad)
 - Permitir que se pueda conectar desde cualquier ip(0.0.0.0)
 - Un conjunto de IP (la nuestra y la de un servidor/hosting)
-
+:::
 3. En DataBase Access Creamos un usuario
 :::tip Ejemplo
 User: User_API
@@ -1333,8 +1334,9 @@ document.addEventListener('click' , e => {
     
     if (e.target.dataset.short) {
          const url = `http://localhost:5000/${e.target.dataset.short}`;
-         // Usamos el clipboard para copiar la const url  en el portapapeles
-         // Que se copie(Control + C) para luego pegar la url en donde quieras
+    // navigator.clipboard permite acceder al portapapeles del navegador
+    // writeText(string) copia el string indicado (en este caso la URL) automáticamente
+    // Es equivalente a hacer Ctrl + C sobre el texto indicado
          navigator.clipboard
             .writeText(url)
             .then(() => {
@@ -1521,6 +1523,19 @@ module.exports = mongoose.model("User" , UserSchema)
 :::
 
 
+:::tip indexar (index)
+- Indexar significa crear un índice en una propiedad de la colección.
+- Un índice funciona como un “atajo” que hace más rápidas las búsquedas por ese campo.
+- En este caso, `email` está indexado para que MongoDB pueda encontrar usuarios por email más rápido.
+- Además, al usar `unique: true`, el índice también evita que se repitan valores (por ejemplo, dos usuarios con el mismo email).
+
+🧠 Analogía:
+- Es como el índice de un libro.
+- El índice es la sección del final (o del inicio) donde aparecen los temas importantes del libro junto con la página donde están.
+- En lugar de leer todo el libro página por página para encontrar un tema, vas directamente a la página exacta usando ese índice.  
+- Sin índice, tendrías que recorrer todo el libro desde el principio hasta encontrar lo que buscas.
+:::
+
 ## Cifrar la contraseña
 ### Creamos un hash
 :::warning
@@ -1610,6 +1625,8 @@ cuentaConfirmada: {
 // pre(nombrefuncion , funcion)
 userSchema.pre('save' , async function(next){
  // Al ser una una instancia , podemos usar el this
+ // Dentro de esta función, "this" representa la instancia del modelo,
+// es decir, el documento que está ejecutando la acción (el usuario actual)
    const user = this
    //Si la contraseña no ha sido modificada , que siga (llame al nombrefuncion())
    if (!user.isModified('password')) return next();
@@ -1851,10 +1868,19 @@ const app = express();
 // Configuramos la sesion con el middleware.
 app.use(
   session({
+    // secret: clave (string) secreta usada para proteger la cookie de la sesión
+    // Se utiliza para validar que la sesión sea válida, como si fuera un token
+    // Esto evita que la sesión pueda ser manipulada por el cliente
       secret: 'palabra secreta',
-      // Para tratar errores
+    // resave: indica si la sesión se vuelve a guardar en el store
+    // aunque no haya sido modificada en la request
+    // false = evita escrituras innecesarias
       resave: false,
+    // saveUninitialized: guarda sesiones nuevas aunque no tengan datos
+    // false = no crea sesiones vacías (mejor rendimiento y seguridad)
       saveUninitialized: false,
+    // name: nombre de la cookie donde se guarda el ID de la sesión
+    // sirve para no usar el nombre por defecto "connect.sid"
       name: "nombre de la palabra secreta"
   })
 );
@@ -1895,7 +1921,7 @@ app.get('/destruir-sesion' , (req,res) => {
 
 ## Flash
 - El flash es un área especial de la sesión que se utiliza para almacenar mensajes. Los mensajes se escriben en la memoria flash y se borran después de mostrarse al usuario. El flash generalmente se usa en combinación con redireccionamientos, lo que garantiza que el mensaje esté disponible para la siguiente página que se va a representar.
-- Viven solamente en una redirección. Si se navega en otro lado se destruye.
+- Viven solamente en una redirección. Si se navega a otro lado se destruye.
 - Usaremos el modulo [connect-flash](https://www.npmjs.com/package/connect-flash) para trabajar con flash
 -  Es un tipo de sesion , que solo vive una vez (en una redirección)
 ```powershell
@@ -1931,6 +1957,7 @@ app.get('/mensaje-flash' , (req, res) => {
   res.json(req.flash('mensaje'))
 })
 app.get('/crear-mensaje' , (req, res) => {
+    // Crea un mensaje flash
   //flash( key , valor)
   // La key contiene el valor
   // key -> valor
@@ -1971,7 +1998,7 @@ router.post("/register" ,  [
     // body ("valor-atributoname/propiedad" , "mensaje de error").metodo.metodo.metodo....
     // valor-atributoname/propiedad = corresponde a una propiedad del body(los datos se envian por el body) que se va a evaluar
     // trim() = Limpia los espacios en blanco del lado izquierda y derecho
-    // notEmpty()  = Para que no venga vacio 
+    // notEmpty()  = Para que no este vacio
     // escape() = Para que solo mande caracteres y ignore html
     body("userName" , "Ingrese un nombre válido").trim().notEmpty().escape(),
 ] ,  registerUser);
@@ -2040,6 +2067,12 @@ router.post("/login", [body("email" , "Ingrese un email valido").trim().isEmail(
  ] , loginUser);
 
 ```
+:::tip normalizeEmail()
+- Convierte el email a un formato estándar.  
+- Pasa todo el email a minúsculas para evitar diferencias.  
+- Elimina partes del email que no cambian el correo real (como puntos o etiquetas en algunos casos).  
+- Ayuda a evitar duplicados y errores.  
+:::
 authController.js:
 ```js
 const loginUser = async (req,res) => {
@@ -2120,6 +2153,10 @@ views/layouts/main.hbs
 </body>
 
 ```
+:::tip Observación
+- Si mensajes es null, no se ejecuta el #each
+:::
+
 Ahora lo hacemos en el registro
 
 authController.js
@@ -2216,7 +2253,7 @@ passport.serializeUser((user , done) => {
 ```js
 // Tiene un callback con los mismos parametros que serializeUser()
 passport.deserializeUser((user , done) => {
-  // done(mensaje , usuario)
+  // done(errores , usuario)
   // la funcion done vuelve a crear el req.user
   //  1 alternativa
   return  done(null , user)
@@ -2258,7 +2295,9 @@ app.use(
 // Configuramos flash con el middleware
 app.use(flash());
 // Configuramos passport con el middleware
+// Inicializa Passport en la aplicación
 app.use(passport.initialize());
+// Permite que Passport use sesiones para mantener al usuario autenticado
 app.use(passport.session());
 
 // Recibe un callback con dos parametros 
@@ -2272,7 +2311,7 @@ passport.serializeUser((user , done) => {
 
 // Tiene un callback con los mismos parametros que serializeUser()
 passport.deserializeUser(async (user , done) => {
-  // done(mensaje , usuario)
+  // done(errores , usuario)
   // la funcion done vuelve a crear el req.user
 
  const userDB = await User.findById(user.id);
@@ -2330,8 +2369,12 @@ const loginUser = async (req,res) => {
       if (!user) throw new Error('No existe este email');
       if (!user.cuentaConfirmada) throw new Error('Falta confirmar cuenta');
       if (!await user.comparePassword(password)) throw new Error('Contraseña no correcta');
-      //login(usuario , callback)
-      // Con el parametro del callback gestiona los errores(seria como el catch)
+    // login(usuario, callback)
+    //
+    // usuario: objeto que contiene la información del usuario que se guarda en la sesión
+    //
+    // callback: función que se ejecuta cuando termina de crearse la sesión
+    // recibe un parámetro "error" para poder manejar posibles errores
      req.login(user , function(error)  {
               // Si hay errores 
               if (error) throw new Error('Error al crear la sesion')
@@ -2414,7 +2457,7 @@ Eso sucede porque no especificamos que el formulario proviene de nuestro sitio y
 
 :::
 
-Para especificar que los formularios provienen de nuestro sitio, tenemos que enviarle un token a los formulario.
+Para especificar que los formularios provienen de nuestro sitio, los formularios tienen que enviar un token que genera csr.
 
 Para enviar dicho token , vamos a usar un input de tipo hidden en todos los formularios
 :::tip warning
@@ -2480,17 +2523,18 @@ const registerForm = (req,res) => {
 
 ```
 :::tip Observacion 
-el método  csrfToken() lo genera csurf cuando lo configuramos con el middleware.
+- el método  csrfToken() lo genera csurf cuando lo configuramos con el middleware.
+- ese método devuelve el token que genera csurf y que este mismo lo usa para comprobar si el formulario proviene de nuestro sitio.
 :::
 #### De forma global a través de un middleware
-- No se necesita enviarlo en cada ruta como la forma manual.
+- No se necesita enviarlo en cada ruta como en la forma manual.
 ```js
 app.use(express.urlencoded({extended:true}));
 app.use(csrf());
 
 // variables globales para las vistas
-// Enviamos una llave a todas las páginas que renderizamos 
-  // res.locals.nombrellave = valor;
+// Enviamos una variable a todas las vistas que renderizamos 
+  // res.locals.nombreVariable = valor;
 
 app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
@@ -2520,8 +2564,8 @@ const registerForm = (req,res) => {
 index.js
 ```js
 // variables globales para las vistas
-// Enviamos dos llave a todas las paginas que renderizamos 
-  // res.locals.nombrellave = valor;
+// Enviamos dos variables a todas las vistas que renderizamos 
+  // res.locals.nombreVariable = valor;
 
 app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
@@ -2596,6 +2640,7 @@ module.exports = urlValidar;
 ```
 ## ref mongoDB
 - En mongoDB Podemos hacer una referencia (parecido a una relación)
+
 models/Url.js
 ```js
 
@@ -2615,7 +2660,7 @@ const urlSchema = new Schema({
     } ,
     // Referencia a un usuario 
     user: {
-        // Schema.Types.ObjectId  =   De tipo ID de un documento de una coleccion.
+        // Schema.Types.ObjectId  =   De tipo ID de un documento de la coleccion.
          type: Schema.Types.ObjectId,
          // ref: nombre de la coleccion(nombre del modelo) al que hace referencia
          ref:"User" ,
@@ -2628,7 +2673,7 @@ module.exports = Url;
 
 ```
 :::tip Explicacion como si fuera relacional
-- Se hace una referencia a la columna _id(type:Schema.Types.ObjectId) de la tabla User(ref:”User”).
+- El campo user tendra una referencia a la columna _id(type:Schema.Types.ObjectId) de la tabla User(ref:”User”).
 - _id lo genera mongoDB de manera automática.
 :::
 HomeController.js
@@ -2640,7 +2685,12 @@ const {nanoid} = require('nanoid');
 const leerUrls = async(req,res) => {
    try {
        // req.user es la informacion del usuario que se encuentra en la sesion
+    // find puede recibir un objeto igual que findOne()
+    // para implementar un where en el select
+
      // Buscamos todas las url donde user = req.user.id
+     // en SQL sería algo como:
+    // SELECT * FROM urls WHERE user = req.user.id
       const urls = await Url.find({user:req.user.id}).lean();
       res.render('home' , {urls:urls })
    } catch (e) {
@@ -2758,6 +2808,20 @@ var transport = nodemailer.createTransport({
 
 ```
 4.  Lo de la autenticación lo vamos a tener que pasar a un archivo .env ya que es información sensible
+
+:::tip transportador (Mailtrap / Nodemailer)
+- Un transportador es la configuración que usa Nodemailer para conectarse a un servicio de email.
+- Es un “medio de transporte” que se encarga de comunicar tu aplicación con el servidor de email (por ejemplo Mailtrap, Gmail, etc.).
+- Es el encargado de comunicarse con el servidor de correo, es decir, intercambiar información con él para poder enviar los emails.
+- Ahí se definen datos como:
+    - servidor SMTP
+    - puerto
+    - usuario
+    - contraseña
+- Sin el transportador, Nodemailer no puede enviar emails.
+:::
+
+
 ### Guia  de NodeMailer
 1. Se importa
 2. Se crea un transportador con las configuraciones del hosting
@@ -2805,6 +2869,7 @@ const registerUser = async (req,res) => {
         to: user.email, 
         // Asunto
         subject: "Verifica tu cuenta de correo",
+        // El contenido que se envia
         //texto plano  
         //text: "Hello world?",
         //texto en HTML

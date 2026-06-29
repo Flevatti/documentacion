@@ -5,7 +5,7 @@ sidebar_position: 4
 - Es una base de datos que puede trabajar en la nube.
 - [info](https://www.mongodb.com/)
 - Tiene un plan gratis.
-- Base de datos no relacional y que nos permite trabajar con la nube sin necesidad de hacer mayores instalaciones en nuestro equipo.
+- Es una base de datos no relacional que puede utilizarse tanto de forma local como en la nube.
 
 ### Pasos en el sitio web 
 [sitio web](https://www.mongodb.com/)
@@ -330,6 +330,9 @@ var path = require('path');
 const app = express();
 // Lo configuramos
 // parse application/x-www-form-urlencoded
+// extended: false permite leer los datos de un formulario HTML.
+// false: los datos son simples y vienen en formato clave-valor.
+// true: permite recibir datos más complejos, como objetos o arrays.
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
@@ -343,7 +346,7 @@ const port = process.env.PORT || 3000
 1. Creamos el archivo crear.ejs en la carpeta de vistas
 
 :::tip
-- Los name de los inputs deben coincidir con el nombre de las propiedades del documento(objeto) a crear(MONGODB)
+- Los name de los inputs deben coincidir con el nombre de las propiedades del documento(objeto) a crear.
 - Para ver si coincidi eso , busca en el esquema
 ```js
 const mascotaSchema = new Schema({
@@ -535,14 +538,16 @@ router.post('/' , async(req,res) => {
 - Lo que recibia la nueva instancia del modelo ( ejemplo anterior) , lo recibe el metodo create()
 
 :::
-## Get único documento
+## Get único documento (params)
 router/Mascota.js
-- Utilizamos una url dinámica
+- Utilizamos una url dinámica (params)
 - Impleméntamos en la ruta  ":nombrevariable"
 
 :::tip Observacion 
  - el metodo findOne lo contiene el modelo no la instancia
  - el metodo findOne Devuelve una instancia del modelo con el documento seleccionado.
+ - sirve para buscar un documento en la colección.
+ - nos permite implementar la operacion "where" de una BD.
 :::
 ```js
 
@@ -554,7 +559,10 @@ router.get('/:id' , async(req, res) => {
    try {
        // req.params.nombrevariable para obtener el valor de dicha variable
        const id = req.params.id;
-       // Buscamos la primera mascota que _id sea igual a la const id.
+       // Buscamos la mascota que _id sea igual a la const id.
+        // findOne() recibe un objeto donde cada propiedad representa un campo del documento
+        // y su valor indica qué se desea buscar en este campo.
+       // Seria como select * from Mascota(nombreModelo) where propiedad = valor
        // select * from Mascota(nombreModelo) where _id == id;
        const mascotaDB = await Mascota.findOne({_id : id})
        res.render('detalle' ,  {mascota: mascotaDB , error:false})
@@ -675,9 +683,15 @@ router/Mascota.js
 router.delete('/:id' , async(req , res) =>  {
     const id = req.params.id;
     try {
-        // Buscamos la mascota por la _id y lo eliminamos
-          // Si se elimina correctamente devuelve el documento que se borro
-          // delete  from Mascota(nombreModelo) where _id = id
+        // Busca y elimina la mascota con _id igual a la constante id.
+        // findByIdAndDelete() recibe un objeto con el formato { campo: valor },
+        // que indica que se buscará un documento donde el campo (propiedad) tenga el valor especificado.
+        // El documento encontrado se elimina de la base de datos.
+        // Es similar a:
+        //
+        // DELETE FROM Mascota WHERE propiedad = valor;
+        //
+        // Si la eliminación se realiza correctamente, devuelve el documento eliminado.
         const mascotaDB = await Mascota.findByIdAndDelete({_id : id});
       
         if (mascotaDB) {
@@ -783,11 +797,34 @@ router.put('/:id' , async(req,res) => {
     const id = req.params.id;
     const body = req.body;
     try {
-        // Encontrar la mascota y modificarla
-        // Parametros findByIdAndUpdate(id a buscar , los datos nuevos , una opcion para evitar un warning)
-         // devuelve el documento modificado
-         // UPDATE Mascota(nombreModelo) SET propiedad nombre = valor de propiedad nombre , propiedad descripcion = valor de propiedad descripcion    WHERE  _id = id a buscar; 
-         // las propiedades nombre y descripcion se encuentran en el body (segundo parametro)(es un objeto)
+    // Busca una mascota por su ID y la actualiza con los nuevos datos.
+    //
+    // findByIdAndUpdate recibe:
+    // 1. id → identificador del documento a buscar
+    // 2. body → objeto con los datos nuevos que se van a aplicar a la mascota encontrada
+    //           cada propiedad del objeto representa un campo que se va a actualizar
+    //           y cada valor es el nuevo dato que reemplaza el anterior
+    //           (se actualizan solo los campos que estén presentes en el objeto)
+    // 3. options → configuración adicional (ej: evitar warnings). 
+    // useFindAndModify: false → indica a Mongoose que NO use el método antiguo 
+    // findAndModify de MongoDB (obsoleto), y en su lugar use la implementación moderna
+    // (findOneAndUpdate / findByIdAndUpdate sin warnings de deprecación)
+    // En resumen:
+    // - propiedades del body → campos que se van a actualizar
+    // - valores del body → nuevos datos que se guardan en esos campos
+    //
+    // Equivalente en SQL:
+    // UPDATE Mascota
+    // SET propiedad = valor...
+    // WHERE _id = id;
+    //
+    // En este caso:
+    // UPDATE Mascota
+    // SET nombre = nuevoNombre, descripcion = nuevaDescripcion
+    // WHERE _id = id;
+    //
+    // Devuelve el documento original por defecto (no el actualizado).
+
        const mascotaBD = await Mascota.findByIdAndUpdate(id , body , {useFindAndModify: false});
       
        res.json({estado: true , mensaje:"Editado"});

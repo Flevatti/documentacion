@@ -210,7 +210,7 @@ Probar en POSTMAN:
 
 POST  http://localhost:3001/api/user/register send
 ## 9- Configuramos la BD 
-1. Creamos una cuenta de la BD mongo (Database acces)
+1. Creamos una cuenta en la BD mongo (Database acces)
 
 :::tip cuenta
 usuario: api-rest
@@ -376,9 +376,9 @@ const Joi = require('@hapi/joi');
 // Joi.object({objeto})
 const schemaRegister = Joi.object({
     // Las propiedades son las mismas que el esquema de mongoDB
-// Son las propiedades que se van a evaluar/validar de un objeto(req.body)
+// Son las propiedades que se van a evaluar/validar de un objeto.
     // propiedad: Joi.validacion.validacion
-    // Validaciones: Son string , validar correo , caracteres maximo y minimo , son obligatorio
+    // Validaciones: Es string , validar correo , caracteres maximo y minimo , es obligatorio
     name: Joi.string().min(6).max(255).required(),
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
@@ -710,7 +710,7 @@ Generalmente las validaciones deben ir en un archivo aparte.
 
 ## 15- Empezamos a trabajar con el token 
 :::tip 
-El desarollador se encarga de la gestion y validacion del token . EL USUARIO NO SABE NADA DEL TOKEN
+El desarrollador se encarga de la creación y validación del token. El usuario no sabe nada  del token, solo lo recibe y lo envía automáticamente en cada petición (por ejemplo, a través del frontend).
 :::
 
 .env: 
@@ -788,7 +788,7 @@ router.post('/login', async (req, res) => {
     
     if (!validPassword) return res.status(400).json({ error: 'contraseña no válida' })
     // Creamos el token
-    // sign(un objeto que contiene el payload , string oculto)
+    // sign(un objeto, representa lo que va a contener el payload , string oculto/secreto)
     const token = jwt.sign({ 
         // Creamos el payload del token
         name: user.name,
@@ -811,15 +811,9 @@ Inicia sesion con postman
 [Proba el token en esta pagina](https://jwt.io)
 
 :::tip Observacion
-El token no tiene la firma.
-
-
-Vemos que no es valido pero en el payload esta la data que pusimos (name y id)
-
-
-Pero si en el bit secreto de la parte de Verify Signature, ponemos lo que pusimos como String secreto nos va a aparecer como verificado/validado.
-
-Entonces para verificar desde el servidor , usamos el secreto/String secreto / bit secreto para ver si el token es valido(NO FUE INVENTADO).
+- El token tiene el JWT Signature Verification vacio y por lo tanto indica que no es valido. Sin embargo en el payload esta la data que pusimos (name y id).
+- Si en JWT Signature Verification, ponemos lo que pusimos como String secreto nos va a aparecer como verificado/validado.
+- Entonces para verificar desde el servidor , usamos el String secreto para ver si el token es valido(NO FUE INVENTADO).
 :::
 
 ## 16- Empezamos con las rutas protegidas , creamos un middleware
@@ -902,7 +896,18 @@ router.post('/login', async (req, res) => {
     } , 
    
     process.env.TOKEN_SECRET)
-  // Mandamos un header como respuesta con el token
+    // Enviamos el token en el header y en el body.
+    //
+    // res.header('auth-token', token):
+    // → Agrega en el header un campo llamado "auth-token" que contiene el token generado.
+    // → Los headers viajan junto con la respuesta pero no forman parte del body.
+    //
+    // .json(objeto):
+    // → Enviamos el objeto como respuesta en formato JSON en el body.
+    // → En este caso se envía un objeto con información (por ejemplo el token y/o errores).
+    //
+    // Esto permite que el cliente pueda leer el token tanto desde el header
+    // como desde el body de la respuesta.
     res.header('auth-token', token).json({
         error: null,
         data: {token}
@@ -931,9 +936,11 @@ const verifyToken = (req, res, next) => {
     if (!token) return res.status(401).json({ error: 'Acceso denegado' })
     try {
         // Verifica si el token es valido utilizando el String secreto
-        // verify(token , string secreto
+        // verify(token , string secreto)
+        // → Devuelve el payload decodificado si el token es válido.
+        // → Si el token es inválido o está expirado, lanza un error.
         const verified = jwt.verify(token, process.env.TOKEN_SECRET)
-        // Creamos un nuevo requirimiento con la verificacion
+        // Agregamos la información validada del usuario al objeto request
         req.user = verified
         // Si esta todo bien , hacemos el next()
         next() // continuamos
@@ -987,8 +994,13 @@ const authRoutes = require('./routes/auth');
 const dashboadRoutes = require('./routes/admin');
 const verifyToken = require('./routes/validate-token');
 
-// route middlewares
-// Al ir al /api/admin o a cualquier ruta de dashboadRoutes , se ejecuta el middleware (validate-token) y si la validacion que realiza es correcta, va a la ruta que se solicito.
+// Route middlewares
+//
+// Al acceder a /api/admin o a cualquier ruta de dashboardRoutes,
+// se ejecuta el middleware (verifyToken).
+//
+// Si la validación del token es correcta, la petición continúa
+// y se dirige a la ruta solicitada.
 app.use('/api/admin', verifyToken, dashboadRoutes);
 app.use('/api/user' , authRoutes)
 
@@ -1022,4 +1034,4 @@ nombre: auth-token
 
 value: el valor del token (ej. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianVhbml0byIsImlkIjoiNjIxZDE4ZjVmZmJhNzBiMmQ5NzA5NWM1IiwiaWF0IjoxNjQ2MDc1ODA1fQ.0JQ6BRa-QaHebLSnsXXqNbaluxtmlP2VlzgxBE4t6lE)
 
-
+Podemos entrar
