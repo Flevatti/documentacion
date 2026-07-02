@@ -2896,11 +2896,12 @@ userPassword=8a37d820c188a6
 ```
 ## Subir archivos
 - [Pagina para generar imagen aleatoria](https://picsum.photos)
-
-- Las imagenes las guardamos en la carpeta publica (En este ejemplo public/img/perfiles)
+- Las imagenes las guardamos en la carpeta public (En este ejemplo public/img/perfiles)
 - El modulo [multer](https://www.npmjs.com/package/multer) o el modulo [formidable](https://www.npmjs.com/package/formidable) contiene la logica para manipular las imagenes 
 - En el ejemplo se utiliza formidable
 - También usaremos el módulo [jimp](https://www.npmjs.com/package/jimp)   para editar la imagen (redimensionar , quitar calidad , etc)
+
+
 Models/User
 ```js
 const UserSchema = new Schema({
@@ -2958,17 +2959,15 @@ views/perfil.hbs
 
 ```
 :::tip Observacion 
-- Usa(atributo-valor)  enctype="multipart/form-data" en el formulario para enviar imágenes.
-- Usar el atributo multiple en el input file si desea subir varios archivos.
-- Para los formularios que contienen imágenes, el token de csurf debe enviarse como query(a través de la url) 
+- Usa el atributo `enctype="multipart/form-data"` en el formulario para permitir el envío de imágenes.
+- Utiliza el atributo `multiple` en el elemento `<input type="file">` si deseas permitir la carga de varios archivos.
+- En los formularios que envían imágenes, el token CSRF debe enviarse como parámetro en la URL (query string):
 ```html
 action="/perfil?_csrf={{csrfToken}}"
 ```
 :::
 Creamos un archivo perfilController.js dentro de la carpeta controllers.
-:::tip 
-Otra forma de exportar
-:::
+
 ```js
 //module.exports.nombrefuncion = funcion
 // se exporta el nombrefuncion 
@@ -2980,6 +2979,9 @@ module.exports.editarFotoPerfil = async(req,res) => {
 } 
 
 ```
+:::tip Observacion
+Otra forma de exportar
+:::
 routes/home.js
 ```js
 const { formPerfil, editarFotoPerfil } = require('../controllers/perfilController');
@@ -3013,6 +3015,8 @@ npm i formidable
 :::tip Observacion 
 - multiples = boolean Sirve para especificar si son varias imágenes
 :::
+
+
 2. Usamos el metodo parse() de la instancia para leer y procesar la imagen 
 - A través de files (parámetro del callback de la función parse()), tenemos toda la información de la imagen (extensión , tamaño ,etc). Toda esa información viene de una propiedad que se llama igual que el valor del atributo name del input file
 
@@ -3026,11 +3030,22 @@ module.exports.formPerfil = async(req,res) => {
 } 
 module.exports.editarFotoPerfil = async(req,res) => {
    // Instanciamos un objeto formidable
+    // IncomingForm es una clase de Formidable que:
+    // - Lee los datos enviados por el formulario.
+    // - Separa los input de texto de los archivos.
+    // - Guarda temporalmente los archivos subidos.
+    // - Nos permite acceder a ellos mediante form.parse().
    const form = new formidable.IncomingForm()
    // Especificamos el tamaño  maximo del archivo
    // 50 * 1024 * 1024 = 5MB 
    form.maxFileSize = 50 * 1024 * 1024
-   //parse(de donde viene la imagen , funcion)
+   // form.parse(datos del formulario, función callback).
+   // req contiene los datos enviados por el formulario, incluyendo las imágenes.
+    // La función callback se ejecuta cuando Formidable termina de procesar el formulario.
+    //
+    // - err: errores durante el procesamiento.
+    // - fields: campos de texto.
+    // - files: archivos subidos por el usuario.
    form.parse(req , async(err, fields , files) => {
       try {
          // Si tiene un error
@@ -3233,14 +3248,19 @@ module.exports.editarFotoPerfil = async(req,res) => {
  Despues de guardar la imagen:
  ```js
  fs.renameSync(file.filepath , dirFile );
-       // Leemos la imagen (creamos una  instancia)
+
+      // Leemos la imagen utilizando Jimp.
+       // Jimp.read(rutaImagen)
+       // Devuelve una Promesa que, al resolverse, retorna una
+      // instancia de Jimp con la imagen cargada en memoria.
+      // Esa instancia permite modificar la imagen (cambiar tamaño,
+        // calidad, recortar, rotar, etc.).
       const image =  await Jimp.read(dirFile);
       // Cambiamos el tamaño  (resize)
       // Cambiamos la calidad (quality)
       // Lo volvemos a guardar (writeAsync)
        image.resize(200,200).quality(90).writeAsync(dirFile);
        const user = await User.findById(req.user.id);
-
  ```
  ### Lo mostramos en la ruta:
  perfileController.js
@@ -3287,13 +3307,30 @@ const mongoose = require('mongoose');
 // Habilitamos las variables de entorno
 require('dotenv').config()
 
+// Intenta establecer una conexión con la base de datos MongoDB.
+// connect(uri)
+// Recibe como parámetro la URI (cadena de conexión) de la base de datos.
+// Devuelve una Promesa que se resuelve cuando la conexión es exitosa
+// o se rechaza si ocurre un error.
 const clientDB = mongoose.connect(process.env.URI).then((m)=> {
-
+    // Se ejecuta cuando la conexión fue exitosa.
+    // Recibe como parámetro la instancia de Mongoose (m),
+    // la cual contiene información y métodos relacionados con la conexión.
     console.log("db conectada 🔥");
-    // Devolvemos el cliente por el cual nos conectamos a la BD
+    // getClient()
+    //
+    // Devuelve el cliente nativo de MongoDB (MongoClient) que Mongoose
+    // utilizó para establecer la conexión con la base de datos.
+    //
+    // El cliente representa la conexión activa con MongoDB y permite
+    // realizar operaciones sobre la base de datos, como consultar,
+    // insertar, actualizar y eliminar documentos.
     return m.connection.getClient();
+      // Se ejecuta si ocurre un error durante la conexión.
 }).catch(e => console.log("Fallo la conexion" + e));
 
+// Exportamos el cliente de la base de datos para utilizarlo
+// en otras partes de la aplicación.
 module.exports = clientDB;
 
 ```
@@ -3349,11 +3386,21 @@ app.use(
       resave: false,
       saveUninitialized: false,
       name: "nombre de secreto" ,
-      // create({configuraciones})
+         // store
+        // Indica dónde se almacenarán las sesiones.
+        // En este caso, se guardarán en una base de datos MongoDB.
+        // MongoStore.create()
+        // Recibe un objeto con la configuración de MongoDB y crea
+        // un objeto (Store) encargado de guardar las sesiones en la base de datos.
       store : MongoStore.create({
-        // Conexion a la BD
+       // clientPromise
+      // Recibe una Promesa que devuelve el cliente conectado a MongoDB.
+     // MongoStore espera a que la conexión esté disponible para poder
+     // guardar y recuperar las sesiones.
            clientPromise: clientDB ,
-        // Nombre de la BD
+      // dbName
+        // Nombre de la base de datos donde MongoStore creará (si no existe)
+        // la colección en la que almacenará las sesiones.
         dbName :  'dbUrl'
       }),
   })
@@ -3451,7 +3498,27 @@ Access-Control-Allow-Headers: Content-Type
 
 :::
 
-- En cuanto a la autenticación, CORS también permite que se incluyan credenciales en la solicitud, como cookies o tokens de autenticación. Para hacer esto, se debe establecer la marca withCredentials en la solicitud y el servidor debe incluir la cabecera Access-Control-Allow-Credentials en su respuesta.
+- CORS también permite **enviar y recibir credenciales** en las comunicaciones entre distintos orígenes. Estas credenciales pueden ser:
+  - Cookies.
+  - Certificados.
+  - Información de autenticación (por ejemplo, tokens).
+
+Para que el navegador permita el intercambio de credenciales, deben cumplirse **dos condiciones**:
+
+1. **El cliente** debe indicar que la solicitud puede incluir credenciales. Esto se hace con:
+   - `withCredentials: true` cuando se utiliza **Axios** o `XMLHttpRequest`.
+   - `credentials: 'include'` cuando se utiliza la API **Fetch**.
+
+2. **El servidor** debe permitir el intercambio de credenciales incluyendo la cabecera HTTP:
+
+   ```http
+   Access-Control-Allow-Credentials: true
+   ```
+
+Si alguna de estas condiciones no se cumple, el navegador impedirá el intercambio de credenciales. Por ejemplo, no enviará las cookies al servidor o rechazará las cookies recibidas mediante la cabecera `Set-Cookie`.
+
+
+
 - Aquí hay un ejemplo de cómo se vería la solicitud con credenciales:
 ```js
 fetch('https://bar.other/resources/public-data/', {
@@ -3511,12 +3578,17 @@ const hbs = create({
 const app = express();
 // Configuramos el cors
 const corsOptions = {
+ // credentials: true
+  // Permite el intercambio de credenciales entre cliente y servidor
+  // en peticiones cross-origin (CORS).
   credentials: true,
-  // Que dominios van a consumir esta app
-  // "*" = Todos las dominios
-  // Si NO existe la variable de entorno , todas los dominios pueden consumir esta app
+  // origin
+  // Que dominios van a poder consumir esta app.
+  // Si no está en esta lista no van a poder hacer peticiones.
+  // "*" = Todos los dominios
+  // Si NO existe la variable de entorno, todos los dominios pueden consumir esta app
   origin: process.env.PATHOSTING || "*",
-  // Los metodos HTTP que tienen autorizado 
+  // Métodos HTTP permitidos
   // En este caso solo se va a poder hacer solcitudes GET Y POST
   methods: ['GET' , 'POST']
 };
@@ -3611,13 +3683,22 @@ package.json
 Script start = Es el que ejecuta heroku
 :::
 ## Cookies segura
- - Le da seguridad al servidor
+- Las cookies seguras son aquellas que solo se envían cuando la conexión es HTTPS.
+- Esto le da más seguridad al servidor, ya que evita que las cookies puedan ser interceptadas en conexiones no seguras (HTTP).
  ### Pasos
  1. Borramos las sesiones en la BD
  2. Modificamos el index.js
  ```js
 app.use(cors(corsOptions));
-// Para que el secure : true funcione
+// trust proxy
+// Le dice a Express (servidor backend) que está detrás de un proxy
+// (por ejemplo: Heroku, Render, Nginx o un balanceador de carga).
+//
+// Esto es importante porque el proxy es el que maneja HTTPS,
+// y sin esta configuración Express puede pensar que la conexión es HTTP.
+//
+// Con esto, Express puede detectar correctamente HTTPS real y permitir
+// cosas como cookies seguras (secure: true).
 app.set("trust proxy", 1);
 app.use(
   session({
@@ -3632,19 +3713,39 @@ app.use(
  
         dbName :  process.env.DBNAME
       }), 
-      // Habilitamos las cookies seguras
-      // secure : true es para https
-      // secure : false es para http
-      // Si esta en produccion , habilitamos las cookies seguras
-      cookie: { secure: process.env.MODO === 'production' ? true : false, maxAge: 30 * 24 * 60 * 60 * 1000 },
+    // cookie
+     // Configura cómo se comporta la cookie que se utiliza para almacenar la sesión del usuario
+    // Aquí definimos opciones de seguridad y tiempo de vida de la cookie.
+      cookie: {
+            // secure
+    // Indica si la cookie solo se puede enviar por HTTPS.
+    //
+    // true:
+    // - La cookie SOLO se envía en conexiones seguras (HTTPS).
+    // - Se usa en producción para mayor seguridad.
+    //
+    // false:
+    // - La cookie se envía también por HTTP (modo desarrollo).
+    //
+    // En este caso:
+    // Si la app está en producción, se activa secure automáticamente.
+        secure: process.env.MODO === 'production' ? true : false, 
+          // maxAge
+    // Tiempo de vida de la cookie en milisegundos.
+    //
+    // Cuando se cumple este tiempo:
+    // - La cookie expira
+    // - El usuario pierde la sesión automáticamente
+    //
+    // En este caso:
+    // 30 días = 30 * 24 * 60 * 60 * 1000 ms
+        maxAge: 30 * 24 * 60 * 60 * 1000 },
   })
 );  
 
  ```
 
-:::tip Observacion
- Especifica cuanto va a durar la sesion. En este ejemplo son 30 dias.
-:::
+
 
 
  .env
@@ -3688,7 +3789,7 @@ node_modules
 8. Configuramos las variables de entorno (en el apartado de setting - config Var)
 - En ese apartado ponemos las variables de entorno.
 - Key (Nombre) -> Valor
-- Por cada actualizacion en el repositorio , hacemos el el deploy branch (a menos que lo configures en automatico)
+- Por cada actualizacion en el repositorio , hacemos el  deploy branch (a menos que lo configures en automatico)
 
 
 

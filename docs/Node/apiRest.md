@@ -127,6 +127,12 @@ const PORT = process.env.PORT || 5000
 app.listen(PORT , () => console.log('http://localhost:'+PORT));
 
 ```
+:::tip Observación
+- En la línea `import './database/connectDB.js'` no se está importando nada. Simplemente se está ejecutando el archivo `connectDB.js`.
+- En otras palabras, con `import` también podemos ejecutar el código de otro archivo, además de importar funciones o variables cuando se usa `import ... from ...`.
+:::
+
+
 :::warning 
 Al importar un archivo , puede pasar que sin la extensión .js no lo lea.
 :::
@@ -150,8 +156,8 @@ Al importar un archivo , puede pasar que sin la extensión .js no lo lea.
 
 
 :::tip indice 
-- [link](https://desarrolloweb.com/articulos/intro-indices-mysql.html#:~:text=Los%20%C3%ADndices%20en%20MySQL%20permiten,tabla%20en%20un%20momento%20dado)
-- [link2](https://www.adictosaltrabajo.com/2015/09/11/introduccion-a-indices-en-mysql/)
+- [Introducción a los Índices en MySQL](https://desarrolloweb.com/articulos/intro-indices-mysql.html#:~:text=Los%20%C3%ADndices%20en%20MySQL%20permiten,tabla%20en%20un%20momento%20dado)
+- [Introducción a índices en MySQL](https://www.adictosaltrabajo.com/2015/09/11/introduccion-a-indices-en-mysql/)
 :::
 
 models/User.js
@@ -527,16 +533,37 @@ export default router;
 - Por ejemplo: Ciframos la contraseña antes de guardarla en la BD.
 - Sintaxis: Esquema.pre(‘accion’ , function )
 - La function se ejecutará antes de realizar la acción.
-- La función no debe ser una función flecha ya que utiliza el this para acceder al esquema.
+- La función no debe ser una función flecha, ya que utiliza `this` para acceder a la instancia que invoca la acción.
 - La función tiene como parámetro el next que cumple la misma función que el del middleware. (en este caso que ejecute la ‘accion’)
 
 
 
 ### bycriptjs
-- Encriptamos la contraseña a través de saltos
-- Primero se encripta la contraseña y luego se realiza saltos.
-- saltos = palabras aleatorias que se van incorporando a la encriptación.
-- Sirve para que dos contraseñas iguales no tengan el mismo hash (contraseña encriptada)
+- Convierte la contraseña en un **hash**, que es un texto ilegible, difícil de adivinar e irreversible.
+
+#### 🧠 ¿Cómo funciona?
+- Primero se toma la contraseña original.
+- Luego se le aplica un proceso de hashing para convertirla en un hash.
+- Durante este proceso se agrega un **salt (sal)**.
+
+
+#### 🧂 ¿Qué es el salt?
+
+- Es una cadena (string) aleatoria que se agrega a la contraseña antes de encriptarla.
+- Su objetivo es hacer que el hash final sea único, incluso si dos usuarios tienen la misma contraseña.
+- Generalmente se especifica un número (número de saltos), que define el nivel de dificultad para adivinar ese hash (contraseña encriptada). Mientras más grande sea el número, más lento será el proceso de encriptación, pero más segura será la contraseña encriptada.
+
+#### 🔐 ¿Para qué sirve?
+- Evita que dos contraseñas iguales generen el mismo hash.
+- Aumenta la seguridad contra ataques.
+
+:::warning
+- En teoría, puede existir la posibilidad de que dos contraseñas distintas generen el mismo hash (colisión).
+- Sin embargo:
+  - En bcrypt esto es **extremadamente improbable**
+  - No es considerado un problema en sistemas reales
+  - No se considera un riesgo de seguridad en su uso normal
+:::
 
 User.js
 
@@ -564,7 +591,7 @@ const userSchema = new mongoose.Schema({
 
 // Antes de guardar en la bd , se ejecutara la function
 userSchema.pre("save", async function (next) {
-    // user = el esquema (en este caso es un objeto con dos propiedades (email,password))
+
     const user = this;
   // Si la contraseña no es modificada
   // isModified('nombrecampo') = Devuelve true si el nombrecampo es modificado
@@ -664,7 +691,7 @@ const {email , password}  = req.body;
 
 ### findOne()
 - Usamos el método findOne  para buscar un documento en la colección.
-- Recibe un objeto con la propiedad y valor que están buscando:
+- Recibe un objeto con la propiedad y valor que estamos buscando:
 
 :::tip Ejemplo como si fuera relacional
 - ``modelo.findOne({apellido: “perez”);``
@@ -715,7 +742,7 @@ export const register = async (req, res) => {
 ### Añadirle metodos al esquema 
 - El metodo añadido lo va a contener las instancias del modelo 
 - Sintaxis: NombreEsquema.methods.nombreMetodo = función
-- La función no debe ser de tipo flecha ya que necesitamos tener acceso al this para acceder a las propiedades del esquema.
+- La función no debe ser de tipo flecha ya que necesitamos tener acceso al this para acceder a la instancia que invoco el método.
 
 User.js 
 ```js
@@ -766,7 +793,6 @@ export const login = async (req, res) => {
 
 :::tip Observacion
 - Si el método findOne encuentra el documento , nos devuelve una instancia del Modelo que contiene el documento seleccionado.
-- Entonces cuando invocamos el método que creamos anteriormente con la instancia, el this.password === la propiedad password del documento.
 :::
 
 ## JWT
@@ -775,15 +801,14 @@ export const login = async (req, res) => {
 - Es el desarollador frontend el que se tiene que encargar de enviar el token al servidor(backend).
 - [jwt](https://jwt.io/)
 
-:::tip Partes del token 
-- Header : Contiene el algoritmo 
-- PayLoad: Contiene la data
-- Verify Signature : Contiene el secreto  , se gestiona por el backend.
+:::tip Partes del token
+- Header: contiene el algoritmo y el tipo de token.
+- Payload: contiene los datos que se envian en la peticion.
+- Verify Signature: contiene la firma, que se genera con un secreto y es gestionada por el backend.
+
 :::
-:::tip encoded 
- - Contiene un ejemplo del token 
- - Contiene las tres partes(se distingue por los colores)
-:::
+
+
 :::warning 
 En el Payload no debe haber información delicada. (contraseñas , etc)
 :::
@@ -842,13 +867,13 @@ export const login = async (req, res) => {
 
 :::tip Pasos a seguir 
 1.  iniciamos sesion  Y obtenemos un token.
-2. Lo pegamos en la pagina de JWT (en donde esta el ejemplo)
+2. Lo pegamos en la pagina de [JWT](https://jwt.io/)
 - Ya podemos tenemos acceso al payload
 - El payload es publico
 - Mientras mas información tenga el payload , mas extenso es el token.
 :::
 
-## Refresh Token
+## ¿El navegador donde guarda el token? 
 
 :::tip ¿El navegador donde guarda el token? 
 Como el token se pierde al refrescar la pagina se suele guardar en:
@@ -857,7 +882,7 @@ Como el token se pierde al refrescar la pagina se suele guardar en:
 - LocalStorage
 :::
 
-### Refresh Token 
+
 - En este proyecto no lo vamos a guardar en ninguna de las dos opciones
 
 - Hay cookies especiales que solo son accedidas y insertadas desde el lado del servidor.
@@ -1007,7 +1032,7 @@ http://localhost:5000/api/protected
 - Cuando un usuario se autentica en una aplicación, el servidor genera un token de acceso (Bearer token) y lo devuelve al cliente. El cliente almacena el token y lo envía en la cabecera de autorización de cada solicitud HTTP a la API.
 - El servidor verifica la validez del token y, si es válido, permite el acceso a los recursos protegidos. Esto permite que la API se comunique con el cliente sin necesidad de almacenar información de autenticación en el lado del cliente, lo que mejora la seguridad y reduce el riesgo de ataques de suplantación de identidad.
 - Además, los Bearer tokens pueden tener una duración limitada, lo que significa que expirarán después de un período de tiempo específico. Esto ayuda a prevenir el uso no autorizado de tokens robados y mejora aún más la seguridad de la API.
-- El Bearer token se envía en la cabecera de la solicitud HTTP como un valor de autorización. La cabecera de autorización se establece en la siguiente forma:
+- El Bearer token se envía en la cabecera de la solicitud HTTP de la siguiente forma:
 ```javascript
 Authorization: Bearer <token>
 ```
@@ -1543,7 +1568,7 @@ Menos seguridad: Se puede acceder desde el navegador.
 ####  Configuracion (3 parametro del metodo cookie)
 
 ##### httpOnly : boolean
-- true = Solo va a vivir en el HTTP, no se puede acceder desde el frontend.
+- true = la cookie solo es accesible desde el servidor y no se puede acceder desde el frontend (JavaScript del navegador). Esto no quiere decir que la cookie no exista en el navegador, simplemente no es accesible desde JavaScript; eso es lo que se quiere decir cuando se dice que “vive en el HTTP” (en la comunicación entre el navegador y el servidor).
 ##### secure : boolean
 true = Va a vivir en https   false = Va a vivir en http 
 
@@ -1604,7 +1629,7 @@ Con req.cookies tenemos acceso a las cookies
 protected.html 
 
 ### credentials
-credentials :  ‘include’ =  cada solicitud debe tener una credencial (debe tener cookies) , sirve para enviar las cookies en la petición HTTP , estamos incluyendo las cookies que se encuentran en el navegador en la solicitud (petición HTTP).
+credentials: 'include' = indica que en cada solicitud se incluyen las credenciales (como cookies). Sirve para enviar cookies en la petición HTTP, es decir, se incluyen las cookies que están guardadas en el navegador dentro de la solicitud.
 
 ```js
      const resToken = await fetch("/api/protected", {
@@ -1647,7 +1672,7 @@ export const generateRefreshToken = (uid , res) => {
 
 ```
 :::tip Observacion 
-- Usamos la variable de entorno JWT_REFRESH que es un String oculto (como el secreto)
+- Usamos la variable de entorno JWT_REFRESH que es un String oculto.
 :::
 
 auth.controller.js
@@ -2239,6 +2264,7 @@ export const bodyLinkValidator = [
           // axios.X(url);
           // X puede ser GET , POST , FETCH , PUT , ETC
           // Peticion GET a la url 
+          // Como no se almacena la respuesta, simplemente se descarta
           await axios.get(value);
           return value;
         } catch (error) {
@@ -2566,9 +2592,58 @@ export const redirectLink = async (req, res) => {
 ```
 
 ## mongo sanitize
-- [Como evitar inyecciones javascript en mongoDB](https://stackoverflow.com/questions/13436467/javascript-nosql-injection-prevention-in-mongodb)
-- El problema radica en que se le pueda pasar un objeto a la consulta ``"{$ne: 1 }"``. [Mas información ](https://medium.com/@losantiemi/inyecci%C3%B3n-nosql-en-aplicaciones-de-node-js-y-mongodb-3d4d699f13f4)
-- Pero con Moongose nosotros hicimos un esquema, por ende, como definimos los campos como String, estos serán interpretados como tal, por ende, no se ejecutará el objeto en cuestión.
+
+- [Cómo evitar inyecciones JavaScript en MongoDB](https://stackoverflow.com/questions/13436467/javascript-nosql-injection-prevention-in-mongodb)
+
+
+:::tip Inyecciones JavaScript
+
+Las inyecciones JavaScript ocurren cuando un atacante logra enviar código o estructuras manipuladas al sistema para que este las interprete como válidas.
+
+En el caso de MongoDB, esto puede pasar cuando en lugar de enviar valores normales (como texto o números), se envían objetos con operadores o código malicioso, por ejemplo:
+
+```js
+{ $ne: 1 }
+```
+
+Si la aplicación no valida correctamente los datos, estos pueden ser interpretados como parte de la consulta, alterando su comportamiento y permitiendo accesos no autorizados o resultados incorrectos.
+
+:::
+
+- El problema aparece cuando un atacante puede enviar operadores de MongoDB dentro de una consulta, por ejemplo:
+  ```js
+  { $ne: 1 }
+  ```
+:::tip Observación
+
+`{ $ne: 1 }` es un operador de MongoDB que significa **“not equal” (distinto de 1)**.
+
+Se utiliza en consultas para filtrar documentos cuyo valor **no sea igual a 1**.
+
+Si se utiliza en un campo como `password`, podría alterar la lógica de la consulta y hacer que coincida con más registros de los esperados, lo que en algunos casos puede permitir accesos no autorizados.
+
+[Más información](https://medium.com/@losantiemi/inyecci%C3%B3n-nosql-en-aplicaciones-de-node-js-y-mongodb-3d4d699f13f4)
+:::
+
+
+
+
+- Con Mongoose, al definir un esquema, se establecen tipos de datos (por ejemplo `String`, `Number`, etc.).  
+  Esto hace que los valores se interpreten según su tipo definido y no como objetos con operadores de MongoDB, reduciendo el riesgo de inyección en las consultas.
+
+- Aun así, es recomendable usar validaciones y sanitización adicional, ya que no elimina el riesgo al 100%.
+
+:::tip ¿Qué es la sanitización?
+
+La sanitización es el proceso de revisar y validar los datos que llegan desde el cliente antes de usarlos en el servidor o en la base de datos.
+
+Su objetivo es evitar que el usuario envíe datos maliciosos, como operadores de MongoDB o código que pueda alterar las consultas.
+
+Por ejemplo, impide que valores como `{ $ne: 1 }` sean interpretados como operadores, forzando que se traten como datos normales (primitivos).
+
+En resumen: la sanitización convierte la entrada del usuario en datos seguros y controlados.
+:::
+
 
 ## Cors
 - CORS (Cross-Origin Resource Sharing) es un mecanismo de seguridad que permite a las aplicaciones web hacer solicitudes HTTP a recursos que están alojados en un dominio diferente al del de la aplicación. En otras palabras, si tu aplicación se ejecuta en "dominio-a.com" y necesitas acceder a una API en "dominio-b.com", CORS permite que se realicen esas solicitudes de manera controlada y segura. Sin este mecanismo, los navegadores modernos bloquearían las solicitudes entre diferentes dominios debido a restricciones de seguridad, lo que se conoce como política de mismo origen (Same-Origin Policy).   
@@ -2603,8 +2678,9 @@ app.use(cors())
 
 #### Propiedad Origin 
 - Especifica Los dominios que tienen acceso a la APP (en este caso la API REST)
-- La propiedad origin recibe una funcion con dos parametros (origin y callback). `Origin : function(origin,callback)`.
-    - El parámetro origin es quien está haciendo la solicitud (el  dominio que hace la petición)
+- La propiedad origin recibe una funcion con dos parametros (origin y callback).
+- `Origin : function(origin,callback)`.
+    - El parámetro `origin` es quien está haciendo la solicitud (el  dominio que hace la petición)
     - [El callback es una función ](https://flevatti.github.io/documentacion/docs/Javascript/promesas#callback) que como primer argumento recibe el error y en el segundo argumento la respuesta satisfactoria (funciono correctamente).
 
 ```js
@@ -2738,9 +2814,9 @@ import { requireRefreshToken } from '../middlewares/requireRefreshToken.js';
 ## Deploy con Render
 - [Es una alternativa a Heroku](https://render.com/)
 
-:::tip Postman 
-- Postman hace solicitudes sin dominio(origin)
-- Postman cuando realiza alguna solicitud simula que el origin es el mismo que el de la App (Api REST) (Se comunica a si mismo).
+:::tip Postman
+- Postman no depende del navegador para hacer solicitudes, por eso no tiene restricciones de origin (CORS).
+- Esto significa que puede enviar peticiones directamente al servidor sin que el navegador bloquee la solicitud.
 :::
 
 -  Como el valor de origin es undefined cuando el origin es el mismo que el de la API, modificamos los cors:
@@ -2763,7 +2839,7 @@ Opciones :
 - Branch = La RAMA con la que se hace el deploy.
 - Build Command = El comando para construir , ponemos npm install.
 - Start Command = El comando para levantar el servidor (El script start) , ponemos npm start
-- Opciones ADVANCED = Te permite agregar variables de entorno , Configuramos las variables de entorno (Todas menos el modo).
+- Opciones ADVANCED = Te permite agregar variables de entorno , configurar las variables de entorno, etc.
 :::tip 
 Start es el único comando que no se requiere la palabra run 
 :::
