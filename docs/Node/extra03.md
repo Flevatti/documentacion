@@ -184,3 +184,250 @@ sidebar_position: 10
 - gateway/: Es el gateway o enrutador principal que gestiona la navegación y la integración entre los diferentes microfrontends. Puede utilizar enrutamiento dinámico en el lado del cliente para cargar dinámicamente los microfrontends según la URL solicitada por el usuario.
 - En este ejemplo, cada microfrontend puede ser desarrollado y desplegado de manera independiente, utilizando herramientas y frameworks que mejor se adapten a los requisitos de cada equipo. El gateway coordina la navegación y la integración entre los microfrontends, ofreciendo una experiencia de usuario cohesiva y optimizada.
 :::
+
+
+## URI vs URL vs URN
+#### URI
+- Un **URI** (Identificador Uniforme de Recursos) es una secuencia de caracteres que identifica un recurso en Internet.
+- Un recurso puede ser de diferentes tipos, por ejemplo:
+  - Una página web: `https://www.google.com`
+  - Un archivo en un servidor FTP: `ftp://servidor.com/archivo.zip`
+  - Una dirección de correo electrónico: `mailto:juan@ejemplo.com`
+  - Entre otros.
+- Protocolos como **HTTP** o **FTP** utilizan la sintaxis de los **URI** para identificar recursos. Gracias a ello, el sistema sabe **qué** recurso se desea acceder y **cómo** acceder a él.
+- Un **URI** engloba tanto a las **URL** como a los **URN**. Esto significa:
+  - Todas las **URL** son **URI**.
+  - Todos los **URN** son **URI**.
+- No todos los **URI** son una **URL** o un **URN**.
+- **Ejemplo de URI que no es ni URL ni URN:**
+  ```text
+  mailto:juan@ejemplo.com
+  ```
+- Este URI identifica una dirección de correo electrónico. No es una URL (no indica la ubicación de un recurso en la Web) ni un URN (no utiliza el esquema `urn:` para asignar un nombre a un recurso).
+#### La sintaxis del URI
+- Un **URI** puede estar formado por hasta cinco partes, de las cuales solo dos son obligatorias:
+  - **scheme (esquema):** indica el esquema que se va a utilizar. Un esquema define cómo debe interpretarse (leerse) el URI para identificar un recurso y, en algunos casos, cómo acceder a él. Algunos ejemplos son `https`, `ftp`, `mailto` y `urn`.
+  - **authority (autoridad):** identifica el servidor o sitio donde se encuentra el recurso. Generalmente corresponde al dominio.
+  - **path (ruta):** indica la ubicación exacta del recurso dentro de la autoridad.
+  - **query (consulta):** contiene información adicional (parámetros) que el servidor utiliza para procesar la solicitud.
+  - **fragment (fragmento):** identifica una parte específica del recurso, como una sección de una página web.
+- Los dos componentes obligatorios de un **URI** son **scheme** y **path**.
+- Los componentes del URI siempre siguen el mismo orden y se separan mediante caracteres especiales:
+```text
+scheme://authority/path?query#fragment
+```
+:::tip Observación
+- `:` separa el **scheme** del resto del URI.
+- `//` indica el inicio de la **authority** (cuando existe).
+- `/` separa la **authority** del **path**.
+- `?` indica el inicio de la **query**.
+- `#` indica el inicio del **fragment**.
+:::
+
+:::tip
+- La **authority** suele contener el dominio, pero también puede incluir:
+  - Información del usuario, seguida de `@`.
+  - Un puerto, precedido por `:`.
+
+**Ejemplo:**
+
+```text
+https://usuario@www.ejemplo.com:8080/documentos
+```
+
+- `usuario` → información del usuario.
+- `www.ejemplo.com` → dominio.
+- `8080` → puerto.
+:::
+
+#### Ejemplos
+```txt
+https://example.org/test/test1?search=test-question#part2
+```
+:::tip Observación
+- **scheme:** `https`
+- **authority:** `example.org`
+- **path:** `/test/test1`
+- **query:** `search=test-question`
+- **fragment:** `part2`
+- En este ejemplo:
+    - Se accede al recurso mediante el esquema `https`.
+    - El recurso se encuentra en el servidor `example.org`.
+    - La ruta del recurso es `/test/test1`.
+    - La consulta incluye el parámetro `search=test-question`.
+    - El fragmento `part2` hace referencia a una sección específica de la página.
+:::
+
+```txt
+mailto:user@example.org
+```
+:::tip Observación
+- **scheme:** `mailto`
+- **authority:** *(no existe)*
+- **path:** `user@example.org`
+- **query:** *(no existe)*
+- **fragment:** *(no existe)*
+- En este ejemplo:
+    - El esquema `mailto` indica que el URI hace referencia a una dirección de correo electrónico.
+    - No existe una **authority**, por lo que no aparecen las dos barras (`//`).
+    - El **path** contiene la dirección de correo electrónico `user@example.org`.
+    - Al abrir este URI, normalmente se abre la aplicación de correo predeterminada para redactar un mensaje dirigido a esa dirección.
+:::
+
+:::tip
+- Aunque el **path** es un componente obligatorio en todas las **URI**, su contenido puede estar vacío.
+- Por ejemplo, el siguiente URI tiene un **path** vacío:
+```txt
+http://example.org/
+```
+:::
+
+
+```txt
+tel:+5491123456789
+```
+
+:::tip Observación
+- **scheme:** `tel`
+- **authority:** *(no existe)*
+- **path:** `+5491123456789`
+- **query:** *(no existe)*
+- **fragment:** *(no existe)*
+- En este ejemplo:
+    - El esquema `tel` indica que el URI hace referencia a un número de teléfono.
+    - No existe una **authority**, por lo que no aparecen las dos barras (`//`).
+    - El **path** contiene el número de teléfono.
+    - Al abrir este URI, normalmente se inicia una llamada o se abre la aplicación de teléfono del dispositivo.
+:::
+
+```txt
+ftp://ftp.example.org/documentos/manual.pdf
+```
+
+:::tip Observación
+- **scheme:** `ftp`
+- **authority:** `ftp.example.org`
+- **path:** `/documentos/manual.pdf`
+- **query:** *(no existe)*
+- **fragment:** *(no existe)*
+- En este ejemplo:
+    - El esquema `ftp` indica que el recurso se accede mediante el protocolo FTP.
+    - El recurso se encuentra en el servidor `ftp.example.org`.
+    - El **path** indica la ubicación del archivo `manual.pdf` dentro del servidor.
+:::
+
+:::tip
+- Al abrir o hacer clic en un **URI**, el sistema identifica el tipo de recurso según su **scheme** y utiliza la aplicación adecuada para acceder o interactuar con él.
+- **Ejemplos:**
+    - `https` → abre el navegador web.
+    - `mailto` → abre la aplicación de correo electrónico.
+    - `tel` → abre la aplicación de teléfono.
+    - `ftp` → abre un cliente FTP o el navegador, según la configuración del sistema.
+:::
+#### IANA y los esquemas de URI
+- La **IANA** (Internet Assigned Numbers Authority) es la entidad encargada de mantener un registro de los **esquemas** utilizados en los URI.
+- Gracias a este registro, los sistemas de Internet pueden reconocer qué significa cada esquema (por ejemplo, `mailto` indica una dirección de correo electrónico) y cómo interpretarlo (leerlo).
+- Aunque es posible crear **esquemas personalizados**, los definidos por la IANA son los más utilizados en Internet.
+- Ejemplos de esquemas comunes:
+  - **about:** información del propio navegador.
+  - **data:** datos incluidos directamente en el URI.
+  - **feed:** enlaces a contenido que se actualiza (como noticias o blogs).
+  - **file:** acceso a archivos en la computadora.
+  - **ftp:** acceso a archivos en servidores.
+  - **git:** lo usa Git para gestionar versiones de código.
+  - **http:** páginas web normales.
+  - **https:** páginas web seguras.
+  - **imap:** acceso al correo electrónico en un servidor.
+  - **mailto:** abre un correo para enviar un email.
+  - **news:** acceso a grupos de noticias.
+  - **pop:** descarga de correos electrónicos.
+  - **rsync:** sincronización de archivos entre dispositivos.
+  - **sftp:** transferencia segura de archivos.
+  - **ssh:** acceso remoto seguro a otra computadora.
+  - **tel:** números de teléfono (para llamar).
+  - **urn:** nombre único de un recurso, sin indicar dónde está.
+:::tip Consejo
+- Puedes consultar el listado oficial completo de esquemas de URI registrados por la IANA en su sitio web:  
+https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+:::
+
+#### URI absoluto y URI relativo
+- Los URI pueden escribirse de dos formas: **absoluta** o **relativa**.
+
+#### URI absoluta
+- Es un URI completo.
+- Incluye toda la información necesaria para identificar el recurso.
+- Puede ser utilizada por cualquier sistema o aplicación.
+- No depende de ningún otro URI para ser interpretada.
+- **Estructura típica:**
+```text
+scheme://authority/path
+```
+- **Ejemplos:**
+```text
+https://example.org/cursos/html/index.html
+ftp://servidor.com/archivos/manual.pdf
+```
+
+#### URI relativa
+- Es un URI incompleto.
+- No incluye toda la información necesaria para identificar el recurso por sí solo.
+- Depende de un **URI base** para poder ser interpretado correctamente.
+- Se utiliza cuando ya se conoce parte de la ubicación del recurso (por ejemplo, dentro de un mismo sitio o carpeta).
+- Es más corto y práctico en muchos casos.
+- **Estructura típica:**
+```text
+path
+```
+- **Ejemplos:**
+```text
+index.html
+/archivos/manual.pdf
+imagenes/logo.png
+```
+- Para convertirlo en un URI completo, se une con un URI base.
+- **Ejemplo con base:**
+```text
+URI base: https://example.org/cursos/html/
+URI relativa: index.html
+Resultado: https://example.org/cursos/html/index.html
+```
+
+#### Importante sobre URI relativas
+- Como el **URI relativo prescinde del scheme**, no puede comenzar con `scheme:`.
+- Esto es importante porque si el primer segmento de la ruta contiene dos puntos (`:`), se interpretaría como un **scheme**, y el URI dejaría de ser relativo.
+- Por eso, la forma en que empieza la ruta es clave para distinguir un URI relativo de uno absoluto.
+- Existen tres tipos de URI relativos, según su inicio:
+    - **Enlace relativo:** comienza sin barra  
+      ```text
+      imagen.png
+      ```
+    - **Enlace absoluto:** comienza con una barra  
+      ```text
+      /imagenes/logo.png
+      ```
+    - **Enlace de red:** comienza con dos barras  
+      ```text
+      //example.org/recursos
+      ```
+
+ #### URL
+- Es un tipo de **URI**.
+- La abreviatura URL proviene de *Uniform Resource Locator* (localizador uniforme de recursos).
+- No solo identifica un recurso, sino que también indica cómo acceder a él.
+- Incluye el protocolo (`http` o `https`), el nombre de dominio (que indica el servidor donde está alojado el sitio) y el path (la ubicación exacta del recurso dentro del servidor).
+- Al ingresar a una URL, el navegador envía una solicitud GET al recurso indicado en la URL.
+
+
+
+ ####  URN
+ - Es un tipo de URI.
+ - La abre­via­tu­ra URL deriva de Uniform Resource Name ()
+
+
+ #### Completar con la información de aca:
+ - [The Real Difference Between a URL and a URI](https://danielmiessler.com/blog/difference-between-uri-url)
+ - [URI vs URL vs URN: ¿Cuál es la diferencia y por qué es importante?](https://www.godaddy.com/resources/skills/uri-vs-url-vs-urn)
+ - [URI vs URL: ¿Cuáles son las diferencias?](https://www.wix.com/blog/uri-vs-url)
+ - [URI vs URL: diferencias y cuándo usarlas](https://www.hostinger.com/ar/tutoriales/uri-vs-url)
+ - [Qué es una URL y cómo funciona en Internet](https://raiolanetworks.com/blog/que-es-url/)
