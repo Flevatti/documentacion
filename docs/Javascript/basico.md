@@ -41,7 +41,7 @@ No recomendado , ensuciamos javascript y html
 :::
 
   ### 2- Mezclado
-  Es con un atributo que representa un evento (en este ejemplo "onclick" ) y una funcion javascript (en este ejemplo saludar)
+ Es un atributo que representa un evento (en este ejemplo `onclick`) que recibe como valor código JavaScript.
 ```html
 
 <body>
@@ -350,7 +350,9 @@ console.log(resultado);
 //División: Divide el número de la izquierda por el de la derecha.
 let resultado = 20 / 5
 console.log(resultado);
-//Sobrante (también llamado módulo): Retorna el restante después de dividir el número de la izquierda en porciones enteras del de la derecha.
+// Sobrante (también llamado módulo): es el resto que queda después de dividir un número entre otro.
+// Ejemplo: 8 % 3 significa dividir 8 entre 3 y quedarse con el resto.
+// 8 ÷ 3 = 2 y sobra 2, por eso el resultado es 2
 let resultado = 8 % 3
 console.log(resultado);
 
@@ -387,13 +389,12 @@ console.log(resultado);
 ```
 
 ### Operadores logicos
-Los operadores lógicos se usan para combinar dos valores Booleanos y devolver un resultado verdadero, falso o nulo. Los operadores lógicos también se denominan operadores Booleanos.
+Los operadores lógicos se usan para realizar operaciones con valores booleanos y obtener otro valor booleano.
 
-*	&& -- Si los dos son verdaderos devuelve verdadero.
+* && -- Si los dos son verdaderos devuelve verdadero.
+* || -- Con que uno sea verdadero devolverá verdadero.
+* ! -- Negación (devuelve true si es false y viceversa)
 
-*	|| -- Con que uno sea verdadero devolverá verdadero.
-
-*	! -- Negación (devuelve true si es false y viceversa)
 
 ```js
 let resultado = true && true;
@@ -415,7 +416,7 @@ console.log(resultado);
 En lenguajes de programación, las estructuras de control permiten modificar el flujo de ejecución de las instrucciones de un programa.
 
 Condicionales
-*	if/else (Si ocurre algo, haz esto, sino, haz lo esto otro...)
+*	if/else (Si ocurre algo, haz esto, sino, haz lo otro...)
 
 *	?:   (Equivalente a If/else , forma abreviada.)
 
@@ -432,9 +433,9 @@ Un if en programación se utiliza para evaluar una expresión condicional: si se
 
 ```js
 if( condicion ) {
-    // bloque verdadero
+    // se ejecuta si la condicion es true
 }else {
-  // bloque falso
+    // se ejecuta si la condicion es false
 }
 
 ```
@@ -453,15 +454,7 @@ if (textJavascript === "javascript") {
 
 El else{} es opcional
 :::
-:::tip
-A veces javascript hace la conversión (de tipo de dato) de forma automática. 
 
-Pero hay que especificar asi se ahorra trabajo.
-
-En este ejemplo con o sin parseInt funciona 
-
-
-:::
 
 ```js
 let numUsuario = prompt("Ingrese numero del 1 al 10");
@@ -479,6 +472,15 @@ if (parseInt(numUsuario) <= 10) {
 }
 
 ```
+:::tip
+A veces javascript hace la conversión (de tipo de dato) de forma automática. 
+
+Pero hay que especificar asi se ahorra trabajo.
+
+En este ejemplo con o sin parseInt funciona 
+
+
+:::
 ### If else
 - También se puede añadir una condición en un else con "else if":
 
@@ -493,7 +495,7 @@ if (n === 5) {
 }
 ```
 :::tip Observación
-- En este ejemplo, la declaración if comprueba si la variable n es igual a 5. Si la condición es verdadera, el código dentro de las llaves ({}) se ejecuta, y el mensaje "n es igual a 5!" se imprime en la consola. Si la condición es falsa, la declaración else if se comprueba. Si la condición en la declaración else if es verdadera, el código dentro de sus llaves se ejecuta. Si ambas condiciones son falsas, no se ejecuta ningún código y el programa continúa con la siguiente declaración después del bloque if else.
+- En este ejemplo, la declaración if comprueba si la variable n es igual a 5. Si la condición es verdadera, el código dentro de las llaves (`{}`) se ejecuta, y el mensaje "n es igual a 5!" se imprime en la consola. Si la condición es falsa, la declaración else if se comprueba. Si la condición en la declaración else if es verdadera, el código dentro de sus llaves se ejecuta. Si ambas condiciones son falsas, no se ejecuta ningún código y el programa continúa con la siguiente declaración después del bloque if else.
 :::
 
 - Puedes combinar else if con un else en JavaScript. El else se utiliza cuando necesitas ejecutar una acción si ninguna de las condiciones en las declaraciones if o else if es verdadera:
@@ -537,9 +539,9 @@ if (n === 1) {
 
 :::
 
-- Si tienes muchas condiciones que verificar, es posible que quieras considerar el uso de una declaración switch en su lugar. Una declaración switch te permite verificar una variable contra varios valores posibles y ejecutar diferentes bloques de código según el valor de la variable. Aquí hay un ejemplo de cómo usar una declaración switch en JavaScript para el mismo ejemplo:
+- Si tienes muchas condiciones que verificar, puedes usar una declaración `switch` en su lugar. `switch` te permite comparar una variable con varios valores posibles y ejecutar distintos bloques de código según el valor de esa variable.
 
-
+Aquí hay un ejemplo de cómo usar `switch` en JavaScript para el mismo caso:
 ```js
 let n = 5;
 
@@ -558,16 +560,15 @@ switch (n) {
 }
 ```
 :::tip Observación
-- En este ejemplo, la declaración switch verifica el valor de la variable n y ejecuta diferentes bloques de código según el valor de n. Si el valor de n es 1, se imprime el mensaje "n es igual a 1!". Si el valor de n es 2, se imprime el mensaje "n es igual a 2!". Si el valor de n es 3, se imprime el mensaje "n es igual a 3!". Si el valor de n no es 1, 2 o 3, se ejecuta el bloque default y se imprime el mensaje "n no es igual a 1, 2 o 3!".
+- En este ejemplo, la declaración switch ejecuta diferentes bloques de código según el valor de n. Si el valor de n es 1, se imprime el mensaje "n es igual a 1!". Si el valor de n es 2, se imprime el mensaje "n es igual a 2!". Si el valor de n es 3, se imprime el mensaje "n es igual a 3!". Si el valor de n no es 1, 2 o 3, se ejecuta el bloque default y se imprime el mensaje "n no es igual a 1, 2 o 3!".
 - La declaración switch puede ser más legible y fácil de mantener que una serie de declaraciones else if cuando tienes muchas condiciones que verificar. Sin embargo, la declaración switch solo funciona bien cuando estás comparando una variable contra un conjunto de valores fijos. Si necesitas verificar una condición más compleja, es posible que debas utilizar una serie de declaraciones if y else if.
 
 :::
 ### Switch
-
-- La declaración switch evalúa una expresión, comparando el valor de esa expresión con una o varias instancias case.
-- Compara un valor  con un conjunto de valores(case) , si es igual a uno , se ejecuta dicho case.
-- el default se ejecuta cuando el valor no es igual a ningún case.
-- el break es para salir del switch y que deje de comparar el valor con los case que sigue.
+- Compara un valor con un conjunto de valores (`case`); si es igual a uno, se ejecuta dicho `case`.
+- La declaración `switch` evalúa una expresión, comparando el valor de esa expresión con uno o varios `case`.
+- El `default` se ejecuta cuando el valor no es igual a ningún `case`.
+- El `break` se usa para salir del `switch` y evitar que siga comparando el valor con los `case` siguientes.
 
 ```js
 let opcionUser = prompt(`
@@ -688,8 +689,8 @@ numero++; es un incrementador y suele ser normal en un bucle.
 :::
 ## &#96;String &#36;&#123;variable/codigo&#125;&#96;
 :::tip
- - Con  las comillas invertidas   <code>{'`Texto`'}</code> (el signo se hace con alt + 96) -- El texto se lee tal como está escrito, respetando espacios, formato, etc. Tambien te permite incluir variables o expresiones dentro del string usando  <code>{"`${variable o codigo}`"}</code>.
- - Cuando se ejecuta el string, los `${...}` se evalúan y se reemplazan por el valor de la variable o el resultado de la expresión que contienen.
+ - Con  las comillas invertidas   <code>{'`Texto`'}</code> (el signo se hace con alt + 96) -- El texto se lee tal como está escrito, respetando espacios, formato, etc. Tambien te permite incluir variables o código dentro del string usando  <code>{"`${variable o codigo}`"}</code>.
+ - Cuando se ejecuta el string, los `${...}` se evalúan y se reemplazan por el valor de la variable o el resultado de la expresión.
 :::
 
 ```js
@@ -704,29 +705,38 @@ no ${2 * a + b}.`);
 
 
 ## Math.random(): 
-La función Math.random() retorna un punto flotante, un número pseudo-aleatorio dentro del rango [0, 1).
+La función `Math.random()` devuelve un número decimal aleatorio entre 0 y 1 (sin incluir el 1). Los paréntesis indican que es una función.
 
-[Mas informacion](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
+[Más información](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
 
 
 ```js
 // Retorna un entero aleatorio entre min (incluido) y max (excluido)
 // ¡Usando Math.round() te dará una distribución no-uniforme!
+
 function getRandomInt(min, max) {
+  // Math.floor(numero): convierte un número en entero, redondeando para abajo.
+// Ejemplo: 4.9 se convierte en 4
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 ```
+:::tip ¿Qué es una distribución no uniforme?
+Una **distribución no uniforme** significa que no todos los resultados tienen la misma probabilidad de ocurrir.
 
+En otras palabras, algunos valores salen más seguido que otros.
+
+Por ejemplo, si un dado está cargado, algunos números pueden aparecer más veces que otros.
+:::
 ## Operador ternario
 ```js
 let mensaje = (condición) ?  true: false;
 ```
-Si la condición se cumple, se ejecuta lo que está en el true , de lo contrario se ejecuta lo que está en el false.
+Si la condición se cumple, se ejecuta lo que está después del `?`, de lo contrario se ejecuta lo que está después de los `:`.
 
-En lugar de true y false, ponemos las sentencias.
+En lugar de `true` y `false`, se puede poner código JavaScript que se ejecuta si la condición se cumple o no se cumple.
 
-las sentencias del true o false retornan. 
+Las dos partes del operador ternario devuelven un valor o el resultado de un código JavaScript.
 
 ```js
 let mensaje = (numeroMaquina > numeroUsuario) ? ‘El numero es mayor’ : ‘El numero es menor’;
@@ -772,29 +782,44 @@ console.log(frutas[3]);
 
 ```
 
-:::tip
-undefined
+:::tip undefined
+Una variable que no tiene un valor asignado es de tipo `undefined`.
 
-Una variable a la que no se le ha asignado valor, o no se ha declarado en absoluto (no se declara, no existe) son de tipo undefined. Un método o sentencia también devuelve undefined si la variable que se está evaluando no tiene asignado un valor. Una función devuelve undefined si no se ha devuelto un valor.
+También puede aparecer cuando:
+- Se declara una variable pero no se le asigna un valor.
+- Una función no devuelve ningún valor.
+- Se intenta usar un valor que no existe.
+
+En todos estos casos, JavaScript devuelve `undefined`.
 :::
-
 ## for
 
-Crea un bucle que consiste en tres expresiones opcionales, encerradas en paréntesis y separadas por puntos y comas, seguidas de una sentencia ejecutada en un bucle.
+Crea un bucle que tiene tres partes dentro de paréntesis, separadas por punto y coma, y luego un bloque de código.
 
-El primero y el segundo parámetro son obligatorio (inicializar variable , condición) , el tercero es opcional (incrementador).
+El primer y segundo parámetro son obligatorios (inicializar, es decir, crear una variable y establecer una condición), el tercero es opcional (incrementador, se encarga de modificar la variable del primer parámetro).
 
-Sirve para recorrer Arrays.
+Sirve para recorrer arrays.
 
-Se ejecuta mientras la condición es true.
-La condición es el punto de escape.
+Se ejecuta mientras la condición sea `true`.
+
+La condición es el punto de salida del bucle. Es importante porque indica cuándo se va a salir del bucle.
+
+
+
 
 ```js
-for (inicializar una variable(indice) ; condición ; incrementador de la variable ) {
+for (inicializar una variable(indice) ; condición ; incrementador ) {
    codigo
 }
 
 ```
+Funciona así:
+
+- Si el for se ejecuta por primera vez, se crea la variable del primer parámetro, si no, se pasa al siguiente paso.
+- Luego se revisa la condición.
+- Si la condición es `true`, se ejecuta el código.
+- Después se actualiza la variable (se ejecuta el incrementador).
+- El proceso se repite mientras la condición sea `true`.
 
 ```js
 let frutas = ["manzana", "platano", "pera"];
@@ -816,7 +841,7 @@ codigo
 }
 
 ```
-Por cada ejecución , variable va a tener el valor de un elemento del objeto iterable (generalmente arranca por el primer elemento([0])  y va aumentando en 1 ([1] , [2] , … ).
+Por cada ejecución, la variable toma el valor de un elemento del objeto iterable. Generalmente empieza por el primer elemento (`[0]`) y luego continúa con el siguiente (`[1]`, `[2]`, etc.).
 
 ```js
 for (let fruta of frutas) {
@@ -827,8 +852,7 @@ for (let fruta of frutas) {
 ```
 
 :::warning
-La sintaxis de for...of es específica para las colecciones, y no para todos los objetos. Esta Iterará sobre cualquiera de los elementos de una colección que tengan la propiedad [Symbol.iterator].
-Vamos a tener una sección dedicada a los objetos en Javascript así que paciencia.
+La sintaxis de `for...of` no funciona con todos los objetos. Solo puede recorrer aquellos que tengan la propiedad `[Symbol.iterator]`.
 :::
 
 :::tip
@@ -849,9 +873,9 @@ Si te aparece undefined , no es iterable.
 
 ## for in
 
-iterará sobre todas las propiedades de un objeto. Más tecnicamente, iterará sobre cualquier propiedad en el objeto que haya sido internamente definida con su propiedad [[Enumerable]] configurada como true.
+Itera sobre las propiedades de un objeto. Más técnicamente, recorre las propiedades que tienen la propiedad interna `[[Enumerable]]` en `true`.
 
-Es como el for of pero muestra el índice, no el valor.
+Es como `for...of`, pero en lugar del valor, muestra la clave (la propiedad o índice).
 
 ```js
 for (let fruta in frutas) {
@@ -862,14 +886,17 @@ for (let fruta in frutas) {
 
 ## function
 
-Las funciones son fundamentales en JavaScript. Una función en JavaScript es similar a un procedimiento — un conjunto de instrucciones que realiza una tarea o calcula un valor, pero para que un procedimiento califique como función, debe tomar alguna entrada y devolver una salida donde hay alguna relación obvia entre la entrada y la salida.
+Las funciones son fundamentales en JavaScript. Una función es un bloque de código que realiza una tarea o calcula un valor. Puede recibir datos de entrada y devolver una salida, donde existe una relación entre ambas.
 
 Características:
--	El nombre de la función. Se utiliza el nombre de la función para llamar a la función y ejecutar el código que contiene.
--	Una lista de parámetros de la función, entre paréntesis y separados por comas. Representa los valores de “entrada” que puede tener.
--	El código JavaScript que contiene la función, esta encerrado entre llaves, ``{ ... }``
--  Para invocar a la función se utiliza el nombre del método seguido de paréntesis, entre estos van los argumentos que se les puede pasar a un método (son opcionales): nombreFunción(parametros).
-- Los parámetros son opcionales:
+- El nombre de la función: se usa para llamarla y ejecutar su código.
+- Parámetros: van entre paréntesis y separados por comas. Representan los datos de entrada (son opcionales).
+- Cuerpo de la función: es el código que ejecuta la función, y va entre llaves `{ ... }`.
+
+
+Para invocarla se usa el nombre de la función seguido de paréntesis: `nombreFuncion(parametros)`.
+
+Los parámetros son opcionales.
 ```js
 // Declarar funcion
 function nombrefuncion (parámetros) {
@@ -888,9 +915,9 @@ function nombrefuncion (parámetros) {
 saludar();
 
  ```
-- Es un bloque de código que se puede reutilizar  (en ese ejemplo `function saludar() {codigo}`).
+- Es un bloque de código reutilizable (por ejemplo `function saludar() { código }`).
 
-- Cada ves que llames al método se ejecuta (en ese ejemplo saludar()).
+- Cada vez que llamas (invocas) a la función, se ejecuta su código (por ejemplo `saludar()`).
 
 #### Parametros
 - En JavaScript, los parámetros se utilizan para pasar datos a las funciones. Se definen en la declaración de la función y se pueden acceder dentro del cuerpo de la función. 
@@ -905,7 +932,7 @@ saludar("Alice"); // Imprime: "Hola, Alice"
 
 ```
 :::tip Observación
-- En este ejemplo, nombre es un parámetro de la función saludar. Cuando se llama a la función con un argumento ("Alice"), el valor del argumento se asigna al parámetro y se puede utilizar dentro de la función.
+- En este ejemplo, `nombre` es un parámetro de la función `saludar`. Cuando se llama a la función con el argumento ("Alice"), ese valor se asigna al parámetro y se utiliza dentro de la función.
 :::
 
 
@@ -1023,7 +1050,7 @@ saludar(alice)
 
 #### Palabra clave return
 - La palabra clave return en programación se utiliza para finalizar la ejecución de una función y devolver un valor al lugar desde donde fue llamada. La función puede realizar ciertas operaciones y cálculos, y el resultado de esos cálculos puede ser enviado de vuelta al código que hizo la llamada mediante la instrucción return. El valor devuelto por return puede ser de cualquier tipo de datos, dependiendo de la naturaleza de la función.
-- La palabra clave return se utiliza en la mayoría de los lenguajes de programación para devolver un valor desde una función o un método. Cuando una función o un método alcanza una instrucción return, el flujo de control se interrumpe y se devuelve el valor especificado a la llamada de la función o el método.
+- La palabra clave return se utiliza en la mayoría de los lenguajes de programación para devolver un valor desde una función o un método. 
 - La palabra clave return se utiliza para devolver un valor desde una función o un método, interrumpiendo/deteniendo su ejecución.
 - return devuelve algo y deja de ejecutar la función , método ,  bloque.  Cuando usamos la palabra clave return es para indicar que queremos salir del bloque.
 - La sintaxis básica de la palabra clave return en JavaScript es la siguiente:

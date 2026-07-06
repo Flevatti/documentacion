@@ -60,7 +60,7 @@ console.log(gato["nombre"]);
 ```
 
 ## CRUD (propiedades)
-### Los CRUD los podes hacer con el punto (.) o con los corchetes ([]).
+#### Los CRUD los podes hacer con el punto (.) o con los corchetes ([]).
 :::tip
  - Con los corchetes podes usar variables , espacios en blancos , caracteres especiales , etc
 
@@ -112,12 +112,11 @@ console.log(gato);
 
 ```
 ## hasOwnProperty
-A veces es útil comprobar si existe o no la propiedad de un objeto dado. Podemos utilizar el método hasOwnProperty(parametro) para determinar si un objeto tiene una propiedad con ese nombre .
 
- Parametro  = El nombre de la propiedad a buscar
+A veces es útil comprobar si existe una propiedad en un objeto. Podemos usar el método `hasOwnProperty(propiedad)` para saber si un objeto tiene una propiedad específica.
 
- hasOwnProperty() devuelve true o false si se encuentra la propiedad o no.
-
+- Argumento `propiedad`: el nombre de la propiedad a buscar.
+- Devuelve `true` si la propiedad existe en el objeto y `false` si no existe.
  ```js
  
 const gato = {

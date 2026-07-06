@@ -187,7 +187,7 @@ sidebar_position: 10
 
 
 ## URI vs URL vs URN
-#### URI
+### URI
 - Un **URI** (Identificador Uniforme de Recursos) es una secuencia de caracteres que identifica un recurso en Internet.
 - Un recurso puede ser de diferentes tipos, por ejemplo:
   - Una página web: `https://www.google.com`
@@ -411,23 +411,94 @@ Resultado: https://example.org/cursos/html/index.html
       //example.org/recursos
       ```
 
- #### URL
+ ### URL
 - Es un tipo de **URI**.
 - La abreviatura URL proviene de *Uniform Resource Locator* (localizador uniforme de recursos).
 - No solo identifica un recurso, sino que también indica cómo acceder a él.
-- Incluye el protocolo (`http` o `https`), el nombre de dominio (que indica el servidor donde está alojado el sitio) y el path (la ubicación exacta del recurso dentro del servidor).
+- Incluye un protocolo en el esquema como `http`. `https`. ftp , etc,  un authority  (que indica la ubicación del servidor que contiene el recurso) y el path (la ubicación exacta del recurso dentro del servidor).
 - Al ingresar a una URL, el navegador envía una solicitud GET al recurso indicado en la URL.
 
+:::tip
+- En otras palabras, en el 99 % de los casos cotidianos, deberías usar **URL** en lugar de **URI**, porque una URL es un tipo específico de URI y suele ser el término más preciso cuando se habla de recursos accesibles a través de Internet.
+:::
 
+:::tip ¿Qué es un protocolo?
+Un **protocolo** es un conjunto de reglas que define cómo dos dispositivos o aplicaciones se comunican e intercambian información.
 
- ####  URN
- - Es un tipo de URI.
- - La abre­via­tu­ra URL deriva de Uniform Resource Name ()
+Por ejemplo:
+- **HTTP** y **HTTPS** definen cómo un cliente (navegador) y un servidor web intercambian páginas y datos.
+- **FTP** define cómo se transfieren archivos entre equipos.
+- **SMTP** define cómo se envían correos electrónicos.
 
+En una URL, el **scheme** (comúnmente llamado **protocolo**) indica qué conjunto de reglas debe seguir el cliente para acceder al recurso solicitado.
+:::
 
- #### Completar con la información de aca:
+#### Estructura de URL
+```txt
+scheme://authority/path?query#fragment
+```
+- Una URL está formada por los siguientes componentes:
+  - **Scheme (esquema):** indica el protocolo utilizado para acceder al recurso.
+  - **Authority (autoridad):** identifica el servidor al que se accede. Puede incluir información de usuario, el **host** y un **puerto**.
+  - **Path (ruta):** especifica la ubicación del recurso dentro del servidor.
+  - **Query (consulta):** contiene parámetros enviados a la aplicación web.
+  - **Fragment (fragmento):** identifica una sección específica del recurso, como un encabezado dentro de una página HTML.
+- Algunos esquemas comunes son:
+  - `http`
+  - `https`
+  - `ftp`
+  - `mailto`
+  - `file`
+- Los esquemas **HTTP** y **HTTPS** se utilizan habitualmente para acceder a recursos en Internet, aunque también pueden emplearse para acceder a recursos disponibles en una red local.
+- El esquema **FILE** hace referencia a un archivo ubicado en el sistema de archivos local (o en un recurso compartido de red, según el sistema operativo).
+- Dentro de la autoridad, el **puerto** es opcional. Si se especifica, reemplaza el puerto predeterminado del protocolo (por ejemplo, `80` para HTTP o `443` para HTTPS).
+
+#### Ejemplos
+```txt
+https://google.com
+https://google.com:9023
+https://google.com/search?s=bing
+https://google.com/results.html#worse
+```
+
+ ###  URN
+- Es un tipo de **URI**.
+- La abreviatura **URN** proviene de *Uniform Resource Name* (Nombre Uniforme de Recurso).
+- Es un nombre que identifica un recurso, pero **no especifica su ubicación ni cómo acceder a él**.
+- Hace referencia a un recurso independientemente de su ubicación, lo que lo hace ideal para referencias a largo plazo.
+- La sintaxis de un URN es:
+```txt
+urn:<identificador-de-espacio-de-nombres>:<nombre>
+```
+:::tip Observación
+- **`urn`**: prefijo que indica que el identificador es un **URN**.
+- **Identificador de espacio de nombres (Namespace Identifier o NID):** indica la categoría o el sistema al que pertenece el recurso y quién es el responsable de asignar esos nombres (por ejemplo, `isbn` o `ietf`).
+- **Nombre (Namespace Specific String o NSS):** identifica el recurso dentro del espacio de nombres especificado por el NID. Puede contener letras, números y otros caracteres.
+:::
+
+- Ejemplos:
+```txt
+urn:isbn:0451450523    // ISBN de un libro
+urn:ietf:rfc:3986      // Documento RFC 3986 de la IETF
+```
+
+#### ¿Cuándo usar cada uno?
+
+- **Utiliza una URL cuando:**
+  - Necesites indicar la ubicación exacta de un recurso que se encuentra en Internet o en una red local, como una página web, una imagen o un archivo descargable.
+  - Sea necesario indicar el protocolo (como `HTTP` o `HTTPS`) para que el cliente sepa cómo acceder al recurso.
+  - Quieras crear enlaces a sitios web, archivos u otros recursos.
+
+- **Utiliza un URN cuando:**
+  - Necesites un nombre que identifique un recurso sin importar dónde se encuentre.
+  - El recurso puede cambiar de ubicación con el tiempo, pero debe conservar el mismo identificador (nombre).
+  - Quieras hacer una referencia al recurso sin importar dónde esté almacenado o cómo se acceda a él.
+
+:::tip info
  - [The Real Difference Between a URL and a URI](https://danielmiessler.com/blog/difference-between-uri-url)
  - [URI vs URL vs URN: ¿Cuál es la diferencia y por qué es importante?](https://www.godaddy.com/resources/skills/uri-vs-url-vs-urn)
  - [URI vs URL: ¿Cuáles son las diferencias?](https://www.wix.com/blog/uri-vs-url)
  - [URI vs URL: diferencias y cuándo usarlas](https://www.hostinger.com/ar/tutoriales/uri-vs-url)
  - [Qué es una URL y cómo funciona en Internet](https://raiolanetworks.com/blog/que-es-url/)
+:::
+

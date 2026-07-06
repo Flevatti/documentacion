@@ -9,7 +9,7 @@ Preocuparse por la eficiencia puede ser una distracción. Es otro factor más qu
 :::
 
 ## Interpolacion template string
-- Las plantillas literales son cadenas de texto que permiten incluir expresiones dentro de un string. Gracias a esto, se pueden crear cadenas de varias líneas y usar interpolación de valores de forma sencilla.
+- Las plantillas literales son cadenas de texto que permiten incluir expresiones dentro de un string. Gracias a esto, se pueden crear cadenas (strings) de varias líneas y usar interpolación de valores de forma sencilla.
 - La interpolación de valores es una forma de insertar variables o expresiones (codigo) dentro de un texto (string).
 - Interpolación de expresiones
     -	barra invertida "alt + 92" = Para saltos de linea
@@ -124,10 +124,10 @@ console.log(estado)
 - Devuelve true ya que en este ejemplo hay dos variable estado (una en cada bloque).
 :::
 
-#### Bloque
+### Bloque
 - Todo lo que este entre llaves (`{}`) pertenece a un bloque.
 - `bloque = {  código }`.
-- El Bloque es "donde vive" una variable.
+- El scope es "donde vive" una variable.
 
 
 Tenemos un scope:
@@ -141,9 +141,9 @@ Tenemos un scope:
 ```
 
 :::tip
-- El "scope de una variable" hace referencia al lugar donde esta va a vivir o donde podrá ser accesible.
-- Generalmente el scope es el bloque en donde vive una variable.
-- Puede ser llamado "contexto".
+- El "scope de una variable" se refiere al lugar donde una variable existe o puede ser usada.
+- Generalmente el scope es el bloque donde está la variable.
+- También se puede llamar "contexto".
 :::
 
 - El scope de un var es global (es accesible la variable desde cualquier bloque).
@@ -158,14 +158,16 @@ console.log(i)
 ```
 ### const
 
-const tiene todas las características increíbles de let, con la ventaja adicional de que las variables declaradas usando const son de solo lectura. Son un valor constante, lo que significa que una vez que se asigna una variable const, no se puede reasignar.
+`const` tiene todas las características de `let`, con la diferencia de que las variables declaradas con `const` no se pueden sobrescribir.
+
+Son valores constantes: una vez que se les asigna un valor, no se puede modificar.
 
 Error:
 
 ```js
 const estado = true
 estado = false
-error:
+
 for (const i = 0; i < 10; i++) {
     console.log(i)
 }
@@ -199,9 +201,11 @@ var myVariable3;
 
 
 ### Array vs const
-Es importante comprender que los objetos (incluidos los arreglos y las funciones) asignados a una variable mediante el uso const siguen siendo mutables. El uso de const solo evita la reasignación de la "referencia" que contiene.
+Es importante entender que los objetos (incluidos los arreglos y las funciones) asignados a una variable `const` siguen siendo mutables. 
 
-Puede modificar lo que hay en el interior.
+El uso de `const` solo evita la reasignación de la “referencia” que contiene.
+
+Puedes modificar lo que hay dentro.
 
 Error:
 
@@ -219,7 +223,7 @@ console.log(miArray)
 ```
 
 ## Metodos del Array
-
+Los arrays son objetos, por lo tanto tienen métodos (funciones) que permiten realizar operaciones con ellos. Más adelante veremos qué son los objetos y los métodos.
 ## push
 El método push() añade uno o más elementos al final de un array y devuelve la nueva longitud del array.
 
@@ -276,17 +280,21 @@ for (let fruta of frutas) {
 ```
 ## confirm()
 
-confirm(): muestra una ventana de diálogo con un mensaje opcional y dos botones, Aceptar (true) y Cancelar (false).
+`confirm(mensaje)` muestra una ventana de diálogo con un mensaje (opcional) y dos botones: Aceptar y Cancelar.
 
-Confirm devuelve un valor boolean , aceptar = true y cancelar = false.
+Recibe un string (mensaje) que se mostrará en la ventana junto con los botones.
+
+Devuelve un valor booleano: Aceptar = `true` y Cancelar = `false`.
 
 ## Funciones anónimas
-
-En JavaScript, usualmente no necesitas nombrar tus funciones, especialmente cuando se pasa una función como argumento a otra función. En su lugar, creamos funciones inline (en línea). No necesitamos nombrar estas funciones porque no las reutilizamos en otro lugar.
+- En JavaScript, muchas veces no es necesario darle un nombre a una función, especialmente cuando se usa como argumento de otra función.
+- En esos casos se crean funciones “en línea” (inline), ya que no se reutilizan en otros lugares, por lo que no hace falta nombrarlas.
+- Las funciones “en línea” (inline) son funciones que se escriben directamente en el lugar donde se usan, sin declararlas (crearlas) antes ni darles un nombre.
+- Una función anónima es una función que no tiene nombre y se define en línea.
 
 Funcion declarativa:
 ```js
-// declaro la función
+// Declaro la función
 function numAleatorioRango(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -296,13 +304,13 @@ console.log(numAleatorioRango(1, 11))
 
 ```
 
-Funcion expresada:
+Función expresada:
 
-Es anonima ya que esta expresada en una variable.
+Es una función anónima porque no tiene nombre y se guarda dentro de una variable.
 
-La funcion se va a una variable
+La función se asigna a una variable.
 
-Es anónima porque la función no tiene ningún nombre
+Es anónima porque la función no tiene nombre.
 
 Ejemplo:
 
@@ -328,17 +336,19 @@ const miNumero = function (min, max) {
 ```
 
 :::tip
+La forma de definir una función depende del comportamiento que se espera:
 
-La forma correcta de definir una función varía según el comportamiento que esperemos de la misma: con las funciones declaradas, tenemos la seguridad de que siempre estarán disponibles en tiempo de ejecución. Con las funciones expresadas, tendremos que éstas no son evaluadas hasta que el intérprete no alcance su posición en el código, lo cual puede generar errores en arquitecturas muy anidadas.
+- Las funciones declaradas están disponibles desde el inicio de la ejecución del código.
+- Las funciones expresadas no se evalúan hasta que el código llega a esa línea, lo que puede generar errores en estructuras muy complejas o anidadas.
 
-El hecho de que las funciones declarativas se evalúen antes que las expresiones, pueden producir comportamientos no deseados cuando forman parte de condicionales. Para estos casos, el uso de las funciones expresadas garantiza que éstas formarán parte del flujo general del programa, lo cual puede evitarnos sorpresa en determinados entornos.
+Las funciones declaradas pueden comportarse de forma inesperada cuando se usan dentro de condicionales, ya que se “cargan” antes de ejecutar el flujo del programa.
 
-
+En cambio, las funciones expresadas se ejecutan en el orden en el que aparecen en el código, lo que ayuda a mantener un comportamiento más predecible.
 :::
 
 ## Arrow functions
 
-Una expresión de función flecha es una alternativa compacta a una expresión de función tradicional
+Una función flecha es una forma más corta y compacta de escribir una función tradicional.
 
 1. Le borras la palabra function
 2. Luego de los parentesis  va la flecha (=>).
@@ -353,9 +363,9 @@ console.log(miNumero(1,10));
 
 ```
 ### Abreviaciones
-Si se retorna en una línea , podemos quitar las llaves ({}) y la palabra return.
+Si el `return` se hace en una sola línea, se pueden quitar las llaves `{}` y la palabra `return`.
 
-De esta forma el interpretre sabe que hay que retornar un valor
+De esta forma, el intérprete entiende que debe devolver ese valor.
 
 Ejemplo:
 
@@ -436,10 +446,10 @@ console.log(miNumero(undefined , 50));
 Los parametros con valores por defecto se puede aplicar a los otros tipos de funciones.
 
 ### Limitantes
--	No tiene sus propios enlaces a this o super y no se debe usar como métodos. (No se puede acceder a this o super).
--	No tiene argumentos o la  palabra clave new.target.
--	No apta para los métodos call, apply y bind, que generalmente se basan en establecer un ámbito o alcance
--	No se puede utilizar como constructor
+-	No tienen acceso a `this` ni a `super`.
+- No tiene `arguments` (lista de todos los argumentos recibidos en la llamada) ni la palabra clave `new.target` (indica si una función fue invocada con `new`).
+- No se puede usar con `call`, `apply` o `bind`, ya que no permite cambiar su contexto.
+- No se puede usar como constructor.
 
 #### This y la funcion flecha
 
