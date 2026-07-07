@@ -124,7 +124,7 @@ console.log(estado)
 - Devuelve true ya que en este ejemplo hay dos variable estado (una en cada bloque).
 :::
 
-### Bloque
+#### Bloque
 - Todo lo que este entre llaves (`{}`) pertenece a un bloque.
 - `bloque = {  código }`.
 - El scope es "donde vive" una variable.

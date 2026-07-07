@@ -12,9 +12,9 @@ sidebar_position: 3
     - En los objetos se accede a los datos mediante propiedades (claves).
 
 
-:::tip 
-- La “clave” también se llama “propiedad” en programación.
-- Entonces, la clave se utiliza para acceder y modificar los datos de un objeto.
+:::tip
+- La "clave" también se llama "propiedad" en programación.
+- La clave se usa para acceder al valor asociado o modificarlo dentro del objeto.
 :::
 
 ### A tener en cuenta 
@@ -131,7 +131,7 @@ console.log(gato.hasOwnProperty("salud"))
  ```
 
 
-## Objetos anidados
+## Propiedades anidadas
 - la propiedad otros es otro objeto
 - la propiedad favoritos es otro objeto
 - la propiedad comida es otro objeto
@@ -166,54 +166,52 @@ console.log(gato.otros.amigos[0])
 ```
 
 ##  Encadenamiento opcional
-- El encadenamiento opcional en JavaScript (introducido en ECMAScript 2020) permite acceder a propiedades de objetos o llamar métodos de manera segura, evitando errores si alguna de las propiedades o métodos no existe (es null o undefined).
-- Con el operador de encadenamiento opcional `?.`  no se tiene que validar expresamente que cada referencia en el objeto sea válida.
+- El encadenamiento opcional (`?.`) permite acceder a propiedades o llamar métodos de un objeto sin que se produzca un error si la propiedad o el método no existen.
+- Con `?.` no es necesario comprobar manualmente que cada propiedad o método exista.
 #### ¿Cómo funciona?
-- El operador `?.` evalúa la expresión siguiente y:
-    - Si la expresión es null o undefined, deja de evaluar y devuelve undefined.
-    - Si no, accede a la propiedad o llama al método.
-- Ventajas:
-    -	Evita tener que escribir verificaciones largas con if o &&.
-    -	Hace el código más limpio y legible.
-    -	Ignora el error si escribiste mal el nombre de la propiedad o método dentro de un objeto.
-
-
-
+- El operador `?.` intenta acceder a una propiedad o llamar a un método.
+  - Si puede hacerlo, devuelve su valor o ejecuta el método.
+  - Si no puede (porque el objeto, la propiedad o el método no existen), devuelve `undefined` y no produce un error.
+#### Ventajas
+- Evita tener que escribir muchas comprobaciones con `if` o `&&`.
+- Hace el código más limpio y fácil de leer.
 - Ejemplo:
 ```js
 console.log(gato.otros?.favorito);
 ```
+:::tip Observación
+- Coloca `?.` antes de la propiedad o el método que no sabes si existe.
+- El operador `?.` comprueba que la propiedad anterior a `?.` (en este caso `otros`) exista antes de acceder a la siguiente propiedad o método.
+- En este ejemplo, si `otros` existe, se accederá a `favorito`; de lo contrario, se devolverá `undefined`.
+- Si `otros` existe, pero `favorito` no, también se devolverá `undefined`, ya que esa propiedad no está definida.
+:::
+
+
 ## Propiedades
-Lenght es una propiedad del array .
+- Una propiedad es una clave cuyo valor no es una función.
+- En JavaScript, los tipos de datos no primitivos son objetos. Los tipos primitivos también pueden usar propiedades y métodos gracias a los *wrapper objects*, que JavaScript crea automáticamente.
+- Los arrays son objetos y, como tales, tienen propiedades y métodos. Por ejemplo, `length` es una propiedad que indica la cantidad de elementos del array.
+- Las propiedades no llevan paréntesis al final.
 
-Las propiedades no llevan paréntesis.
 
-El array es un objeto
+
 
 ```js
-
 const amigos =  ["Cobarde", "Tímido", "Pegajoso"];
-
 console.log(amigos.length);
-
-
-
 ```
 ## Metodos
-
-push() es un método del array .
-
-Como lleva paréntesis es un método.
+- Un método es una clave cuyo valor es una función.
+- Como es una función, para ejecutar el código que contiene se utilizan paréntesis `()` al final de la clave. Dentro de ellos se pasan los argumentos si el método los necesita; de lo contrario, se dejan vacíos.
+- Por ejemplo, `push()` es un método de un array.
 
 ```js
 const amigos =  ["Cobarde", "Tímido", "Pegajoso"];
-
 console.log(amigos.push());
-
 ```
 
 ## ¿Que es un Metodo?
-Es una funcion dentro del objeto
+Un método es una función que pertenece a un objeto.
 
 ```js
 const gato = {
@@ -232,10 +230,8 @@ gato.comer();
 
 ```
 ### Abreviacion
-
-En lugar de : (dos puntos) , colocar los ()(parentesis)  y {} (llaves)
-
-La palabra function se borra
+- En lugar de escribir la palabra `function` y utilizar `:` seguido de una función, se pueden usar directamente los paréntesis `()` y las llaves `{}`.
+- La palabra `function` y el `:` se eliminan.
 
 ```js
 const gato = {
@@ -272,8 +268,7 @@ gato.comer("pez");
 
 ```
 ## Ambito (Scope)
-
-Este código no funciona porque `${nombre}` hace referencia al ámbito global (afuera de las llaves {})(afuera del objeto).
+Este código no funciona porque `${nombre}` intenta acceder a una variable llamada `nombre`, pero esa variable no existe dentro del método ni tampoco existe una variable global con ese nombre.
 ```js
 
 const gato = {
@@ -314,9 +309,9 @@ gato.comer("pez");
 
 2. Usando el this
 ## This
-- this significa “esto” y hace referencia a quién está ejecutando el código en ese momento. Básicamente, contiene una referencia al objeto que ejecuta la función.
-- No siempre hace referencia al mismo objeto.
-- Antes se usaba `const self = this` para conservar su valor en funciones internas, aunque hoy en día se prefieren las funciones flecha.
+- `this` significa “esto” y hace referencia a quién está ejecutando el código en ese momento. Básicamente, contiene una referencia del objeto que está ejecutando el método.
+- `this` no siempre hace referencia al mismo objeto.
+- Antes se usaba `const self = this` para conservar su valor dentro de funciones internas, aunque hoy en día se prefieren las funciones flecha.
 
 
 
@@ -367,10 +362,10 @@ gato.comer("pez");
 El valor de this es el objeto que se usa para llamar el método.
 :::
 #### Scope  de una clase
-- El valor de `this` hace referencia a la **nueva instancia** que se crea  con `new`.
-- También puede representar el **objeto con el cual se accedió a un método**.
+- El valor de `this` hace referencia a la **nueva instancia** que se crea con `new`.
+- También puede representar el **objeto desde el cual se accedió a un método**.
 - Los métodos estáticos pertenecen a la **clase**, no a los objetos creados a partir de ella. Por eso no forman parte de `this`, ya que `this` hace referencia a la instancia u objeto que ejecuta la función.
-- `this` se utiliza en el **constructor** para inicializar(crear) las propiedades y valores de la nueva instancia.
+- `this` se utiliza en el **constructor** para inicializar (crear) las propiedades de la nueva instancia (objeto).
 ```js
       class Letra {
      constructor(letra) {
@@ -486,18 +481,21 @@ for (let propiedad in gato) {
 
 ```
 
-:::tip ¿Por qué usar for...in?
- 
-- Dado que for...in está construido para iterar propiedades de objeto, no se recomienda su uso con arreglos y si existen opciones como Array.prototype.forEach() y o  for...of para que se usa este?.
-- Es posible que se utilice de forma más práctica con fines de depuración, ya que es una forma fácil de comprobar las propiedades de un objeto (mediante la salida a la consola o de otro modo)
-- Aunque los arreglos suelen ser más prácticos para almacenar datos, en situaciones en las que se prefiere un par clave-valor para trabajar con datos (con propiedades que actúan como la "clave"), puede haber casos en los que desees comprobar si alguna de esas claves cumple un valor particular.
+:::tip ¿Por qué usar `for...in`?
+
+- `for...in` está diseñado para recorrer las propiedades de un objeto, por lo que no se recomienda utilizarlo con arrays.
+
+#### Si existen opciones como `Array.prototype.forEach()` o `for...of`, ¿para qué se usa?
+
+- Puede ser útil para depuración, ya que permite revisar fácilmente las propiedades que tiene un objeto (por ejemplo, mostrándolas en la consola).
+- Aunque los arrays suelen ser más prácticos para almacenar datos, hay situaciones donde se trabaja con objetos usando pares clave-valor. En estos casos, `for...in` permite recorrer las claves del objeto y comprobar sus valores.
 :::
 
 ## Object.values()
 
-devuelve un array con los valores correspondientes a las propiedades enumerables de un objeto.
-
-1 parametro = el objeto en cuestión
+- `Object.values()` devuelve un array que contiene los valores de las propiedades del objeto.
+- Solo devolverá los valores cuya propiedad sea enumerable, es decir, que tenga internamente la propiedad `[[Enumerable]]` establecida como `true`.
+- 1 parámetro: el objeto en cuestión.
 
 ```js
 const gato = {
@@ -531,11 +529,23 @@ Object.values(gato).forEach((item) => console.log(item));
 
 ## Destructuring Objects
 
-La sintaxis de desestructuración es una expresión de JavaScript que permite desempacar valores de arreglos o propiedades de objetos en distintas variables.
+- La sintaxis de desestructuración es una expresión de JavaScript que permite extraer valores de un array u objeto y almacenarlos en distintas variables.
+- Permite guardar elementos de arrays o propiedades de objetos en variables separadas.
+- Funciona tanto con objetos como con arrays.
+#### Sintaxis
+```js
+// Desestructuración de objeto
+const { propiedad } = objeto;
 
-Almacenar valores de elementos de arreglos/propiedades de objetos en distintas variables para su posterior uso.
+// Desestructuración de array
+const [elemento] = array;
+```
+:::tip Observación
+- En objetos, `propiedad` es el nombre de una propiedad existente y se convierte en una variable que contiene su valor: `propiedad = objeto.propiedad`.
+- En los arrays, el primer elemento obtiene el valor del índice `0` del array, el segundo el valor del índice `1` y así sucesivamente.
+:::
 
-Funciona tanto en objeto como en array.
+
 
 ### Objeto
 Ejemplo:
@@ -593,15 +603,21 @@ console.log(amigos);
 
 ```
 ####  Desestructuración en otra desestructuración 
-Una desestructuración del objeto otros.
-
-Otra manera de conseguir el array amigos:
+- Permite acceder a propiedades anidadas dentro de un objeto mediante otra desestructuración.
+- En este ejemplo, se desestructura el objeto `otros` para obtener directamente el array `amigos`:
 ```js
 // const amigos = array amigos
 const {otros: {amigos}} = gato;
 console.log(amigos);
 
 ```
+:::tip Observación
+- Solo se crea una variable de la última desestructuración realizada.
+- Cada par de llaves `{}` representa una desestructuración.
+- En este ejemplo, no se crea una variable `otros`, sino únicamente la variable `amigos`, que contiene el valor extraído de `gato.otros.amigos`.
+- En las desestructuraciones anidadas de objetos, se utiliza `:` para acceder al valor de una propiedad y hacer una desestructuracion del valor que contiene.
+
+:::
 
 #### Alias:
 Para poner un nuevo nombre a la variable
@@ -664,9 +680,8 @@ console.log(comer("pez"));
 ```
 
 ### Array
-Aca se respetan los indices . 
-
-No se puede desestructurar el indice 3 si todavia no se desestructuro el  1 y el 2.
+- En los arrays se respetan los índices.
+- No se puede extraer directamente el elemento del índice `3` sin pasar por los índices anteriores, ya que la desestructuración sigue el orden de los elementos del array.
 
 
 ```js
@@ -695,16 +710,20 @@ console.log(amigoDos);
 
 ## Getters y Setters
 
-Son otras propiedades de los objetos
+- Son propiedades especiales que permiten controlar el acceso y modificación de los valores de un objeto.
 
 ### GET
-Enlaza la propiedad de un objeto con una función que será llamada cuando la propiedad es buscada. Nos permite tener acceso al valor de una propiedad
+- Se crea como si fuera un método, pero se accede como si fuera una propiedad.
+- Se utiliza para obtener un valor calculado o el valor de una propiedad.
+- Para crearlo se utiliza la palabra clave `get` seguida de la sintaxis de método abreviada.
+- El nombre del método se convierte en el nombre (clave) de la propiedad, por lo que se accede mediante ese nombre.
+- Cada vez que se accede al getter, se ejecuta la función y se retorna el valor que devuelve.
 
-Tenga en cuenta lo siguiente al trabajar con la sintaxis get:
-- Debe tener exactamente cero parametros.
-- No debe haber múltiples getters para una misma propiedad.
-- No se necesita los parentesis al invocar al metodo
-- Se invoca como si fuera una propiedad
+Tenga en cuenta lo siguiente al trabajar con la sintaxis `get`:
+- Debe tener exactamente cero parámetros.
+- No puede haber múltiples getters con el mismo nombre dentro de un objeto.
+- No se necesitan paréntesis al acceder al getter.
+- Se accede como si fuera una propiedad.
 
 ```js
 	const gato = {
@@ -725,16 +744,17 @@ Tenga en cuenta lo siguiente al trabajar con la sintaxis get:
 
 
 ### SET
-La sintaxis set asocia la propiedad de un objeto a una función que será llamada cuando haya un intento de asignar valor a esa propiedad. 
+- Se crea como si fuera un método, pero se utiliza como [si estuvieras asignando un valor a una propiedad](#actualizar-update).
+- Se utiliza para modificar o asignar un valor a una propiedad del objeto.
+- Para crearlo se utiliza la palabra clave `set` seguida de la sintaxis de método abreviada.
+- El nombre del método se convierte en el nombre de la propiedad, por lo que se accede mediante ese nombre.
+- Al asignar un valor a la propiedad, se ejecuta la función y se pasa como argumento el valor que está después del signo `=`.
+- A diferencia del `GET`, no devuelve ningún valor, solo se encarga de actualizar una propiedad.
 
-Nos permite modificar el valor de una propiedad
-
-Nos permite añadir un valor a una propiedad.
-
-Tenga en cuenta lo siguiente al trabajar con setters:
--	Debe tener exactamente un parámentro
-- El metodo al invocarlo se utiliza el signo igual(=) en lugar de los parentesis
-- Lo que va luego del signo igual(=) seria el parametro
+Tenga en cuenta lo siguiente al trabajar con la sintaxis `set`:
+- Debe tener exactamente un parámetro.
+- Al invocar el setter se utiliza el signo igual (`=`) en lugar de los paréntesis.
+- El valor que se coloca después del signo igual (`=`) se envía como argumento al parámetro del setter.
 
 ```js
 const gato = {
@@ -760,7 +780,7 @@ console.log(gato);
 ## por valor vs por referencia
 
 ### por valor
-Cuando asignamos valores primitivos (Boolean, Null, Undefined, Number, String y Symbol), el valor asignado es una copia del valor que estamos asignando.
+Cuando asignamos valores primitivos (`Boolean`, `Null`, `Undefined`, `Number`, `String` y `Symbol`) a una variable, se realiza una copia de dicho valor. Para entenderlo mejor, veamos el siguiente ejemplo:
 
  ```js
  let a = "hola";
@@ -771,12 +791,18 @@ a = "chao";
 console.log(b);
 
  ```
+:::tip Observación
+- En este caso, `a` es un valor primitivo porque contiene un `string`.
+- Cuando asignamos `a` a `b`, esta recibe una copia del valor que tenía `a` en ese momento. Esa copia es totalmente independiente.
+- Por eso, cuando `a` cambia posteriormente, `b` mantiene su propio valor sin verse afectada.
+:::
 ![por valor](https://bluuweb.github.io/desarrollo-web-bluuweb/img/valor.png)
-### por referencia
-Pero cuando asignamos valores NO primitivos o complejos (Object, Array y Function), JavaScript copia “la referencia”, lo que implica que no se copia el valor en sí, si no una referencia a través de la cual accedemos al valor original.
+
+### Por referencia
+- Cuando asignamos valores no primitivos o complejos (`Object`, `Array` y `Function`) a una variable, JavaScript copia la referencia que apunta al valor original. Esto significa que no se copia el objeto en sí, sino la referencia que permite acceder al mismo objeto desde ambas variables:
 
 ```js
-let a = ["hola"];
+let a = ["hola"]; // Valor original
 let b = a;
 
 a.push("chao");
@@ -784,8 +810,12 @@ a.push("chao");
 console.log(b);
 
 ```
+:::tip Observación
+- En este caso, `a` y `b` apuntan al mismo array, ya que al asignar `a` a `b` se copia la referencia y no el array completo.
+- Por eso, cuando se modifica el array mediante `a.push("chao")`, el cambio también se refleja al acceder desde `b`.
+:::
 ```js
-const a = {
+const a = { // Valor original
     nombre: "hola",
 };
 
@@ -797,6 +827,10 @@ console.log(b);
 
 
 ```
+:::tip Observación
+- En este caso, `a` y `b` apuntan al mismo objeto, ya que al asignar `a` a `b` se copia la referencia y no el objeto completo.
+- Por eso, cuando se modifica la propiedad `nombre` mediante `a`, el cambio también se refleja al acceder al objeto desde `b`.
+:::
 ![por referencia](
 https://bluuweb.github.io/desarrollo-web-bluuweb/img/valor-2.png
 )
