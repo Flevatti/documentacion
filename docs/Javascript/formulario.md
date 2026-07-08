@@ -499,14 +499,15 @@ formulario.addEventListener("submit", (e) => {
 
 
 ## FormData
+- La interfaz `FormData` permite crear y manejar un conjunto de pares clave/valor que representan los campos de un formulario y sus valores, los cuales pueden ser enviados posteriormente mediante una petición HTTP.
+- Está diseñada principalmente para trabajar con datos de formularios, aunque también puede utilizarse para almacenar y manipular datos manualmente.
+- `FormData.get(clave)`: Permite obtener el valor asociado a la clave indicada mediante el parámetro `clave` dentro del objeto `FormData`.
+- `FormData.entries()`: Devuelve un iterador que permite recorrer todas las parejas clave/valor contenidas en el objeto `FormData`.
+- `FormData.values()`: Devuelve un iterador que permite recorrer todos los valores contenidos en el objeto `FormData`.
 
--	La interfaz FormData proporciona una manera sencilla de construir un conjunto de parejas clave/valor que representan los campos de un formulario y sus valores, que pueden ser enviados fácilmente. Están destinados principalmente para el envío de los datos del formulario, pero se pueden utilizar de forma independiente con el fin de transmitir los datos tecleados.
--	FormData.get() Devuelve el primer valor asociado con una clave dada (parámetro) en un objeto FormData.
--	FormData.entries() Devuelve un iterator que permite recorrer todas las parejas clave/valor contenidas en este objeto.
--	FormData.values() Devuelve un iterator que permite recorrer todos los valores contenidos en este objeto.
 
 :::warning
-Usa el atributo name de los inputs , por lo tanto es obligatorio.
+- Usa el atributo name de los inputs , por lo tanto es obligatorio.
 :::
 ```js
 const formulario = document.getElementById("formulario");

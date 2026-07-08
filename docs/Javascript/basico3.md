@@ -619,7 +619,7 @@ foo();
 
 #### fromEntries(X)
 - Hace lo inverso del método entries()
-- Convierte el array con Arrays (seria la X -- lo que devuelve el método entries)en un objeto.
+- Convierte el array con Arrays (seria lo que devuelve el método entries) en un objeto.
 
 ```js
         const persona1 = {
