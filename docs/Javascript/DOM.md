@@ -1098,7 +1098,7 @@ lista.appendChild(fragment);
 ## Crear Snippets
 - [Ver info](https://pablocianes.com/guardar-snippets-personalizados-en-visual-studio-code/)
 - Control + Shift + P  : Escribir snippet
-- Ir a: Configurar fragmentos de usuario (Preferences: Configure User Snippets)
+- Ir a: Configurar fragmentos de código (Snippets: Configure  Snippets)
 - En html: 
 ```json
 {
