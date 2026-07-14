@@ -773,13 +773,18 @@ console.log(juanito.#notas);
 
 
 
-:::tip  dataset
-Usamos data-nombre / dataset.
-El dataset es para manipular el DOM con JS.
-crear un data:
+:::tip `dataset`
+- Los atributos `data-*` permiten almacenar información personalizada en un elemento HTML.
+- La propiedad `dataset` permite acceder y modificar esos atributos desde JavaScript.
+
+**Crear un atributo `data-*`:**
+```js
 elemento.dataset.nombre = valor;
-acceder al valor
-elemento.dataset.nombre 
+```
+**Acceder a su valor:**
+```js
+elemento.dataset.nombre;
+```
 :::
 
 
@@ -993,37 +998,6 @@ class Profesor extends Persona {
 ```
 
 ## Arreglar problema de Practica
-:::warning PROBLEMA
- Ponerle ID unicas
-:::
-:::tip TRIM
-Metodo TRIM
-Devuelve verdadero si el usuario solo ingresa espacio en blanco.
-:::
-
-:::tip return vacio
-IMPORTANTE EL RETURN VACIO ya que impide la ejecución del resto del código, lo detiene, sale del bloque.
-:::
-:::tip Manipular clases
-Se usa la propiedad remove de classList para eliminar una clase y la propiedad add para añadir una clase.
-:::
-
-:::tip user id
-Implementamos el uid (user id).
-
-Usamos el date.now() como  user id(NO RECOMENDADO , ES SOLO PARA PRACTICAR AHORA)
-:::
-
-
-:::tip date.now()
-date.now() nos devuelve un numero de milisegundos trascurrido desde …. 
-:::
-
-
-:::tip dataset
-Los dataset siempre son STRING.
-Convertimos el valor que nos devuelve date.now() como String a través de la interpolación.
-:::
 
 ```html
 <!DOCTYPE html>
@@ -1241,19 +1215,29 @@ class Profesor extends Persona {
 }
 
 ```
-
-:::tip Control + D
-Para copiar la siguiente ocurrencia
-
+:::tip Observaciones
+- Asigna un `id` único a cada elemento.
+- Utiliza `trim()` para eliminar los espacios al inicio y al final de un texto. Si el usuario solo ingresa espacios en blanco, el resultado será una cadena vacía (`""`).
+- Un `return` vacío detiene la ejecución de la función e impide que se siga ejecutando el resto del código.
+- Para agregar o eliminar clases CSS se utiliza `classList.add()` y `classList.remove()`.
+- En este ejemplo implementamos un identificador de usuario (`uid`) utilizando `Date.now()`. **No es una práctica recomendada para aplicaciones reales; solo se utiliza con fines de aprendizaje.**
+- `Date.now()` devuelve la cantidad de milisegundos transcurridos desde el **1 de enero de 1970 a las 00:00:00 UTC**.
+- Los valores almacenados mediante `dataset` siempre son de tipo `string`. Por eso, el valor devuelto por `Date.now()` se convierte implícitamente a `string` al asignarlo mediante `dataset`.
 :::
+
+
+:::tip `Ctrl + D`
+Selecciona la siguiente ocurrencia del texto seleccionado para editar varias al mismo tiempo.
+:::
+
 
 
 ## Propiedades y métodos de una instancia
 - Además de los métodos y propiedades definidos en la clase, una instancia también hereda propiedades y métodos de `Object`.
 
 #### Propiedad `constructor`
-- Devuelve la función constructora que creó el objeto.
-- Esa función constructora posee la propiedad `name`, que devuelve el nombre de la función. Como el objeto fue creado a partir de una clase, este valor coincide con el nombre de la clase.
+- Devuelve la función constructora con la que se creó el objeto.
+- Esa función constructora posee la propiedad `name`, que devuelve el nombre de la función. Si el objeto fue creado a partir de una clase, este valor coincide con el nombre de la clase.
 - Ejemplo:
 ```js
 class Dashboard {}

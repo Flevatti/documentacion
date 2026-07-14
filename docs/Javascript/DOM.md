@@ -227,7 +227,7 @@ En este caso te da null:
 </head>
 
 ```
-Pero si quieren dejar la etiqueta script aribba:
+Pero si quieren dejar la etiqueta script arriba:
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ```
 ## Atributo defer
--	El atributo defer indica al navegador que no espere por el script. En lugar de ello, debe seguir procesando el HTML, construir el DOM. El script carga “en segundo plano” y se ejecuta cuando el DOM esta completo.
+-	El atributo defer le indica al navegador que no espere por el script. En lugar de ello, debe seguir procesando el HTML, construir el DOM. El script carga “en segundo plano” y se ejecuta cuando el DOM esta completo.
 -	Los scripts con defer siempre se ejecutan cuando el DOM esta listo (pero antes del evento DOMContentLoaded).
 -	defer no funciona igual en todos los navegadores.
 - es nuevo y algunos navegadores no se pusieron de acuerdo en cómo funciona defer.
@@ -407,7 +407,7 @@ h1.style.color = "white";
 
 ```
 
-- En el contexto del DOM (Document Object Model) cada nodo Elemento implementa una interfaz. 
+- En el contexto del DOM (*Document Object Model*), cada nodo de tipo elemento implementa una clase específica que define sus propiedades y métodos.
 - Imagina que cada tipo de elemento HTML (como &lt;div>, &lt;input>, etc.) se representa como una clase en  programación orientada a objetos. Entonces para representar a un nodo en el DOM tenemos las siguientes clases:
     - Clase base “Node”: Representa cualquier Nodo en el DOM ya sea de texto, de comentario, de elemento, etc.
     - Clase “Element” (Hereda de Node): Es una subclase de “Node”. Representa todos los nodos de elementos HTML, como las etiquetas &lt;div>,&lt;p>, &lt;a>, etc. Los métodos y propiedades de esta clase son comunes en todos los elementos HTML.
@@ -426,8 +426,10 @@ h1.style.color = "white";
 
 
 :::tip ¿Cómo buscar la documentación de una interfaz especifica?
+- En la documentación, lo encontrarás como interfaces en lugar de clases.
 - Si buscas un elemento HTML en [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML), hay una sección que te indica que interfaz DOM implementa ese elemento.
 - [Click aquí para ver interfaces](https://web.dev/learn/html/apis?hl=es-419#available_element_interfaces)
+
 :::
 
 
@@ -469,17 +471,21 @@ NodeElement.addEventListener(event, handler, options);
 -  options (opcional): Un objeto o un valor booleano que define opciones como:
     -	capture: Si true, activa el evento en la fase de captura (por defecto es false).
     -	once: Si true, el manejador se ejecuta una sola vez.
-    -	passive: Si true, indica que el evento no bloqueará el comportamiento predeterminado (útil para eventos de scroll).
+    - passive: Si es true, indica que el evento no utilizará `preventDefault()` para bloquear el comportamiento predeterminado del elemento. Es decir, algunos elementos tienen un comportamiento por defecto cuando el usuario realiza una acción sobre ellos (por ejemplo, hacer scroll al mover la rueda del mouse). Al usar `passive: true`, le indicamos al navegador que no vamos a cancelar ese comportamiento.
 :::
 
 :::tip Ejemplo no técnico
 - Imagina que tienes una fiesta en tu casa:
-    -	La puerta principal (el document) escucha cuando alguien toca el timbre.
-    -	Alguien más que esta cerca de la puerta en la fiesta también escucha (un elemento Node del DOM como un botón).
-    -	Puedes decidir que solo una persona escuche el timbre (configurando ``{once: true}``), o que primero escuche la persona que vive más lejos en la casa (fase de captura) antes que la persona cerca del timbre (fase de burbuja).
-
-
+    - La puerta principal (el `document`) escucha cuando alguien toca el timbre.
+    - Alguien más que está cerca de la puerta en la fiesta también escucha (un elemento `Node` del DOM como un botón).
+    - Puedes decidir que solo una persona escuche el timbre (configurando `{once: true}`), o que primero escuche la persona que vive más lejos en la casa (fase de captura) antes que la persona cerca del timbre (fase de burbuja).
+- Siguiendo la analogía anterior, para explicar `passive`, agregaremos a alguien encargado de abrir la puerta:
+    - Al escuchar el timbre, primero identifica el tipo de persona que entra (tipo de elemento HTML) y dentro de la fiesta hay un conjunto de personas, donde cada una se encarga de atender a un tipo de cliente específico. Es decir, realizan una acción en base al tipo de cliente (comportamiento por defecto).
+    - Entonces, el encargado de la puerta primero llama a ese conjunto de personas y luego a las demás personas que están escuchando el timbre (listeners).
+    - Cuando `passive` está en `true`, contratamos a ese "conjunto de personas".
 :::
+
+
 
 
 :::tip 
@@ -582,8 +588,10 @@ boton.addEventListener("click", () => {
 
 ```
 ## Copiar en el portapapeles
-### Extra
-- Se realiza con navigator.clipboard
+- El portapapeles del navegador es un espacio temporal donde se almacenan los datos que el usuario copia (`Ctrl + C`) o corta (`Ctrl + X`) para luego poder pegarlos en otro lugar.
+- Básicamente, es el lugar donde se guarda temporalmente un texto u otro tipo de dato para poder utilizarlo posteriormente.
+- Con `navigator.clipboard` se accede al portapapeles del navegador.
+- Uno de sus métodos más importantes es `writeText(texto)`, el cual permite guardar el texto indicado en el portapapeles, como si se realizara un `Ctrl + C` sobre el texto pasado como argumento.
 
 ```js
 const inputColor = document.getElementById("inputColor");
@@ -597,6 +605,9 @@ boton.addEventListener("click", () => {
     console.log(inputColor.value);
     textoHexa.textContent = inputColor.value;
     cardColor.style.backgroundColor = inputColor.value;
+        // navigator.clipboard permite acceder al portapapeles del navegador
+    // writeText(string) copia el string indicado 
+    // Es equivalente a hacer Ctrl + C sobre el texto indicado
     navigator.clipboard
         .writeText(inputColor.value)
         .then(() => console.log("texto copiado"))
@@ -627,7 +638,7 @@ console.log(li);
 
 Agrega un nuevo nodo al final de la lista de elementos hijos de un elemento padre especificado.
 ```js
-elementopadre.appenChild(nuevoHijo (child)).
+elementopadre.appenChild(elementoHTML).
 ```
 - Le asigna un padre al elemento.
 - Crea un nodo hijo (child).
@@ -721,14 +732,18 @@ innerHTML hace lo mismo que textContent pero también permite código html.
 :::
 
 ### Reflow
-- El reprocesamiento (reflow) es el proceso en el que el navegador recalcula las posiciones y geometrías (tamaño, espaciado y relaciones con los otros elementos, posición , son las propiedades fisicas que determinan su posición y tamaño)  de los elementos en el documento para renderizarlo nuevamente. Esto ocurre cuando hay cambios en el DOM o estilos que afectan el diseño de la página, como:
+- El reflow es el proceso mediante el cual el navegador recalcula la posición y geometría de los elementos del documento para volver a renderizar la página.
+- La geometría de un elemento incluye sus dimensiones, posición, espaciado y relación con otros elementos dentro del layout.
+- Ocurre cuando se realizan cambios que afectan la estructura o el diseño de la página, por ejemplo:
     - Cambiar el tamaño de la ventana.
-    - Agregar, eliminar o modificar elementos en el DOM.
-    - Ajustar clases o estilos de elementos.
--   Ocurre cuando un navegador debe procesar y dibujar parte o la totalidad de una página web nuevamente, como después de una actualización en un sitio interactivo.
-- Dado que el reprocesamiento puede ser costoso en términos de rendimiento (bloquea al usuario), es importante optimizarlo considerando factores como la profundidad del DOM, la eficiencia de las reglas CSS y el alcance de los cambios. Incluso un pequeño cambio en un elemento puede afectar a sus ancestros y elementos posteriores, incrementando el tiempo necesario para completar el proceso.
+    - Agregar, eliminar o modificar elementos del DOM.
+    - Cambiar clases o estilos CSS que afectan al layout.
+- Durante un reflow, el navegador vuelve a calcular la posición y tamaño de los elementos que fueron afectados antes de dibujar nuevamente la página. Dependiendo del cambio realizado, puede afectar solo una parte o toda la página.
+- El reflow puede ser costoso en términos de rendimiento, ya que el navegador debe detener el renderizado mientras recalcula la geometría de los elementos afectados.
+- Por eso es importante optimizarlo considerando factores como la profundidad del DOM, la eficiencia de las reglas CSS y el alcance de los cambios realizados.
+- Incluso un cambio pequeño en un elemento puede afectar a sus elementos hijos, padres o elementos cercanos, aumentando el trabajo necesario para completar el proceso.
 - [Más información](https://developers.google.com/speed/docs/insights/browser-reflow)
-- En Los dos ejemplo en cada iterracion provoca reflow , afectando el rendimiento.
+- En los dos ejemplos, cada iteración provoca un reflow, afectando el rendimiento.
 
 ## Fragment
 - Soluciona el reflow.
@@ -873,9 +888,7 @@ lista.appendChild(fragment);
 
 ```
 Para que no lo haga:
-:::warning
-Ojo que aquí estamos reemplazando fragment por let template, por ende hace un efecto parecido y minimizamos el reflow, ya que solo una vez que tenemos nuestro templateString listo, lo incorporamos al HTML.
-:::
+
 ```js
 const lista = document.getElementById("lista")
 
@@ -893,6 +906,9 @@ paises.forEach(pais => {
 lista.innerHTML = template;
 
 ```
+:::warning
+Ojo: aquí estamos reemplazando `fragment` por `let template`, por lo que conseguimos un efecto similar. De esta forma minimizamos los reflow, ya que primero construimos todo el contenido en la variable `template` y recién cuando está listo lo incorporamos al HTML.
+:::
 ## innerHTML vs createElement 
 
 - [1](https://medium.com/@kevinchi118/innerhtml-vs-createelement-appendchild-3da39275a694)
@@ -901,16 +917,15 @@ lista.innerHTML = template;
 - [4](https://stackoverflow.com/questions/2305654/innerhtml-vs-appendchildtxtnode)
 - [5](https://stackoverflow.com/questions/2946656/advantages-of-createelement-over-innerhtml)
 ## template 
-
-- Piensa en la plantilla como un fragmento de contenido que está siendo almacenado para un uso posterior en el documento.	
-- es un mecanismo para mantener el contenido HTML del lado del cliente , el cual no se renderiza cuando se carga una página, pero que posteriormente puede ser instanciado durante el tiempo de ejecución empleando JavaScript.
-- El analizador procesa el contenido del elemento &lt;elemento> durante la carga de la página, pero sólo lo hace para asegurar que esos contenidos son válidos; sin embargo, estos contenidos del elemento no se renderizan
-- los elementos &lt;template> contienen un DocumentFragment en su propiedad HTMLTemplateElement.content.
+- La etiqueta `<template>` permite definir una plantilla HTML que se almacena para utilizarse posteriormente mediante JavaScript.
+- Su contenido se procesa durante la carga de la página para verificar que el HTML sea válido, pero no se renderiza ni aparece visualmente en el documento.
+- El contenido de un `<template>` permanece almacenado del lado del cliente hasta que es clonado o insertado en el DOM mediante JavaScript.
+- Los elementos `<template>` contienen un `DocumentFragment` accesible mediante la propiedad `HTMLTemplateElement.content`.
 ### HTML
- - Adentro de la etiqueta témplate va el contenido que se va a repetir muchas veces.
-- Debe estar en el body y antes de &lt;script>\&lt;/script>
-- Puede haber muchos template
-- Hay que ponerle una id a la etiqueta template.
+- Dentro de la etiqueta `<template>` se coloca el contenido HTML que se desea reutilizar o generar dinámicamente varias veces.
+- Puede existir más de un elemento `<template>` dentro de una página.
+- Generalmente se coloca dentro del `<body>` antes de los scripts que lo utilizarán.
+- Es recomendable asignarle un `id` para poder acceder a él fácilmente desde JavaScript.
 
 
 
@@ -932,9 +947,9 @@ lista.innerHTML = template;
     <script src="app.js"></script>
 
 ```
-### js
-- Hay que clonarlo en JS al elemento template.
-- Hay que saber donde van a ir los elementos del template (identificar el nodo padre).
+### JS
+- El contenido del elemento `<template>` debe clonarse mediante JavaScript antes de poder utilizarlo en el DOM.
+- Es necesario identificar el nodo padre donde se van a insertar los elementos generados a partir del template.
 
 ```js
 const lista = document.getElementById("lista")
@@ -956,7 +971,12 @@ clone.querySelector('.text-primary').textContent = "agrege a través de un templ
 lista.appendChild(clone);
 
 ```  
-
+:::tip Observación
+- `Nodo.cloneNode(true)` permite crear una copia del nodo indicado junto con todos sus nodos hijos.
+- El valor `true` indica que la clonación debe ser profunda, es decir, incluye todos los nodos descendientes que contiene.
+- `HTMLTemplateElement` posee la propiedad `content`, que es de solo lectura y devuelve un `DocumentFragment` con el árbol (estructura) de nodos que representa la plantilla.
+- Es importante tener en cuenta que utilizar directamente el valor de `content` puede provocar comportamientos inesperados al insertarlo en el DOM. Para evitarlo, se recomienda trabajar con una copia del fragmento (por ejemplo, utilizando `cloneNode(true)`).
+:::
 ### Fragment + template 
 
 ```js
@@ -976,9 +996,7 @@ lista.appendChild(fragment);
 ```
 
 :::tip
-  HTMLTemplateElement tiene una propiedad content, que es de solo lectura y DocumentFragment contiene el subárbol DOM que representa la plantilla. Tenga en cuenta que el uso directo del valor de content podría provocar un comportamiento inesperado; consulte la sección Evitar el error de DocumentFragment a continuación
-
-  [Errores](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#avoiding_documentfragment_pitfall)
+[Errores](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#avoiding_documentfragment_pitfall)
 :::
 
 ### Los addEventListener no funcionaria:
@@ -1001,6 +1019,10 @@ paises.forEach( pais => {
 lista.appendChild(fragment);
 
 ```
+
+:::tip Observación
+`addEventListener()` no funciona en `DocumentFragment` obtenido mediante `cloneNode(true)`, ya que el fragmento no es el nodo que finalmente se agrega al DOM. Al ejecutar `appendChild()`, los nodos hijos del fragmento de la plantilla se transfieren al documento, pero el `DocumentFragment` queda vacío y no forma parte del DOM. Por este motivo, el evento debe agregarse en el elemento real que será insertado (por ejemplo, el `<li>`) o utilizar delegación de eventos sobre un elemento contenedor.
+:::
 ### Solucion:
 #### Utilizar firstElementChild
 
@@ -1024,9 +1046,8 @@ lista.appendChild(fragment);
 ```
 
 ## Objeto evento (e)
-- El objeto evento en JavaScript es una instancia de la clase Event que se crea automáticamente cada vez que ocurre un evento (como un clic, una pulsación de tecla, o el movimiento del ratón). Este objeto contiene información detallada sobre el evento de modo que cada elemento determine que acción ejecutar en base a la información que contenga.
-- El objeto evento en JavaScript es una instancia de la clase Event que se crea automáticamente cada vez que ocurre un evento (como un clic, una pulsación de tecla, o el movimiento del ratón). Este objeto contiene información detallada sobre el evento y permite interactuar con él.
-- El manejador de evento (el parametro handler de addEventListener) siempre es una función con un parámetro. Este parámetro contiene el objeto evento.
+- El objeto evento en JavaScript es una instancia de la clase `Event` que se crea automáticamente cada vez que ocurre un evento (como un clic, una pulsación de tecla o el movimiento del ratón). Este objeto contiene información detallada sobre el evento.
+- El manejador de evento (la función pasada como parámetro a `addEventListener()`) puede recibir un parámetro que contiene el objeto evento. Este parámetro permite acceder a información del evento, como el elemento que lo generó, el tipo de evento o las coordenadas del puntero.
 #### ¿Qué contiene el objeto evento?
 - El objeto evento proporciona:
 1. Tipo del evento (type): Identifica qué tipo de evento ocurrió (como click, keydown, etc.).
@@ -1035,8 +1056,8 @@ lista.appendChild(fragment);
     - Coordenadas del mouse (clientX, clientY) para eventos del mouse.
     - Tecla presionada (key) para eventos de teclado.
 4.	Métodos para controlar el evento:
-    - preventDefault(): Cancela el comportamiento predeterminado del evento (como evitar que un enlace abra una nueva página).
-    - stopPropagation(): Detiene la propagación del evento (para que no suba a los elementos padres.
+    - `preventDefault()`: Cancela el comportamiento predeterminado del evento, es decir, la acción que el navegador ejecuta automáticamente cuando ocurre el evento (como evitar que un enlace abra una página o que un formulario se envíe).
+    - `stopPropagation()`: Detiene la propagación del evento para evitar que llegue a los elementos padres.
 #### Propiedades comunes del objeto evento
 1.	type: El tipo de evento ("click", "keydown", etc.).
 2.	target: El elemento donde ocurrió el evento.
@@ -1077,11 +1098,8 @@ lista.appendChild(fragment);
 ## Crear Snippets
 - [Ver info](https://pablocianes.com/guardar-snippets-personalizados-en-visual-studio-code/)
 - Control + Shift + P  : Escribir snippet
-
-
-
+- Ir a: Configurar fragmentos de usuario (Preferences: Configure User Snippets)
 - En html: 
-
 ```json
 {
     // Place your snippets for html here. Each snippet is defined under a snippet name and has a prefix, body and 

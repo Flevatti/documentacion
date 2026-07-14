@@ -16,6 +16,13 @@ sidebar_position: 6
 :::tip Aprende a crear tus Expresiones Regulares
 - [Developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Regular_Expressions)
 - [Wikipedia](https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular)
+- [Guía para principiantes sobre expresiones regulares con ejemplos](https://blog.hpc.qmul.ac.uk/Beginners-Guide-to-Regular-Expressions/)
+- [Crear expresiones regulares](https://lenguajejs.com/javascript/regexp/crear-expresiones-regulares/)
+- [Probador de Regex](https://coddy.tech/tools/es/regex-tester)
+- [RegExr: Learn, Build, & Test RegEx](https://regexr.com/)
+- [Dominando las expresiones regulares: El arte de buscar y validar patrones (II)](https://www.enmilocalfunciona.io/dominando-las-expresiones-regulares-ii/)
+- [RegEx 101: Guía de supervivencia para entender y usar expresiones regulares](https://eudriscabrera.com/blog/2022/regex-101)
+- [Expresiones regulares (RegEx) en JavaScript: Manual para principiantes](https://www.freecodecamp.org/espanol/news/expresiones-regulares-regex-en-javascript-manual-para-principiantes/)
 :::
 ```js
 //    /Patron/
@@ -30,13 +37,12 @@ const expresionObjeto = new RegExp("palabra")
 :::tip Observación
 - Hay dos formas de crear expresiones regulares:
     - La notación literal (`/patron/`) es la forma más utilizada.
-    - `new RegExp()` suele utilizarse cuando el patrón se crea dinámicamente, por ejemplo, a partir de variables.
+    - `new RegExp("patron")` suele utilizarse cuando el patrón se crea dinámicamente, por ejemplo, a partir de variables.
 :::
 ### Flags de una RegExp
-
--	i Ignora mayúsculas y minúsculas. Se suele denominar insensible a mayús/minús.
--	g Búsqueda global. Sigue buscando coincidencias en lugar de pararse al encontrar una.
--	m Multilínea. Permite a ^ y $ tratar los finales de línea \r o \n.
+- `i` (**ignore case**): Ignora la diferencia entre mayúsculas y minúsculas durante la búsqueda.
+- `g` (**global**): Busca todas las coincidencias del patrón en lugar de detenerse en la primera.
+- `m` (**multiline**): Hace que `^` y `$` coincidan con el inicio y el final de cada línea, y no solo con el inicio y el final de toda la cadena.
 
 ```js
 //    /Patron/Flags
@@ -44,7 +50,7 @@ const expresionObjeto = new RegExp("palabra")
 const expresionRegular = /palabra/i
 
 // Notacion de objeto
-
+// El patrón se pasa como primer parámetro y las flags como segundo.
 const expresionObjeto = new RegExp("palabra" , "i")
 
 ```
@@ -86,7 +92,7 @@ console.log(expresionRegular.test("no hay pal"));
 ```js
 	
 const expresionRegular = /[A-Za-z0-9]/i
-//Devuelve true si la cadena pasada por parametro contiene ...
+// Devuelve true si la cadena pasada como parámetro contiene al menos una letra o un número.
 console.log(expresionRegular.test("no hay pal"));
 
 ```
@@ -114,40 +120,36 @@ Validar Email:
 /^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/
 ```
 ## Validación Formularios
-- Antes de enviar datos al servidor, es importante asegurarse de que se completan todos los controles de formulario requeridos, y en el formato correcto.
-- Esto se denomina validación de formulario en el lado del cliente y ayuda a garantizar que los datos que se envían coinciden con los requisitos establecidos en los diversos controles de formulario.
-:::tip 
- En el lado del cliente las validaciones son vulnerables, pero son mas para ayudar al usuario.
- 
- ¡la validación en el lado del cliente no debe considerarse una medida de seguridad exhaustiva! Tus aplicaciones siempre deben realizar comprobaciones de seguridad de los datos enviados por el formulario en el lado del servidor.
+- Antes de enviar los datos al servidor, es importante verificar que todos los campos obligatorios del formulario estén completos y que los valores tengan el formato correcto.
+- Esto se conoce como **validación del lado del cliente** (*client-side validation*) y ayuda a comprobar que los datos ingresados sean válidos antes de enviarlos al servidor.
+
+
+:::tip
+- Las validaciones del lado del cliente mejoran la experiencia del usuario al detectar errores antes de enviar el formulario.
+- Sin embargo, **no son una medida de seguridad**, ya que pueden ser modificadas o deshabilitadas por el usuario.
+- Por este motivo, **siempre es necesario validar nuevamente los datos en el servidor** (*server-side validation*) antes de procesarlos.
 :::
 
 
 	
-### Hay dos tipos diferentes de validación por parte del cliente que encontrarás en la web:
-
--	La validación de formularios incorporada utiliza características de validación brindada por HTML5, Esta validación generalmente no requiere mucho JavaScript. La validación de formularios incorporada tiene un mejor rendimiento que JavaScript, pero no es tan personalizable como la validación con JavaScript. Es con atributos de HTML5. 
-
--	La validación con JavaScript se codifica utilizando JavaScript. Esta validación es completamente personalizable, pero debes crearlo todo (o usar una biblioteca).
+#### Existen dos formas de realizar la validación del lado del cliente
+- **Validación mediante HTML5:** Utiliza la validación que ofrece HTML mediante atributos como `required`, `minlength`, `maxlength`, `min`, `max`, `pattern`, etc. Generalmente no requiere escribir JavaScript. Es rápida y sencilla de implementar, aunque ofrece menos posibilidades de personalización.
+- **Validación con JavaScript:** Se implementa mediante código JavaScript. Permite crear validaciones totalmente personalizadas, aunque requiere escribir toda la lógica de validación (o utilizar una biblioteca que la proporcione).
 
 ## HTML5
-Esto se realiza mediante el uso de atributos de validación en los elementos del formulario.
--	required:  Especifica si un campo de formulario debe completarse antes de que se pueda enviar el formulario.
--	minlength y maxlength : Especifican la longitud mínima y máxima de los datos de texto (cadenas).
--	min y max : Especifican los valores mínimo y máximo de los tipos de entrada numéricos.
--	type: Especifica si los datos deben ser un número, una dirección de correo electrónico o algún otro tipo de preajuste específico.
--	pattern : Especifica una expresión regular que define un patrón que los datos que se introduzcan deben seguir. (La expresión va sin los //)
+La validación se realiza mediante atributos definidos en los elementos del formulario.
+- `required`: Indica que el campo debe completarse.
+- `minlength` y `maxlength`: Especifican la longitud mínima y máxima permitida para un texto.
+- `min` y `max`: Especifican el valor mínimo y máximo permitido para los campos numéricos.
+- `type`: Indica el tipo de dato esperado, por ejemplo: `number`, `email`, `url`, etc.
+- `pattern`: Especifica una expresión regular que define el formato que deben cumplir los datos ingresados. *(La expresión regular se escribe sin las barras `/`.)*
 
 :::warning
-
-El elemento textarea no admite el atributo pattern.
+- El elemento `textarea` no admite el atributo `pattern`.
+- Cada `input`, `textarea` o `select` debe tener un atributo `name`, ya que este se utiliza para identificar los datos enviados por el formulario.
 :::
 
 
-
-:::warning
-Cada input/textarea debe contener el atributo name para luego poder identificar los datos enviados por el formulario.
-::: 
 
 ```html
 <!DOCTYPE html>
@@ -204,18 +206,19 @@ Cada input/textarea debe contener el atributo name para luego poder identificar 
 ``` 
 ## Eventos
 
-Ya aprendimos que podemos escuchar eventos a través de Javascript utilizando addEventListener , hoy conoceremos algunos para procesar formularios.
+Ya aprendimos a escuchar eventos utilizando `addEventListener()`. Ahora veremos algunos eventos relacionados con los formularios.
 
 ### Submit
-- El evento submit se activa cuando el formulario es enviado, normalmente se utiliza para validar el formulario antes de ser enviado al servidor o bien para abortar el envío y procesarlo con JavaScript.
-- Mayormente un formulario puede enviarse de dos maneras:
-    - La primera – Haciendo click en &lt;input type="submit"> , &lt;button type="submit">&lt;/button> o  en &lt;input type="image">.
-    - La segunda – Pulsando la tecla Enter en un campo del formulario.
-- Ambas acciones causan que el evento submit sea activado en el formulario.
-- El método ElementNodeForm.submit() permite enviar el  formulario mediante JavaScript. Podemos utilizarlo para crear y enviar nuestros propios formularios al servidor.
-- ElementNodeForm debe referenciar a una etiqueta &lt;form>.
+- El evento `submit` se dispara (activa) cuando un formulario es enviado.
+- Generalmente se utiliza para validar los datos antes de enviarlos al servidor o para cancelar el envío y procesarlo con JavaScript.
+- Un formulario puede enviarse de varias formas:
+  - Haciendo clic en un `<input type="submit">`, un `<button type="submit">` o un `<input type="image">`.
+  - Presionando la tecla **Enter** dentro de un campo del formulario.
+- En todos estos casos se dispara el evento `submit` del formulario (`<form>`).
+- El método `form.submit()` permite enviar un formulario mediante JavaScript, donde `form` es una variable con una referencia a un elemento `<form>`.
+
 :::warning
-POR ESO ES IMPORTANTE QUE EL BOTON/INPUT QUE ENVIE LOS DATOS SEA DE TYPE SUBMIT.
+Si deseas que un botón envíe el formulario y dispare el evento `submit`, debe ser de tipo `submit`.
 :::
 
 ```html
@@ -250,19 +253,19 @@ POR ESO ES IMPORTANTE QUE EL BOTON/INPUT QUE ENVIE LOS DATOS SEA DE TYPE SUBMIT.
 const formulario = document.getElementById("formulario");
 
 formulario.addEventListener("submit", (e) => {
-    // El formulario no se envia (la pagina no se actualiza)
+    // El formulario no se envia al servidor (la pagina no se actualiza)
     e.preventDefault();
     console.log("funciona");
 });
 
 ```
-Tambien existe el atributo novalidate de la etiqueta form para no validar el  formulario.
+- El atributo `novalidate` de la etiqueta `<form>` desactiva la validación automática de HTML5 al enviar el formulario.
 ```html
    <form id="formulario" novalidate >
 ```
-## Capturar valores 
-- Capturar los valores que introduce el usuario
-- Generalmente se accede con la propiedad value del elemento HTML que representa un input (este contiene la información que ingreso el usuario).
+## Capturar valores
+- Permite obtener los valores ingresados por el usuario en los campos del formulario.
+- Generalmente se accede mediante la propiedad `value` del elemento HTML que representa un `input`, ya que esta contiene el dato introducido por el usuario.
 
 ### Por ID
 :::tip
@@ -322,13 +325,7 @@ formulario.addEventListener("submit", (e) => {
     </form>
 
 ```
-:::warning
-los formateadores pueden ocasionar problema con las expresiones Regulares ya que borran caracteres.
-:::
 
-:::tip
-- El return devuelve algo y deja de ejecutar la función , método , bloque.  Cuando usamos la palabra clave return es para indicar que queremos salir del bloque.
-:::
 ```js
 const formulario = document.getElementById("formulario");
 const userName = document.getElementById("userName");
@@ -352,6 +349,16 @@ formulario.addEventListener("submit", (e) => {
 });
 
 ```
+
+:::warning
+Los formateadores de código pueden ocasionar problemas con las expresiones regulares, ya que pueden modificar o eliminar caracteres necesarios del patrón.
+:::
+
+:::tip
+- `return` permite devolver un valor y finalizar la ejecución de una función o método.
+:::
+
+
 ## Practica
 
 ```html
@@ -412,21 +419,7 @@ formulario.addEventListener("submit", (e) => {
 </html>
 
 ```
-:::tip
-Para Validar no usar return , sino un array de errores.
-:::
 
-:::tip
-el método trim() limpia los caracteres en blanco (espacio en blanco) 
-
-el trim() devuelve false si hay espacio en blanco.
-
-
-La negación de String.trim() devuelve true si contiene espacio en blancos.
-
-
-
-:::
 ```js
 const formulario = document.getElementById("formulario");
 
@@ -497,13 +490,20 @@ formulario.addEventListener("submit", (e) => {
 
 ```
 
+:::tip Validación de formularios
+- Para validar un formulario, en lugar de usar múltiples `return` para detener la ejecución, es recomendable almacenar los errores en un array y luego comprobar si existen errores.
+- El método `trim()` elimina los espacios en blanco al inicio y al final de una cadena.
+- Si un usuario ingresa únicamente espacios, `trim()` devuelve una cadena vacía (`""`).
+- La negación del resultado de `String.trim()` (`!String.trim()`) devuelve `true` cuando la cadena está vacía, por ejemplo, cuando el usuario solo ingresó espacios en blanco. Esto permite detectar que no se ingresó ningún valor.
+:::
+
 
 ## FormData
 - La interfaz `FormData` permite crear y manejar un conjunto de pares clave/valor que representan los campos de un formulario y sus valores, los cuales pueden ser enviados posteriormente mediante una petición HTTP.
 - Está diseñada principalmente para trabajar con datos de formularios, aunque también puede utilizarse para almacenar y manipular datos manualmente.
-- `FormData.get(clave)`: Permite obtener el valor asociado a la clave indicada mediante el parámetro `clave` dentro del objeto `FormData`.
-- `FormData.entries()`: Devuelve un iterador que permite recorrer todas las parejas clave/valor contenidas en el objeto `FormData`.
-- `FormData.values()`: Devuelve un iterador que permite recorrer todos los valores contenidos en el objeto `FormData`.
+- `FormData.get(clave)`: Permite obtener el valor asociado a la clave indicada mediante el parámetro `clave`.
+- `FormData.entries()`: Permite obtener un iterador para recorrer todas las parejas clave/valor contenidas en el objeto `FormData`.
+- `FormData.values()`: Permite obtener un iterador para recorrer todos los valores contenidos en el objeto `FormData`.
 
 
 :::warning
@@ -513,7 +513,10 @@ formulario.addEventListener("submit", (e) => {
 const formulario = document.getElementById("formulario");
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
-    // Una instancia de FormData , el parametro es el formulario.
+    // Crea una instancia de FormData.
+    // Recibe como primer parámetro del constructor un elemento <form>.
+    // Devuelve un objeto FormData que contiene los datos del formulario,
+    // utilizando el atributo name de cada campo como clave.
     const inputs = new FormData(formulario);
     console.log("Acceder a los valores a traves del atributo name con el metodo get")
     console.log(inputs.get("userName"));
@@ -540,11 +543,11 @@ formulario.addEventListener("submit", (e) => {
 :::
 
 ## String.match() 
-- Al igual que `test()`, el método `match()` ejecuta la búsqueda de una expresión regular que se pasa como parámetro en un string. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
+- Al igual que `test()`, el método `match()` ejecuta la búsqueda de una **expresión regular que se pasa como parámetro** sobre una cadena de texto. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
 - Se diferencia de `test()`, ya que este devuelve un array con las coincidencias encontradas en el texto. Es decir, todas las partes del string que coinciden con lo que estamos buscando.
 - Sintaxis:
 ```js
-cadena.match(regexp)
+string.match(regexp)
 ```
 - regexp : Un objeto de expresión regular (Lo que devuelve el constructor RegExp). Si se pasa un String (notación literal), se convierte implícitamente a RegExp usando new RegExp()
 
@@ -563,7 +566,7 @@ console.log(array_emparejamientos);
 
 
 ## RegExp.prototype.exec()
-- `exec()` es similar a `match()` ya que permite ejecutar una búsqueda de una expresión regular en un string que se pasa como parámetro. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
+- `exec()` es similar a `match()` ya que permite ejecutar una búsqueda de una expresión regular en un **string que se pasa como parámetro**. Es decir, busca el texto especificado en el patrón dentro del string y devuelve las coincidencias encontradas.
 - Sin embargo, a diferencia de `match()`, `exec()` devuelve información más detallada en cada coincidencia.
 - Devuelve el resultado como array, o null.
 ```js
