@@ -1363,10 +1363,17 @@ hijo.addEventListener("click", (e) => console.log("hijo") , true);
 nieto.addEventListener("click", (e) => console.log("nieto") , true);
 
 ```
-## stopPropagation
-- Sirve para evitar el burbujeo y la captura (Lo anterior)
-- Evita que el evento viaje en las fases de captura y bubbling.
-- Con el método stopPropagation() le decimos que deje de hacer la fase de burbujeo o captura , por lo tanto evita que se ejecute el proximo manejador de evento (si  hay uno).
+## stopPropagation()
+- `stopPropagation()` es un método del objeto evento (`Event`).
+- Sirve para detener la propagación de un evento.
+- Evita que el evento siga viajando por el DOM (durante la captura o el burbujeo).
+- Al llamar a `e.stopPropagation()`, el evento deja de propagarse y no se ejecutarán los manejadores de evento de los siguientes elementos.
+
+:::tip Propagación de un evento
+La propagación de un evento es el recorrido que realiza un evento por el DOM cuando ocurre. Este recorrido cambia según la fase en la que se encuentre el evento:
+- **Fase de captura:** desde el documento hasta el elemento que originó el evento.
+- **Fase de burbujeo:** desde el elemento que originó el evento hacia sus elementos padres.
+:::
 
 ```js
 const cajas = document.querySelectorAll(".border");
@@ -1378,9 +1385,11 @@ cajas.forEach((item) => {
 });
 
 ```
-## preventDefault
-- Cancela el  comportamiento por defecto del elemento si este es cancelable, sin detener el resto del funcionamiento del evento, es decir, se sigue ejecutando el  manejador de evento.
-- Cancela el comportamiento por defecto del elemento, pero sigue ejecutando el manejador de evento.
+## preventDefault()
+- Cada elemento, por defecto, tiene "manejadores de eventos" (comportamientos o acciones) para ciertos eventos. Por ejemplo, al activarse el evento `submit` en un formulario, los datos se envían al servidor especificado en el atributo `action`; o al hacer clic en un enlace, este abre la página indicada en el atributo `href`.
+- `preventDefault()` es un método del objeto evento (`Event`).
+- Este método sirve para cancelar ese comportamiento o acción por defecto del elemento. Por ejemplo, si se ejecuta durante un evento `submit`, no se enviarán los datos al servidor; si se ejecuta al hacer clic en un enlace, este no abrirá una nueva página.
+- `preventDefault()` cancela el comportamiento por defecto del elemento, pero el manejador de evento sigue ejecutándose. Es como decirle al navegador: **"No hagas lo que normalmente haces cuando ocurre este evento; ejecuta únicamente el código de mi manejador."**
 
 ```html
 <form>
@@ -1410,21 +1419,16 @@ const ancla = document.querySelector("a");
 ancla.addEventListener("click", (e) => e.preventDefault());
 
 ```
+
 ## Delegación de Eventos
-
-La delegación de eventos es básicamente un patrón para manejar eventos de manera eficiente.
-
-En lugar de agregar un manejador de evento(EventListener) a todos y cada uno de los elementos similares, podemos agregar un manejador de evento(EventListener) a un elemento principal(el padre/contenedor principal) y ejecutar una acción/un procedimiento  según el elemento(objetivo particular) que activo el evento , utilizando la propiedad .target del objeto de evento.
-
-Así evitamos la propagación 👌
+- La delegación de eventos es un patrón para manejar eventos de manera más eficiente.
+- En lugar de agregar un manejador de evento (`addEventListener`) a cada elemento para escuchar el mismo evento, podemos agregar un único manejador de evento al elemento principal (padre o contenedor) y ejecutar una acción según el elemento que activó el evento, utilizando la propiedad `target` del objeto evento.
+- Así evitamos agregar un manejador de evento a cada elemento y aprovechamos la propagación del evento (burbujeo).
 
 :::tip
-La delegación de eventos sirve para añadir eventos a elementos que todavia no existen en el DOM.
+La delegación de eventos también permite manejar eventos de elementos que todavía no existen en el DOM al momento de registrar el `addEventListener`, siempre que se agreguen posteriormente dentro del contenedor que tiene el manejador de evento.
 :::
 
-:::tip 
-Con la delegación de eventos podemos acceder a eventos que no todavia no existen en el DOM.
-:::
 
 
 ```html
@@ -1484,12 +1488,11 @@ container.addEventListener("click", (e) => {
 });
 
 ```
-Podemos averiguar a que elemento pertenece por el método matches.
+
 ## Metodo Matches
-El método matches() comprueba si el Elemento sería seleccionable por el selector CSS especificado en el parametro; en caso contrario, retorna false.
-
-Comprueba si el elemento existe a través de un selector CSS.
-
+- Recibe un selector CSS como parámetro y devuelve `true` si el elemento se puede seleccionar con ese selector; en caso contrario, devuelve `false`.
+- Es muy útil en la delegación de eventos para comprobar si el elemento que activó el evento (`e.target`) es el que estamos buscando.
+- `matches()` es un método que pertenece a los elementos HTML (`Element`).
 ```js
 const container = document.querySelector(".container");
 container.addEventListener("click", (e) => {
@@ -1509,7 +1512,9 @@ container.addEventListener("click", (e) => {
 });
 
 ```
+:::tip
 Podemos averiguar a que elemento pertenece atraves del dataset.
+:::
 ## data-nombre/data-*
 - El atributo `data-nombre` es un atributo personalizado que se utiliza para guardar información dentro de una etiqueta HTML y trabajar con ella desde JavaScript.
 - Podemos acceder al valor del atributo `data-nombre` usando `dataset` y el nombre que aparece después de `data-`.
@@ -1583,26 +1588,29 @@ document.addEventListener()
 :::
 
 :::tip
-- `return` también puede usarse sin devolver ningún valor:
+- `return` también puede usarse sin especificar ningún valor. En ese caso, devuelve `undefined`.
 ```js
 return;
 ```
 - En métodos como `filter()`, esto provoca que el elemento no sea incluido en el nuevo array.
-- Si un if devuelve algo en una sola línea, las llaves (`{}`) son opcionales:
+:::
+
+:::tip
+- Si un `if` solo contiene una línea de código, las llaves (`{}`) son opcionales.
 ```js
 if (item.id === id) return item;
 ```
 :::
 
 :::tip
-En `reduce()`, el segundo parámetro permite indicar el valor inicial del acumulador y determina el tipo de dato que devolverá.
+En `reduce()`, el segundo parámetro permite indicar el valor inicial del acumulador y determina el tipo de dato del acumulador y del valor que devolverá el método.
 :::
+
 
 :::tip
-- En los bucles se suele utilizar el `DocumentFragment` para agregar múltiples elementos al DOM de forma más eficiente.
-- `DocumentFragment` se vacía automáticamente cuando sus elementos son agregados al DOM con `appendChild()`.
+- En los bucles se suele utilizar `DocumentFragment` para agregar múltiples elementos al DOM de forma más eficiente.
+- Al agregar un `DocumentFragment` al DOM mediante `appendChild()`, sus nodos hijos se transfieren al documento y el fragmento queda vacío.
 :::
-
 
 
 

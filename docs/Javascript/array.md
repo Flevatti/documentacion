@@ -4,26 +4,23 @@ sidebar_position: 5
 # Array
 
 
-Los arrays son objetos similares a una lista cuyo prototipo proporciona métodos para efectuar operaciones de recorrido y de mutación. Tanto la longitud como el tipo de los elementos de un array son variables.
-
-[Métodos y Propiedades de un Array](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array)
-
-
-En javascript son dinámicos, no hace falta declarar la dimensión(tamaño).
-
-En javascript podes mezclar datos . Un array puede tener String , números , etc.
+- Los arrays son objetos que permiten almacenar múltiples valores en una sola variable.
+- Su prototipo proporciona métodos para realizar operaciones de recorrido y modificación de sus elementos. 
+- [Métodos y Propiedades de un Array](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array)
+- En JavaScript los arrays son dinámicos, por lo que no es necesario declarar su tamaño al crearlos.
+- En JavaScript un array puede tener valores de diferentes tipos. Por ejemplo, un array puede contener `String`, números, booleanos, objetos, etc.
 
 
 [] = Array
 
-Con una coma separas los elementos(valores) del array.
+Los elementos (valores) de un array se separan mediante comas.
 
-Cada valor corresponde a un índice [Numero]
+Cada valor corresponde a un índice: `[Numero]`
 
-Los índice empiezan con 0.
+Los índices empiezan desde `0`.
 
-Para  llamar a un elemento del array
 
+Para acceder a un elemento del array:
 variable[índice]
 
 ```js
@@ -51,10 +48,13 @@ console.log(frutas[3]);
 
 ```
 
-:::tip
-undefined
+:::tip `undefined`
 
-Una variable a la que no se le ha asignado valor, o no se ha declarado en absoluto (no se declara, no existe) son de tipo undefined. Un método o sentencia también devuelve undefined si la variable que se está evaluando no tiene asignado un valor. Una función devuelve undefined si no se ha devuelto un valor.
+Una variable a la que no se le ha asignado un valor tiene el valor `undefined`.
+
+Una función devuelve `undefined` cuando no retorna ningún valor.
+
+Algunos métodos u operaciones devuelven `undefined` cuando no tienen ningún valor para devolver.
 :::
 
 ## Recorrer un Array
@@ -147,59 +147,60 @@ for (let fruta of frutas) {
 ```
 
 ## Paradigma de progamación
--	Un paradigma de programación no es más que una forma de ver y crear código de programación. Para resolver problemas.
--	Existen diferentes formas de diseñar un lenguaje de programación y varios modos de trabajar para obtener los resultados que necesitan los programadores.
--	Los lenguajes de programación adoptan uno o varios paradigmas en función del tipo de órdenes que permiten implementar como, por ejemplo, Python o JavaScript, que son multiparadigmas.
+- Un paradigma de programación es una forma o estilo de escribir y organizar el código. Define un conjunto de reglas y conceptos sobre cómo estructurar un programa para resolver problemas.
+- Los lenguajes de programación pueden adoptar uno o varios paradigmas.
 	
 ---
 
-### Son:
-1.	Imperativo: (Emperador) en el que el programador instruye a la máquina cómo cambiar su estado. El progamador dicta el camino a seguir para conseguir los resultados esperados.
-      -	procedimental que agrupa las instrucciones en procedimientos.
-      -	orientado a objetos (OPP o POO) que agrupa las instrucciones con la parte del estado en el que operan.
-2.	Declarativo: en el que el programador simplemente declara las propiedades del resultado deseado, pero no cómo calcularlo. El programador dice el resultado que quiere obtener, pero no la manera en que se va a realizar
-    -	funcional en el que el resultado deseado se declara como el valor de una serie de aplicaciones de función.
-    -	lógico en la que el resultado deseado se declara como la respuesta a una pregunta sobre un sistema de hechos y reglas.
-    -	matemático en el que el resultado deseado se declara como la solución de un problema de optimización.
-o	reactivo en el que se declara el resultado deseado con flujos de datos y la propagación del cambio.
+#### Son:
+1. **Imperativo:** (del latín *imperare*, "mandar") en el que el programador indica a la máquina cómo cambiar su estado. El programador define los pasos que se deben seguir para conseguir los resultados esperados.
+    - **Procedimental:** agrupa las instrucciones en funciones para realizar tareas.
+    - **Orientado a objetos (POO u OOP):** agrupa los datos y las funciones que trabajan con ellos dentro de objetos.
+2. **Declarativo:** en el que el programador indica qué resultado quiere obtener, pero no los pasos necesarios para conseguirlo.
+    - **Funcional:** el resultado se obtiene mediante la ejecución de funciones.
+    - **Lógico:** el resultado se obtiene mediante reglas y operadores lógicos.
+    - **Matemático:** el resultado se obtiene mediante operaciones matemáticas.
+    - **Reactivo:** el resultado se obtiene mediante cambios en los datos.
 ### Imperativa vs Declarativa
 
--	Programación imperativa: Nosotros dictamos el camino a seguir a través del control de flujo: variables, funciones, if, else, switch, loops ( while, for, for of, for in), try catch, async await. Por lo tanto siempre utilizas programación imperativa en Javascript.
--	Programación declarativa: Declaras lo que quieres que suceda, no cómo se hace. La programación funcional básicamente significa escribir código que hace algo (declara lo que se hace) pero no es específico sobre cómo hacerlo (imperativo).
+- **Programación imperativa:** el programador indica los pasos que se deben seguir para obtener un resultado mediante el control de flujo (define el orden en que se ejecutan las instrucciones de un programa): variables, funciones, `if`, `else`, `switch`, bucles (`while`, `for`, `for...of`, `for...in`), `try...catch`, `async/await`, etc. Por lo tanto, JavaScript permite utilizar programación imperativa.
+
+- **Programación declarativa:** el programador indica qué resultado quiere obtener, sin especificar todos los pasos necesarios para conseguirlo. La programación funcional es un ejemplo de este paradigma, ya que permite expresar qué se quiere hacer mediante funciones, sin indicar cómo se va a realizar.
+
 
 :::tip
--	Javascript permite un estilo de desarrollo tanto declarativo como imperativo, atendiendo asi a qué objetivo se busca alcanzar (declarativo) o extendiéndose sobre cómo se debe alcanzar un objetivo (imperativo).
--	Si bien las últimas incorporaciones del lenguaje muestran una tendencia hacia un paradigma claramente declarativo (funcional), ambos estilos coexisten en la industria actual y suponen diferencias a efectos de optimización, rendimiento, legibilidad o mantenibilidad de nuestras aplicaciones, entre otros.
--	Ambos enfoques pueden lograr los mismos objetivos, y no tenemos que elegir solo uno al programar porque JavaScript es un lenguaje de "múltiples paradigmas"
-
-
+- JavaScript permite utilizar tanto un estilo declarativo como imperativo, dependiendo de si queremos indicar qué resultado buscamos (declarativo) o cómo debemos lograrlo mediante pasos (imperativo).
+- Aunque las últimas incorporaciones del lenguaje tienen una tendencia hacia un estilo más declarativo (especialmente funcional), ambos estilos se utilizan actualmente y pueden afectar aspectos como la legibilidad, mantenimiento y rendimiento del código.
+- Ambos enfoques pueden lograr el mismo objetivo, por lo que no es necesario elegir uno solo. JavaScript es un lenguaje de múltiples paradigmas.
 :::
 
 ### POO
--	La programación orientada a objetos es una forma de programación imperativa puesto que al programar se describe la secuencia que debe seguir el programa para resolver un problema dado.
--	Hace uso de estructuras de datos llamadas objetos que aglutinan propiedades y métodos conjuntamente con sus interacciones.
--	La programación orientada a objetos se basa también en conceptos como la abstracción de datos, la encapsulación, los eventos, la modularidad, la herencia y el polimorfismo.
+- La programación orientada a objetos es una forma de programación imperativa, ya que al programar se describen las instrucciones que debe seguir el programa para resolver un problema.
+- Utiliza clases y objetos para representar elementos del mundo real y resolver problemas.
+- La programación orientada a objetos se basa en conceptos como la abstracción, la encapsulación, la modularidad, la herencia y el polimorfismo.
 
 ### Funcional
-La programación funcional básicamente significa escribir código que hace algo (declara lo que se hace) pero no es específico sobre cómo hacerlo (imperativo).
+- La programación funcional es un paradigma de programación donde se expresa qué resultado se quiere obtener mediante funciones, sin especificar todos los pasos necesarios para lograrlo.
+- La programación funcional organiza el código en funciones pequeñas y reutilizables que se pueden combinar para construir programas de mayor complejidad.
 
-La programación funcional es otro enfoque común en el desarrollo de software (paradigma de programación). En programación funcional, el código está organizado en funciones más pequeñas y básicas que se pueden combinar para construir programas de mayor complejidad.
 
-## Metodos que no afectan al Array
-### Es progamacion funcional
-###  	Estos métodos no mutan el array original, sino que nos devuelven uno nuevo.
+## Métodos que no afectan al Array
+- Estos métodos siguen un enfoque funcional.
+- En lugar de mutar el array existente, devuelven un nuevo array con el resultado de la operación.
 
 ## Map()
-- El método map iterará sobre cada elemento de un arreglo y devuelve un nuevo arreglo que contiene los resultados(lo que retorna) de  la función callback en cada elemento. Esto lo hace sin mutar el arreglo original.
-- Devuelve todos los elementos del array
+- El método `map()` recorre cada elemento de un array y crea un nuevo array con los valores que devuelve la función callback.
+- No modifica el array original.
+- Devuelve la misma cantidad de elementos que tenía el array original.
 :::tip
-Una función de callback es una función que se pasa a otra función como un argumento.
+Una función callback es una función que se pasa como argumento a otra función para que sea ejecutada posteriormente.
 :::
-### Parametros:
-1. Funcion (Callback)
-El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
+#### Parametros:
+1. **Función callback**
 
-La función callback siempre debe retornar algo (un nuevo valor del array)
+La función callback se ejecuta por cada elemento del array y recibe como parámetro el valor de cada elemento.
+
+La función callback debe retornar un valor, ya que ese valor se utilizará para crear el nuevo array.
 
 Ejemplo: 
 ```js
@@ -259,18 +260,15 @@ console.log(numerosPorDos);
 
 
 ```
-:::tip 
-Se puede modificar el mismo array con MAP() si no le asignas a una variable.
-:::
 
 
 ## filter()
 
 El método filter() crea un nuevo array con todos los elementos que cumplan la condición implementada por la función dada.
 
-### Parametros:
+#### Parametros:
 1. Funcion (Callback)
-El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
+El parámetro del callback va a representar el valor que contenga cada elemento del arreglo al recorrerlo.
 
 La función callback siempre debe retornar algo ( true si cumple la condicion , false si no la cumple)
 
@@ -309,9 +307,9 @@ console.log(usersFiltrado);
 ## find()
 El método find() devuelve el valor del primer elemento del array que cumple la  condición  implementada por la función 
 
-### Parametros:
+#### Parametros:
 1. Funcion (Callback)
-El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
+El parámetro del callback va a representar el valor que contenga cada elemento del arreglo al recorrerlo.
 
 La función callback siempre debe retornar algo.
 
@@ -363,9 +361,9 @@ El método some() comprueba si al menos un elemento del array cumple con la cond
 Devuelve un valor booleano.
 
 Devuelve true si existe un elemento del array que cumple la condición.
-### Parametros:
+#### Parametros:
 1. Funcion (Callback)
-El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
+El parámetro del callback va a representar el valor que contenga cada elemento del arreglo al recorrerlo.
 
 La función callback siempre debe retornar algo.
 
@@ -388,9 +386,9 @@ console.log(existe);
 
 El método findIndex() devuelve el índice del primer elemento de un array que cumpla con la condición de la  función proporcionada. En caso contrario devuelve -1.
 
-### Parametros:
+#### Parametros:
 1. Funcion (Callback)
-El parámetro del callback va a representa el valor que contenga cada elemento del arreglo al recorrerlo.
+El parámetro del callback va a representar el valor que contenga cada elemento del arreglo al recorrerlo.
 
 La función callback siempre debe retornar algo.
 
@@ -426,10 +424,10 @@ console.log(users[indice]);
 
 
  ## Slice()
-El método slice() devuelve una parte del array dentro de un nuevo array .
+El método slice() devuelve una parte del array en un nuevo array sin modificar el array original.
 
-Como parámetros tenes que especificar el índice de inicio y el índice final (no incluido). El array original no se modificará.
-### Parametros:
+Como parámetros tenes que especificar el índice de inicio y el índice final (no incluido). 
+#### Parametros:
 1. Indice comienzo (incluido)
 2. Indice final (No incluido)
 
@@ -444,26 +442,30 @@ console.log(arrayNuevo);
 ```
 
 ## Splice()
-- El método splice() cambia el contenido de un array eliminando elementos existentes y/o agregando nuevos elementos.
+- El método `splice()` permite modificar un array eliminando, agregando o reemplazando elementos.
+- A diferencia de `slice()`, este método modifica el array original.
 - [info](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 ```js
 array.splice(start, deleteCount , ...elemento]
 ```
-### start
-- Índice donde se comenzará a cambiar el array (con 0 como origen). 
-- Si es mayor que la longitud del array, el punto inicial será la longitud del array. Si es negativo, empezará  contando desde el final.
+#### `start`
+- Índice donde comenzará la modificación del array (el primer índice es `0`).
+- Si es mayor que la longitud del array, comenzará desde el final del array.
+- Si es negativo, se contará desde el final del array.
 
-### deleteCount
-- Un entero indicando el número de elementos a eliminar del array antiguo.
-- Si deleteCount se omite, o si su valor es mayor que arr.length - start (esto significa, si es mayor que el número de elementos restantes del array, comenzando desde start), entonces todos los elementos desde start hasta el final del array serán eliminados.
-- Si deleteCount es igual a 0 o negativo, no se eliminará ningún elemento. En este caso, se debe especificar al menos un nuevo elemento (ver más abajo).
-### ...elemento
-- Los elementos que se agregarán al array, empezando en el índice start. Si no se especifica ningún elemento, splice() solamente eliminará elementos del array.
+#### `deleteCount`
+- Indica la cantidad de elementos que se eliminarán desde el índice `start`.
+- Si se omite, se eliminarán todos los elementos desde `start` hasta el final del array.
+- Si es `0` o un valor negativo, no se eliminará ningún elemento.
+
+#### `...elementos`
+- Son los elementos que se agregarán al array desde el índice `start`.
+- Si no se especifican elementos, `splice()` solamente eliminará elementos.
 
 
 ## concat()
  El método concat() se usa para unir dos o más arrays. Este método no cambia los arrays existentes, sino que devuelve un nuevo array.
- ### Parametros:
+ #### Parametros:
  Arrays a fusionar 
 
  ```js
@@ -475,9 +477,8 @@ console.log(array3);
 
  ```
  ## Sintáxis Spread (...)
- - [
-Permite que un elemento iterable, como un arreglo o una cadena, sea expandido.
-](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+ - [Permite que un elemento iterable, como un arreglo o una cadena, sea expandido.](basico.md#for-of)
+- [info](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 - Es similar a `concat`, pero utilizando los tres puntos (`...`).
 - Se usa para unir arrays:
 ```js
@@ -508,7 +509,7 @@ const array3 = [...array2 , 'Al reves' , ...array1];
 console.log(array3);
 
 ```
-### Algunas de sus funciones:
+#### Algunas de sus funciones:
 #### Crean una copia de un array/objeto
 ```js
 const gato = {propiedades del gato}
@@ -560,22 +561,20 @@ function suma(…números) {}
 ```
 
 ## reduce()
-El método reduce () ejecuta una función reductora sobre cada elemento de un array, devolviendo como resultado un único valor.
+- El método `reduce()` ejecuta una función por cada elemento de un array y devuelve un resultado final.
+- La función callback retorna un valor en cada vuelta, y ese valor se asigna al acumulador.
+- El acumulador guarda el resultado de cada iteración y su valor se utiliza en la siguiente vuelta.
+- En la última vuelta, el valor retornado por la función callback será el resultado final que devuelve `reduce()`.
 
-El acumulador en la primera vuelta es 0.
+#### Parametros:
+1. **Función callback**
 
-Lo que devuelve la función en cada vuelta se lo asigna al acumulador.
+La función callback recibe dos parámetros:
+   1. **Acumulador:** guarda lo que retorna el callback.
+   2. **Valor:** representa el  elemento actual del array.
 
-El valor devuelto de la función reductora se asigna al acumulador, cuyo valor se recuerda en cada iteración de la matriz y , en su ultima instancia, se convierte en el valor final , único y resultante.
+La función callback debe retornar un valor, ya que ese valor será utilizado como nuevo valor del acumulador.
 
-### Parametros:
-1. Funcion (Callback)
-
-El callback tiene dos parametros:
-   1. Acumulador
-   2. El valor que contiene el elemento del array
-
-La función callback siempre debe retornar algo.
 
 ```js
 //Sumar todos los elementos de un array
@@ -586,9 +585,7 @@ const sumaTodos = numeros.reduce((acumulador, valorActual) => acumulador + valor
 console.log(sumaTodos);
 
 ```
-:::tip
-El acumulador puede ser un array 
-:::
+
 
 ```js
 //Generar un array con todos los valores.
@@ -606,8 +603,9 @@ console.log(soloNumeros);
 
 ```
 :::tip 
-- [documentacion de Reduce](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
-
+- En `reduce()`, si no se especifica el valor inicial del acumulador, este comienza teniendo el mismo tipo de dato que el primer elemento del array. En este ejemplo comienza siendo un array vacío.
+- Se puede especificar el valor inicial del acumulador mediante un segundo parámetro. En este caso, el acumulador comienza teniendo el tipo de dato de ese valor inicial.
+- [Documentación de Reduce](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
 :::
 Otro Ejemplo para hacer lo mismo:
 
@@ -624,9 +622,25 @@ console.log(arrayPlano);
 
 ```
 ## flat()
-[Es nuevo](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
+
+- El método `flat()` crea un nuevo array con los elementos de los subarrays unidos.
+- No modifica el array original.
+:::tip ¿Qué son los niveles o profundidades en un array?
+- La profundidad indica cuántos arrays están dentro de otros arrays (nivel de anidamiento).
+Ejemplo:
+```js
+const numeros = [1, [2, 3], [4, [5, 6]]];
+```
+- Nivel 0: el array principal.
+- Nivel 1: arrays dentro del array principal ([2, 3] y [4, [5, 6]]).
+- Nivel 2: array dentro de otro array ([5, 6]).
+- Por defecto, flat() elimina un nivel de profundidad.
+:::
+
 
 El método flat() crea una nueva matriz con todos los elementos de sub-array concatenados recursivamente hasta la profundidad especificada.
+
+[Información tecnica](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
 ### Parametros:
 1. Profundidad (INT) , POR DEFECTO ES 1
 
