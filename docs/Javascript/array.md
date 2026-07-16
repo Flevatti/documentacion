@@ -638,11 +638,19 @@ const numeros = [1, [2, 3], [4, [5, 6]]];
 :::
 
 
-El método flat() crea una nueva matriz con todos los elementos de sub-array concatenados recursivamente hasta la profundidad especificada.
+
+
 
 [Información tecnica](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
-### Parametros:
-1. Profundidad (INT) , POR DEFECTO ES 1
+#### Parametros:
+1. **Un número (`Number`):** indica cuántos niveles de profundidad se deben aplanar. Por defecto es `1`.
+
+:::tip Aplanar
+- Aplanar significa tomar los elementos que están dentro de otros arrays (niveles superiores a `0`) y colocarlos en el array principal.
+- Por defecto, `flat()` utiliza una profundidad de `1`. Es decir, toma todos los elementos del nivel `1` y los coloca en el nivel `0` (el array principal).
+:::
+
+
 
 Ejemplos:
 ```js
@@ -657,6 +665,13 @@ const arrayPlano = arrayNumeros.flat();
 console.log(arrayPlano);
 
 ```
+:::tip Observación
+- Como por defecto `flat()` equivale a `flat(1)`, toma todos los elementos que están en los arrays del nivel `1` (`[0, 1]`, `[2, 3]` y `[4, 5]`) y los agrega al nivel `0` (el array principal).
+- A este proceso se le llama **aplanar un nivel**, ya que elimina un nivel de profundidad del array.
+:::
+
+
+
 Ejemplo con Parametro:
 
  [5,6] esta en la profundidad 2  ya que esta adentro de un sub array.
@@ -671,29 +686,46 @@ const arrayPlano = arr1.flat(2);
 console.log(arrayPlano);
 
 ```
+
+:::tip Observación
+- Como `flat(2)` recibe `2` como parámetro, debe aplanar hasta el nivel `2`. Es decir, elimina los niveles `1` y `2`.
+- Primero toma todos los elementos que están en el nivel `1` (`3`, `4` y `[5, 6]`) y los coloca en el nivel `0`.
+- Como también debe eliminar el nivel `2`, toma los elementos que están dentro de `[5, 6]` (`5` y `6`) y también los coloca en el nivel `0`.
+- El resultado final es: `[1, 2, 3, 4, 5, 6]`.
+- Si en lugar de `flat(2)` usamos `flat()` (que por defecto equivale a `flat(1)`), se toman todos los elementos del nivel `1` (`3`, `4` y `[5, 6]`) y se agregan al nivel `0` (el array principal).
+:::
+
+
+
+
 ## split()
-El método split() divide un objeto de tipo String en un array, mediante un separador.
+- El método `split()` convierte un `String` en un array utilizando un separador.
+- Cada vez que `split()` encuentra el separador en el `String`, crea un elemento en el array con el texto que se encuentra antes del separador.
 
-Convierte un String en array, mediante un separador.
-### Parametros:
-1. Separador (String)
 
-Ejemplos:
+
+#### Parámetros:
+1. **Separador (`String`):** indica el carácter o texto que se utilizará para dividir el `String`.
+
+Ejemplo:
 ```js
 const cadenaMeses = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec";
 const arrayMeses = cadenaMeses.split(",");
 console.log(arrayMeses);
 
 ```
+:::tip Observación
+- Cada vez que `split()` encuentra una coma (`,`), termina un elemento del array y comienza el siguiente.
+- El separador no forma parte del resultado; solo se utiliza para dividir el `String`.
+:::
 ## join()
+- El método `join()` convierte un array en un `String` utilizando un separador.
+- El separador se coloca entre cada elemento del array.
+#### Parámetros:
 
-Lo contrario a split
+1. **Separador (`String`):** indica el carácter o texto que se colocará entre cada elemento del array.
 
-Convierte un array en un String, mediante un separador.
-### Parametros:
-1. Separador (String)
-
-Ejemplos:
+Ejemplo:
 ```js
 const nuevoTexto = arrayMeses.join(",");
 console.log(nuevoTexto);
@@ -701,7 +733,9 @@ console.log(nuevoTexto);
 ```
 
 :::tip
-Separador: Es una cadena usada para separar cada uno de los elementos del arreglo. El separador es convertido a una cadena si es necesario. Si este se omite, los elementos del arreglo son separados con una coma (",").
+**Separador:** es el texto que se coloca entre cada elemento del array al convertirlo en un `String`.
+
+Si no se especifica, `join()` utiliza una coma (`,`) como separador.
 :::
 
 ## Practica
@@ -824,18 +858,20 @@ agregar.forEach((boton) => boton.addEventListener("click", agregarCarrito));
 
 ```
 
+
+
 ## Desestructurar por posiciones
 
-#### ¿Sabías que en JavaScript puedes desestructurar un Array apuntando directamente a sus posiciones?
+- Permite asignar el valor que contiene una posición de un array a una variable mediante el formato `índice: variable`.
 
 
-Además, puedes renombrar el índice por el nombre de variable que necesites:
 
 ```js
       const nombres = ['Fede' , 'Miguel' , 'Andrea' , 'Santi' , 'Daniela']
 
-      // Accedemos a la posicion 0 (Fede) y a la Posicion 2(Andrea)
+    
       const {
+          // Accedemos a la posicion 0 (Fede) y a la Posicion 2(Andrea)
         // Le asignamos el valor de nombres[indice] a nombreVariable
         // indice : nombreVariable
         0:variableFede ,

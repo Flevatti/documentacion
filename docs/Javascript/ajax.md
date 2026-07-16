@@ -6,10 +6,14 @@ sidebar_position: 8
 ## JS - FETCH 
 
 Vive en el navegador.
--	fetch : La API Fetch te permite comunicarte con un servidor para recuperar/eliminar/eliminar/crear recursos.
--	Fetch es una interfaz (se comunica con la API Fetch) para hacer solicitudes AJAX en JavaScript. Es usado generalmente para hacer una solicitud a un API.
--	El método fetch() toma un argumento obligatorio, que es la ruta de acceso( conocido como endpoint o URL ) que se utiliza para realizar una solicitud.
--	Una vez que Response es recuperada, hay varios métodos disponibles para “entender o manipular” el formato de la respuesta y así poder tener acceso a este ([Es similar a lo que hace express para acceder al body](https://flevatti.github.io/documentacion/docs/Node#reqbody)).
+-	fetch : La API Fetch te permite comunicarte con un servidor para obtener/eliminar/eliminar/crear recursos.
+- `fetch()` es un método proporcionado por la API Fetch que permite realizar solicitudes HTTP en JavaScript.
+- Es utilizado generalmente para realizar solicitudes a una API.
+- El método `fetch()` recibe un argumento obligatorio, que es la ruta de acceso (conocida como `endpoint` o `URL`) utilizada para realizar una solicitud. Esa ruta de acceso indica dónde se encuentra el servidor, a dónde se enviará la petición y sobre qué recurso queremos trabajar.
+- `fetch()` devuelve una promesa que contiene la respuesta del servidor en un objeto `Response`. Este objeto dispone de varios métodos para acceder y procesar el contenido de la respuesta.
+- En pocas palabras, `fetch()` realiza una petición a un servidor (indicado en la ruta de acceso) y recibe una respuesta que se almacena en una promesa.
+
+
 
 ## Ajax 
 - Significa  JavaScript Asíncrono + XML (XML es viejito ahora utilizamos JSON)
