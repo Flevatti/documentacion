@@ -581,8 +581,7 @@ buscarID(2);
 ## ¿Qué son las APIs?
 - API significa **Interfaz de Programación de Aplicaciones** (por sus siglas en inglés).
 - Son herramientas que permiten crear funcionalidades complejas de una forma más simple. Estas abstraen el código complejo y solo nos proporcionan los métodos y propiedades necesarios para realizar una funcionalidad específica, que normalmente sería difícil implementar desde cero. Si quisiéramos hacerlo, tendríamos que trabajar con código de bajo nivel como C o C++, controlando directamente la GPU u otros dispositivos del equipo.
-- Una API funciona como una interfaz que permite comunicarse con una funcionalidad o recurso.
-
+- Una API funciona como una interfaz que nos permite utilizar una funcionalidad o acceder a un recurso sin conocer cómo se realiza internamente.
 
 :::tip API
 - Se utilizan para acceder a funcionalidades o recursos.
@@ -593,7 +592,7 @@ buscarID(2);
 :::
 
 ## APIs en JavaScript del lado cliente
-- JavaScript del lado cliente tiene muchas APIs disponibles. Muchas de estas están implementadas internamente con otros lenguajes, pero pueden utilizarse desde JavaScript, proporcionando funcionalidades que normalmente serían difíciles de implementar desde cero.
+- JavaScript del lado cliente tiene muchas APIs disponibles. Muchas de estas están implementadas internamente con otros lenguajes, pero pueden usarse en JavaScript para acceder a funcionalidades que normalmente serían difíciles de implementar desde cero.
 - Por lo general, se dividen en dos categorías:
   - **APIs del navegador:** Son APIs integradas en el navegador que permiten acceder a funcionalidades del navegador o del dispositivo. El navegador se encarga de realizar las tareas complejas internamente y la API  nos proporciona una forma simple de acceder a estas funcionalidades.
 

@@ -16,24 +16,31 @@ Vive en el navegador.
 
 
 ## Ajax 
-- Significa  JavaScript Asíncrono + XML (XML es viejito ahora utilizamos JSON)
-- AJAX (JavaScript Asynchronous + XML), es un enfoque, manera o forma para construir aplicaciones web dinámicas. No es una tecnología específica, sino una combinación de varias tecnologías como HTML, CSS, JavaScript, el DOM y JSON. Su propósito principal es permitir que las aplicaciones web se actualicen parcialmente sin recargar toda la página, mejorando la velocidad y la experiencia del usuario. Aunque tradicionalmente usaba el objeto XMLHttpRequest, hoy en día es más común usar fetch() para manejar las solicitudes asíncronas.
-- AJAX (JavaScript Asynchronous + XML) es una técnica que permite a las aplicaciones web interactuar con el servidor en segundo plano sin necesidad de recargar toda la página. Aunque originalmente utilizaba XML para intercambiar datos, ahora es común usar JSON por ser más ligero y fácil de manejar.
-- Esto permite una experiencia más fluida y rápida, ya que solo se actualizan las partes necesarias de la página en lugar de cargarla desde cero. Por ejemplo, las redes sociales como Twitter actualizan nuevas publicaciones en tiempo real sin refrescar toda la pantalla.
+- Significa **Asynchronous JavaScript + XML** (JavaScript asíncrono + XML). Aunque originalmente utilizaba XML, hoy en día es común utilizar JSON.
+- AJAX es una técnica que permite que una página web se comunique con el servidor sin necesidad de recargar o actualizar toda la página.
+- Esto permite actualizar solo las partes necesarias de la página, haciendo que la aplicación sea más rápida y brindando una mejor experiencia al usuario.
+- Tradicionalmente, AJAX utilizaba `XMLHttpRequest`, pero actualmente es más común utilizar `fetch()` para realizar las solicitudes.
+
+:::tip
+AJAX no es una tecnología específica, sino una técnica que combina HTML, CSS, JavaScript y solicitudes HTTP para comunicarse con el servidor de forma asíncrona.
+:::
 
 
-#### Elementos clave de AJAX:
-1.	HTML y CSS: Estructuran y estilizan la página web.
-2.	JavaScript: Controla la interacción asíncrona.
-3.	DOM (Document Object Model): Permite modificar el contenido de la página dinámicamente.
-4.	Objeto XMLHttpRequest o Fetch API: Manejan las solicitudes al servidor. Aunque XMLHttpRequest fue el estándar inicial, hoy en día la API fetch() es más moderna y preferida.
-5.	JSON: Formato común para intercambiar datos entre cliente y servidor.
+
+
+#### Elementos clave de AJAX
+1. **HTML y CSS:** estructuran y dan estilo a la página web.
+2. **JavaScript:** permite comunicarse con el servidor a través de operaciones asíncronas.
+3. **DOM:** permite actualizar el contenido de la página sin recargarla.
+4. **`XMLHttpRequest` o `fetch()`:** permiten realizar las solicitudes al servidor. Actualmente es más común utilizar `fetch()`.
+5. **JSON:** es el formato o la estructura de los datos que se envían o se reciben del servidor.
 
 #### ¿Cómo funciona?
-1.	Un usuario interactúa con la página (por ejemplo, pulsando un botón).
-2.	JavaScript envía una solicitud al servidor utilizando fetch() o XMLHttpRequest.
-3.	El servidor responde con datos en formato JSON (o XML).
-4.	JavaScript procesa la respuesta y actualiza el contenido de la página a través del DOM, sin recargarla completamente.
+
+1. Un usuario interactúa con la página (por ejemplo, haciendo clic en un botón).
+2. JavaScript envía una solicitud al servidor utilizando `fetch()` o `XMLHttpRequest`.
+3. El servidor procesa la solicitud y devuelve una respuesta, normalmente en formato JSON.
+4. JavaScript procesa la respuesta y actualiza el contenido de la página mediante el DOM, sin recargar toda la página.
 
 
 
@@ -44,17 +51,30 @@ Vive en el navegador.
 
 ## Metodos nativos para Ajax
 
-### Viejo
+#### Viejo
 [XMLHttpRequest](https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest)
-### Nuevo
+#### Nuevo
 [Fetch API](https://developer.mozilla.org/es/docs/Web/API/Fetch_API)
 
 ## Fetch API
-
-- Proporciona una interfaz JavaScript para hacer peticiones HTTP y obtener respuestas del servidor.
--	También provee un método para obtener recursos de forma asíncrona por la red.
--	[Fetch parámetros](https://developer.mozilla.org/en-US/docs/Web/API/fetch): Si solo se usa un parametro, iniciamos el proceso de obtener un recurso de la red mediante una url, devolviendo una promesa con  la respuesta. Con el segundo parametro podemos editar/eliminar/crear un recurso.
-- Este tipo de funcionalidad se conseguía previamente haciendo uso de XMLHttpRequest.
+- La API Fetch proporciona una interfaz para realizar peticiones HTTP y obtener respuestas del servidor.
+- Una interfaz es un conjunto de métodos, propiedades o funciones que una API pone a disposición para que podamos utilizar una funcionalidad sin conocer cómo se realiza internamente.
+- Por ejemplo:
+    - API Fetch → proporciona el método `fetch()`.
+    - DOM API → proporciona métodos como `querySelector()`, `createElement()`, `appendChild()`, etc.
+    - Geolocation API → proporciona métodos como `getCurrentPosition()` y `watchPosition()`.
+- Estas APIs están integradas en el navegador, por lo que el navegador nos proporciona los métodos, objetos y propiedades necesarios para poder interactuar con ellas. Por ejemplo:
+    - Con los métodos y propiedades del objeto `document` interactuamos con la DOM API.
+    - Con `fetch()` interactuamos con la Fetch API.
+- Entonces podriamos decir que:
+    - Una API es como un programa que realiza diferentes funciones. El programador puede utilizar esas funciones sin saber cómo se realizan internamente.
+    - Una interfaz es un conjunto de métodos, propiedades, objetos, etc. que nos permite acceder a las funciones que ofrece una API (programa).
+    - Por ejemplo, al usar `fetch()`, este se comunica con el programa Fetch (API) y le dice: "quiero que envíes una petición a X servidor". El programa se encarga de realizar la acción por nosotros y devuelve el resultado mediante el método.
+    - Entonces, una interfaz es un intermediario entre el programador y la API. A través de la interfaz solicitamos una acción, y la API se encarga de realizarla sin que sepamos cómo lo hace internamente.
+    - Cuando decimos que una API está integrada al navegador, significa que el navegador tiene disponible ese programa (API). Es como si el navegador fuera un sistema operativo con un programa instalado y nos proporcionara las interfaces necesarias para poder utilizar ese programa desde JavaScript.
+- El método `fetch()` se comunica con la Fetch API y nos permite enviar solicitudes a servidores.
+- [**Parámetros de `fetch()`**](https://developer.mozilla.org/en-US/docs/Web/API/fetch): si solo recibe la URL, realiza una petición `GET` por defecto al servidor y devuelve una promesa con la respuesta. Con un segundo parámetro es posible configurar la solicitud, como el método HTTP, las cabeceras o el cuerpo, permitiendo crear, modificar o eliminar recursos.
+- Antes de la API Fetch, este tipo de solicitudes se realizaban utilizando `XMLHttpRequest`.
 
 ```js
 fetch('http://example.com/movies.json')
@@ -64,17 +84,15 @@ fetch('http://example.com/movies.json')
 ```
 
 :::tip Explicación
-
-- Método `json()`:
-    - Es un método de Response.
-    - Sirve para “entender” el formato JSON. Te devuelve una promesa con la información que contiene  el body (en formato JSON) de la respuesta .
 - Método `fetch(url)`:
-    -	Por defecto se hace una petición GET  a la url indicada, este tipo de peticiones es para obtener un recurso . 
-    -	Si desea crear/eliminar/modificar un recurso deberás utilizar un segundo parámetro en el método fetch() el cual es un objeto para configurar las cabeceras, métodos, verbos, etc.
-    -	Cuando accedemos a una URL en el navegador, hacemos una petición GET a esta.  Todo lo que puedas ver en el navegador web es una petición Get.
-
-
-
+    - Por defecto realiza una petición `GET` a la URL indicada. Este tipo de petición se utiliza principalmente para obtener recursos.
+    - Si se desea crear, modificar o eliminar un recurso, se debe utilizar un segundo parámetro en `fetch()`, que es un objeto donde podemos configurar opciones como el método HTTP, las cabeceras o el cuerpo de la solicitud.
+    - Cuando accedemos a una URL desde el navegador, normalmente se realiza una petición `GET` a la URL para obtener el recurso indicado en esa dirección. Gran parte del contenido que vemos en una página web llega mediante este tipo de solicitudes.
+- Método `json()`:
+    - Es un método del objeto `Response`.
+    - Por lo general, un servidor devuelve la respuesta en formato JSON, que es una forma de estructurar datos.
+    - Este método permite leer la respuesta (técnicamente, lee el contenido del body) y convierte el JSON en un objeto JavaScript.
+    - Devuelve una promesa con el objeto JavaScript resultante.
 :::
 
 ## Conceptos  al realizar PETICIONES HTTP
