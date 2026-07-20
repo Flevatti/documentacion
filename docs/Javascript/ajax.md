@@ -95,50 +95,48 @@ fetch('http://example.com/movies.json')
     - Devuelve una promesa con el objeto JavaScript resultante.
 :::
 
-## Conceptos  al realizar PETICIONES HTTP
+## Conceptos al realizar peticiones HTTP
 ### HTTP
-- Hypertext Transfer Protocol (HTTP) (o Protocolo de Transferencia de Hipertexto en español) es el nombre de un protocolo el cual nos permite realizar una petición.
-- Esta petición puede ser para obtener un recurso , crear un recurso , etc.
+- **Hypertext Transfer Protocol (HTTP)** (Protocolo de Transferencia de Hipertexto) es el protocolo que permite la comunicación entre un cliente y un servidor mediante solicitudes y respuestas.
+- Estas solicitudes pueden utilizarse para obtener un recurso, crear uno nuevo, modificarlo o eliminarlo.
 
-### Ruta (PATH)
-- Es una dirección(url) para realizarle una petición al servidor y  obtener/eliminar/crear/editar  un recurso .
-- En pocas palabra con el path hacemos una petición y recibimos una respuesta del servidor.
-- Es conocida como endpoint , url , path y Uri.
-### Métodos Http
-- HTTP define un conjunto de métodos de petición para indicar la acción que se desea realizar. (GET, POST, PUT, PATCH, DELETE) . 
-- Todos los métodos hacen acciones diferentes pero nosotros lo configuramos.
-- GET = Obtener/Enviar datos por la url. Viene por defecto con fetch . 
+### Ruta (Path)
+- Es la dirección (URL) que se utiliza para obtener, crear, modificar o eliminar un recurso.
+- Indica dónde se encuentra el servidor, a dónde se enviará la petición y sobre qué recurso queremos trabajar.
+- En pocas palabras, mediante esta dirección enviamos una petición al servidor y recibimos una respuesta.
+- También suele conocerse como **endpoint**, **URL**, **path** o **URI**, aunque no todos estos términos significan exactamente lo mismo.
 
+
+### Método HTTP
+- Indica la acción que se desea realizar sobre un recurso (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`, etc.).
+- Cada método tiene un propósito diferente y nosotros elegimos cuál utilizar según la operación que queremos realizar.
+- **GET:** se utiliza para obtener recursos del servidor. Es el método que `fetch()` utiliza por defecto cuando no se especifica otro.
 ### Cabeceras (headers)
-Cabeceras HTTP opcionales,  pueden aportar información adicional a los servidores.
-### Códigos de respuestas (Response Codes)
-Un código de estado, indicando si la petición ha sido exitosa, o no, y debido a que. 
+- Son opcionales.
+- Sirven para enviar información adicional al servidor junto con la petición.
+- Por ejemplo, permiten indicar el tipo de contenido que se envía, información de autenticación o preferencias del cliente.
+### Códigos de respuesta (Response Codes)
+- Un código de estado indica si una petición fue exitosa o no, qué acción realizó el servidor y, en caso de error, el motivo.
+- [Códigos de estado HTTP](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
+- [HTTP Cats](https://http.cat/)
 
-[Codigos](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
 
-[Codigo gato](https://http.cat/)
-
-Es la Respuesta que nos trae el servidor.
-
-### JSON 
-
-JSON: JavaScript Object Notation, es un formato basado en texto estándar para representar datos estructurados en la sintaxis de objetos de JavaScript. Es comúnmente utilizado para transmitir datos en aplicaciones web.
-
-Es el formato estandar para recibir/enviar información.
-
-## Estructura del JSON
-
-- Como se describió previamente, un JSON es una cadena(texto/string) cuyo formato recuerda al de los objetos literales JavaScript.
-- Es posible incluir los mismos tipos de datos básicos dentro de un JSON que en un objeto estándar de JavaScript - cadenas, números, arreglos, booleanos, y otros  objeto.
-
-Esto permite construir una jerarquia de datos - [como esta](https://pokeapi.co/api/v2/pokemon/ditto
-)
-
+### JSON
+- **JSON (JavaScript Object Notation)** es un formato de texto, es decir, una forma de estructurar la información utilizando una sintaxis similar a la de los objetos de JavaScript.
+- Se utiliza comúnmente para intercambiar datos entre aplicaciones, como por ejemplo entre un cliente y un servidor.
+- Es el formato estándar, es decir, el formato más utilizado por los servidores y clientes, debido a que es ligero, fácil de leer y compatible con la mayoría de los lenguajes de programación.
+- Información que suele estar en formato JSON:
+    - La respuesta que envía el servidor al cliente.
+    - La información que envía el cliente al servidor para crear, modificar o eliminar un recurso.
+### Estructura del JSON
+- Como se describió previamente, un JSON es una cadena de texto (`string`) cuyo contenido  recuerda al de los objetos literales de JavaScript.
+- Un JSON puede contener cualquier tipo de dato, ya sea primitivo o no: cadenas (`string`), números (`number`), arreglos (`array`), booleanos (`boolean`), objetos (`object`) y `null`.
+- Esto permite construir estructuras jerárquicas de datos, como la siguiente: [Ejemplo de JSON (PokéAPI)](https://pokeapi.co/api/v2/pokemon/ditto)
 ### [Format para chrome](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa)
 
 ## Volviendo a Fetch
 :::tip
-Podes usar la pestaña Network(Red) de la herramienta del navegador Chrome(Devtools) para ver las peticiones que se realizaron y sus respuestas.
+Podés usar la pestaña **Network (Red)** de la herramienta de desarrollo del navegador Chrome (**DevTools**) para ver las peticiones realizadas y sus respectivas respuestas.
 :::
 ```js
 const url = "https://pokeapi.co/api/v2/pokemon/";
@@ -148,20 +146,22 @@ fetch(url)
     .then((data) => console.log(data));
 
 ```
--	Aquí estamos recuperando un archivo JSON a través de red e imprimiendo en la consola.
--	El uso de fetch() más simple toma un argumento (la ruta del recurso que quieres obtener) y devuelve un objeto Promise conteniendo la respuesta, un objeto Response.
--	Esto es, por supuesto,  una respuesta HTTP sin el archivo JSON.
--	Para extraer el contenido  en formato JSON desde la respuesta, usamos el método json(), el cual está implementado por los objetos Request y Response.
--	El método json() devuelve otra promesa.
+- Aquí estamos realizando una petición HTTP a un servidor para obtener un recurso.
+- El servidor nos devuelve la respuesta en formato JSON.
+- El uso más simple de `fetch()` recibe un argumento, que es la URL del recurso que queremos obtener, y devuelve una promesa con un objeto `Response` que contiene la respuesta del servidor.
+- Para acceder al contenido de la respuesta, se utilizan diferentes métodos dependiendo del formato de los datos recibidos. Si la respuesta está en formato JSON, utilizamos el método `json()` para leer el body (los datos que devuelve el servidor) y convertirlos en un objeto JavaScript que podamos procesar.
+- El método `json()` devuelve otra promesa con el objeto JavaScript resultante.
 
-:::tip GET 
-Si la URL funciona en el navegador, es GET.
+
+
+:::tip GET
+- Si una URL se puede abrir directamente en el navegador, significa que esa URL acepta peticiones de tipo `GET`.
+- Por detrás, el navegador realiza una petición `GET` a la URL ingresada para obtener el recurso indicado.
 :::
 
-:::warning API PUBLICAS
-LAS API GRATIS Y PUBLICAS (SIN API KEY) A VECES SE CAEN 
+:::warning API PÚBLICAS
+Las APIs gratuitas y públicas (sin `API Key`) a veces pueden dejar de funcionar, limitar las solicitudes o estar temporalmente caídas.
 :::
-
 
 
 ```js
@@ -174,8 +174,8 @@ fetch("https://pokeapi.co/api/v2/pokemon/ditto")
 }).then((data) => console.log(data.forms[0]));
 
 ```
-:::tip Observacion 
-- La respuesta sin el formato JSON contiene propiedades como el ok (Si la solicitud se realizo) , el status , la cabecera, etc
+:::tip Observación
+- El objeto `Response` contiene información como la propiedad `ok` (indica que el servidor devolvió una respuesta exitosa, con un código de estado HTTP entre 200 y 299), el código de estado (`status`), las cabeceras (`headers`), entre otras propiedades.
 :::
 ```js
 //fetch(path/uri)
@@ -191,35 +191,33 @@ fetch("https://pokeapi.co/api/v2/pokemon/ditto")
 ## Parametros de fetch
 
 ### 1- resource
-- Define la URL / Path / Endpoint que se va a utilizar para realizar una petición.
-- Por ahora solo hicimos peticiones GET a la URL para obtener recursos.
+- Es la ruta de acceso o ruta (`path`).
+- En resumen, indica a dónde se enviará la petición.
 
-
-
-### 2- init (opcionales)
-- Es un objeto para configurar la petición que se va a realizar.
-- Las propiedades del objeto son:
-    -  body:  Es la información que se envía al servidor en una solicitud:
-       - Contiene la información necesaria para realizar una acción específica y devolver una respuesta satisfactoria.
-       - Esto puede ser una Blob, BufferSource, FormData, URLSearchParams, USVString, o ReadableStreamobjeto. 
-       - En una petición GET, los datos necesarios para la solicitud viajan en la URL como query y no en el body.
-    -  credentials: Controla si se envían o no las cookies (juntos con otros datos de autenticación en la solicitud):
-        - Dependiendo del valor que le des, se enviarán cookies de la siguiente manera:
-            -	same-origin: solo se envían cookies si la solicitud es al mismo dominio.
-            -	include: siempre se envían cookies, incluso para solicitudes a otros dominios.
-            -	omit: no se envían cookies, sin importar el dominio.
-    -  mode: define cómo el navegador maneja el CORS (Cross-Origin Resource Sharing), que controla la comunicación entre dominios diferentes. Los valores posibles son:
-        -	cors: Permite solicitudes entre diferentes dominios si el servidor lo permite.
-        -	no-cors: Impide el acceso a la respuesta de un servidor externo, pero la solicitud aún se puede realizar.
-        -	same-origin: Solo permite solicitudes al mismo origen (dominio).
-    - method: El método de la petición, por ejemplo, GET, POST. Por defecto esta en GET.
-    - headers: Cualquier encabezado que desee agregar a su solicitud.
+### 2 - init (opcional)
+- Es un objeto que permite configurar la petición que se va a realizar.
+- Algunas de sus propiedades son:
+    - **body:** Es la información que se envía al servidor en una solicitud.
+        - Contiene los datos necesarios para realizar una acción específica, como crear o modificar un recurso.
+        - Puede contener información en diferentes formatos, como `Blob`, `FormData`, `URLSearchParams`, `ReadableStream`, entre otros.
+        - En una petición `GET`, normalmente los datos necesarios  se envían mediante la URL utilizando parámetros (`query`) y no mediante el `body`.
+    - **credentials:** Controla si se envían o no las cookies junto con la solicitud.
+        - Dependiendo del valor indicado:
+            - `same-origin`: solo envía cookies si la solicitud es al mismo origen.
+            - `include`: envía cookies incluso en solicitudes a otros orígenes.
+            - `omit`: no envía cookies.
+    - **mode:** Define cómo el navegador maneja las solicitudes entre diferentes orígenes (dominios):
+        - `cors`: permite solicitudes entre diferentes orígenes si el servidor lo autoriza.
+        - `no-cors`: permite realizar la solicitud, pero limita el acceso a la respuesta.
+        - `same-origin`: solo permite solicitudes al mismo origen.
+    - **method:** Define el método HTTP de la petición, por ejemplo `GET`, `POST`, `PUT` o `DELETE`. Por defecto utiliza `GET`.
+    - **headers:** Permite agregar información adicional a la solicitud, como el tipo de contenido (`Content-Type`) o datos que el servidor utiliza para autenticar al usuario.
 
 
 
 
 ## setAttribute()
-el  setAttribute()  es para modificar un atributo y su valor.
+el  setAttribute()  es para modificar un atributo.
 
 1 parametro: el atributo a modificar
 
@@ -234,21 +232,7 @@ el  setAttribute()  es para modificar un atributo y su valor.
 
 [URL a utilizar](https://rickandmortyapi.com/api/character)
 
-:::tip
-Algunas API requieren un token de seguridad que suele ser de pago.
-:::
-:::tip
-No colocar el template donde se va a pintar.
-:::
-:::tip
-En el fetch siempre son dos await
-:::
-:::tip
-En el template fijarse que elementos son únicos (clases , id etiqueta) para seleccionarlo.
-:::
-:::tip
-Si hay bucle se utiliza un fragment.
-:::
+
 ```html
 <!DOCTYPE html>
 <html lang="es">
@@ -297,6 +281,11 @@ Si hay bucle se utiliza un fragment.
 </html>
 
 ```
+
+
+
+
+
 ```js
 // Cuando carga el DOM
 document.addEventListener("DOMContentLoaded", () => {
@@ -444,3 +433,11 @@ const pintarPaginacion = data => {
 }
 
 ```
+
+:::tip Consejos
+- Algunas APIs requieren un token de seguridad (`API Key`) para poder utilizarlas. Este token permite identificar al usuario que utiliza la API y, en algunos casos, verificar si tiene permiso para acceder al servicio (por ejemplo, cuando la API requiere un plan de pago).
+- No colocar el template directamente donde se va a pintar (renderizar) el contenido. El template debe utilizarse como una estructura que luego se clona y se inserta en el DOM.
+- En `fetch()` normalmente se utilizan dos `await`: uno para obtener la respuesta (`Response`) y otro para obtener los datos de la respuesta (`json()`).
+- Al trabajar con templates, se recomienda identificar qué elementos son únicos (`id`, clases o etiquetas) para poder seleccionarlos correctamente desde JavaScript.
+- Si se realiza un bucle para insertar varios elementos en el DOM, se recomienda utilizar un `DocumentFragment` para agrupar los cambios y mejorar el rendimiento.
+:::

@@ -754,6 +754,8 @@ innerHTML hace lo mismo que textContent pero también permite código html.
     - Las modificaciones dentro de un DocumentFragment no desencadenan re-renderizados ni afectan al rendimiento hasta que los nodos se insertan en el DOM.
     - El fragmento es como un contenedor en memoria donde se crean nodos. Estos nodos solo se integran al DOM cuando se utiliza un método como appendChild() o append().
     - Permite crear una estructura de nodos completa (como listas o árboles) en segundo plano y luego insertarla en el DOM de una sola vez, mejorando la eficiencia.
+    - Al ser una versión ligera de `Document`, tiene algunos de sus métodos. Entre ellos se encuentran los métodos para buscar elementos como `querySelector()`. Si se utilizan dentro de un `DocumentFragment`, la búsqueda se realizará únicamente dentro del fragmento, ignorando el "DOM real".
+    - Cuando se agrega al DOM, el fragmento se vacía. Es decir, todos los nodos que contenía se transfieren al DOM y este queda "vacío".
 - Se podría decir que un DocumentFragment es un "objeto document" que actúa como un DOM paralelo al real. En este DOM paralelo:
     - Puedes crear estructuras de nodos de manera independiente al DOM real, sin que estos nodos estén todavía conectados al documento principal.
     - Al finalizar la construcción de esa estructura, puedes insertarla en el DOM real en un solo paso, lo que evita múltiples modificaciones directas al DOM y mejora el rendimiento.

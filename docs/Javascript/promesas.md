@@ -509,8 +509,10 @@ fetch(url)
 - Dependiendo de la URL, se pueden obtener todos los recursos o uno específico.
 :::
 ### Metodos del response
-## json()
-Te transforma la respuesta en json y te devuelve una promesa(con el contenido de la respuesta en formato json).
+## `json()`
+- Por lo general, el servidor envía la respuesta en formato JSON, que es una forma de estructurar los datos.
+- El método `json()` permite leer la respuesta (técnicamente, lee el contenido del body) y convierte el JSON en un objeto JavaScript.
+- Devuelve una promesa con el objeto JavaScript resultante.
 
 ```js
 //El fetch recibe la url del recurso y devuelve una promesa

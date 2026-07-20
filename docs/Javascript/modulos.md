@@ -8,30 +8,33 @@ sidebar_position: 10
 ### Antes 
 - Los proyectos en JavaScript solían ser pequeños y simples.
 - En muchos casos, el código no superaba las 100 líneas.
-- JavaScript no contaba con una forma nativa de separar o modular archivos.
+- JavaScript no contaba con una forma nativa de separar el código en diferentes archivos.
 
 
 
 ### Despues
-- Las aplicaciones crecieron y comenzaron a tener cientos de líneas de código.
-- Con el tiempo surgieron soluciones como CommonJS, AMD y Node.js para dividir el código en archivos y mejorar su organización.
-- Gracias a esto aparecieron los [Módulos](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules), que permitieron importar y exportar archivos de forma nativa.
+- Las aplicaciones crecieron y comenzaron a tener cientos o miles de líneas de código.
+- Surgió la necesidad de organizar mejor los proyectos y dividir el código en diferentes archivos.
+- Aparecieron soluciones como CommonJS y AMD para trabajar con módulos.
+- Más adelante, JavaScript incorporó los [Módulos ES](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules), permitiendo importar y exportar código de forma nativa.
 
-## Modulos
--	Los módulos permiten dividir el código JavaScript en archivos separados y reutilizables que pueden importarse cuando sea necesario.
-- Antes de que existieran los módulos nativos en los navegadores, Node.js ya ofrecía esta capacidad y surgieron distintos sistemas y herramientas para trabajar con módulos, como:
+## Módulos
+
+- Los módulos permiten dividir el código JavaScript en archivos separados y reutilizables que pueden importarse cuando sea necesario.
+- Antes de que existieran los módulos nativos en los navegadores, surgieron diferentes sistemas y herramientas para organizar el código mediante módulos (archivos separados), como:
     - CommonJS
-    - AMD (usado junto con herramientas como RequireJS)
+    - AMD (utilizado junto con herramientas como RequireJS)
     - Webpack
     - Babel
-- Actualmente, los navegadores modernos ya soportan módulos de forma nativa.
+- Actualmente, los navegadores modernos soportan módulos de forma nativa mediante los Módulos ES.
 - Un módulo básicamente consiste en:
-    - Mover parte del código a otro archivo,
-    - Encapsular su funcionalidad (guardar o aislar una parte del código dentro de un archivo)
-    - Y luego importarlo cuando se necesite
-- En programación, un módulo es un archivo JavaScript que contiene código (funciones, variables, clases, etc.) y que puede exportar partes de ese código para ser importadas y utilizadas en otros archivos. Por ejemplo, un archivo `math.js` puede exportar funciones matemáticas como `sum()` o `multiply()` para que otros archivos puedan usarlas mediante `import`.
-:::tip .mjs vs .js
-- Las dos extensiones son de Javascript , pero mjs es para representar un modulo.
+    - Mover parte del código a otro archivo.
+    - Encapsular su funcionalidad (aislar una parte del código dentro de un archivo).
+    - Exportar e importar ese código cuando sea necesario.
+- En programación, un módulo es un archivo JavaScript que contiene código (funciones, variables, clases, etc.) y que puede exportar partes de ese código para ser utilizadas en otros archivos. Por ejemplo, un archivo `math.js` puede exportar funciones matemáticas como `sum()` o `multiply()` para que otros archivos puedan utilizarlas mediante `import`.
+
+:::tip `.mjs` vs `.js`
+- Ambas extensiones corresponden a archivos JavaScript, pero `.mjs` se utiliza para indicar explícitamente que el archivo contiene un módulo JavaScript.
 - [Link](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules#reflexi%C3%B3n_%E2%80%94_.mjs_versus_.js)
 :::
 
@@ -58,13 +61,11 @@ Error por sobrescribir una variable const
 
  
 - Es una solución al problema.
--	Las expresiones de función ejecutadas inmediatamente (IIFE por su sigla en inglés) son funciones que se ejecutan tan pronto como se definen.
--	Es un patrón de diseño también conocido cómo función autoejecutable.
--	Son funciones que se ejecutan automáticamente
--	El código queda encapsulado dentro de la función, creando un scope propio. Es decir, nada fuera de la función puede acceder directamente a las variables o funciones que contiene, y el código interno tampoco afecta el exterior salvo que se exponga explícitamente.
-- 	La función se convierte en una expresión de función que es ejecutada inmediatamente. La variable dentro de la expresíon no puede ser accedida desde afuera.
-- [Mas info](https://developer.mozilla.org/es/docs/Glossary/IIFE)
-
+- Las expresiones de función ejecutadas inmediatamente (IIFE, por su sigla en inglés) son funciones que se ejecutan automáticamente luego de ser definidas.
+- Es un patrón de diseño también conocido como función autoejecutable.
+- El código queda dentro de una función, creando un scope propio. Esto significa que las variables y funciones declaradas dentro no pueden ser accedidas directamente desde fuera, evitando conflictos con otras partes del código.
+- La función se convierte en una expresión de función que se ejecuta inmediatamente apenas se crea. Por ejemplo, las variables creadas dentro de la IIFE no estarán disponibles en el exterior.
+- [Más información](https://developer.mozilla.org/es/docs/Glossary/IIFE)
 
 ### Pasos
 1. Definimos una funcion anónima (puede ser una  función flecha)
@@ -92,34 +93,40 @@ Como se puede ver, no chocan, no se sobrescriben.
 :::
 
 ### Desventajas
-- No poder manejar las variables en otro archivo 
-- No tenemos alcance de nuestras variables y se nos puede salir de las manos. 
-:::tip Solucionar problemas
- Para solucionar estos problemas(desventajas), se deben usar los Módulos.
+- No permite compartir fácilmente variables o funciones entre diferentes archivos.
+- Al trabajar con variables globales, el código puede crecer y generar conflictos difíciles de controlar.
+:::tip Solución
+Para solucionar estos problemas (desventajas), se deben utilizar los módulos.
 :::
 :::tip Orden de etiqueta script 
- Cuidado con el orden de la etiqueta SCRIPT cuando un archivo depende del otro 
+- Se debe tener cuidado con el orden de las etiquetas `script` cuando un archivo depende de otro.
+- Generalmente, los archivos se cargan desde el más independiente al más dependiente:
 
- Generalmente van del más independiente al más dependiente
  ```js
   <script src="js/app.js"></script>
      <script src="js/fruta.js"></script>
  ```
+ - Si en tu ejemplo `app.js` depende de `fruta.js`, entonces el orden debería ser al revés:
+  ```js
+<script src="js/fruta.js"></script>
+<script src="js/app.js"></script>
+ ```
+
 :::
 
 ## export e import
 - Los módulos permiten compartir código entre distintos archivos.
-- Para que otro archivo pueda acceder a funciones o variables de un módulo, primero debes exportarlas; es decir, hacerlas accesibles desde otros archivos.
-- Esto se hace usando la declaración `export`.
-- Puedes exportar funciones, var, let, const y, como veremos más adelante clases.
-- Las exportaciones deben hacerse en el nivel superior del módulo; por ejemplo, no puedes usar `export` dentro de una función.
-- Este tipo de exportación se conoce como exportación con nombre (*named export*) porque cada elemento exportado tiene un nombre específico y debe importarse usando ese mismo nombre.
+- Para que otro archivo pueda acceder a funciones o variables de un módulo (archivo), primero debemos exportarlas; es decir, hacerlas accesibles desde otros archivos.
+- Esto se realiza utilizando la declaración `export`.
+- Podemos exportar funciones y variables declaradas con `var`, `let` o `const` y, como veremos más adelante, clases.
+- Las exportaciones deben realizarse en el nivel superior del módulo (directamente en el archivo, fuera de funciones u otros bloques de código); por ejemplo, no es posible utilizar `export` dentro de una función.
+- Este tipo de exportación se conoce como exportación con nombre (*named export*), porque cada elemento exportado tiene un nombre específico y debe importarse utilizando ese mismo nombre.
 #### Analogía
-- Exportar = sacar un producto de nuestro país hacia afuera.
-- Importar = traer y consumir un producto que viene de afuera.
+- Exportar = enviar un producto desde nuestro país hacia otro lugar.
+- Importar = recibir y utilizar un producto que viene desde otro lugar.
 
 #### Ventaja
-- Solo vamos a  llamar al archivo que va a recibir todas las importaciones (El que consume productos de afuera)
+- Solo vamos a cargar el archivo principal, que será el encargado de recibir todas las importaciones:
 ```html
  <script src="js/app.js"></script>
 ```
@@ -322,15 +329,13 @@ pintarPlatano();
 
 ```
 ## export con alias
-
-- Con la palabra reservada `as` podemos asignarle un alias a una exportación o importación.
-- Un alias es simplemente un nombre alternativo o apodo que le damos a una variable, función o exportación.
+- Con la palabra reservada `as` podemos asignar un alias a una exportación o importación, es decir, cambiar el nombre con el que se exportará o el nombre con el que se utilizará dentro del archivo.
 - Esto es útil para:
   - Evitar conflictos de nombres,
   - Usar nombres más claros,
   - O adaptar nombres largos a algo más corto.
 - Ejemplo:
-    - Importamos a la frutilla(función) como fresa.
+    - Importamos  la frutilla(función) como fresa.
 
 
 app.js
@@ -339,18 +344,17 @@ import  pintarPlatano , {frutilla as fresa  , Fruta} from './fruta.js';
 fresa();
 ```
 ## LocalStorage
-- [info](https://developer.mozilla.org/es/docs/Web/API/Window/localStorage)
--	LocalStorage : Permite guardar datos en el navegador.
--	Los datos persisten almacenados entre las diferentes sesiones de navegación(pestañas del navegador)
--	LocalStorage es similar a sessionStorage. La única diferencia es que, mientras los datos almacenados en localStorage no tienen fecha de expiración, los datos almacenados en sessionStorage son eliminados cuando finaliza la sesion de navegación - lo cual ocurre cuando se cierra la página.
--	Las claves y los valores son siempre cadenas de texto(String)
+- [Info](https://developer.mozilla.org/es/docs/Web/API/Window/localStorage)
+- `localStorage` permite guardar datos en el navegador.
+- Los datos almacenados persisten entre diferentes sesiones de navegación (una sesión de navegación es el período durante el cual utilizamos una pestaña o ventana del navegador hasta que la cerramos; por ejemplo, una sesión finaliza cuando cerramos una ventana y comienza cuando abrimos una nueva).
+- `localStorage` es similar a `sessionStorage`. La diferencia principal es que los datos almacenados en `localStorage` no tienen fecha de expiración, mientras que los datos almacenados en `sessionStorage` se eliminan cuando finaliza la sesión de navegación (por ejemplo, al cerrar la pestaña o ventana).
+- Las claves y los valores almacenados en `localStorage` siempre son cadenas de texto (`String`).
 
 :::tip API REST
-NORMAS API REST: 
+#### Normas API REST
 
-No podemos guardar sesiones en el servidor.
+- El servidor no guarda sesiones del cliente. Cada petición debe contener toda la información necesaria para ser procesada.
 :::
-
 Guardar un valor: 
 ```js
 // localStorage.setItem(clave, valor);
@@ -359,12 +363,10 @@ Guardar un valor:
 // La clave se utiliza para identificar y acceder al valor guardado.
 localStorage.setItem("platano", "🍌");
 ```
-:::tip 
-Fijarse luego en  consola – Aplicación – Almacenamiento local – http://***  , Que se guardaron los datos.
-
-El localstorage vive en un dominio especifico.
-
-localstorage vive en el navegador.
+:::tip
+- Fijarse luego en **Consola → Aplicación → Almacenamiento local → http://*** para comprobar que los datos fueron guardados.
+- `localStorage` vive en el navegador y guarda los valores en el dominio desde el cual fueron creados.
+- Esto significa que los datos guardados en un dominio no pueden ser accedidos desde otro dominio diferente.
 :::
 
 ```js
@@ -374,7 +376,7 @@ localstorage vive en el navegador.
 localStorage.setItem("platano" , "🍌");
 
 //obtener valor
-//geItem("key/clave") obtiene el valor de una clave almacenada
+// getItem("key/clave") obtiene el valor asociado a la clave proporcionada.
 console.log(localStorage.getItem("platano"));
 
 ```
@@ -474,36 +476,7 @@ if(localStorage.getItem("frutas")) {
 ```
 ## Práctica TODO:
 
-:::tip template
-- El Template  va afuera de donde se va a insertar.
 
-
-- El template busca dentro del template, no busca lo que está afuera del mismo. En este ejemplo , el template solo tiene un btn , por lo tanto lo seleccionamos por esa clase (el template ignora los btn que están afuera)
-:::
-
-:::tip contenedor que se va a añadir elementos(appenchild)
-- Siempre vaciar el contenedor que luego se va a pintar (para evitar pintar los mismos elementos varias veces)
-:::
-:::tip trim
-- trim límpia los caracteres en blanco del comienzo o del final.
-- Y si se usa la negación (`!todo.trim()`), devuelve `true` si el string está vacío o solo contiene espacios en blanco.
-:::
-
-:::tip return 
-- Usar el return vacio para que se deje de ejecutar el resto del código de la función.
-:::
-
-:::tip delegacion de eventos
-- Usamos la delegación de eventos para asignarle eventos a elementos que todavia no existen.
-:::
-
-:::tip dataset 
-- Creamos data-nombre (dataset) para la id.
-
-- El dataset siempre guarda String
-
-
-:::
 
 ```html
 
@@ -620,3 +593,21 @@ document.addEventListener('DOMContentLoaded', (e) => {
 });
 
 ```
+
+:::tip Templates y renderizado de elementos
+- El `template` debe estar afuera del lugar donde se van a insertar los elementos.
+- Al utilizar métodos de selección como `querySelector()` dentro de un `template`, la búsqueda se realiza únicamente dentro de ese template e ignora todo lo que hay afuera. Por ejemplo, si el `template` contiene un botón con la clase `btn`, al ejecutar `template.querySelector(".btn")` se seleccionará ese botón, aunque existan otros botones con la misma clase fuera del template.
+- Antes de volver a pintar elementos en un contenedor, se recomienda vaciarlo para evitar mostrar los mismos elementos varias veces.
+:::
+
+:::tip trim y return
+- `trim()` elimina los espacios en blanco del comienzo y del final de un texto.
+- Al utilizar la negación (`!texto.trim()`), devuelve `true` cuando el texto está vacío o contiene únicamente espacios en blanco.
+- Se puede utilizar un `return` vacío para detener la ejecución del resto del código dentro de una función.
+:::
+
+:::tip Delegación de eventos y dataset
+- La delegación de eventos permite asignar eventos a elementos que todavía no existen cuando se registra el evento con `addEventListener`.
+- Podemos crear atributos personalizados usando `data-nombre` para guardar datos dentro de elementos HTML y luego acceder a esos datos mediante `dataset`.
+- Los valores obtenidos mediante `dataset` siempre son cadenas de texto (`String`).
+:::
