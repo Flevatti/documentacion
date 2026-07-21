@@ -31,7 +31,7 @@ Ejemplo:
 
 ```
 - El constructor tiene un argumento que es un String
-- Este String sirve para identificar el símbolo en la consola cuando lo conviertas en un String.
+- Este `String` sirve para identificar el símbolo cuando se muestra en la consola o cuando se convierte a un `String`.
 ```js
           const id = Symbol("etiqueta 1");
            console.log(id);
@@ -91,18 +91,17 @@ Ejemplo:
 
 ```
 #### Iterador
-- Es el apuntador, que va recorriendo los elementos de la estructura de dato lineal.
-- Es el mecanismo por el cual se recorre los elementos.
-- Hay varios mecanismos:
-   - Desestructuración 
-   - Métodos for  y for of 
-   - metodo array.from 
-   - spread operator (…)  
-   -  promesas
-   - forEach
-- Tambien existe un  “mecanismo integrado” el cual veremos a continuación
+- Es el encargado de recorrer los elementos de una estructura de datos.
+- Va obteniendo un elemento a la vez hasta llegar al final.
+- Muchas funcionalidades de JavaScript utilizan iteradores internamente, por ejemplo:
+  - Desestructuración.
+  - `for...of`.
+  - `Array.from()`.
+  - El operador spread (`...`).
+  - `Promise.all()`, `Promise.race()`, etc.
+- Estas estructuras de datos también disponen de un método para obtener un iterador.
 
-#### Como Acceder al iterador “Integrado” que contiene un iterable
+#### Cómo obtener el iterador de un iterable
 ```js
   const iterable = [1,2,3,4,5];
   // Accedemos al iterador del iterable
@@ -132,7 +131,7 @@ Ejemplo:
 ```
   #### Recorremos al iterable de forma dinámica:
   - Usamos la propiedad booleana done que indica cuando se terminó de recorrer.
-  - Next()  es un apuntador que guarda  en que elemento del objeto iterable se quedó.
+  - `next()`, al ejecutarse, obtiene el siguiente elemento del iterable y, al mismo tiempo, guarda la posición en la que quedó para que, al volver a ejecutarse, sepa qué elemento debe obtener.
 ```js
   const iterable = [1,2,3,4,5];
   const iterador = iterable[Symbol.iterator]()
@@ -245,7 +244,7 @@ const set = new Set([1,2,3,4,5,1 , true,false,true,{} , {} , "String"])
   ```
 ## Map
 
-- Es un objeto que almacena pares  de clave-valor.
+- Es como un objeto que almacena pares  de clave-valor.
 - Es parecido a un objeto (Ambas almacenan pares-valores)
 
 | Objeto                                                         | Map                                                   |
@@ -257,7 +256,8 @@ const set = new Set([1,2,3,4,5,1 , true,false,true,{} , {} , "String"])
 | Tiene un prototipo                                             | No tiene un prototipo                                 |
 
 :::warning
-- Las claves de un map  que se definen por defecto pueden tener conflicto con la clave de un objeto
+- En un objeto, las claves definidas por el usuario pueden entrar en conflicto con las propiedades heredadas, como `toString` o `constructor`.
+- `Map` evita este problema, ya que sus claves no se almacenan como propiedades del objeto.
 :::
 
 #### Sintaxis para crear un map
@@ -307,11 +307,11 @@ Ejemplo:
 
 ```
 #### set(clave , valor)
-- Establece un valor a una clave.
+- Asigna un valor a una clave.
 - Si la clave ya existe , se remplaza el valor
 - Si la clave no existe , se crea junto con su valor correspondiente
 ```js
-   // El metodo set establece un valor a una clave.
+   // El metodo set asigna un valor a una clave.
     // Si la clave ya existe , se remplaza el valor
     // Si la clave no existe , se crea junto con su valor correspondiente
     // set(clave , valor)
@@ -384,17 +384,28 @@ Ejemplo:
 Las tres formas devuelven un iterador y tienen los mismos métodos (next, etc).
 :::
 ## Weakmap Y Weakset
+- En `WeakMap`, las claves deben ser objetos.
+- En `WeakSet`, los valores deben ser objetos.
+- Si el objeto deja de existir en el programa, JavaScript elimina automáticamente el par clave-valor (o el valor, en el caso de `WeakSet`) que lo contiene. Esto es posible porque ambos utilizan referencias débiles.
+- `WeakMap` dispone de métodos similares a los de `Map`.
+- `WeakSet` dispone de métodos similares a los de `Set`.
 
-- Solo pueden almacenar referencias débiles.
-- Las claves deben ser de tipo objeto(En caso del weakSet, el valor también).
-- Si la clave (En caso del weakSet, el valor también) es null/undefined, se elimina el clave/valor del weakmap/weakset.
-- Tienen los mismos métodos que sus correspondientes versiones.
-- Weakmap tiene los métodos de map.
-- WeakSet tiene los métodos de set.
 
-:::tip Las claves deben ser de tipo objeto
- - El objeto lo debe contener alguna variable.
+:::tip Referencias débiles y fuertes
+- Cuando se crea un objeto, JavaScript reserva un espacio en la memoria y crea una referencia que apunta a ese espacio.
+- **Referencia débil:** no se tiene en cuenta para mantener el espacio en la memoria. No impide que JavaScript elimine el objeto (espacio en la memoria) cuando ya no existen referencias fuertes que apunten a él.
+- **Referencia fuerte:** mantiene vivo el espacio en la memoria. Mientras exista una referencia fuerte hacia el espacio en la memoria, el objeto no será eliminado.
 :::
+
+
+:::tip Cuándo un objeto deja de existir
+- La referencia que se genera cuando se crea un objeto se puede almacenar en una variable o en la propiedad de otro objeto. Además, esta referencia se puede copiar y pegar, por lo que dos variables diferentes pueden apuntar al mismo objeto.
+- Un objeto deja de existir cuando todas las referencias fuertes que apuntan hacia él desaparecen.
+- Esto puede ocurrir cuando todas las variables o propiedades que lo referencian reciben `null` o dejan de existir.
+- Cuando ya no hay ninguna referencia hacia el objeto, JavaScript puede eliminarlo de la memoria.
+:::
+
+
 #### Defectos
 - No son objetos iterables.
 - No podemos eliminar todos los elementos . No tenemos acceso a un método clear().
@@ -405,9 +416,10 @@ Las tres formas devuelven un iterador y tienen los mismos métodos (next, etc).
 - El constructor no tiene el argumento de set.
 - Se deben añadir los valores de uno en uno con el método add.
 
-:::tip metodo add(X)
-- X debe ser una referencia débil, un objeto.
-- El objeto debe estar en alguna variable (debe existir una referencia)
+:::tip Método add(X)
+- `X` debe ser un objeto.
+- El objeto debe tener alguna referencia fuerte, como una variable o una propiedad de otro objeto que apunte hacia él.
+- Por eso, generalmente `X` suele estar en una variable o una propiedad.
 :::
 ```js
    const ws = new WeakSet()
@@ -446,10 +458,10 @@ Las tres formas devuelven un iterador y tienen los mismos métodos (next, etc).
 - El constructor no tiene el argumento de map.
 - Se deben añadir los valores de uno en uno con el método set.
 
-:::tip metodo set(X,Y)
-- X : Es la clave ,  debe ser una referencia débil, un objeto.
-- El objeto debe estar en alguna variable (debe existir una  referencia)
-- Y : es el valor de la clave.
+:::tip Método set(X, Y)
+- `X`: es la clave y debe ser un objeto.
+- El objeto usado como clave debe tener alguna referencia fuerte, como una variable o una propiedad de otro objeto que apunte hacia él. Por eso, generalmente `X` suele estar en una variable o una propiedad.
+- `Y`: es el valor asociado a esa clave.
 :::
 
 ```js
@@ -513,7 +525,7 @@ console.log("hola esta es la consola 👌");
 ```
 :::warning
 - A veces Chrome no genera la tabla , para solucionar este problema debe refrescar la pagina.
-- Puede pasar que no se genere una tabla para colecciones de tipos primitivos (matriz de cadenas, objeto único), solo colecciones de tipos compuestos (matriz de matrices/objetos, objeto cuyas propiedades son objetos).
+- Puede pasar que no se genere una tabla para colecciones de tipos primitivos (matriz de cadenas), solo colecciones de tipos compuestos (matriz de matrices/objetos, objeto cuyas propiedades son objetos).
 :::
 ### time() / timeEnd()
 - time() Inicia un temporizador 
@@ -526,16 +538,17 @@ console.log("hola esta es la consola 👌");
     console.timeEnd("temporizador");
 ```
 ### count()
-- Registra el numero de veces que count() se ha llamado.
-- Tambien como argumento recibe un string que seria la "ID". Entonces contaria las veces que se llama con X id.
+- Registra y devuelve la cantidad de veces que se ejecutó `count()`.
+- También puede recibir un `String` como argumento, que funciona como una "ID".
+- Cada `ID` tiene su propio contador, permitiendo contar cuántas veces se llamó a `count()` con una determinada `ID`.
 ```js
  console.count("ID");
    console.count("ID 2");
    console.count("ID");
 ```
 ### trace()
-- Muestra un seguimiento que muestra cómo terminó el código en un punto determinado.
-- Muestra el camino de ejecución del codigo.
+- Muestra las funciones que se ejecutaron y el orden en el que fueron llamadas para llegar a la línea donde se ejecutó `trace()`.
+- Permite conocer el recorrido que siguió el programa para llegar a ese punto.
 ```js
   function foo() {
   function bar() {
@@ -554,11 +567,12 @@ foo();
    console.warn('Advertencia');
    console.error('Error');
 ```
+
 ### group() / groupEnd()
-- group() Crea un grupo en la consola. Los mensajes que se escriban se asignaran a este grupo.
-- groupEnd(): Cierra el grupo . Los mensajes que se escriban se asignaran al grupo de nivel superior o a ningun grupo.
-- Se puede crear varios niveles de grupos.
-- Ambos reciben como argumento un string que seria la "ID" del grupo que va a crear o cerrar.
+- `group()`: crea un grupo en la consola. Los mensajes que se escriban después de ejecutarlo se asignan a ese grupo.
+- `groupEnd()`: cierra el grupo. Los mensajes que se escriban después se asignan al grupo anterior si existe, o a ningún grupo si no queda ningún grupo abierto.
+- Se pueden crear varios grupos y unos dentro de otros.
+- Ambos reciben como argumento un `String` que funciona como la "ID" o nombre del grupo que se va a crear o cerrar.
 
 ```js
   console.group('Grupo Mensajes')
@@ -568,7 +582,7 @@ foo();
 ```
 
 ## Metodos de Object
-- La clase Object tiene un conjunto de métodos estáticos que puede sernos utils.
+- La clase `Object` tiene un conjunto de métodos estáticos que pueden sernos útiles.
 
 :::tip Métodos estáticos
 - Es un método que se puede ejecutar directamente desde la clase
@@ -658,18 +672,18 @@ foo();
 ```
 :::tip Observación
 - Ambos objetos contienen las mismas propiedades.
-- Como se realiza una copia, ambos objetos son independientes para propiedades primitivas.
+- Como las propiedades del objeto contienen valores primitivos, `Object.assign()` copia esos valores y crea un objeto nuevo independiente.
 - `Object.assign()` también devuelve el objeto resultante después de copiar las propiedades.
 :::
 
 :::warning
 - Nos permite clonar objetos simples donde los valores son primitivos (o derivados de ellos).
-- Los objetos anidados no se copian completamente.
-- **SOLO SE COPIAN** las propiedades de primer nivel  (solo se requiere de un punto para acceder a estas propiedades):
+- Los objetos anidados no se copian por valor.
+- **SOLO SE COPIAN POR VALOR** las propiedades de primer nivel (las que requieren un solo punto para acceder)
 ```js
 objeto.propiedad
 ```
-- Las propiedades de **SEGUNDO NIVEL o más** (se requiere más de un punto) se copian por referencia:
+- Las propiedades de **SEGUNDO NIVEL o más** (se requiere más de un punto para acceder) se copian por referencia:
 ```js
 objeto.propiedad.subpropiedad
 ```
@@ -706,44 +720,47 @@ Sintaxis:
 ```js
 Object.defineProperty(obj, prop, descriptor)
 ```
-- Obj : El objeto sobre el cual se define la propiedad
-- Prop : El nombre de la propiedad a ser definida o modificada
-- Descriptor: El descriptor de la propiedad que está siendo definida o modificada.
+- `obj`: El objeto en el cual se creará o modificará la propiedad.
+- `prop`: El nombre de la propiedad que será creada o modificada.
+- `descriptor`: El descriptor que define las características de la propiedad que se está creando o modificando.
 
 #### Descriptores
-- En la forma tradicional de crear una propiedad, el descriptor toma valores específicos.
-- Existen dos tipos de descriptores: De datos y de acceso. 
-- Un descriptor de datos define una propiedad que tiene un valor, el cual puede ser o no modificado. 
-- Un descriptor de acceso define una propiedad mediante un par de funciones getter-setter que describe como se obtiene o se modifica el contenido de dicha propiedad. 
-- Un descriptor debe de ser de uno de estos dos tipos; no puede ser ambos.
+- Cuando se crea una propiedad con la sintaxis `objeto.propiedad = valor`, JavaScript crea automáticamente un descriptor específico para dicha propiedad.
+- Existen dos tipos de descriptores: de datos y de acceso.
+- Un descriptor de datos define una propiedad que tiene un valor, el cual puede ser modificado o no.
+- Un descriptor de acceso define una propiedad mediante un par de funciones `getter` y `setter`, que indican cómo se obtiene o modifica el contenido de dicha propiedad.
+- Un descriptor debe ser de uno de estos dos tipos; no puede pertenecer a ambos.
   
 #### Ambos tipos de descriptores son objetos y comparten lo siguiente
-| Propiedad    | Valor                                                                                                                                                         |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Configurable | Es    true si el tipo de descriptor de la propiedad puede modificarse y si la propiedad puede ser eliminada del correspondiente objeto. Por defecto es false. |
-| Enumerable   | Es    true si dicha propiedad se muestra durante la enumeración de las propiedades del objeto correspondiente. Por defecto es false.                          |
+
+| Propiedad | Valor |
+| --------- | ----- |
+| Configurable | Es `true` si el descriptor de la propiedad puede modificarse y si la propiedad puede ser eliminada. Por defecto es `false` al utilizar `Object.defineProperty()`. |
+| Enumerable | Es `true` si la propiedad aparece al recorrer las propiedades del objeto mediante funcionalidades como `for...in` u `Object.keys()`. Por defecto es `false` al utilizar `Object.defineProperty()`. |
 
 #### Un descriptor de datos tiene además lo siguiente
-| Propiedad | Valor                                                                                                                                      |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Value     | El valor asociado a la propiedad. Puede ser cualquier tipo valido de JavaScript (number, object, function, etc). Por defecto es undefined. |
-| Writable  | Es   true Indica si el valor de la propiedad puede modificarse con el operador de asignación . Por defecto es false.                       |
+
+| Propiedad | Valor |
+| --------- | ----- |
+| Value | Es el valor asociado a la propiedad. Puede ser cualquier tipo válido de JavaScript (`number`, `object`, `function`, etc.). Por defecto es `undefined`. |
+| Writable | Es `true` si el valor de la propiedad puede modificarse mediante el operador de asignación. Por defecto es `false`. |
 
 #### Un descriptor de acceso además tiene lo siguiente
-| Propiedad | Valor                                                                                                                                                                                                |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| get       | Una función cuyo valor retornado será el que se use como valor de la propiedad. Su valor por Default es undefined                                                                                    |
-| set       | Una función que recibe como único argumento el nuevo valor que se desea asignar a la propiedad y que devuelve el valor que se almacenará finalmente en el objeto. Su valor por Default es undefined. |
+
+| Propiedad | Valor |
+| --------- | ----- |
+| get | Una función cuyo valor retornado será utilizado como valor de la propiedad. Su valor por defecto es `undefined`. |
+| set | Una función que recibe como único argumento el nuevo valor que se desea asignar a la propiedad y se encarga de modificar el valor de la propiedad. Su valor por defecto es `undefined`. |
 
 :::warning
-- Hay que tener en cuenta que estas opciones también pueden heredarse; es decir, las opciones de la propiedad se han podido establecer en el prototipo de una clase de la que hereda el objeto. 
-- De modo que si queremos asegurarnos unos valores por defecto tenemos tres opciones:
-  - [Congelar el Object.prototype con Object.freeze](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
+- Hay que tener en cuenta que una propiedad puede venir del prototipo del objeto (por herencia) y no estar creada directamente en el objeto.
+- Si queremos asegurarnos de que la propiedad tenga ciertos atributos definidos, podemos:
   - Definir todas las opciones explícitamente.
-  - Establecer null la propiedad \__proto__
+  - Establecer `null` en la propiedad `__proto__`.
+  - Congelar `Object.prototype` con `Object.freeze()`.
 :::
 
-Ejemplo usando \__proto__ 
+Ejemplo usando `__proto__` 
 ```js
  const obj = {};
       Object.defineProperty(obj , 'key' , {
@@ -767,28 +784,37 @@ Ejemplo definiendo todo explícitamente
 ```
 Ejemplo con freeze()
 ```js
+// Creamos un objeto vacío
     const obj = {};
+
+    // Función que crea un descriptor de propiedad
       function crearPropiedad(value) {
         var d =  {
-          enumerable: false,
-          writable: false,
-          configurable: false,
-          value: null,
+          enumerable: false, // La propiedad no aparecerá al enumerar el objeto
+          writable: false,  // El valor de la propiedad no podrá modificarse
+          configurable: false, // La propiedad no podrá eliminarse ni cambiar sus atributos
+          value: null,  // Valor inicial de la propiedad
         };
-
+      // Asignamos el valor recibido al descriptor
         d.value = value;
+          // Devolvemos el descriptor creado
         return d;
       }
-      // ... y ...
+      // Creamos una propiedad llamada "key" en obj usando el descriptor anterior
       Object.defineProperty(obj, "key", crearPropiedad("static"));
 
-      // Si está disponible freeze, previene añadir o eliminar
-      //del prototipo del objeto las propiedades
-      // (value, get, set, enumerable, writable, configurable)
-      (Object.freeze || Object)(Object.prototype);
+      // Congelamos Object.prototype para evitar que se agreguen,
+     // eliminen o modifiquen sus propiedades.
+      Object.freeze(Object.prototype);
       console.log(obj);
 
 ```
+:::tip `Object.freeze(X)`
+- Congela el objeto `X`, evitando que se puedan agregar, eliminar o modificar sus propiedades.
+- El objeto sigue siendo accesible, pero sus propiedades quedan protegidas contra cambios.
+:::
+
+
 :::tip info
 - [developer mozilla](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
@@ -798,7 +824,7 @@ Ejemplo con freeze()
 
 **Es menos habitual que desde Javascript necesitemos detectar si ciertas medias queries se están evaluando positivamente**, pero también nos podemos ver en necesidad de ello
   
-Pongamos por ejemplo que tenemos un código de un banner que solamente queremos que se vea en ordenadores de escritorio. Este código hace llamadas asíncronas para solicitar la creatividad al servidor de banners, pero si el banner no se va a visualizar, ¿Qué sentido tiene hacer esas llamadas al servidor de banners?
+Pongamos como ejemplo que tenemos un código que hace funcionar un banner que solamente queremos mostrar en ordenadores de escritorio. Este código realiza peticiones asíncronas al servidor de banners para obtener la información necesaria para mostrarlo. Pero si el banner no se va a visualizar, ¿qué sentido tiene realizar esas peticiones al servidor?
 
 Si el banner siempre aparece en la página y simplemente lo ocultamos y mostramos con CSS, entonces, por mucho que no se vea en las pantallas de los móviles, se estaría haciendo la solicitud del banner y gastando un ancho de banda innecesario. En lugar de eso, **podemos simplemente detectar con Javascript cuándo estamos en un ordenador de escritorio, para colocar dinámicamente el código del banner solamente en ese caso**.
 
@@ -824,7 +850,7 @@ Si el banner siempre aparece en la página y simplemente lo ocultamos y mostramo
 ```
 
 :::tip 
-Ese objeto "mediaqueryList" es dinámico, en el sentido que, si las condiciones del navegador cambian a lo largo del tiempo, también cambiará la propiedad "matches". Por tanto, podría ocurrir que esa evaluación tenga resultados distintos en momentos distintos, si por ejemplo el usuario redimensiona la ventana del navegador.
+Ese objeto "mediaqueryList" es dinámico, en el sentido que, si las características del navegador cambian a lo largo del tiempo, también cambiará la propiedad "matches". Por tanto, podría ocurrir que esa evaluación tenga resultados distintos en momentos distintos, si por ejemplo el usuario redimensiona la ventana del navegador.
 :::
 
 ###  Manejador de evento 
@@ -873,13 +899,13 @@ mediaqueryList.removeListener(manejador);
 
 - En desuso: esta función ya no se recomienda. Aunque es posible que algunos navegadores aún lo admitan, es posible que ya se haya eliminado de los estándares web relevantes, que esté en proceso de eliminación o que solo se conserve por motivos de compatibilidad.
 - Se recomienda:
-  ```js
+```js
       var mediaqueryList = window.matchMedia("(max-width: 920px)");
     mediaqueryList.addEventListener( 'change' , function(EventoMediaQueryList) {
     alert('Ejecutado el listener');
 });
 
-  ```
+```
 
 :::
 
@@ -923,12 +949,11 @@ Añadir un observador a un elemento es igual que addEventListener, si usted obse
 #### Metodo disconnect()
 
 - Evita que la instancia de MutationObserver continue recibiendo notificaciones de modificaciones del DOM. Hasta que el método observe() sea usado de nuevo, la función callback no será invocada.
-
-
 #### Metodo takeRecords()
-- Elimina todos los registros que se crearon con el método observe() de la instancia MutationObserve
-- Devuelve su contenido (Un array de MutationRecords)
-
+- Cada vez que ocurre un cambio en el DOM de alguno de los nodos especificados con `observe()`, se crea un objeto `MutationRecord` y se guarda en una cola interna (es como un array).
+- Cuando el navegador considera adecuado, ejecuta el callback entregándole un array con todos los objetos `MutationRecord` que estaban en la cola.
+- Es decir, existe un pequeño intervalo de tiempo entre la creación del `MutationRecord` y la ejecución del callback.
+- Podemos usar el método `takeRecords()` para obtener todos los `MutationRecord` que todavía no fueron enviados al callback y se encuentran en ese pequeño intervalo de tiempo. Este método también los elimina del array de `MutationRecord` que recibirá el callback.
 ### objeto MutationObserverInit
 - Es el objeto que se pasa como segundo argumento en el observe().
 - Todas sus propiedades tienen valores booleanas.
@@ -997,47 +1022,77 @@ Ejemplo:
 
 
 ## Intersection Observer
-- La API Intersection Observer nos permite observar de forma asíncrona los cambios producidos en la intersección entre el elemento observado y un elemento superior (o el propio viewport).
-- Es una API que permite detectar cuando un elemento entra en una zona visible.
+- La API Intersection Observer permite detectar de forma asíncrona cuándo un elemento aparece, desaparece o cambia su nivel de visibilidad dentro de una zona determinada.
+- Para hacerlo, observa la intersección entre un elemento y otro elemento contenedor o el propio viewport (ventana visible del navegador).
+
+:::tip Intersección
+- La intersección es la parte de un elemento que se encuentra dentro de otro elemento o zona determinada.
+- En Intersection Observer representa la parte del elemento `target` que está visible dentro del elemento `root`.
+:::
+
+
 
 
 **Históricamente, detectar cuando un elemento pasaba a ser visible en el viewport era una tarea bastante complicada y costosa de implementar cuando recurríamos a librerías de terceros**. Por ejemplo, este tipo de información era necesaria si queríamos cargar imágenes de forma lazy, implementar el típico scroll infinito o mostrar anuncios al llegar a determinadas partes de la web.
 
 [Todas estas tareas que antiguamente implicaban bucles ejecutándose constantemente y llamadas a métodos como getBoundingClientRect](https://desarrolloweb.com/faq/como-saber-si-un-elemento-esta-en-el-viewport) **pueden ser implementadas de forma mucho más sencilla gracias a esta API**.
 
-**El API Intersection Observer registra una función callback que se ejecuta si un elemento que se desea monitorizar entra o sale de otro elemento (o del viewport), o cuando la cantidad por la que ambos elementos se intersecan cambia en una cantidad requerida**.
+
+La API Intersection Observer registra una función callback que se ejecuta cuando un elemento entra o sale de una zona específica (otro elemento o el viewport), o cuando cambia la cantidad del mismo que se encuentra visible dentro de dicha zona.
 
 
 #### ¿Cómo usarlo?
-- Para usar el intersection observer, primero debemos crear una instacia del mismo y pasarle como primer parametro un callback que se ejecutará cuando el elemento objetivo entre en la pantalla y se le puede pasar un segundo parametro opcional que es la configuración.
+- Para utilizar `IntersectionObserver`, primero debemos crear una instancia del mismo.
+- Al crearla, debemos pasarle un callback que se ejecutará cuando el elemento target entre, salga o cambie su visibilidad dentro del root.
+- Opcionalmente, podemos pasarle un segundo parámetro con la configuración del observer.
 
 #### Parametros del Callback (Primer argumento)
 
 #### entries
-- Array de objetos IntersectionObserverEntry que contienen información sobre la intersección.
-- Cada objeto IntersectionObserverEntry tiene las propiedades: intersectionRect , intersectionRatio , boundingClientRect , rootBounds , target , time , isIntersecting.
-- La propiedad mas utilizada es isIntersecting , que devuelve true si el elemento target se visualiza en el root. (segun el threshold)
-- Cada elemento del array representa un objeto target que se registro con el metodo observe()
+- Es un array de objetos `IntersectionObserverEntry`.
+- Cada objeto contiene información sobre la intersección de un elemento `target`, es decir, a través de este podemos saber cosas como:
+  - ¿Está visible dentro del `root`?
+  - ¿Qué porcentaje del elemento es visible?
+- Cada objeto `IntersectionObserverEntry` tiene propiedades como: `intersectionRect`, `intersectionRatio`, `boundingClientRect`, `rootBounds`, `target`, `time` e `isIntersecting`.
+- La propiedad más utilizada es `isIntersecting`, que devuelve `true` si el elemento `target` es visible en el `root` (según lo que indicamos).
+- Cada elemento del array representa un objeto `target` que se registró con el método `observe()`.
 #### observer
-- Referencia al observer que ha lanzado la intersección.
+- Referencia al `IntersectionObserver` que ejecutó el callback.
 
 
 #### Propiedades del objeto de configuración (Segundo argumento)
 
 #### rootMargin
-- El margen que se usará para la intersección.
-- Especifica el margen alrededor del elemento root. Puede tener valores similares a los de CSS , e.g. "10px 20px 30px 40px" (top, right, bottom, left). Los valores pueden ser porcentajes. Este conjunto de valores sirve para aumentar o encoger cada lado del  del elemento root antes de calcular las intersecciones. Por defecto son todos cero.
+- Define un margen alrededor del elemento `root` que se utiliza al calcular la intersección.
+- Puede recibir valores similares a los márgenes de CSS, por ejemplo: `"10px 20px 30px 40px"` (`top`, `right`, `bottom`, `left`).
+- Estos valores permiten aumentar o reducir la zona del `root` que se utiliza para calcular la visibilidad.
+- Por defecto, todos los valores son `0`.
+- Los valores positivos aumentan la zona del `root` utilizada para detectar la visibilidad del elemento.
+- Los valores negativos reducen la zona donde el `root` detecta la visibilidad del elemento.
+
 
 #### root
-- El elemento que queremos observar
-- El elemento que es usado como viewport para comprobar la visibilidad de  algun elemento target. Debe ser ancestro de target. Por defecto es el viewport del navegador si no se especifica o si es null.
+- Es el elemento que utilizamos para comprobar la visibilidad del elemento `target`.
+- Básicamente, si el elemento `target` entra, sale o cambia su visibilidad dentro de este elemento, se ejecuta el callback.
+- Debe ser un elemento ancestro del `target`.
+- Si no se especifica o es `null`, se utiliza el viewport del navegador.
+
+
+
 :::tip 
  Mas adelante veremos los elementos target
 :::
 
 #### threshold
-- Este se usa para especificar el porcentaje de intersección que debe haber para que se detecte una intersección y llamé el callback. Puede ser un número, un array de números o null.
-- Es un número o un array de números que indican a que porcentaje de visibilidad del elemento target, la función callback del observer debería ser ejecutada. Si usted quiere que se detecte cuando la visibilidad pasa la marca del 50%, debería usar un valor de 0.5. Si quiere ejecutar la función callback cada vez que la visibilidad pase otro 25%, usted debería especificar el array [0, 0.25, 0.5, 0.75, 1]. El valor por defecto es 0 (lo que significa que tan pronto como un píxel sea visible, la función callback será ejecutada). Un valor de 1.0 significa que el umbral no se considera pasado hasta que todos los pixels son visibles.
+- Indica qué porcentaje del elemento `target` debe estar visible para ejecutar el callback.
+- Puede recibir un número o un array de números.
+- Los valores van de `0` a `1`, donde `0` significa que se ejecuta cuando aparece aunque sea un píxel del elemento, y `1` cuando todo el elemento es visible dentro del root.
+- Por ejemplo, un valor de `0.5` ejecuta el callback cuando el 50% del elemento `target` está visible.
+- También se puede pasar un array para ejecutar el callback en diferentes porcentajes de visibilidad, por ejemplo: `[0, 0.25, 0.5, 0.75, 1]`.
+- Por defecto su valor es `0`.
+
+
+
 
 Ejemplo: 
 ```js
@@ -1061,28 +1116,47 @@ console.log(observer);
 
 
 #### Metodos de la instancia  IntersectionObserver
-#### observe()
-- Recibe la referencia del elemento que queremos observar
-- Sirve para registrar un elemento target en la instancia.
-- Te permite observar un elemento.
+#### observe(node)
+- Recibe un `Node` que se usará como elemento `target`.
+- Sirve para registrar el `node` en la instancia de `IntersectionObserver`.
+- El callback se ejecutará cuando el `node` esté visible en el `root` (según la configuración especificada).
 
 
-#### unobserve()
-- Recibe la referencia del elemento que queremos dejar de observar
-- Te permite detener la observación del elemento.
-- Sirve para eliminar un elemento target de la instancia.
+:::tip
+- `IntersectionObserver` se encarga de vigilar si algún elemento registrado está visible en el `root`.
+- Si el elemento está visible en el `root`, revisa la configuración para comprobar si cumple lo especificado, por ejemplo, si más del 50% del elemento es visible o si se encuentra completamente dentro del `root`.
+- Si cumple con las condiciones definidas en la configuración, se ejecuta el callback.
+:::
+
+:::tip Elemento `target`
+- Es el elemento que queremos observar con `IntersectionObserver`.
+- La API se encarga de comprobar si este elemento es visible dentro del elemento `root` según la configuración definida.
+- El `Node` que pasamos al método `observe()` se convierte en un elemento `target`.
+:::
+
+
+#### unobserve(node)
+- Recibe el `target` que queremos dejar de observar.
+- Dejar de observar significa que `IntersectionObserver` ya no vigilará si el `target` entra, sale o cambia su visibilidad dentro del `root`.
+- Por lo tanto, el callback ya no se ejecutará por cambios de visibilidad de ese elemento.
+
+
+
 
 #### disconnect()
-- Sirve para dejar de observar todos los elementos.
-- Te permite eliminar todos los elementos target de la instancia.
+- Permite dejar de observar todos los elementos `target` registrados en la instancia de `IntersectionObserver`.
+- A partir de ese momento, el callback ya no se ejecutará por cambios de visibilidad de ningún elemento.
 
-:::tip Scroll Listener vs intersection Observe
-La gran diferencia entre usar scroll listener y intersection observer es que el scroll listener se ejecuta cada vez que se hace scroll, se dispara a una velocidad alta, mientras que el intersection observer solo se ejecuta cuando un elemento entra en la pantalla, por lo que la diferencia es el costo de computación, creando un problema de rendimiento.
+:::tip Scroll Listener vs Intersection Observer
+- La gran diferencia entre usar `scroll listener` e `IntersectionObserver` es que el evento `scroll` se ejecuta cada vez que ocurre un desplazamiento, pudiendo dispararse muchas veces en poco tiempo.
+- En cambio, `IntersectionObserver` solo ejecuta el callback cuando cambia la visibilidad del elemento observado dentro del `root` (por ejemplo, cuando entra, sale o cambia el porcentaje visible).
+- Por este motivo, usar `IntersectionObserver` puede reducir el costo de procesamiento y evitar problemas de rendimiento.
 :::
 
 #### Ejemplo Lazy loading para imágenes
+Tal y como vimos anteriormente, el callback de `IntersectionObserver` recibe dos argumentos: `entries`, que contiene los objetos `IntersectionObserverEntry` correspondientes a los elementos `target` que generaron un cambio de visibilidad, y `observer`, que es la instancia del observer.
 
-Tal y como vimos anteriormente, el callback de Intersection Observer recibe dos argumentos, entries (con los objetos(que contienen al elemento target) que dispararon el evento) y observer . Lo que haremos será iterar sobre el array entries de cara a realizar la operación de carga de la imagen.
+Para realizar la carga de imágenes, recorreremos el array `entries` y trabajaremos con los elementos que cumplen la condición definida.
 
 ```html
 <!DOCTYPE html>
@@ -1143,14 +1217,16 @@ document.querySelectorAll('img').forEach(img => observer.observe(img));
 
 ```
 :::tip Observación
-- Logica del callback:
-  - En primer lugar estamos comprobando si se ha detectado la intersección del objeto con el elemento padre (en este caso el viewport) para lo cual empleamos la propiedad isIntersecting .
-  - En caso afirmativo, modificamos la propiedad src del elemento y empleamos el objeto observer para dejar de observarlo, pues la operación sólo queremos que se ejecute una vez para cada imagen.
-- En el objeto de opciones establecemos la propiedad rootMargin con un valor de 200px para el margen inferior, de modo que el evento se dispare cuando todavía queden 200 píxeles para que aparezca la imagen de modo que el usuario no se “entere” de esa carga en diferido. Estamos incrementando la caja que contiene el root.
+- Lógica del callback:
+  - Primero comprobamos si el elemento `target` se encuentra visible dentro del `root` utilizando la propiedad `isIntersecting`.
+  - Si la condición se cumple, reemplazamos el valor de `src` por el valor almacenado en `data-src`, cargando así la imagen real.
+  - Luego utilizamos `observer.unobserve()` para dejar de observar esa imagen, ya que la carga solo queremos realizarla una vez por cada elemento.
+- En las opciones del `IntersectionObserver` establecemos la propiedad `rootMargin` con un valor de `200px` en el margen inferior.
+  - Esto hace que la carga de la imagen se inicie antes de que sea visible para el usuario, permitiendo que la imagen esté lista cuando llegue a la zona visible.
+  - Al aumentar el margen inferior, estamos ampliando la zona de observación del `root`.
 - ¿Cómo seleccionamos las imágenes a observar?
-   - Seleccionamos todas nuestras imágenes  con el querySelectorAll() y  le decimos al objeto observer que las observe mediante su método observe 
-
-
+  - Utilizamos `querySelectorAll()` para obtener todas las imágenes de la página.
+  - Luego recorremos cada imagen y la registramos en el observer mediante el método `observe()`.
 :::
 
 
