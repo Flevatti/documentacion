@@ -718,7 +718,7 @@ console.log(juanito.getNotas);
 
 [Compatibilidad](https://caniuse.com/?search=private%20fields)
 
-- Las propiedades de una clase son públicas por defecto, por lo que pueden ser accedidas o modificadas desde fuera de la clase. Es decir, una instancia puede acceder y modificar estas propiedades.
+- Las propiedades de una clase son públicas por defecto, por lo que pueden accederse y modificarse desde fuera de la clase. Es decir, cualquier instancia de la clase puede leer y modificar sus propiedades públicas.
 - JavaScript permite definir campos (propiedades) privados utilizando el símbolo `#` delante del nombre de la propiedad.
 - Al utilizar `#`, indicamos que la propiedad es privada, por lo que no puede ser accedida desde fuera de la clase. Es decir, una instancia no tiene acceso a ella.
 - Los campos privados solo pueden ser utilizados dentro de la propia clase.

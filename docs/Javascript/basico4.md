@@ -54,11 +54,12 @@ sidebar_position: 12
 :::
 ## call
 :::tip Recordatorio
-- This hace referencia al scope/contexto actual.
+- `this` hace referencia al objeto (contexto) desde el que se está ejecutando una función.
+- [This](./objeto.md#this)
 :::
-- Sirve para ejecutar una función con otro contexto (scope).
-- Recibe un objeto como parámetro.
-- La función se ejecutará con el contexto del objeto que se le pasa.
+- Sirve para cambiar el valor que tendrá `this` dentro de una función.
+- Recibe un objeto como primer parámetro.
+- Ese objeto se asignará a `this` dentro de la función.
 ```js
   // this por defecto es el objeto window (scope global)
     console.log(this);
@@ -75,9 +76,9 @@ sidebar_position: 12
 
 ```
 :::tip Observación
-- saludar.call(obj) = Ejecuta la funcion saludar pero con el contexto(scope) del objeto obj.
-- This = objeto obj  : El contexto/scope de la funcion saludar es el scope del objeto obj gracias a la funcion call.
-- En otras palabras. Crea una variable this (scope local) con el objeto del primer parametro  y se la pasa a la función que se invocara. Esta función utilizara los datos del “this”  creado para realizar alguna operación.
+- `saludar.call(obj)` ejecuta la función `saludar`, pero el `this` que utiliza esa función tendrá el valor de `obj` (el objeto que pasamos como primer parámetro).
+- Dentro de la función `saludar`, `this` hace referencia al objeto `obj`.
+- En otras palabras, `call()` hace que `this` tome el valor del objeto pasado como primer parámetro mientras se ejecuta la función.
 :::
 - Aparte de recibir un objeto, puede recibir X parámetros mas
 - X parámetros = La cantidad de parámetros que contiene la función que se va a ejecutar
@@ -110,8 +111,10 @@ Tambien puede ser:
 
 :::
 ## apply
-- Funciona igual que call()
-- Crea una variable this (scope local) con el objeto del primer parametro  y se la pasa a la función que se invocara. Esta función utilizara los datos del “this”  creado para realizar alguna operación.
+- Funciona igual que `call()`.
+- Sirve para cambiar el valor que tendrá `this` dentro de una función.
+- Recibe un objeto como primer parámetro.
+- Ese objeto se asignará a `this` dentro de la función.
 
 ```js
     // this por defecto es el objeto window (scope global)
@@ -128,10 +131,10 @@ Tambien puede ser:
     saludar.apply(obj);
 
 ```
-- Aparte de recibir un objeto, puede recibir  un array como segundo parámetro.
-- Cada elemento del array es un parámetro de la funcion que se va a ejecutar
-  - Array[0] = Parametro 1 de la funcion
-  - Array[1] = Parametro 2 de la funcion
+- Además de recibir un objeto como primer parámetro, puede recibir un array como segundo parámetro.
+- Cada elemento del array se utilizará como un argumento de la función que se va a ejecutar.
+  - `array[0]` → Primer parámetro de la función.
+  - `array[1]` → Segundo parámetro de la función.
 ```js
     // this por defecto es el objeto window (scope global)
     console.log(this);
@@ -163,10 +166,10 @@ Tambien puede ser:
 
 :::
 ## bind
-- Hace lo mismo que call y apply
+- Hace lo mismo que `call()` y `apply()`, pero no ejecuta la función inmediatamente.
 - Recibe un objeto como parámetro.
-- Cambia el contexto(scope) de la función que se va a ejecutar.
-- Crea una variable this (scope local) con el objeto del primer parametro  y se lo pasa a la función  que se especifico. Esta función utilizara los datos del “this”  creado para realizar alguna operación.
+- Cambia el valor que tendrá `this` dentro de la función.
+- Devuelve una nueva función que tendrá ese `this` modificado.
 ```js
    const persona = {
       nombre: "Jon" ,
@@ -215,9 +218,10 @@ Tambien puede ser:
 
 :::
 ## 'use stric' -- Modo estricto
-- 'use strict'; es una expresión literal (String) que le indica al motor de JavaScript que el código debe ejecutarse en modo estricto. No es una declaración como var o let; simplemente es una cadena de texto(String) que activa reglas más estrictas para escribir y ejecutar código JavaScript.
+- `'use strict';` es una expresión literal (`String`) que le indica al motor de JavaScript que el código debe ejecutarse en modo estricto.
+- No es una declaración como `var` o `let`; simplemente es una cadena de texto que activa reglas más estrictas (establecen lo que está permitido y lo que no) para escribir y ejecutar código JavaScript.
 - El modo estricto tiene como propósito ayudarte a escribir JavaScript más seguro y confiable. Cambia ciertas "malas prácticas" o comportamientos permisivos del lenguaje en errores que te advierten de problemas potenciales en el código. Esto mejora la calidad del código y reduce errores difíciles de encontrar.
-- El modo estricto es como una versión básica y nativa de ESLint, diseñada para protegerte de errores comunes de JavaScript. Sin embargo, ESLint es mucho más completo y flexible, ya que no solo detecta problemas sino que también puede guiarte hacia mejores prácticas de estilo y estructura en tu código. Idealmente, deberías usar ambos: use strict para las protecciones nativas, y ESLint como herramienta avanzada para mejorar la calidad del código.
+El modo estricto es como una versión básica y nativa de ESLint, diseñada para evitar ciertos errores comunes de JavaScript. Sin embargo, ESLint es mucho más completo y flexible, ya que no solo detecta problemas sino que también puede guiarte hacia mejores prácticas de estilo y estructura en tu código. Idealmente, deberías usar ambos: use strict para evitar errores comunes de JavaScript, y ESLint como herramienta avanzada para mejorar la calidad del código.
 - Con el modo estricto, no se puede:
   -	Usar variables/objetos no declarados
   -	Eliminar una variable/objeto/función
@@ -352,47 +356,46 @@ obj.x = 10; // Error: No se puede modificar una propiedad no escribible.
 
 ```
 :::tip info
-- [guia](https://fedeleva.github.io/documentacion/docs/Javascript/poo#private-class-fields)
+- [guia](./poo.md#private-class-fields)
 :::
 ## Debugger Chrome
 #### Paso 1: Reproducir el error
 - Encontrar una serie de acciones que reproduzcan un error de manera consistente es siempre el primer paso para la depuración.
 #### Paso 2: Familiarícese con la DevTools
-- DevTools (Lo contiene Chrome u otros navegadores) proporciona muchas herramientas diferentes para diferentes tareas, como cambiar CSS, perfilar el rendimiento de carga de la página y monitorear las solicitudes de red. El panel Fuentes es donde se depura JavaScript.
-- La pestaña fuentes tiene tres partes:
-  - El panel Navegador de archivos: Es para navegar entre archivos. Todos los archivos que solicita la página se enumeran aquí.
-  - El panel Editor de código :  Después de seleccionar un archivo en el panel Navegador de archivos, el contenido de ese archivo se muestra aquí:
-  - El panel de depuración de Javascript: Contiene varias herramientas para inspeccionar el Javascript de la página.
+- DevTools (incluido en Chrome y otros navegadores) proporciona muchas herramientas para diferentes tareas, como cambiar CSS, analizar el rendimiento de carga de la página y monitorear las solicitudes de red. El panel **Sources** es donde se depura JavaScript.
+- La pestaña **Sources** está dividida en tres partes:
+  - **Panel Navegador de archivos:** Permite navegar entre los archivos de la página. Aquí se muestran todos los archivos que la página ha solicitado.
+  - **Panel Editor de código:** Al seleccionar un archivo en el panel Navegador de archivos, su contenido se muestra aquí.
+  - **Panel de depuración de JavaScript:** Contiene las herramientas necesarias para inspeccionar y depurar el código JavaScript de la página.
 #### Paso 3: Pausar el código con un punto de interrupción
-
-- En lugar de usar el console.log () para ver el estado del código, puede usar puntos de interrupción , para hacerlo más rápido.
-- Un punto de interrupción le permite pausar su código en medio de su ejecución y examinar todos los valores en ese momento.
-  
-:::tip Diferencias con console.log
-- Con console.log(), debe abrir manualmente el código fuente, encontrar el código relevante, insertar las declaraciones console.log() y luego volver a cargar la página para ver los mensajes en la consola. Con los puntos de interrupción, puede hacer una pausa en el código relevante sin siquiera saber cómo está estructurado el código.
-- En  las  declaraciones console.log(), debe especificar explícitamente cada valor que desea inspeccionar. Con los puntos de interrupción, DevTools le muestra los valores de todas las variables en ese momento. A veces hay variables que afectan tu código de las que ni siquiera eres consciente.
-- En resumen, los puntos de interrupción pueden ayudarlo a encontrar y corregir errores más rápido que el método console.log().
+- En lugar de usar `console.log()` para ver el estado del código, podemos utilizar puntos de interrupción (*breakpoints*).
+- Un punto de interrupción permite pausar la ejecución del código en un momento determinado para inspeccionar el estado de la aplicación.
+:::tip Diferencias con `console.log()`
+- Con `console.log()`, debemos modificar el código, agregar los mensajes y volver a cargar la página para ver los resultados.
+- Con un punto de interrupción, simplemente pausamos la ejecución del código en el lugar que nos interesa, sin modificar el código.
+- Con `console.log()`, debemos indicar qué valores queremos mostrar.
+- Con un punto de interrupción, DevTools muestra automáticamente el valor de todas las variables disponibles en ese momento.
+- En resumen, los puntos de interrupción permiten encontrar y corregir errores de forma más rápida y cómoda que utilizando `console.log()`.
 :::
-:::tip ¿Como cancelar el código cuando se ejecuta un evento?
-- En el panel de depuración , hay una opcion llamada” Interrupciones del objeto de escucha de eventos” (Event Listener Breakpoints).
-- Haga click en el evento que desea que ocurra para detener la ejecución del código.
-- Y listo, intenta hacerlo!!
-- [Hay diferentes tipos de interrupciones , que definen como se va a detener el codigo ](https://developer.chrome.com/docs/devtools/javascript/breakpoints/)
+:::tip ¿Cómo pausar el código cuando se ejecuta un evento?
+- En el panel de depuración encontrarás la opción **Event Listener Breakpoints** (Interrupciones del objeto de escucha de eventos).
+- Marca el evento sobre el que quieras detener la ejecución.
+- A partir de ese momento, cuando ese evento se dispare, DevTools pausará automáticamente la ejecución del código.
+- [Existen diferentes tipos de interrupciones que permiten pausar el código en distintas situaciones.](https://developer.chrome.com/docs/devtools/javascript/breakpoints/)
 :::
 #### Paso 4: Recorrer el código
- 
-- Una causa común de errores es cuando un script se ejecuta en el orden incorrecto. 
-- Recorrer paso a paso su código le permite caminar a través de la ejecución de su código, una línea a la vez, y averiguar exactamente dónde se está ejecutando en un orden diferente al que esperaba
+- Una causa común de errores es que el código no se ejecute en el orden esperado.
+- Permite ejecutar el código línea por línea para ver qué ocurre en cada momento y detectar dónde se produce un comportamiento diferente al esperado.
 #### Paso 5: Establezca un punto de interrupción de línea de código
 - Los puntos de interrupción de línea de código son el tipo más común de punto de interrupción. Cuando tenga una línea de código específica en la que desee hacer una pausa, use un punto de interrupción de línea de código.
-##### Paso 6: Verifique los valores de las variables
+#### Paso 6: Verifique los valores de las variables
 - DevTools proporciona muchas herramientas para examinar valores de variables.
 #### Método 1: El panel Alcance
-- Cuando está en pausa en una línea de código, el panel  Alcance le muestra qué variables locales y globales están definidas actualmente, junto con el valor de cada variable. También muestra las variables de cierre, cuando corresponda. 
-- Haga doble clic en un valor de variable para editarlo. Cuando no está en pausa en una línea de código, el panel Ámbito está vacío.
+- Cuando está en pausa en una línea de código, el panel **Alcance** muestra las variables locales y globales disponibles en ese momento junto con el valor de cada una. También muestra las variables de cierre, que son variables que la función utiliza pero que no están definidas dentro de ella.
+- Podemos hacer doble clic en el valor de una variable para editarlo. Cuando no está en pausa en una línea de código, el panel **Alcance** está vacío.
 #### Método 2: Ver expresiones
-- La pestaña Watch Expressions(Supervision) le permite monitorear los valores de las variables a lo largo del tiempo. 
-- Como su nombre lo indica, Watch Expressions no se limita solo a las variables. - Puede almacenar cualquier expresión de JavaScript válida en una Expresión de vigilancia
+- La pestaña **Watch Expressions** (Supervisión) permite observar el valor de variables y expresiones mientras se ejecuta el código.
+- Como su nombre indica, no se limita únicamente a variables; también permite observar cualquier expresión válida de JavaScript.
 #### Método 3: La consola
 - Podes usar la consola para ver los valores
 #### Paso 7: Aplicar una corrección
@@ -639,7 +642,7 @@ Argumento A && Argumento B
 ```js
 Argumento A && Argumento B && Argumento C && …
 ```
-- En la programación clásica, AND devuelve true si ambos operandos son verdaderos y false en caso contrario
+- En la programación clásica, AND devuelve true si ambos argumentos son verdaderos y false en caso contrario
 ```js
 alert( true && true );   // true
 alert( false && true );  // false
@@ -666,8 +669,9 @@ alert( 1 && 2 && null && 3 ); // null
 ```
 
 #### La prioridad de AND (&&) es mayor que OR (||)
-- La precedencia del operador AND && es mayor que OR ||.
-- Entonces, el código "a && b || c && d"  es esencialmente el mismo que si las && expresiones estuvieran entre paréntesis: "(a && b) || (c && d)".
+- Cuando usamos varios operadores, JavaScript los evalúa siguiendo un orden de prioridad.
+- El operador AND (`&&`) se evalúa antes que el operador OR (`||`).
+- Por eso, `a && b || c && d` es igual a escribir `(a && b) || (c && d)`.
 
 #### Evaluación de cortocircuito
 - Tambien tiene la característica evaluación de cortocircuito.
@@ -689,9 +693,10 @@ String(algo)
 ```
 
 :::tip Observación
-- Ese “algo” se convierte en String.
-- Cuando String se llama como constructor (con new), crea un objeto  String, que no es un primitivo.
-- Cuando String se llama como una función, fuerza el parámetro a una cadena primitiva. Los valores de los símbolos se convertirían a "Symbol(description)", donde description  es la descripción del símbolo.
+- Ese “algo” se convierte en un `String`.
+- Cuando `String` se llama como constructor (con `new`), crea un objeto `String`, que no es un valor primitivo.
+- Cuando `String()` se utiliza como función, devuelve un `String` primitivo.
+- Si ese valor es un `Symbol`, se convierte a un texto con el formato `"Symbol(description)"`, donde `description` es la descripción del símbolo.
 :::
 
 ```js
@@ -709,24 +714,24 @@ String(algo)
 
 
 ## Math
-- Math es un objeto que tiene propiedades y métodos para constantes y funciones matemáticas.
-- Funciona con el tipo [Number](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Number).
-- A diferencia de los demás objetos globales, el objeto Math no se puede editar. Todas las propiedades y métodos de Math son estáticos. 
-- Usted se puede referir a la constante pi como Math.PI y puede llamar a la función seno como Math.sin(x), donde x es el argumento del método.
--  Las constantes se definen con la precisión completa de los números reales en JavaScript.
-- [Listado de métodos y Propiedades](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math )
+- `Math` es un objeto que contiene propiedades y métodos relacionados con operaciones y constantes matemáticas.
+- Trabaja con valores del tipo [`Number`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Number).
+- A diferencia de otros objetos globales, `Math` no puede ser modificado. Todas sus propiedades y métodos son estáticos.
+- Podemos acceder a constantes como `Math.PI` y utilizar métodos matemáticos como `Math.sin(x)`.
+- Las constantes de `Math` tienen la mayor precisión disponible en JavaScript. Es decir, JavaScript guarda estos valores con la mayor exactitud posible.
+- [Listado de métodos y propiedades](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math)
 
 
 ```js
- // Devuelve el valor del número dado redondeado al entero más cercano.
+// Redondea el número dado al entero más cercano.
      const numero = Math.round(35.6)
      alert(numero);
 
 ```
 
 ## Null
-- El valor null representa intencionalmente un valor nulo o "vacío". 
-- Es uno de los valores primitivos de Javascript.
+- El valor `null` representa la ausencia intencional de un valor, es decir, indica que una variable no contiene ningún valor.
+- Es uno de los valores primitivos de JavaScript.
 - No es una propiedad del objeto global.
 - [Más info](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/null)
 
@@ -759,14 +764,14 @@ String(algo)
 - Javascript realiza la “conversión” por atrás y convierte nombre a un valor booleano
 - Como es un String vacio , se convierte a false.
 - Javascript utiliza el [Constructor Boolean](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Boolean) para convertir un valor a booleano.
-- No confundas los valores del Boolean primitivo, true y false con los valores true y false del objeto Boolean.
+- No confundas los valores primitivos `true` y `false` con los objetos creados mediante el constructor `Boolean`.
 :::
 
 
 
 ## Objeto global
-- En javascript, siempre hay un objeto global definido.
-- Cuando ejecutamos alguna función, pero nunca la definimos o importamos, es porque esa “función” viene del objeto global.
+- En JavaScript siempre existe un objeto global definido.
+- Cuando utilizamos una función sin haberla definido ni importado, generalmente significa que pertenece al objeto global.
 
 #### Ejemplo Fetch
 ```js
@@ -778,19 +783,22 @@ fetch(url)
 
 ```
 :::tip Observación
-- El método fetch() nunca lo importamos ,  viene de un objeto global.
-- Al ser global, todos sus métodos y propiedades son accesibles. 
-- Entonces podemos invocar todas las propiedades y métodos del objeto global sin acceder a este.
+- El método `fetch()` no necesita ser importado porque pertenece al objeto global del navegador.
+- Al ser un método del objeto global, podemos utilizarlo directamente sin acceder al objeto que lo contiene.
+- Es decir, podemos llamar a `fetch()` en lugar de escribir `window.fetch()`.
 :::
 
-- Igualmente es buena práctica especificar de “de donde viene” el método o propiedad a usar:
+- Igualmente es buena práctica especificar de “de donde viene” el método o propiedad que vamos a usar:
 
 ```js
 globalThis.fetch(url)
 ```
 
 :::tip
-- [Podemos usar el “this” para saber que objeto global es ](https://fedeleva.github.io/documentacion/docs/Javascript/objeto#contexto-global)
+- `globalThis` contiene una referencia al objeto global del entorno donde se ejecuta el código.
+- Podemos utilizar `globalThis` para acceder al objeto global sin importar el entorno (navegador, Node.js, etc.).
+- También podemos usar `this` para conocer cuál es el objeto global en determinados contextos.
+- [Más información sobre `this`](https://flevatti.github.io/documentacion/docs/Javascript/objeto#contexto-global)
 :::
 
 ####  Contexto de ejecución
@@ -808,7 +816,7 @@ globalThis.fetch(url)
 ```js
  console.log(this.history)
 ```
-- Este objeto da acceso a métodos y propiedades que permiten avanzar y retroceder a través del usuario, así como manipular el contenido del historial.
+- Este objeto permite utilizar métodos y propiedades para navegar entre las páginas visitadas y modificar el historial del navegador.
 
 #### Moverte hacia atrás
 ```js
@@ -841,11 +849,13 @@ Actuaría como si el usuario hiciera clic en en el botón "adelante".
 
 ```
 :::tip Observación
-- Le estas diciendo que mueva una página hacia adelante.
+- `history.go(1)` busca la página siguiente a la actual en el historial y nos dirige a ella.
+- `history.go(x)` busca la página que se encuentra `x` posiciones adelante o atrás de la actual en el historial y nos dirige a ella. Por ejemplo:
+  - `history.go(2)` busca la página que se encuentra dos posiciones adelante de la actual en el historial y nos dirige a ella. Es como hacer clic dos veces en el botón "adelante".
+  - `history.go(-1)` busca la página que se encuentra una posición atrás de la actual en el historial y nos dirige a ella. Es como hacer clic una vez en el botón "atrás".
+- También podemos recargar la página pasando `0` o sin enviar ningún parámetro.
+- El número indica cuántas veces hacemos clic en el botón "adelante" (número positivo) o "atrás" (número negativo).
 :::
-
-- De manera similar, puedes avanzar 2 páginas pasando 2 y así sucesivamente.
-- Otro uso para go() es el de actualizar la página ya sea pasando 0  o “nada” como parámetro.
 
 
 #### Obtener el número de páginas.
@@ -859,12 +869,13 @@ Actuaría como si el usuario hiciera clic en en el botón "adelante".
 
 #### pushState
 - Es un método introducido por HTML5.
-- Añade una entrada al historial sin modificar la url actual.
-- [Trabaja en conjunto con el evento window.onpopstate ](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+- Añade una nueva entrada (página) en el historial del navegador y modifica la URL actual sin recargar la página.
+- Permite modificar el historial, y los cambios realizados en este pueden ser detectados mediante el evento [`window.onpopstate`](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event).
 
-
-:::tip Evento popstate
-Un evento popstate es dirigido a la ventana cada vez que la entrada al historial cambia. Si la entrada al historial es activada y fue creada por un llamado a pushState o afectada por una llamada a replaceState, la propiedad state del evento popstate contiene una copia del historial de entradas del objeto estado.
+:::tip Evento `popstate`
+- El evento `popstate` se ejecuta cuando cambiamos de página usando el historial del navegador.
+- Ocurre, por ejemplo, cuando usamos los botones "atrás" o "adelante", o métodos como `history.back()`, `history.forward()` o `history.go()`.
+- Si usamos `pushState()` o `replaceState()` para guardar información en el historial, esa información estará disponible en la propiedad `state` del evento `popstate`.
 :::
 
 
@@ -969,16 +980,20 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 
 ```
 :::tip Observación
-- Al hacer click en una caja, la “url” cambia pero el navegador no carga la página que se especificó en el tercer parámetro de pushState,  ni tampoco verifica que exista. 
-- Al hacer click en una caja, se añade una nueva entrada al historial (con la url del tercer parámetro de pushState).
-- Al hacer click en el “boton atrás”, se navegara hacia una de las “url” que se añadió al historial y se ejecutará el evento 'popstate' cuyo e.state es el valor del primer parámetro de pushState.
-- Sin el evento 'popstate’ , al hacer click en el “boton atrás”  pasarían dos cosas:
-   -	Si la “pagina” existe, se cargaría.
-   -	Si la “pagina” no existe, se mostraría un error.
-- Entonces el evento “'popstate” te permite “cargar/mostrar” una página que “no existe”, siempre y cuando esa página fue “añadida por pushState”.
+- Supongamos que estamos en `index.html`.
+- Al hacer click en una caja, la URL cambia por la especificada en el tercer parámetro de `pushState()`, pero el navegador no carga esa nueva URL ni verifica si existe.
+- Al mismo tiempo, se añade una nueva entrada (página) al historial con la URL indicada en el tercer parámetro de `pushState()`.
+- Al hacer click en el botón "atrás", el navegador retrocede una página en el historial, por lo que la URL vuelve a mostrar `index.html` (aunque no lo parezca, no estamos en la última entrada porque `pushState()` creó una nueva entrada después de esta).
+- Si luego hacemos click en el botón "adelante", iremos nuevamente a la URL que creamos con `pushState()`.
+- El primer parámetro de `pushState()` contiene un objeto con información de la página que estamos agregando al historial. Esta información queda guardada en la entrada que se agregó al historial y podemos obtenerla cuando se ejecuta el evento `popstate` mediante la propiedad `state`.
+- El evento `popstate` se activa cuando cambiamos el historial del navegador y el objeto evento contiene información de la nueva entrada (página) que muestra el navegador. Dentro de este objeto podemos acceder a la información que se guardó con `pushState()` a través de la propiedad `state`.
+- Sin el evento `popstate`, al volver atrás o adelante en el historial, la URL cambiaría, pero la interfaz no se actualizaría.
+- El evento `popstate` permite detectar ese cambio y mostrar el contenido correspondiente a la nueva URL.
 - Conclusión:
-   - Te permite gestionar una nueva página (URL) desde una URL (pagina) anterior.
-
+  - `pushState()` permite crear nuevas rutas dentro de una aplicación y `popstate` permite controlar qué mostrar cuando el usuario navega por esas rutas.
+  - Al movernos por el historial usando los botones "atrás" o "adelante", el navegador va a la entrada correspondiente del historial:
+    - Si esa entrada corresponde a una página previamente cargada, el navegador carga esa página.
+    - Si esa entrada fue creada mediante `pushState()` o `replaceState()`, el navegador cambia la URL pero no refresca ni carga una nueva página; además, se activa el evento `popstate`.
 :::
 
 :::tip info
