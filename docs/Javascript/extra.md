@@ -5,58 +5,51 @@ sidebar_position: 15
 # Extra
 
 ## Pagina primer plano
-- Como detectar si tu web está en primer plano
+- Podemos detectar si una página web está en primer plano utilizando los eventos `blur` y `focus`, o la API de visibilidad de página:
 
 ```js
-    // Primera Alternativa
-    // Detecta si el usuario quito el sitio web del primer plano
+    // Primera alternativa
+    // Detecta cuando el usuario quita el sitio web del primer plano
     window.addEventListener("blur" , () => {
       document.title="Nadie nos mira"
     });
-   // Detecta si el usuario  tiene el sitio web en primer plano
+   // Detecta cuando el usuario vuelve a tener el sitio web en primer plano
     window.addEventListener("focus" , () => {
       document.title = "Nos mira alguien";
     })
     // Segunda alternativa
+    // Detecta si la página está visible (el usuario la ve) u oculta (el usuario no la ve)
     document.addEventListener("visibilitychange" , () => {
       document.title = document.visibilityState;
     })
 ```
 
 ## ¿Que es JSON?
-- JSON es un formato de texto totalmente independiente del lenguaje de programación
-- JSON, cuyas siglas significan en verdad JavaScript object notation que, en español se traducen como, notación de objetos de JavaScript.
-- Es un formato de intercambio de datos que resulta muy fácil de leer y escribir para los programadores y sencillo de interpretar y crear para las máquinas.
-- Se usa cuando se requiere que un sistema requiera mostrar o enviar información para que otros sistemas los lean e interpreten.
-- Se utiliza principalmente para transferir datos entre un servidor y un cliente.
-
-
-
-En resumen, JSON no es un lenguaje de programación sino un archivo que contiene datos estructurados, que se utiliza para transferir información entre sistemas.
-
-Una de las características más significativas de JSON, al ser un formato independiente de los lenguajes de programación, es que los servicios que comparten información por este método no necesitan hablar el mismo idioma. Es decir que el emisor y el receptor pueden ser totalmente distintos, por ejemplo, Java y Python
-Esto es así porque cada uno tiene su propia librería de codificación y decodificación para cadenas en este formato.
-
-Es decir que JSON es un formato común para serializar y deserializar objetos en la mayoría de los idiomas
-
-- Su funcionamiento se basa en la estructuración de una colección de pares  que contienen:
-  - Una clave: que corresponde al identificador del contenido.
-  - Un valor: que representa el contenido correspondiente.
-
-
+- JSON es un formato de texto independiente del lenguaje de programación.
+- Un formato de texto es una forma específica de estructurar y organizar la información.
+- Por lo tanto, JSON es una forma de estructurar información para que distintos sistemas puedan interpretarla (entenderla).
+- JSON significa **JavaScript Object Notation**, que en español se traduce como "notación de objetos de JavaScript".
+- El servidor suele enviar la respuesta en este formato y el cliente suele enviar información al servidor utilizando este formato. 
+- Es decir, JSON se utiliza para intercambiar información entre dos sistemas.
+- En resumen, JSON no es un lenguaje de programación, sino un formato de texto que utiliza una estructura similar a la de un objeto de JavaScript
+- Una de las características más importantes de JSON es que, al ser independiente del lenguaje de programación, los sistemas que intercambian información no necesitan estar desarrollados con el mismo lenguaje. Es decir, el emisor y el receptor pueden ser completamente diferentes, por ejemplo, uno desarrollado en Java y otro en Python.
+- Esto es posible porque cada lenguaje tiene sus propias herramientas para convertir datos a JSON y para leer datos recibidos en este formato.
+- Es decir, JSON es un formato para serializar (convertir un tipo de dato en JSON) y deserializar (hacer el proceso inverso, convertir JSON nuevamente en un tipo de dato) en la mayoría de los lenguajes de programación.
+- Utiliza pares clave-valor, por eso su estructura es similar a la de los objetos:
+  - Una clave: sería como el nombre de una variable.
+  - Un valor: sería el contenido o información que guarda esa clave.
 #### ¿Cuáles son sus características?
--	JSON es solo un formato de datos.
--	Requiere usar comillas dobles para las cadenas y los nombres de propiedades. Las comillas simples no son válidas.
--	Una coma o dos puntos mal ubicados pueden producir que un archivo JSON no funcione.
--	A diferencia del código JavaScript, en el que las propiedades del objeto pueden no estar entre comillas, en JSON solo los Strings entre comillas pueden ser utilizadas como propiedades.
-- El ultimo valor no debe tener coma.
+- JSON es únicamente un formato de texto.
+- Requiere utilizar comillas dobles (`""`) para las cadenas (`strings`) y para los nombres de las propiedades (claves). Las comillas simples (`''`) no son válidas.
+- Una coma (`,`) o dos puntos (`:`) ubicados incorrectamente pueden hacer que un archivo JSON no pueda ser leído.
+- A diferencia de los objetos en JavaScript, donde las propiedades pueden escribirse sin comillas, en JSON las claves siempre deben escribirse como cadenas de texto (`strings`).
+- El último valor de un objeto o elemento de un array no debe llevar coma.
 #### Sintaxis
-- Un objeto JSON comienza y termina con llaves {}
-- Hay dos elementos centrales en un objeto JSON: claves (Keys) y valores (Values).
-- Las Keys deben ser cadenas de caracteres (strings). Como su nombre en español lo indica, estas contienen una secuencia de caracteres rodeados de comillas.
-- Los Values son un tipo de datos JSON válido. Puede ser un arreglo (array), objeto, cadena (string), booleano, número o nulo.
-- Puede tener dos o más pares de claves/valor dentro, con una coma para separarlos. Así mismo, cada key es seguida por dos puntos para distinguirla del valor.
-
+- Un objeto JSON comienza y termina con llaves `{}`.
+- Hay dos elementos centrales en un objeto JSON: claves (`keys`) y valores (`values`).
+- Las claves (`keys`) deben ser cadenas de texto (`strings`). Como su nombre indica, contienen una secuencia de caracteres rodeada de comillas.
+- Los valores (`values`) deben ser un tipo de dato JSON válido. Pueden ser un arreglo (`array`), objeto, cadena (`string`), booleano, número o `null`.
+- Un objeto JSON puede tener uno o más pares clave-valor separados por comas. Cada clave es seguida por dos puntos (`:`) para separarla de su valor.
 ```json
     {
         “key”:“value”,
@@ -65,12 +58,11 @@ Es decir que JSON es un formato común para serializar y deserializar objetos en
       }
 
 ```
-- La sintaxis de JSON funciona de modo similar a JavaScript. Por ejemplo:
-  -	Se usan claves(keys)/valores.
-  -	La información se separa por comas.
-  -	Las llaves agrupan objetos.
-  -	Los corchetes agrupan arreglos de datos (array).
-- Sin embargo, JSON se distingue de JavaScript porque sus claves tienen que ser strings (o secuencias de caracteres), mientras que sus valores deben ser strings, números, objetos, arreglos, boleados o null.
+- La sintaxis de JSON recuerda a la de los objetos de JavaScript (de ahí su traducción). Por ejemplo:
+  - Se utilizan claves (`keys`) y valores (`values`).
+  - La información se separa mediante comas.
+  - Se utilizan llaves.
+- Sin embargo, JSON se diferencia de JavaScript porque sus claves siempre deben ser cadenas de texto (`strings`), mientras que sus valores deben ser tipos de datos válidos de JSON: cadenas (`strings`), números, objetos, arreglos (`arrays`), booleanos o `null`.
 
 
 :::tip info
@@ -198,17 +190,26 @@ const subscription = observable.subscribe(observer)
 subscription.unsubscribe()
 ```
 
-:::tip Observación
-- Así ya no liberamos recursos usados por el Observable, optimizando nuestra aplicación.
 
-:::
 
 
 #### RxJS
-- RxJS es una biblioteca para programación reactiva que utiliza Observables, lo que facilita la composición de código asíncrono o basado en callbacks. Permite manejar eventos, flujos y datos en  tiempo real de manera más sencilla y eficiente.
-- RxJS es una herramienta que ayuda a manejar eventos y datos en tiempo real. Por ejemplo, si quieres realizar un seguimiento de los clics del ratón en una página web, puedes usar RxJS para crear un "flujo" de eventos de clic.
-- Luego, puedes usar diferentes "operadores" para transformar o controlar este flujo de eventos. Por ejemplo, puedes usar un operador para filtrar solo los clics que ocurren en un área específica de la página, o un operador para limitar el número de eventos que se procesan cada segundo.
-- Además, RxJS te permite crear código más "puro", lo que significa que es más fácil de probar y depurar. En general, RxJS es una herramienta muy útil para manejar eventos y datos en tiempo real en aplicaciones web y otras aplicaciones basadas en JavaScript.
+- RxJS es una biblioteca de JavaScript orientada a la programación reactiva.
+- Utiliza Observables para trabajar con operaciones asíncronas, eventos y flujos de datos.
+- Esto permite manejar información que llega con el tiempo, como eventos del usuario, respuestas de servidores o datos en tiempo real, de una forma más sencilla.
+
+:::tip Programación reactiva
+- La programación reactiva es un enfoque donde el programa responde automáticamente a los cambios que ocurren en los datos o eventos.
+- En lugar de preguntar constantemente si algo cambió, podemos definir qué debe ocurrir cuando ese cambio suceda.
+- Por ejemplo, actualizar una interfaz cuando el usuario escribe, recibir nuevos datos de un servidor o reaccionar a un clic.
+:::
+- RxJS es una herramienta que ayuda a manejar eventos y datos que llegan con el tiempo. Por ejemplo, si quieres realizar un seguimiento de los clics del ratón en una página web, puedes usar RxJS para crear un flujo de eventos de clic.
+:::tip Flujo de eventos
+- Un flujo de eventos es una lista de eventos que van sucediendo a medida que pasa el tiempo.
+- Por ejemplo, cada clic del mouse genera un evento que se agrega al flujo de clics.
+:::
+- Luego, puedes utilizar operadores para transformar o controlar ese flujo de eventos. Por ejemplo, puedes filtrar solo ciertos clics o limitar la cantidad de eventos que se procesan en un determinado tiempo.
+- Además, RxJS permite organizar el código de una forma más sencilla de probar y mantener. Es una herramienta muy útil para trabajar con eventos y datos en tiempo real en aplicaciones JavaScript.
 - Ejemplo de un Observable en RxJS:
 
 
@@ -408,12 +409,13 @@ function logger(value , {name, kind}) {
 
 ```
 :::tip Observación
-- En este ejemplo modificamos todos los métodos de la clase (que solo hay uno llamado getWeight).
-- This en la complicación no tiene valor porque no está asociado a ninguna clase, pero en tiempo de ejecución se refiere a la instancia que invoco el método.
-- Sin embargo, cuando se evalué el método: El primer console.log se mostrará, pero la función que devolvemos no se ejecutará hasta que invoquemos al método en una instancia.
+- En este ejemplo modificamos todos los métodos de la clase que tienen aplicado el decorador (en este caso, solo existe uno llamado `getWeight`).
+- Al evaluar el elemento decorado, se ejecuta inmediatamente el primer `console.log` (`Decorated called`).
+- Lo que retorna el decorador reemplaza al elemento decorado. Como estamos decorando un método, debemos retornar una función. En este caso, cuando se ejecute `getWeight()`, no se ejecutará directamente el método original que definimos en la clase, sino la función que devuelve el decorador.
+- Dentro de esa función, `this` hace referencia a la instancia que invocó el método, permitiendo mantener el contexto original.
 - Para resumir:
-  - El console.log    console.log('Decorated called') se ejecuta al evaluar el elemento “decorado”.
-  - La función que se devuelve se ejecuta cuando de verdad se llame al método. 
+  - El `console.log('Decorated called')` se ejecuta al aplicar el decorador.
+  - La función devuelta por el decorador se ejecuta cuando se llama al método decorado.
 :::
 
 - Ejecutamos el método modificado:
@@ -485,21 +487,19 @@ p.getWeight();
 - El patrón decorador es un patrón de diseño estructural que permite añadir funcionalidades a un objeto de manera dinámica sin alterar su estructura original. Se utiliza para "envolver" un objeto con otro objeto decorador que agrega nuevas responsabilidades.
 
 :::tip Patron
-- Un patrón de diseño es una solución general y reutilizable a un problema común. Estos patrones no son código específico, sino guías o enfoques que pueden ser adaptados y aplicados a diferentes situaciones de programación para resolver problemas de diseño recurrentes.
-- Un patrón estructural se enfoca en cómo se relacionan y se organizan las clases y los objetos para formar estructuras más grandes. Estos patrones ayudan a garantizar que, si cambias la estructura interna de un sistema, el impacto en otras partes del sistema sea mínimo.
-
-
+- Un patrón de diseño es una solución reutilizable que puede aplicarse en diferentes situaciones para resolver problemas que aparecen frecuentemente durante el desarrollo de software. No es código específico, sino una guía o enfoque que indica una forma de organizar el código para solucionar un problema.
+- Un patrón estructural se enfoca en cómo se relacionan y se combinan las clases y los objetos para formar estructuras más grandes. Estos patrones ayudan a garantizar que, si cambias la estructura interna de un sistema, el impacto en otras partes del sistema sea mínimo.
 :::
 
-- En este patrón, tienes una clase base y una serie de clases decoradoras que implementan la misma interfaz o heredan de la misma clase base. Cada decorador agrega o modifica el comportamiento del objeto al que envuelve. Puedes encadenar varios decoradores para añadir múltiples capas de funcionalidad.
-- El patrón decorador es una forma de componer objetos para extender su funcionalidad de manera dinámica y flexible, permitiendo múltiples combinaciones de comportamiento.
+- En este patrón, tenemos una clase base y diferentes clases decoradoras que se encargan de agregar o modificar el comportamiento de un objeto creado a partir de la clase base.
+- Podemos combinar varios decoradores para agregar diferentes funcionalidades sin modificar la clase base.
+- El patrón Decorador permite extender la funcionalidad de un objeto agregando nuevos comportamientos sin modificar su código original.
 
 
 :::danger
-- Es diferente a un decorador en Typescript que es una característica del lenguaje que permite añadir meta-información o modificar la definición de clases, métodos, propiedades, o parámetros mediante una función especial.
-- En un patrón decorador se puede utilizar un decorador en el sentido de que se puede envolver un objeto con otros objetos que añaden funcionalidades adicionales. Sin embargo, el uso de decoradores en el sentido de la programación orientada a objetos (como en TypeScript) no es necesario para implementar el patrón decorador. 
-
-
+- El patrón Decorador no es lo mismo que un decorador de TypeScript. Los decoradores de TypeScript son una característica del lenguaje que permite modificar o extender clases, métodos, propiedades o parámetros.
+- Aunque utilizan el mismo nombre, son conceptos diferentes.
+- Un decorador de TypeScript puede utilizarse como una herramienta para implementar el patrón Decorador, pero el patrón en sí es una guía para crear soluciones a problemas que aparecen frecuentemente durante el desarrollo de software.
 :::
 
 ## NaN

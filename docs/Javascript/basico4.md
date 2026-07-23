@@ -985,7 +985,7 @@ Actuaría como si el usuario hiciera clic en en el botón "adelante".
 - Al mismo tiempo, se añade una nueva entrada (página) al historial con la URL indicada en el tercer parámetro de `pushState()`.
 - Al hacer click en el botón "atrás", el navegador retrocede una página en el historial, por lo que la URL vuelve a mostrar `index.html` (aunque no lo parezca, no estamos en la última entrada porque `pushState()` creó una nueva entrada después de esta).
 - Si luego hacemos click en el botón "adelante", iremos nuevamente a la URL que creamos con `pushState()`.
-- El primer parámetro de `pushState()` contiene un objeto con información de la página que estamos agregando al historial. Esta información queda guardada en la entrada que se agregó al historial y podemos obtenerla cuando se ejecuta el evento `popstate` mediante la propiedad `state`.
+- El primer parámetro de `pushState()` contiene un objeto con información de la página que estamos agregando al historial. Esta información queda guardada en la entrada que se agrega al historial y podemos obtenerla cuando se ejecuta el evento `popstate` mediante la propiedad `state`.
 - El evento `popstate` se activa cuando cambiamos el historial del navegador y el objeto evento contiene información de la nueva entrada (página) que muestra el navegador. Dentro de este objeto podemos acceder a la información que se guardó con `pushState()` a través de la propiedad `state`.
 - Sin el evento `popstate`, al volver atrás o adelante en el historial, la URL cambiaría, pero la interfaz no se actualizaría.
 - El evento `popstate` permite detectar ese cambio y mostrar el contenido correspondiente a la nueva URL.
@@ -996,27 +996,30 @@ Actuaría como si el usuario hiciera clic en en el botón "adelante".
     - Si esa entrada fue creada mediante `pushState()` o `replaceState()`, el navegador cambia la URL pero no refresca ni carga una nueva página; además, se activa el evento `popstate`.
 :::
 
-:::tip info
-- [El método pushState()](https://developer.mozilla.org/es/docs/Web/API/History_API#el_m%C3%A9todo_pushstate)
-
+:::tip `pushState()`
+- Agrega una nueva entrada al historial del navegador sin recargar la página.
+- Sintaxis:
+```js
+history.pushState(state, title, url);
+```
+- `state`: Objeto con información que se guardará en la nueva entrada.
+- `title`: Título que se asignará a la nueva entrada en el historial (actualmente la mayoría de los navegadores lo ignoran).
+- `url`: URL que se mostrará en el navegador y que se guardará en el historial.
+- [Más información](https://developer.mozilla.org/es/docs/Web/API/History_API#el_m%C3%A9todo_pushstate)
 :::
 
 #### replaceState
 - Es un método introducido por HTML5.
-- [Trabaja en conjunto con el evento window.onpopstate ](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
-- history.replaceState() trabaja exactamente igual a history.pushState() excepto que replaceState() modifica la entrada al historial actual en lugar de crear una nueva.
-- replaceState() es particularmente útil si deseas actualizar el objeto estado o la URL de la actual entrada al historial en respuesta a alguna acción del usuario.
+- Reemplaza la entrada (página) actual por otra. Este cambio se refleja tanto en el historial como en la URL que muestra el navegador.
+- Permite cambiar el objeto `state` y/o la URL de la entrada actual.
 
-:::tip Evento popstate
-Un evento popstate es dirigido a la ventana cada vez que la entrada al historial cambia. Si la entrada al historial es activada y fue creada por un llamado a pushState o afectada por una llamada a replaceState, la propiedad state del evento popstate contiene una copia del historial de entradas del objeto estado.
-:::
+
 
 
 :::tip Leyendo el estado actual
-- [Puedes leer el estado del historial actual sin tener que esperar un evento popstate usando la propiedad history.state ](https://developer.mozilla.org/es/docs/Web/API/History_API#leyendo_el_estado_actual)
-
+- Podemos acceder al objeto `state` de la entrada actual mediante la propiedad `history.state`, sin necesidad de esperar al evento `popstate`.
+- [Más información](https://developer.mozilla.org/es/docs/Web/API/History_API#leyendo_el_estado_actual)
 :::
-
 
 ##### Modificamos el ejemplo anterior para hacer este
 ```js
@@ -1118,11 +1121,29 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 </html>
 
 ```
-
-:::tip info
-- [El método replaceState()](https://developer.mozilla.org/es/docs/Web/API/History_API#el_m%C3%A9todo_replacestate)
-
+:::tip Observación
+- Supongamos que estamos en `index.html`.
+- Al hacer click en una caja, la URL cambia por la especificada en el tercer parámetro de `replaceState()`, pero el navegador no carga esa nueva URL ni verifica si existe.
+- Al mismo tiempo, busca la página actual en el historial y la reemplaza por la indicada en el tercer parámetro.
+- Al hacer click en el botón "atrás", el navegador retrocede una página en el historial. Como `replaceState()` modifica la entrada actual en lugar de crear una nueva, simplemente salimos de nuestro sitio web.
+- Con el primer parámetro de `replaceState()` estamos actualizando el objeto `state` de la entrada actual.
+- Como no tiene sentido navegar por el historial usando los botones "atrás" y "adelante" para activar el evento `popstate`, ya que simplemente saldríamos de `index.html`, se recomienda utilizar `history.state` para acceder al objeto `state` de la entrada actual.
 :::
+
+:::tip `replaceState()`
+- Modifica la entrada actual tanto en el historial como en el navegador.
+- Tiene los mismos tres parámetros que `pushState`:
+```js
+history.replaceState(state, title, url);
+```
+- `state`: Objeto con información que se guardará en la entrada actual.
+- `title`: Título que se asignará a la entrada actual en el historial (actualmente la mayoría de los navegadores lo ignoran).
+- `url`: URL que se mostrará en el navegador y que reemplazará a la URL actual en el historial.
+- [Más información](https://developer.mozilla.org/es/docs/Web/API/History_API#el_m%C3%A9todo_replacestate)
+:::
+
+
+
 
 ## Objeto
 #### Propiedades abreviadas
@@ -1139,9 +1160,10 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
       };
 
 ```
-- JavaScript soporta lo que es llamado nombres de propiedad abreviados.
-- Esto nos permite crear un objeto usando solamente el nombre de la variable. Esto nos permitirá crear una propiedad usando el mismo nombre (y el valor correspondiente de la variable). 
-- El siguiente objeto literal es equivalente al previo.
+- JavaScript permite abreviar la creación de propiedades de un objeto.
+- Podemos crear una propiedad utilizando solamente el nombre de una variable.
+- La propiedad creada tendrá como nombre el mismo nombre de la variable y como valor el valor almacenado en ella.
+- El siguiente objeto literal es equivalente al anterior:
 
 ```js
    const nombre = 'manzana';
@@ -1163,18 +1185,21 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 - Ambos sirven para algo muy parecido, que es indicar la ausencia de valor.
 
 #### Undefined
-- Undefined es un valor que denota que no hay valor porque no se ha definido todavía
-- Por otro lado, undefined significa que no hay ningún valor porque todavía no se ha establecido ningún valor. 
-- Por ejemplo, si creas una variable y no le asignas un valor, entonces estará undefined.
-- Donde esto se vuelve un poco confuso es el hecho de que se puede establecer una variable con valor  undefined.
-- Una razón por la cual querrías hacer esto es esencialmente restablecer o resetear una variable. Al establecer una variable en undefined, se está transmitiendo el mensaje de que la variable ya no contiene información útil, mientras que si el valor es null, se está diciendo específicamente que el resultado de alguna acción no tiene valor.
+- `undefined` es un valor que indica que no hay valor porque todavía no se ha definido.
+- Por ejemplo, si creas una variable y no le asignas un valor, entonces estará `undefined`.
+- También podemos asignar manualmente `undefined` a una variable.
+- Al establecer una variable en `undefined`, podemos indicar que todavía no contiene información útil o que fue reseteada.
+- A diferencia de `null`, que indica intencionalmente que no existe un valor, `undefined` normalmente aparece cuando un valor todavía no fue establecido.
+
+
+
 
 #### Null
-- null se usa para indicar que no hay valor porque así lo hemos querido indicar expresamente. 
-- Si una variable es null, significa que la variable no tiene valor y que el programador la estableció explícitamente para que no tuviera valor. 
-- Una variable nunca será null a menos que en algún lugar del código un programador establezca una variable en null.
-- Es importante saber esto, ya que cuando veas un valor null , sabrás que el programador que escribió ese código te está diciendo que no hay ningún valor explícitamente. 
-- Un gran ejemplo de donde null es útil es algo así como una función de búsqueda que consulta una base de datos en busca de una entrada. Si no existe ninguna entrada, tiene más sentido devolver null ya que se está indicando que no se ha encontrado ningún valor.
+- `null` se utiliza para indicar que no hay valor porque así lo hemos decidido explícitamente.
+- Si una variable tiene el valor `null`, significa que el programador estableció intencionalmente que esa variable no contiene ningún valor.
+- Una variable no tendrá el valor `null` a menos que en algún lugar del código se le asigne explícitamente.
+- Es importante saber esto porque cuando veamos un valor `null`, podemos interpretar que el programador indicó explícitamente que esa variable no contiene ningún valor.
+- Un ejemplo donde `null` es útil es una función de búsqueda que consulta una base de datos en busca de un registro. Si no encuentra ningún resultado, puede devolver `null` para indicar que no existe ningún valor.
 
 
 #### Diferencia 1
@@ -1183,8 +1208,8 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
     console.log(miVariable);
 
 ```
-- Una variable declarada pero que aun no se ha definido su valor , es undefined
-- Sin embargo, imagina que ya has utilizado una determinada variable y no quieres utilizarla más, o que tienes asignada una referencia a un objeto pero ya no lo necesitas o que, directamente, quieres tener la variable declarada pero inicializarla con un valor que todavía no sabes qué va a ser exactamente. En todos estos casos lo suyo es asignarle un valor nulo
+- Una variable declarada pero que todavía no tiene un valor asignado es `undefined`.
+- Sin embargo, puede ocurrir que una variable ya haya sido utilizada y queramos indicar que ya no tiene un valor, que una referencia a un objeto ya no es necesaria o que queramos declarar una variable cuyo valor todavía no conocemos. En estos casos podemos asignarle `null`.
 
 
 ```js
@@ -1194,7 +1219,7 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 ```
 
 #### Diferencia 2
-- Aunque representan el mismo “valor” , son diferente tipos de datos.
+- Aunque representan la ausencia de un valor, son diferentes tipos de datos.
 
 
 ```js
@@ -1208,7 +1233,7 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 
 
 #### Diferencia 3
-- Puedes asignar explícitamente el valor undefined a una variable para dejarla sin inicializar.
+- Puedes asignar explícitamente el valor `undefined` a una variable para indicar que no tiene un valor definido:
 
 ```js
    var miVariable = 1;
@@ -1217,25 +1242,24 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 
 ```
 
-- Por lo tanto es una asignación válida de JavaScript, no puedes utilizar esta asignación en JSON porque te daría un error al procesarlo
-- Según el estándar de JSON solo soporta estos valores:
-   -	Objeto
-   -	Array
-   -	Numero
-   -	String
-   -	True
-   -	False
-   -	null
-
+- Por lo tanto, es una asignación válida en JavaScript, pero no puede utilizarse en JSON porque generaría un error al intentar leerlo.
+- JSON solo permite utilizar los siguientes valores:
+  - Objeto
+  - Array
+  - Número
+  - String
+  - `true`
+  - `false`
+  - `null`
 #### Diferencia 4
-- Si intentas usar undefined en una operación matemática, te devolverá un NaN (algo que no es un número), ya que no es un número ni hay una conversión implícita:
+- Si intentas usar `undefined` en una operación matemática, el resultado será `NaN` (un valor que representa "no es un número"), porque al convertir `undefined` en un número se obtiene `NaN`:
 
 ```js
     var miVariable = undefined;
     console.log(miVariable + 1);
 
 ```
-- Sin embargo, si haces lo mismo con null, sorprendentemente funciona ya que null se considera un 0 en las operaciones matemáticas:
+- Sin embargo, si hacemos lo mismo con `null`, la operación funciona porque `null` se convierte en `0` al utilizarse en operaciones matemáticas:
 
 ```js
     var miVariable = null;
@@ -1243,9 +1267,8 @@ Un evento popstate es dirigido a la ventana cada vez que la entrada al historial
 
 ```
 #### Diferencia 5
-
-- Finalmente, puedes averiguar si un valor está sin definir con typeof, que devolverá la cadena "undefined" ya que, es un tipo  primitivo.
-- Sin embargo, en el caso de null, typeof devolverá "Object" ya que lo considera un objeto sin inicializar
+- Puedes averiguar si un valor es `undefined` utilizando `typeof`, que devolverá la cadena `"undefined"` ya que es un tipo primitivo.
+- Sin embargo, en el caso de `null`, `typeof` devolverá `"object"` debido a una particularidad histórica de JavaScript.
 
 
 ```js
@@ -1257,7 +1280,7 @@ var miVariable = null;
 ```
 
 #### Similitudes
-- Ambos valores son valores de tipo "false", es decir, que actúan como false en las  operaciones booleanas.
+- Ambos valores actúan como `false` en las operaciones booleanas.
 
 
 :::tip info
@@ -1265,9 +1288,11 @@ var miVariable = null;
 - [¿Cuál es la diferencia entre Null y Undefined en JavaScript?](https://lasfi.to/blog/js-undefined-vs-null/)
 :::
 
-## Instanceof
-- En JavaScript, instanceof es un operador que se utiliza para verificar si un objeto es una instancia de una clase o función constructora específica. Devuelve true si el objeto es una instancia de la clase o función constructora y false en caso contrario.
-- Aquí hay un ejemplo de cómo usar instanceof en JavaScript:
+
+## instanceof
+- En JavaScript, `instanceof` es un operador que permite verificar si un objeto fue creado a partir de una clase o función constructora específica.
+- Devuelve `true` si el objeto fue creado a partir de esa clase o función constructora, y `false` en caso contrario.
+- Aquí hay un ejemplo de cómo usar `instanceof` en JavaScript:
 
 
 ```js
@@ -1285,12 +1310,13 @@ console.log(miAnimal instanceof Array); // false
 ```
 
 :::tip Observación
-- En el ejemplo anterior, definimos una clase llamada Animal con un constructor que toma un parámetro nombre. Luego creamos una nueva instancia de la clase Animal y la asignamos a la variable miAnimal.
-- Luego usamos el operador instanceof para verificar si miAnimal es una instancia de la clase Animal, la clase Object (que es la clase base para todos los objetos en JavaScript) y la clase Array. Las dos primeras pruebas devuelven true, mientras que la tercera prueba devuelve false.
+- En el ejemplo anterior, definimos una clase llamada `Animal` con un constructor que recibe un parámetro `nombre`. Luego creamos un objeto a partir de esa clase utilizando `new` y lo guardamos en la variable `miAnimal`.
+- Después utilizamos el operador `instanceof` para comprobar si `miAnimal` fue creado a partir de la clase `Animal`, `Object` o `Array`.
+- Las dos primeras comprobaciones devuelven `true` porque `miAnimal` fue creado a partir de `Animal` y, al mismo tiempo, todos los objetos en JavaScript heredan de `Object`. La última comprobación devuelve `false` porque `miAnimal` no fue creado a partir de `Array`.
 :::
 
-- Tenga en cuenta que el operador instanceof verifica la cadena de prototipos de un objeto para determinar si es una instancia de una clase o función constructora específica. Esto significa que también se puede usar para probar relaciones de herencia entre clases. Por ejemplo:
-
+- Ten en cuenta que el operador `instanceof` utiliza la cadena de prototipos del objeto para determinar si fue creado a partir de una clase o función constructora específica.
+- Esto quiere decir que también puede utilizarse para comprobar si una clase hereda de otra. Por ejemplo:
 ```js
 class Mamífero extends Animal {
   constructor(nombre, especie) {
@@ -1309,7 +1335,13 @@ console.log(miMamifero instanceof Array); // false
 ```
 
 :::tip Observación
-- En el ejemplo anterior, definimos una clase llamada Mamífero que hereda de la clase Animal utilizando la palabra clave extends. Luego creamos una nueva instancia de la clase Mamífero y la asignamos a la variable miMamifero.
-- Luego usamos el operador instanceof para verificar si miMamifero es una instancia de la clase Mamífero, la clase Animal, la clase Object y la clase Array. Las tres primeras pruebas devuelven true, mientras que la cuarta prueba devuelve false. Esto demuestra que miMamifero es una instancia de la clase Mamífero, que a su vez es una instancia de la clase Animal, que a su vez es un objeto de JavaScript.
+- En el ejemplo anterior, definimos una clase llamada `Mamífero` que hereda de la clase `Animal` utilizando la palabra clave `extends`. Luego creamos un objeto a partir de la clase `Mamífero` y lo guardamos en la variable `miMamifero`.
+- Después utilizamos el operador `instanceof` para comprobar si `miMamifero` fue creado a partir de la clase `Mamífero`, la clase `Animal`, la clase `Object` y la clase `Array`. Las tres primeras comprobaciones devuelven `true`, mientras que la última devuelve `false`.
+- Esto demuestra que `miMamifero` fue creado a partir de `Mamífero`, y que esta clase a su vez hereda de `Animal`.
+:::
 
+:::tip Cadena de prototipo
+- Cada objeto tiene un prototipo del cual puede obtener propiedades y métodos.
+- Este prototipo contiene información sobre qué clase creó el objeto y qué clases heredó. Podemos decir que tiene un listado de la clase que creó el objeto y de las clases que heredó.
+- `instanceof` busca en ese "listado" que contiene el prototipo y, si encuentra la clase que especificamos, devuelve `true`.
 :::
