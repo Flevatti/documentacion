@@ -526,7 +526,7 @@ let value = NaN + 5; // NaN, porque cualquier operación con NaN resulta en NaN.
 
 #### ¿Cómo comprobar si un valor es NaN?
 - Para verificar si un valor es NaN, puedes usar la función isNaN(), que devuelve true si el valor es NaN. Sin embargo, hay una forma más precisa de comprobarlo:
-  - Usar Number.isNaN(), que solo devuelve true si el valor es realmente NaN y no coerciona otros tipos de datos.
+  - Usar `Number.isNaN()`, que solo devuelve `true` si el valor es exactamente `NaN`. A diferencia de `isNaN()`, no intenta convertir el valor a número antes de realizar la comprobación.
 
 
 ## Módulos ES (ECMAScript)
@@ -577,19 +577,25 @@ console.log(suma(2, 3)); // 5
 
 
 ## Interfaz
-- En programación, una interfaz es una estructura que define un conjunto de métodos y propiedades que una clase debe implementar, sin proporcionar la implementación de esos métodos. Las interfaces permiten establecer un "contrato" para las clases que las implementen, asegurando que ciertas funciones estén disponibles con una firma específica (nombre, parámetros y tipo de retorno). Este concepto es especialmente común en lenguajes orientados a objetos como Java, C# y TypeScript.
-- También nos podemos referir como interfaz a algo que actúa como “intermediario” entre dos partes de un sistema o entre dos softwares inclusos.  Permite interactuar con otra parte del sistema u otro software sin conocer los detalles específicos de como funciona, solo necesita conocer qué métodos o propiedades están disponibles y cómo usarlos, no cómo están implementados. 
+- En programación, una interfaz es una estructura que define un conjunto de métodos y propiedades que una clase debe implementar, sin proporcionar la implementación de esos métodos. De esta forma, garantiza que todas las clases que la implementen ofrezcan los mismos métodos y propiedades con la misma firma (nombre, parámetros y tipo de retorno). Este concepto es especialmente común en lenguajes orientados a objetos como Java, C# y TypeScript.
+- También se puede usar el término "interfaz" para referirse a un "intermediario" entre dos partes de un sistema o entre distintos programas. Permite interactuar con otra parte del sistema o con otro software sin conocer los detalles de su implementación. En programación, una interfaz suele estar formada por un conjunto de métodos o propiedades que nos permiten comunicarnos con la otra parte sin necesidad de conocer cómo funciona internamente esa otra parte.
+
+
 
 
 ## URLSearchParams
-- URLSearchParams es una interfaz de JavaScript (interactúa con la API de Web) que permite trabajar con los parámetros de consulta (query) en las URLs. Facilita la creación, lectura y manipulación de estos parámetros. Estos parámetros suelen ser las partes de una URL que aparecen después de un signo de interrogación (?), en formato de pares clave-valor (por ejemplo, ?name=John&age=30).
+- `URLSearchParams` es una interfaz de JavaScript que se comunica con la API Web y permite trabajar con los parámetros de consulta (query) de una URL. Facilita la creación, lectura, modificación y eliminación de estos parámetros.
+- Los parámetros de consulta son la parte de una URL que aparece después de un signo de interrogación (`?`) y están formados por pares clave-valor (`clave=valor`). Cada par se separa con `&`, por ejemplo: `?name=John&age=30`.
+
+
+
 
 #### Principales usos de URLSearchParams
 - Crear una instancia: Se puede instanciar a partir de un String que contenga las query directamente o  una URL completa:
 ```js
 const params = new URLSearchParams('?name=John&age=30');
 ```
-- Obtener valores: Se usa el método get(“clave”) para obtener el valor asociado a una clave especifica:
+- Obtener valores: Se usa el método `get("clave")` para obtener el valor asociado a una clave específica.
 ```js
 params.get('name'); // "John"
 ```
@@ -597,7 +603,7 @@ params.get('name'); // "John"
 ```js
 params.set('age', '35');
 ```
-- Eliminar parámetros: Con `delete(“clave”)` se elimina una query que esta asociado con una clave especifica:
+- Eliminar parámetros: Con `delete("clave")` se elimina el par clave-valor asociado a la clave especificada.
 ```js
 params.delete('name');
 ```
@@ -608,7 +614,7 @@ for (const [key, value] of params) {
 }
 
 ```
-- Convertir a cadena: Para obtener la cadena de consulta completa, usa `toString()`:
+- Convertir a cadena: Para obtener todos los parámetros de consulta como una cadena de texto (`string`), usamos `toString()`:
 ```js
 params.toString(); // "age=35"
 ```
@@ -620,22 +626,23 @@ params.toString(); // "age=35"
 
 
 ## Renderizar
-- Cuando el navegador carga un archivo HTML, crea un Document Object Model (DOM), que es una representación estructurada de todos los elementos en la página. Este DOM es lo que el navegador usa para renderizar la página, es decir, convertir el código HTML en una interfaz visual en la pantalla.
+- Cuando el navegador carga un archivo HTML, crea un Document Object Model (DOM), que es una representación estructurada de todos los elementos en la página. Este DOM es lo que el navegador usa para renderizar la página.
 
 
 #### ¿Qué es renderizar?
 - Implica tomar el contenido del DOM (Document Object Model), junto con CSS y JavaScript, y dibujarlo en la pantalla para que el usuario pueda verlo e interactuar con él.
 - Podemos pensar en "renderizar" como "dibujar", aunque es más preciso decir que incluye varios pasos de procesamiento para que el contenido sea legible y atractivo visualmente. 
-- El proceso de renderizado de una página web en el navegador se divide en varias etapas, desde la interpretación del archivo HTML hasta la visualización en pantalla. A continuación, detallo los pasos principales en el proceso de renderizado.
+- El proceso de renderizado de una página web en el navegador se divide en varias etapas, desde que el navegador lee el archivo HTML hasta que muestra el contenido en pantalla. A continuación, detallo los pasos principales en el proceso de renderizado:
 
 
 #### 1-  Parsing (Análisis)
--	HTML Parsing (Análisis del HTML): El navegador lee el archivo HTML línea por línea y lo convierte en un árbol estructurado de nodos llamado el DOM (Document Object Model). Cada etiqueta HTML se convierte en un nodo dentro de este árbol, formando la estructura de la página.
--	CSS Parsing (Análisis del CSS): Simultáneamente, el navegador analiza las hojas de estilo CSS, creando otro árbol llamado CSSOM (CSS Object Model). Este árbol define los estilos y las reglas de presentación que se aplicarán a cada nodo del DOM.
--	El análisis de JavaScript ocurre en paralelo al procesamiento del HTML y CSS. El navegador descarga y analiza el código JavaScript tan pronto como encuentra una referencia al archivo o script en el HTML.
-- Si el script es bloqueante (como un &lt;script> en el &lt;head> sin el atributo defer o async):
+- HTML Parsing (Análisis del HTML): El navegador lee el archivo HTML y lo convierte en un árbol estructurado de nodos llamado DOM (Document Object Model). Cada etiqueta HTML se transforma en un nodo dentro de este árbol, formando la estructura de la página.
+- CSS Parsing (Análisis del CSS): Simultáneamente, el navegador analiza las hojas de estilo CSS, creando otro árbol llamado CSSOM (CSS Object Model). Este árbol define los estilos y la apariencia que tendrá cada nodo del DOM.
+- JavaScript Parsing (Análisis de JavaScript): El análisis de JavaScript ocurre en paralelo al procesamiento del HTML y CSS. El navegador descarga y analiza el código JavaScript tan pronto como encuentra una referencia a un archivo JavaScript o un script dentro del HTML.
+- Si el script es bloqueante (como un `<script>` en el `<head>` sin los atributos `defer` o `async`):
   - Se detiene temporalmente el análisis del HTML.
-  - El navegador ejecuta el JavaScript antes de continuar con el análisis y construcción del DOM y CSSOM.
+  - El navegador ejecuta el código JavaScript antes de continuar con el análisis del HTML y la construcción del DOM.
+  - El análisis del CSS continúa normalmente, aunque algunos scripts pueden necesitar que los estilos estén disponibles antes de ejecutarse, por lo que el CSS puede influir en la ejecución del JavaScript.
   - Ejemplo:
 ```html
 <script>
@@ -643,8 +650,8 @@ params.toString(); // "age=35"
 </script>
 
 ```
-- Si el script es diferido (defer):
-  - El JavaScript se analiza y ejecuta después de que el DOM y el CSSOM estén listos, justo antes del Painting.
+- Si el script es diferido (`defer`):
+  - El JavaScript se descarga y analiza mientras se procesa el HTML, pero se ejecuta después de que el DOM esté construido y antes del Painting.
   - Ejemplo:
 ```html
 <script defer>
@@ -652,8 +659,8 @@ params.toString(); // "age=35"
 </script>
 
 ```
-- Si el script es asíncrono (async):
-  - El JavaScript se analiza y ejecuta en paralelo al análisis del HTML, pero su ejecución puede terminar en cualquier momento.
+- Si el script es asíncrono (`async`):
+  - El JavaScript se descarga y analiza en paralelo al procesamiento del HTML. Se ejecuta apenas termina de descargarse, por lo que puede interrumpir el análisis del HTML.
   - Ejemplo:
 ```html
 <script async>
@@ -665,12 +672,12 @@ params.toString(); // "age=35"
 
 
 #### 2- DOM y CSSOM Tree Construction
--	Una vez que se han analizado el HTML y el CSS, el navegador los combina para formar el Render Tree, que es una estructura que contiene solo los nodos visibles en la pantalla. Es decir, el render tree excluye elementos como &lt;head> y nodos ocultos (display: none).
--	Cada nodo en el render tree contiene información tanto de contenido (DOM) como de estilo (CSSOM).
-- El código Javascript puede afectar el  DOM y el CSSOM, lo que significa que puede modificar su contenido o estilos.
+- Una vez que se han analizado el HTML y el CSS, el navegador combina la información del DOM y CSSOM para formar el Render Tree, que es una estructura que contiene únicamente los nodos que se mostrarán en pantalla. Es decir, excluye elementos como `<head>` y nodos ocultos (por ejemplo, con `display: none`).
+- Cada nodo del Render Tree contiene la información necesaria para mostrar un elemento en pantalla, incluyendo su contenido (responde a la pregunta "¿Qué se va a mostrar?" y proviene del HTML) y los estilos (responden a la pregunta "¿Cómo se va a ver?" y son definidos mediante CSS) aplicados a ese elemento.
+- El código JavaScript puede afectar el DOM y el CSSOM, lo que significa que puede modificar el contenido o los estilos de una página.
 - Si el JavaScript cambia el DOM o los estilos:
-  - El navegador puede invalidar y reconstruir parte del Render Tree.
-  - Este proceso ocurre antes del Painting, para asegurarse de que todo esté actualizado.
+  - El navegador actualiza el Render Tree para reflejar esos cambios.
+  - Este proceso ocurre antes del Painting, para asegurarse de que la información mostrada en pantalla esté actualizada.
   - Ejemplo:
 ```html
 <script>
@@ -682,67 +689,76 @@ params.toString(); // "age=35"
 
 
 #### 3- Layout (Distribución o Reflow)
--	En esta etapa, el navegador calcula el tamaño, la posición y el espacio de cada nodo en el render tree, de acuerdo con el modelo de caja CSS y los estilos aplicados. Este paso se llama layout o reflow.
--	El navegador determina dónde y cómo debe aparecer cada elemento en la pantalla, basándose en la geometría (tamaño, espaciado y relaciones con los otros elementos, posición , son las propiedades fisicas que determinan su posición y tamaño)  y en las relaciones de los elementos.
+- En esta etapa, el navegador calcula el tamaño (¿Qué tamaño tiene cada elemento?), la posición (¿Dónde debe ubicarse cada elemento?) y el espacio que ocupará (¿Cuánto espacio necesita dentro de la página?) cada nodo del Render Tree, de acuerdo con la información contenida en el CSSOM.
+- Este paso se llama Layout o Reflow.
+- El navegador determina dónde y cómo debe aparecer cada elemento en la pantalla, basándose en su geometría (tamaño, posición y espacio que ocupa) y en la relación con los demás elementos.
 
 #### 4- Painting (Pintado o Repaint)
-- Una vez determinado el layout, el navegador pasa al proceso de pintado (painting), en el cual se asignan colores, texturas, bordes y otros estilos visuales a cada elemento del render tree.
-- En la fase de pintado, el navegador dibuja los elementos del árbol de renderizado (render tree) y los organiza en capas separadas en la memoria de la GPU, según sus características, como transformaciones o efectos visuales. A pesar de este proceso, los elementos aún no son visibles en la pantalla. Esta etapa prepara todo lo necesario para que los elementos se muestren correctamente cuando llegue el momento de la visualización.
-- El navegador no envía esta información a la pantalla inmediatamente. En su lugar, los elementos dibujados en cada capa se almacenan en la memoria y, posteriormente, durante la fase de compositing, esas capas se fusionan en una imagen final, respetando su orden visual (como el z-index) y aplicando efectos como transparencia.
-- Es en la fase de compositing cuando el navegador finalmente fusiona todas las capas pintadas y crea la imagen final que se muestra en la pantalla.
+- Una vez determinado el Layout, el navegador pasa al proceso de pintado (Painting), en el cual se asignan colores, texturas, bordes y otros estilos visuales a cada elemento del Render Tree.
+- En la fase de pintado, el navegador dibuja los elementos del Render Tree en base al Layout y puede organizarlos en capas separadas en memoria, según sus características, como transformaciones o efectos visuales. A pesar de este proceso, los elementos aún no son visibles en la pantalla. Esta etapa prepara todo lo necesario para que los elementos se muestren correctamente cuando llegue el momento de la visualización.
+- El navegador no muestra esta información en pantalla inmediatamente. En su lugar, los elementos dibujados se almacenan temporalmente en capas y, posteriormente, durante la fase de Compositing, esas capas se combinan en una sola capa (llamada imagen final), respetando un orden determinado (por ejemplo, el definido por `z-index`) y aplicando efectos como transparencia.
+- Es en la fase de Compositing cuando el navegador finalmente combina todas las capas generadas durante el pintado y crea la imagen final que se muestra en pantalla.
 
 
 
 #### 5- Compositing (Composición)
-- El navegador divide la página en Capas: Para optimizar el rendimiento, el navegador divide los elementos  HTML de la página en capas. 
-- Algunas propiedades específicas hacen que el navegador cree una capa independiente para un elemento. Estas propiedades incluyen:
-    - z-index: Elementos apilados en diferentes niveles de profundidad.
-    - transform: Transformaciones como rotaciones, escalado o traslación (rotate, scale, translate).
-    - opacity: Efectos de transparencia.
-    - Animaciones CSS: Como keyframes que afectan transform u opacity.
-    - Propiedades como position: fixed o will-change: Señalan al navegador que un elemento cambiará, optimizando su renderizado.
+- El navegador divide la página en capas: Para optimizar el rendimiento, el navegador puede dividir los elementos HTML de la página en diferentes capas.
+- Algunas propiedades específicas pueden hacer que el navegador cree una capa. Estas propiedades incluyen:
+    - `z-index`: Permite poner elementos por encima o por debajo de otros.
+    - `transform`: Aplicación de transformaciones como rotaciones y escalado.
+    - `opacity`: Aplicación de efectos de transparencia.
+    - Animaciones CSS: Como `keyframes` que modifican propiedades como `transform` u `opacity`.
+    - Propiedades como `position: fixed` o `will-change`: Indican al navegador que un elemento puede cambiar, optimizando su renderizado.
 - ¿Por qué se dividen en capas?
   - La división en capas permite al navegador optimizar el rendimiento, ya que:
-      - Los elementos en una capa pueden manejarse de manera independiente.
-      - Si una capa cambia (por ejemplo, una animación o un efecto), solo esa capa necesita actualizarse, evitando que todo el contenido de la página se vuelva a renderizar.
-- Renderizado y Orden: Una vez que los elementos de la página se dividen en capas, el navegador organiza estas capas para optimizar futuros renderizados, asegurándose de minimizar el trabajo necesario en caso de cambios visuales o interactivos, por ejemplo:
-  - Orden Z-index:
-      - El navegador coloca las capas según sus valores de z-index. Los elementos con un valor de z-index más alto aparecen encima de los que tienen un valor más bajo.
+      - Los elementos de una capa pueden manejarse de manera independiente.
+      - Si una capa cambia (por ejemplo, debido a una animación o un efecto), el navegador puede actualizar solo esa capa, evitando tener que volver a procesar todo el contenido de la página.
+- Renderizado y Orden: Una vez que los elementos de la página se dividen en capas, el navegador organiza estas capas para optimizar futuros renderizados, minimizando el trabajo necesario en caso de cambios visuales. Por ejemplo:
+  - Orden con `z-index`:
+      - El navegador coloca las capas según sus valores de `z-index`. Los elementos con un valor más alto aparecen por encima de los que tienen un valor más bajo.
   - Superposición y Transparencia:
-      - Si una capa tiene transparencia (opacity < 1), el navegador mezcla los colores de esa capa con las capas subyacentes.
-  - Ejecución de transformaciones:
-      - Las capas que usan transform se renderizan con las transformaciones aplicadas (por ejemplo, rotaciones o escalados) antes de superponerlas.
-- Fusión de Capas: Una vez que el navegador creo cada capa, las fusiona en una sola imagen que presenta o muestra en la pantalla. Esto permite que solo se actualicen las partes de la pantalla que han cambiado, en lugar de volver a renderizar todo el contenido. La composición ayuda a mejorar el rendimiento y la eficiencia de la carga visual de la página.
+      - Si una capa tiene transparencia (`opacity < 1`), el navegador combina los colores de esa capa con los de las capas que se encuentran debajo.
+  - Aplicación de transformaciones:
+      - Las capas que utilizan `transform` se dibujan con las transformaciones aplicadas, como rotaciones o escalados, antes de combinarse con las demás capas.
+- En esta etapa, todas las capas se fusionan formando una imagen final, que es la que se muestra en pantalla. Esto permite que, cuando ocurren cambios, el navegador pueda actualizar solo las partes que cambiaron en lugar de volver a procesar todo el contenido. La composición ayuda a mejorar el rendimiento y la eficiencia del renderizado de la página.
 
 
 #### 6- Reflow y Repaint
--	Durante la interacción del usuario o la ejecución de JavaScript, el DOM o CSSOM pueden cambiar, lo que desencadena re-renderizados parciales en el navegador.
--	Repaint: Si el cambio solo afecta la apariencia de un elemento (como el color), el navegador solo repinta la zona afectada. Esto es menos costoso en términos de rendimiento, ya que no afecta la estructura ni el layout de otros elementos.
--	Reflow: Cuando el cambio afecta la estructura del layout, como al cambiar el tamaño, el margen o la posición de un elemento, el navegador necesita recalcular la posición y el espacio de todos los elementos en el DOM. Este proceso es más intensivo y se llama reflow o layout recalculation. El navegador ajusta y actualiza las posiciones de todos los elementos en función de los nuevos valores, lo cual puede implicar un renderizado parcial o completo de la página.
+- Cuando el usuario interactúa con la página o durante la ejecución de JavaScript, el DOM o CSSOM pueden cambiar, lo que puede desencadenar un Reflow o un Repaint, dependiendo del tipo de modificación realizada.
+- Repaint: Si el cambio solo afecta la apariencia de un elemento (como el color), el navegador solo vuelve a pintar la zona afectada. Esto es menos costoso en términos de rendimiento, ya que no modifica la estructura del DOM ni el Layout de otros elementos.
+- Reflow: Cuando el cambio afecta al Layout, como al modificar el tamaño, el margen o la posición de un elemento, el navegador necesita recalcular la posición y el espacio que ocupan los elementos afectados. Este proceso es más costoso y se llama Reflow o Layout recalculation. El navegador ajusta y actualiza las posiciones de los elementos en función de los cambios realizados, lo cual puede implicar un renderizado parcial o completo de la página.
 
 
 :::tip
-- En programación, renderizar se refiere al proceso de convertir datos, estructuras o código en algo visual que los usuarios puedan ver e interactuar con en la pantalla.
-- Existen otros tipos de renderizados, como, por ejemplo:
-  -  Renderizado en Frameworks/Librerias JavaScript (como Vue o React):
-      -	En frameworks de JavaScript, "renderizar" usualmente se refiere a actualizar la interfaz de usuario según los datos que cambian. Por ejemplo, en React, cuando el estado de un componente cambia, React decide qué partes del DOM necesitan actualizarse y las modifica sin redibujar toda la interfaz.
-      -	Esto se logra a través de técnicas de renderizado eficiente como el “Virtual DOM” (una representación en memoria del DOM real) que optimiza qué partes específicas se actualizan en lugar de renderizar todo nuevamente.
-  -  Renderizado en Gráficos y Juegos:
-      -	En aplicaciones gráficas o videojuegos, renderizar es el proceso de tomar modelos, texturas y otros datos gráficos y convertirlos en imágenes en pantalla. Esto involucra procesos intensivos en gráficos, como iluminación, sombras y efectos visuales, y a menudo implica el uso de una GPU (Unidad de Procesamiento Gráfico).
-      -	Aquí, el objetivo es mostrar la escena completa o partes de ella en tiempo real y a una velocidad rápida (en juegos, por ejemplo, 30 a 60 cuadros por segundo).
-  -  Renderizado del Lado del Servidor (Server-Side Rendering o SSR):
-      -	En aplicaciones web, el renderizado del lado del servidor implica generar el HTML en el servidor y enviarlo al cliente (navegador) listo para mostrar.
-      -	Esto permite que la página se cargue más rápido y esté lista antes de que el JavaScript del cliente complete su carga y se ejecute, lo cual mejora la velocidad de carga inicial y es beneficioso para el SEO (optimización para motores de búsqueda).
+- En programación, renderizar se refiere al proceso de convertir datos, estructuras o código en algo que pueda mostrarse en la pantalla.
+- Existen otros tipos de renderizado, como, por ejemplo:
+  - Renderizado en Frameworks/Librerías JavaScript (como Vue o React):
+      - En frameworks de JavaScript, "renderizar" generalmente se refiere a generar o actualizar la interfaz de usuario (lo que se muestra en la pantalla) a partir de los datos actuales. Por ejemplo, en React, cuando cambia el estado de un componente, React determina qué partes de la interfaz necesitan actualizarse y aplica esos cambios en el DOM.
+      - Esto se logra mediante técnicas como el "Virtual DOM" (una copia en memoria del DOM real), que permite comparar los cambios y optimizar qué partes de la interfaz necesitan actualizarse.
+  - Renderizado en Gráficos y Juegos:
+      - En aplicaciones gráficas o videojuegos, renderizar es el proceso de tomar modelos, texturas y otros datos gráficos y convertirlos en imágenes que se muestran en la pantalla. Esto involucra procesos como iluminación, sombras y efectos visuales, utilizando frecuentemente una GPU (Unidad de Procesamiento Gráfico).
+      - El objetivo es generar la escena completa o partes de ella en tiempo real, manteniendo una velocidad adecuada de actualización (por ejemplo, 30 a 60 cuadros por segundo en videojuegos).
+  - Renderizado del Lado del Servidor (Server-Side Rendering o SSR):
+      - En aplicaciones web, el renderizado del lado del servidor consiste en generar el HTML en el servidor y enviarlo al cliente (navegador) para que este lo muestre en pantalla.
+      - Esto permite mostrar la página inicial más rápidamente y mejorar la velocidad de carga inicial, además de aportar beneficios para el SEO (optimización para motores de búsqueda).
 :::
 
 
+
 ## Location
-- En JavaScript, Location es un objeto que proporciona información sobre la URL actual de la página y permite manipularla. Se puede acceder a través de window.location  o  document.location y se utiliza para obtener o modificar la URL actual de la página web. Algunas de sus propiedades comunes son:
-  -	location.href: La URL completa. Si se modifica, se hace una especie de redirección a la nueva URL.
-  -	location.hostname: El nombre del host.
-  -	location.pathname: La ruta de la URL.
-  -	location.search: La cadena de consulta (query string).
-- También permite redirigir a otra URL con location.assign() o location.replace().
+- En JavaScript, `Location` es un objeto que proporciona información sobre la URL actual y permite modificarla. Se puede acceder a través de `window.location` o `document.location`, y se utiliza para obtener o cambiar sus diferentes partes. Algunas de sus propiedades son:
+  - `location.href`: La URL completa. Si se modifica, el navegador carga la nueva URL.
+  - `location.hostname`: El host (dominio) de la URL.
+  - `location.pathname`: El path de la URL.
+  - `location.search`: Los parámetros de consulta (las query).
+- También permite redirigir a otra URL mediante `location.assign()` o `location.replace()`.
+
+
+:::tip Dominio
+- Es parte de la `authority` de una URI.
+- Es un nombre que identifica el servidor o sitio donde se encuentra un recurso (generalmente un sitio web).
+- [Más información](../Node/extra03.md#uri)
+:::
 
 :::tip Documentación
 - [Location](https://developer.mozilla.org/en-US/docs/Web/API/Location)

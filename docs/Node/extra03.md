@@ -240,6 +240,14 @@ https://usuario@www.ejemplo.com:8080/documentos
 - `8080` → puerto.
 :::
 
+:::tip
+- Aunque el **path** es un componente obligatorio en todas las **URI**, su contenido puede estar vacío.
+- Por ejemplo, el siguiente URI tiene un **path** vacío:
+```txt
+http://example.org/
+```
+- En estos casos, se accede al recurso "por defecto" de la `authority`.
+:::
 #### Ejemplos
 ```txt
 https://example.org/test/test1?search=test-question#part2
@@ -274,13 +282,7 @@ mailto:user@example.org
     - Al abrir este URI, normalmente se abre la aplicación de correo predeterminada para redactar un mensaje dirigido a esa dirección.
 :::
 
-:::tip
-- Aunque el **path** es un componente obligatorio en todas las **URI**, su contenido puede estar vacío.
-- Por ejemplo, el siguiente URI tiene un **path** vacío:
-```txt
-http://example.org/
-```
-:::
+
 
 
 ```txt
