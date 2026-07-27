@@ -766,28 +766,30 @@ params.toString(); // "age=35"
 
 
 ## Response
-- Response es un objeto, que representa la respuesta a una solicitud realizada, ya sea exitosa o fallida. Se utiliza para manejar las respuestas obtenidas después de hacer una petición HTTP mediante el método fetch().
-- El Metodo fetch() crea un Response, pero también podes crear uno con un constructor.
+- `Response` es un objeto que representa la respuesta a una solicitud HTTP realizada a un servidor, ya sea exitosa o fallida. Se utiliza para acceder y manejar la información que devuelve el servidor después de realizar una petición con el método `fetch()`.
+- En resumen, es un objeto que contiene la respuesta del servidor.
+- El método `fetch()` devuelve un objeto `Response`, aunque también es posible crear uno mediante su constructor.
 #### Características principales:
--	Leer datos: Proporciona métodos para extraer información de la respuesta, como el cuerpo del mensaje, encabezados y estado.
--	Formato de datos: Permite interpretar los datos de la respuesta en diferentes formatos como texto, JSON, blob, etc.
+- Permite acceder a la información que contiene la respuesta, como el cuerpo (donde generalmente se encuentra la información devuelta por el servidor), los encabezados (contienen información adicional sobre la respuesta) y el estado (indica si la solicitud fue exitosa o no).
+- El servidor puede devolver la respuesta en diferentes formatos, como texto, JSON o `Blob`. Para cada formato, `Response` dispone de un método específico para leer su contenido.
 #### Métodos comunes de Response
-#####	json()
-- Convierte el body de la respuesta en un objeto JSON:
+##### `json()`
+- Se utiliza cuando el servidor devuelve la respuesta en formato JSON.
+- Lee el contenido de la respuesta y lo convierte en un objeto JavaScript:
 ```js
 fetch('https://api.example.com/data')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
 #####	.text()
-- Convierte el body de la respuesta en texto plano:
+- Convierte la respuesta del servidor en texto:
 ```js
 fetch('https://api.example.com/page')
   .then(response => response.text())
   .then(text => console.log(text));
 ```
 #####	.blob()
-- Convierte el body en un objeto Blob (archivo binario):
+- Lee la respuesta del servidor y la convierte en un objeto `Blob`.
 ```js
 fetch('https://api.example.com/image')
   .then(response => response.blob())
@@ -796,14 +798,12 @@ fetch('https://api.example.com/image')
     console.log(img);
   });
 ```
-##### .status y .ok
-- Verifica el estado de la respuesta HTTP:
-  -	status: Devuelve el código de estado (por ejemplo, 200 para éxito, 404 para no encontrado).
-  -	ok: Devuelve true si el estado está entre 200 y 299.
+##### `.status` y `.ok`
+- Permiten conocer el estado de la respuesta:
+  - `status`: Devuelve el código de estado (por ejemplo, `200` o `404`).
+  - `ok`: Devuelve `true` si la solicitud fue exitosa (código entre `200` y `299`) y `false` en caso contrario.
 - Ejemplo:
 ```js
-javascript
-Copiar código
 fetch('https://api.example.com/data')
   .then(response => {
     if (response.ok) {
@@ -816,8 +816,8 @@ fetch('https://api.example.com/data')
 ```
 #### Propiedades importantes de Response
 
-##### headers
-- Accede a los encabezados de la respuesta:
+##### `headers`
+- Permite acceder a los encabezados de la respuesta, que contienen información adicional enviada por el servidor.
 ```js
 fetch('https://api.example.com/data')
   .then(response => console.log(response.headers.get('Content-Type')));
@@ -833,20 +833,18 @@ fetch('https://api.example.com/data')
 
 
 #### Sintaxis del constructor Response
-- - En JavaScript, además de obtener respuestas HTTP mediante la API Fetch, también puedes crear manualmente una instancia de Response utilizando su constructor. Esto es útil en situaciones donde necesitas simular respuestas o trabajar con datos locales en lugar de depender de peticiones externas.
+- Además de obtener un objeto `Response` mediante `fetch()`, también es posible crear uno utilizando su constructor.
+- Esto resulta útil para simular respuestas HTTP o trabajar con datos locales sin realizar una petición a un servidor.
 - Sintaxis:
 ```js
 new Response(body, options)
 ```
-:::tip Parametros
-- body: Contenido de la respuesta. Puede ser:
-  -	Un string
-  -	Un objeto Blob, FormData, ReadableStream, o ArrayBuffer
-  -	null (para respuestas vacías)
--  options: Un objeto opcional para configurar la respuesta. Contiene propiedades como:
-   -	status: Código de estado HTTP (por ejemplo, 200, 404).
-   -	statusText: Texto asociado al estado (por ejemplo, "OK", "Not Found").
-   -	headers: Encabezados HTTP de la respuesta (como un objeto o instancia de [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers)).
+:::tip Parámetros
+- `body`: Es la información que contiene la respuesta. Puede ser texto, un archivo (`Blob`) u otros tipos de datos. También puede ser `null` si la respuesta no tiene contenido.
+- `options`: Objeto opcional para configurar la respuesta. Sus propiedades más comunes son:
+  - `status`: Código de estado HTTP (por ejemplo, `200` o `404`).
+  - `statusText`: Texto asociado al código de estado (por ejemplo, `"OK"` o `"Not Found"`).
+  - `headers`: Encabezados de la respuesta HTTP.
 :::
 
 - Ejemplo:
@@ -883,7 +881,7 @@ jsonResponse.json().then((data) => console.log(data));
 
 ```
 
-- Puedes crear respuestas con un ReadableStream como cuerpo, útil para transmitir datos grandes o dinámicos:
+- El primer parámetro (`body`) del constructor puede ser un `ReadableStream`, lo que resulta útil para transmitir grandes cantidades de datos por partes:
 ```js
 const stream = new ReadableStream({
   start(controller) {
@@ -904,28 +902,26 @@ streamResponse.text().then((text) => console.log(text)); // "Streamed response!"
 :::
 
 ## URL
-- En JavaScript, URL es una clase que proporciona una manera fácil y estructurada de trabajar con URLs (Uniform Resource Locators). Puedes usarla para analizar, construir o manipular URLs.
-- La clase URL pertenece a API Web y está disponible de forma nativa en el navegador y en entornos como Node.js.
+- En JavaScript, `URL` es una clase que permite trabajar fácilmente con URLs (Uniform Resource Locators). Se utiliza para analizar, construir y modificar URLs.
+- La clase `URL` forma parte de la Web API y está disponible de forma nativa en los navegadores y en entornos como Node.js.
 - Sintaxis básica:
 ```js
 const url = new URL(urlString, [base]);
 ```
-:::tip Parametros
--  urlString: La URL completa o parcial que deseas analizar o construir.
--  base (opcional): Si la URL es relativa, este parámetro indica cual es el dominio o url que se tomara como referencia para la ruta relativa. Cuando especificas base, la URL resultante es base + urlString, lo que permite resolver rutas relativas y construir URLs absolutas fácilmente.
-
+:::tip Parámetros
+- `urlString`: La URL que se desea analizar o construir. Puede ser absoluta o relativa.
+- `base` (opcional): URL que se utiliza cuando `urlString` es relativa. Une la `urlString` con la `base`, quedando `urlFinal = base + urlString`.
 :::
 
 #### Propiedades principales de URL
--	href: La URL completa como string.
--	protocol: El protocolo usado (e.g., http: o https:).
--	hostname: El nombre del dominio (sin el puerto).
--	port: El número de puerto si está especificado.
--	pathname: El camino después del dominio.
--	search: La cadena de consulta (query) (e.g., ?key=value).
--	hash: El fragmento (después de #).
-- searchParams: Un objeto [URLSearchParams](#urlsearchparams) que permite manipular parámetros de consulta (query).
-
+- `href`: La URL completa como string.
+- `protocol`: El protocolo utilizado (por ejemplo, `http:` o `https:`).
+- `hostname`: El dominio (sin el puerto).
+- `port`: El puerto utilizado, si está especificado.
+- `pathname`: La ruta (`path`) después del dominio.
+- `search`: Los parámetros de consulta (`query string`), por ejemplo, `?key=value`.
+- `hash`: El fragmento de la URL (la parte que aparece después de `#`).
+- `searchParams`: Un objeto `URLSearchParams` que permite manipular los parámetros de consulta (`query`).
 
 #### Ejemplo
 ```js
@@ -951,7 +947,7 @@ console.log(url.toString()); // https://example.com/?age=30
 
 ```
 
-- Crear URLs relativas. Si solo tienes una URL parcial, puedes usar el segundo parámetro para construirla:
+- Si tienes una URL relativa en el primer parámetro, puedes usar el segundo parámetro para construir la URL completa:
 
 ```js
 const relativeUrl = new URL("/path", "https://example.com");
@@ -966,26 +962,28 @@ console.log(relativeUrl.href); // "https://example.com/path"
 :::
 
 
-## Api de transiciones
-- La View Transitions API es una API que facilita la creación de transiciones fluidas entre vistas o estados en una página web. Su objetivo principal es mejorar la experiencia del usuario al proporcionar animaciones “suaves” que se realizan al navegar entre páginas o actualizar elementos de la misma página.
+## API de transiciones
+- La View Transitions API es una API que permite crear transiciones fluidas.
+- Utiliza animaciones suaves (transiciones) para mejorar la experiencia del usuario.
+
+:::tip Transiciones
+- Una transición es una animación que se utiliza cuando desaparece un elemento y aparece otro elemento en su lugar.
+- También se utiliza cuando un elemento cambia su apariencia o comportamiento, como al modificar su color, tamaño o posición.
+- Permite que los cambios (el CSS que se va a aplicar para desaparecer, mostrar o cambiar un elemento) no ocurran (no se apliquen) de forma instantánea, sino mediante una animación.
+- Por ejemplo, al cambiar el color, tamaño o posición de un elemento, una transición permite que ese cambio se muestre de forma gradual.
+:::
 #### Características principales
-1.	Transiciones entre vistas completas:
-  -	Permite animar la transición entre páginas o secciones de contenido, manteniendo la consistencia visual.
-2.	Compatibilidad con SPA y MPA:
-  -	Funciona tanto en aplicaciones de una sola página (SPA) como en aplicaciones de múltiples páginas (MPA).
-3.	Sencillez en la implementación:
-  -	Los desarrolladores solo necesitan definir qué partes de la vista deben animarse, mientras que el navegador gestiona los detalles complejos de la animación.
-4.	Control programático:
-  -	Puedes iniciar y personalizar transiciones mediante métodos específicos que permiten definir el comportamiento deseado.
-
-- Antes crear transiciones eran difíciles ya que tendían a escribir una cantidad significativa de CSS Y Javascript para:
-  -	Manejar el loading y posicionamiento del contenido antiguo y nuevo.
-  -	Anima los estados antiguos y nuevos para crear la transición.
-  -	Evite que las interacciones accidentales del usuario con el contenido antiguo causen problemas.
-  -	Elimine el contenido antiguo una vez que se complete la transición. También pueden surgir problemas de accesibilidad, como pérdida de la posición de lectura, confusión de foco y un comportamiento extraño si el contenido nuevo y el antiguo están presentes en el DOM al mismo tiempo.
-  -	Antes las transiciones eran casi imposibles
-- La Api de transiciones vino a solucionar todos estos problemas al permitirte crear transiciones de forma sencilla.
-
+1. Transiciones entre vistas:
+    - Permite crear animaciones entre páginas o secciones.
+    - Esto significa que, cuando el usuario pasa de una página o sección a otra, el cambio no ocurre de golpe, sino mediante una animación.
+2. Compatibilidad con SPA y MPA:
+    - Funciona en aplicaciones de una sola página (SPA) y múltiples páginas (MPA).
+3. Sencillez en la implementación:
+    - Facilita la creación de transiciones sin gestionar todos los detalles manualmente.
+4. Control de las transiciones:
+    - Permite personalizar el comportamiento de las animaciones.
+- Antes de esta API, crear transiciones requería escribir mucho CSS y JavaScript.
+- La View Transitions API simplifica la creación de transiciones permitiendo crear animaciones de forma sencilla.
 #### Ejemplo
 ```html
 <!DOCTYPE html>
@@ -1059,35 +1057,36 @@ prevState.addEventListener('click', () => changeState(state2, state1));
 ```
 :::tip Explicación del código
 - Función `changeState`:
-  -	Es una función flecha que recibe dos parámetros:
-      -	from: el contenedor o estado actual que se quiere ocultar.
-      -	to: el contenedor o estado nuevo que se quiere mostrar.
-  -	La idea es manejar la transición entre estos dos estados.
+  - Es una función flecha que recibe dos parámetros:
+    - `from`: El elemento que se va a ocultar. Representa el estado actual.
+    - `to`: El elemento que se va a mostrar. Representa el nuevo estado.
+  - Su objetivo es cambiar de un estado a otro mediante una transición.
 - Uso de `document.startViewTransition`:
-  -	Esta es la llamada a la API de transiciones
-  -	Lo que hace document.startViewTransition es:
-      -	Capturar el estado actual del contenido antes del cambio.
-      -	Ejecutar el cambio dentro del callback proporcionado.
-      -	Animar automáticamente entre el estado antiguo y el nuevo.
+  - Es un método que se comunica con la View Transitions API para crear transiciones.
+  - Lo que hace es:
+     - Capturar el estado (contenido) actual de la página antes del cambio.
+     - Ejecutar la función (callback) que contiene las modificaciones.
+     - Crear una transición para mostrar el nuevo estado.
 - Callback en `startViewTransition`:
-  -	Dentro del callback (la función que se pasa como parámetro), defines los cambios en el DOM que quieres que ocurran como parte de la transición.
-  -	En este caso:
-      -	Se oculta el estado actual (from) agregándole la clase hidden.
-      -	Se muestra el estado nuevo (to) eliminándole la clase hidden.
-- Conclusión: document.startViewTransition es un metodo donde le específicas que cambios vas a hacer en el DOM y este de forma automática  crea animaciones para "suavizar" las transiciones
+  - Dentro de esta función se definen los cambios que se realizarán en el DOM.
+  - En este caso:
+    - Se oculta el elemento actual agregando la clase `hidden`.
+    - Se muestra el nuevo elemento eliminando la clase `hidden`.
+ - `document.startViewTransition()` permite especificar qué cambios se realizarán en el DOM y crea automáticamente animaciones para dichos cambios.
 :::
 
 
-:::tip método document.startViewTransition() 
-- El método document.startViewTransition() es parte de la View Transitions API y funciona así:
-  1.	Tú defines los cambios en el DOM:
-      -	Especificas qué debe cambiar (por ejemplo, mostrar un nuevo contenedor, ocultar el anterior, cambiar texto, etc.) dentro del callback que le pasas.
-  2.	La API se encarga del resto:
-      -	Captura el estado visual del contenido antes y después de los cambios.
-      -	Genera automáticamente una animación suave que conecta esos dos estados visuales.
-      -	Se asegura de que la transición sea eficiente y consistente.
-  3.	No tienes que preocuparte por las animaciones:
-      -	No necesitas escribir CSS adicional ni calcular manualmente posiciones o estilos; la API se ocupa de animar de forma nativa los elementos afectados.
+:::tip Método `document.startViewTransition()`
+- El método `document.startViewTransition()` forma parte de la View Transitions API y permite crear animaciones.
+- Funciona de la siguiente manera:
+  1. Se definen los cambios que se quieren realizar:
+      - Dentro del callback se especifica qué elementos se van a mostrar, ocultar o modificar.
+  2. La API crea la transición automáticamente:
+      - Captura el estado (contenido) actual antes del cambio.
+      - Aplica los cambios indicados en el callback.
+      - Crea una animación para mostrar las modificaciones de forma gradual.
+  3. No es necesario crear las animaciones manualmente:
+      - La API se encarga de realizar la transición.
 :::
 
 :::tip Documentación
@@ -1097,20 +1096,19 @@ prevState.addEventListener('click', () => changeState(state2, state1));
 
 
 ## Descriptor de propiedad
-- Un descriptor de propiedad define cómo debe crearse y comportarse una propiedad en un objeto.
-- Este descriptor incluye información clave sobre si la propiedad puede:
-  -  Ser modificada (writable o mediante un setter).
-  -  Ser enumerada (se puede recorrer con  for...in o Object.keys(), se configura con la propiedad enumerable).
-  -  Ser configurada (permitir cambios en su comportamiento o  eliminarla , se configura con la propiedad configurable).
-  -  Tener acceso controlado (usando getter y setter).
-  -  Guardar un valor específico (value).
-- Entonces es como un “manual de instrucciones” que dice:
-  -  Cómo crear la propiedad.
-  -  Cómo debe funcionar cuando alguien la lee, la modifica o la itera.
+- Un descriptor de propiedad define las características de una propiedad dentro de un objeto.
+- Con el descriptor podemos modificar las características de una propiedad, como:
+  - Ser modificada (`writable` o mediante un setter).
+  - Ser enumerada (poder recorrerla con `for...in` o `Object.keys()`, se configura con `enumerable`).
+  - Ser configurada (permitir modificar el descriptor o eliminar la propiedad, se configura con `configurable`).
+  - Usar `getter` y `setter` para acceder o modificar un valor.
+  - Tener un valor específico (`value`).
+- Entonces, las características son como un “manual de instrucciones” que indica:
+  - Cómo se lee, modifica o recorre.
 - Si el descriptor no se especifica explícitamente, las propiedades creadas por defecto tienen estas características:
-  -	writable: true
-  -	enumerable: true
-  -	configurable: true
+  - `writable`: `true`
+  - `enumerable`: `true`
+  - `configurable`: `true`
 - Si defines una propiedad con un descriptor específico:
 ```js
 const obj = {};
@@ -1124,35 +1122,32 @@ Object.defineProperty(obj, 'prop', {
 
 ```
 :::tip Observación
-- Estás diciendo:
-  1.	La propiedad prop debe tener el valor 42.
-  2.	Su valor no puede modificarse (writable: false).
-  3.	No aparece en iteraciones como for...in (enumerable: false).
-  4.	No puede redefinirse o eliminarse (configurable: false).
+- Estás definiendo que:
+  1. La propiedad `prop` tiene el valor `42`.
+  2. Su valor no puede modificarse (`writable: false`).
+  3. No aparece al recorrer el objeto (`enumerable: false`).
+  4. No puede modificarse el descriptor ni eliminarse la propiedad (`configurable: false`).
 :::
 
 ## ReadableStream
-- Un ReadableStream representa un flujo de datos que pueden leerse progresivamente.  Este flujo puede provenir de diversas fuentes, como un archivo muy grande que no se puede cargar completamente en memoria, transmisiones de datos desde un servidor o información generada dinámicamente en tiempo real. Con un ReadableStream, puedes procesar información en fragmentos (chunks) a medida que están disponibles, en lugar de esperar a que todo el contenido esté listo.
-- En la práctica, ReadableStream es ideal para leer archivos grandes, manejar transmisiones de red o trabajar con datos que se generan de manera progresiva. Gracias a su diseño, puedes empezar a procesar los chunks de inmediato, sin necesidad de esperar a que toda la información esté lista, optimizando recursos y mejorando la experiencia del usuario.
-- Un ReadableStream sirve para "enviar la información o los datos en partes" en lugar de enviarla toda de una vez. Esto es útil cuando no puedes o no quieres recibir toda la información de golpe, como en el caso de archivos grandes o datos que se generan y transmiten de manera progresiva.
-- Técnicamente, cuando usas un ReadableStream, divides la información en fragmentos (chunks) y los envías de manera controlada. Cada chunk puede ser leído mediante un lector obtenido con el método getReader(), y este lector proporciona los chunks uno a uno con el método read(), junto con una señal que indica si ya se han enviado todos los chunks.
-- La analogía perfecta es imaginar que estás recibiendo un paquete grande de información, como un libro muy extenso. En lugar de recibir el libro completo en una sola entrega, te lo envían en capítulos. Cada capítulo llega en un momento diferente, y tú puedes empezar a leerlos en cuanto los recibes, sin necesidad de esperar a que llegue el libro entero. Esto hace que el proceso sea más manejable y eficiente.
+- Un `ReadableStream` representa un flujo de datos que se puede leer poco a poco.
+- Técnicamente, un `ReadableStream` divide la información en partes (`chunks`) que se pueden leer una por una.
+- Entonces, un `ReadableStream` permite recibir y leer `chunks` en lugar de esperar a tener toda la información disponible.
+- Es útil para trabajar con archivos grandes, información que se genera en tiempo real o datos que llegan progresivamente.
+- La analogía perfecta es imaginar que recibes un paquete grande de información, como un libro muy extenso. En lugar de recibir el libro completo en una sola entrega, te lo envían en capítulos. Cada capítulo llega en un momento diferente y puedes empezar a leerlo en cuanto lo recibes, sin necesidad de esperar a que llegue todo el libro.
 - [Representa un stream de lectura.](https://flevatti.github.io/documentacion/docs/Node/extra#teor%C3%ADa)
-
-#### Características principales de un ReadableStream
-1.	Flujo progresivo:
-  -	La información se procesa en fragmentos llamados chunks, lo que permite trabajar con datos  grandes sin necesidad de cargarlos completamente en memoria.
-2.	Control sobre la lectura:
-  -	Puedes leer los chunks en partes (de manera manual o automática) a través de un lector (Reader).
-  -	La lectura puede ser pausada, reanudada o incluso cancelada.
-3.	Compatibilidad con APIs modernas:
-  -	Es utilizado por APIs como fetch, que puede devolver datos como un ReadableStream en lugar de un objeto completo.
-4.	Modularidad:
-  -	Se pueden procesar los chunks mientras llegan utilizando cadenas de procesamiento (piping) con objetos como TransformStream y WritableStream.
-
-  
+#### Características principales de un `ReadableStream`
+1. Flujo progresivo:
+    - La información se recibe en partes llamadas `chunks`, permitiendo trabajar con datos grandes sin necesidad de cargar todo el contenido en memoria antes de leerlo.
+2. Control sobre la lectura:
+    - Permite leer los `chunks` de forma manual o automática mediante un lector (`Reader`).
+    - La lectura puede pausarse, reanudarse o cancelarse.
+3. Compatibilidad con APIs modernas:
+    - APIs como `fetch()` pueden devolver un `ReadableStream` para manejar respuestas grandes.
+4. Procesamiento de datos:
+    - Permite procesar los `chunks` mientras llegan utilizando otros streams como [`TransformStream`](https://developer.mozilla.org/en-US/docs/Web/API/TransformStream) y [`WritableStream`](https://developer.mozilla.org/en-US/docs/Web/API/WritableStream).
 #### Crear un ReadableStream
-- Puedes crear un flujo usando un controlador (underlyingSource):
+- Puedes crear un flujo personalizado utilizando un controlador (`underlyingSource`):
 ```js
 const stream = new ReadableStream({
   start(controller) {
@@ -1164,17 +1159,19 @@ const stream = new ReadableStream({
 });
 
 ```
+
 :::tip Observación
-- ReadableStream recibe un objeto llamado underlyingSource, que define cómo se generaran los datos del flujo.
-- underlyingSource tiene un método llamado start que se llama inmediatamente cuando se construye el objeto. Este recibe como parametro un controller.
-- El controller tiene el método `enqueue(valor)` para enviar un valor como chunk y el método `close()` para especificar que ya no se va a enviar mas valores en el flujo de datos y por lo tanto cerrar el flujo.
-- En este código por lo tanto estamos creando un stream de lectura, que es un flujo de datos, donde los “datos” se envían en partes llamadas chunk.
-- El código crea un flujo de datos que envía información en partes (chunks) y finaliza cuando ya no hay más chunks para enviar. La estructura del ReadableStream permite gestionar datos grandes o progresivos de manera eficiente.
+- `ReadableStream` recibe un objeto llamado `underlyingSource`, que define cómo se van a generar los datos del flujo.
+- `underlyingSource` tiene un método llamado `start`, que se ejecuta automáticamente al crear el `ReadableStream` y recibe un `controller`.
+- El `controller` se encarga de gestionar el flujo de datos y tiene dos métodos:
+  - `enqueue(valor)`: Agrega un `chunk` al flujo con el valor indicado. Este `chunk` queda disponible para que pueda ser leído mediante `read()`.
+  - `close()`: Indica que el flujo no generará más `chunks`. Una vez que se lean todos los datos que quedan pendientes, el siguiente `read()` devolverá `done: true` y el flujo habrá finalizado.
+- En este código se crea un flujo de lectura donde la información se entrega en partes llamadas `chunks` (aunque también se les puede llamar datos; técnicamente es más preciso usar el término `chunks`) y finaliza cuando ya no hay más datos disponibles.
 :::
 
 
 #### Leer datos del flujo
-- Para consumir datos, usa el método `getReader()`:
+- Para leer los datos del flujo, se utiliza el método `getReader()`:
 
 ```js
 const reader = stream.getReader();
@@ -1199,12 +1196,26 @@ readStream();
 
 ```
 :::tip Observación 
-- Con el método `getReader()` obtenemos un “lector” que nos permite leer los  chunks enviados por el ReadableStream.
-- El método `read()` devuelve una promesa que retorna el siguiente dato(chunk) que se va a obtener del flujo de dato. Por lo general devuelve un objeto con dos propiedades: 
-  - value : el chunk que se obtiene
-  - done: Es true si el flujo de dato se cierra y no se envía más datos.
-- La primera vez que se ejecuta este método obtenemos el primer valor que se recibe del flujo de dato, la segunda vez el segundo valor del flujo de dato y así… Nos vamos a dar cuenta que es el ultimo valor del flujo de dato porque done estará en true.
+- Con el método `getReader()` obtenemos un “lector” que nos permite leer los `chunks` enviados por el `ReadableStream`.
+- El método `read()` devuelve una promesa que retorna un objeto con dos propiedades:
+  - `value`: El `chunk` obtenido del flujo de datos.
+  - `done`: Indica si el flujo se cerró y no se enviarán más datos.
+- La primera vez que se ejecuta este método obtenemos el primer valor del flujo, la segunda vez el segundo valor y así sucesivamente. Sabremos que no quedan más valores cuando `done` sea `true`.
 :::
+
+
+:::tip Lectura de chunks
+- Los `chunks` del flujo de datos se empiezan a generar apenas se crea la instancia de `ReadableStream`, ya que en ese momento se ejecuta el método `start`, donde los datos se agregan al flujo mediante `enqueue()`.
+- Cuando se ejecuta `read()`, pueden ocurrir dos situaciones:
+  - Si ya existe un `chunk` disponible, lo devuelve inmediatamente.
+  - Si todavía no hay un `chunk` disponible, la promesa queda esperando hasta que el flujo genere uno nuevo.
+- Cuando el flujo finaliza y no quedan más datos disponibles, `read()` devuelve `done: true`.
+- En resumen:
+  - Los `chunks` se empiezan a generar apenas se crea la instancia de `ReadableStream` y quedan disponibles para que puedan ser leídos.
+  - El método `read()` sirve para leer u obtener los `chunks` disponibles. Es decir, la primera vez que se ejecuta obtiene el primer `chunk`, la segunda vez el segundo y así sucesivamente. Si el siguiente `chunk` todavía no está disponible, la promesa queda esperando hasta que el flujo tenga nuevos datos disponibles. Si luego de obtener todos los datos se ejecuta `read()`, devolverá `done: true` indicando que el flujo finalizó.
+  - Si se ejecuta `read()` nuevamente después de obtener `done: true`, seguirá devolviendo `done: true` porque el flujo ya finalizó y no quedan más datos por leer.
+:::
+
 
 #### Ejemplo práctico: Leer datos de una API
 - Podes usar fetch para leer un archivo de texto progresivamente:
@@ -1226,9 +1237,8 @@ console.log("Archivo completo:", content);
 ```
 
 :::tip Observación 
-- Con `response.body.getReader()` obtenemos un lector para leer el body de la respuesta como si fuera un flujo de datos.
+- Aunque no lo parezca, el body de una respuesta es un flujo de datos de lectura (`ReadableStream`), por lo que podemos obtener su lector mediante `getReader()`.
 :::
-
 
 :::tip Documentación 
 - [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
