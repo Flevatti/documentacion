@@ -1248,43 +1248,52 @@ console.log("Archivo completo:", content);
 
 ## Librería y framework
 #### ¿Qué es una librería?
-- Una librería es una herramienta que contiene un conjunto de funciones y utilidades diseñadas para ayudarte a resolver un problema específico dentro de tu aplicación. Por ejemplo, puedes usar una librería para manejar fechas, manipular el DOM, o realizar cálculos matemáticos.
-- Una librería es ideal cuando necesitas resolver un problema en específico sin alterar la estructura general de tu proyecto, manteniendo control total sobre cómo se construye y organiza tu aplicación.
+- Una librería es una herramienta que proporciona funciones para resolver un problema específico dentro de una aplicación. Por ejemplo, puedes usar una librería para manejar fechas, manipular el DOM, o realizar cálculos matemáticos.
+- Se utiliza cuando necesitas agregar una funcionalidad concreta sin modificar la estructura del proyecto.
 - Características principales:
-  - Enfoque específico: Cada librería está diseñada para un solo propósito o dicho de otra forma solo te soluciona un problema, como animaciones, manejo de datos, etc.
-  - Libertad estructural: Eres libre de decidir cómo y dónde usar la librería dentro de tu proyecto, sin una estructura impuesta.
-  - Compatibilidad: Si usas múltiples librerías, debes asegurarte de que sean compatibles entre sí.
-  - Modularidad: Puedes combinar varias librerías según las necesidades específicas de tu proyecto.
+  - **Enfoque específico:** Está diseñada para resolver un problema concreto, como manejar fechas, crear animaciones o realizar solicitudes HTTP.
+  - **Libertad estructural:** Tú decides cómo, cuándo y dónde utilizarla dentro del proyecto.
+  - **Compatibilidad:** Si utilizas varias librerías, debes asegurarte de que sean compatibles entre sí.
+  - **Modularidad:** Puedes combinar varias librerías según las necesidades de tu aplicación.
 
 ##### Ejemplo de uso 
 - Si necesitas manipular fechas en tu aplicación, puedes usar la librería Moment.js o date-fns, y luego combinarla con otras librerías como Lodash para manejar arreglos y objetos.
 
 
 #### ¿Qué es un framework?
-- Un framework es un conjunto de herramientas y reglas predefinidas que proporciona una estructura organizada para desarrollar un proyecto completo. Su propósito es facilitar el desarrollo al establecer una arquitectura clara y proveer funciones que cubren las necesidades más comunes.
-- Un framework es ideal para proyectos grandes o complejos, ya que te da una estructura predefinida que asegura compatibilidad y facilita el mantenimiento. Aunque impone ciertas reglas, estas ayudan a mantener la coherencia en el desarrollo.
+- Un framework es un conjunto de herramientas (librerías) y reglas que proporciona una estructura para desarrollar una aplicación.
+- Su objetivo es facilitar el desarrollo ofreciendo una estructura organizada y funcionalidades listas para usar.
+- A diferencia de una librería, un framework está diseñado para resolver múltiples problemas que suelen ocurrir durante el desarrollo de software.
+- Un framework es ideal para proyectos grandes o complejos, ya que proporciona una estructura organizada que facilita el mantenimiento y la consistencia del proyecto. 
 - Características principales:
-  -	Estructura definida: El framework establece cómo debe organizarse tu proyecto, como el lugar donde van los archivos, componentes y rutas.
-  -	Funcionalidades integradas: Incluye un conjunto de herramienta/librería para abordar necesidades/problemas comunes y que no tengas que buscar muchas librerías externas.
-  -	Compatibilidad garantizada: Sus herramientas/librerías están diseñadas para trabajar juntas sin conflictos.
-  -	Inversión de control: Tú escribes tu código, pero el framework controla cuándo y cómo se ejecuta.
+  - **Estructura definida:** Establece cómo debe organizarse el proyecto, por ejemplo, dónde ubicar archivos, componentes y rutas.
+  - **Funcionalidades integradas:** Viene con herramientas (librerías) listas para usar.
+  - **Compatibilidad:** Sus herramientas (librerías) están diseñadas para trabajar juntas sin conflictos.
+  - **Inversión de control:** Tú escribes el código, pero el framework decide cuándo y cómo ejecutarlo.
+##### Ejemplo de uso
+- Con un framework como Angular puedes desarrollar una aplicación completa, ya que incluye herramientas para el enrutamiento, las llamadas a APIs y la creación de interfaces de usuario, todo siguiendo su estructura y reglas.
 
-##### Ejemplo de uso 
-- Con un framework como Angular, puedes desarrollar una aplicación completa porque incluye enrutamiento, servicios para llamadas a APIs, y herramientas para construir interfaces dinámicas, todo bajo sus reglas y arquitectura.
+:::tip ¿Qué es una estructura?
+- Una estructura es la forma en que se organiza un proyecto. Define dónde deben ubicarse los archivos, carpetas y otros elementos.
+- Una estructura organizada es un conjunto de reglas que debes seguir para que el código sea más fácil de entender y mantener.
+- Es decir, un framework contiene un conjunto de reglas que debes respetar. Estas reglas indican cómo organizar el código de tu aplicación.
+:::
+
+
 
 
 #### Analogías para entender las diferencias
--	Fiesta:
-    -	Librería: Es como tener una licuadora o un horno para preparar un platillo. Tú decides cuándo y cómo usarlos. La librería no te dice cómo organizar la fiesta.
-    -	Framework: Es como tener un plan detallado para la fiesta que dicta qué preparar, cuándo servirlo, y cómo organizar todo.
--	Viaje:
-    -	Librería: Es como usar un GPS para decidir tu ruta. Tú eliges por dónde ir.
-    -	Framework: Es como un tour guiado donde todo está planeado, desde las paradas hasta los horarios.
+- **Fiesta:**
+  - **Librería:** Es como tener una licuadora o un horno para preparar un platillo. Tú decides cuándo y cómo usarlos. La librería no te dice qué preparar ni qué pasos seguir para que la fiesta sea un éxito.
+  - **Framework:** Es como tener un plan detallado para la fiesta que dicta qué preparar, cuándo servirlo y qué pasos seguir para que la fiesta sea un éxito.
+- **Viaje:**
+  - **Librería:** Es como usar un GPS para elegir una ruta. Tú decides a dónde ir y cuándo utilizarlo.
+  - **Framework:** Es como un tour guiado donde todo está planificado, desde las paradas hasta los horarios.
 
 
 ## Dynamic import
-- El dynamic import en JavaScript es una forma de cargar (importar) archivos o módulos solo cuando los necesitas. En lugar de que todo el código (módulos o archivos) se cargue al inicio (como pasa con import normal), este método permite cargar código solo cuando se requiera.
-- Es como pedir una pizza: con el dynamic import, la pizza (código) llega cuando la necesitas, en lugar de tenerla lista desde el principio (lo que ocuparía espacio).
+- El dynamic import en JavaScript es una forma de cargar (importar) archivos (módulos) solo cuando los necesitas. En lugar de que todo el código (que pertenece a un módulo) se cargue al inicio (como ocurre con un `import` normal), este método permite cargar código únicamente cuando se requiere.
+- Es como pedir una pizza: con el dynamic import, la pizza (código) llega cuando la necesitas, en lugar de tenerla lista desde el principio ocupando espacio.
 
 #### Ejemplo
 - Supongamos que tienes un archivo math.js con la siguiente función:
@@ -1342,27 +1351,25 @@ boton.addEventListener('click', async () => {
   -	Por qué es importante: No carga el archivo math.js hasta que se ejecuta este código, ahorrando recursos.
 - `await import('./math.js')`
   -	Qué hace: Usa await para esperar a que el módulo sea cargado antes de continuar. Solo funciona dentro de funciones async.
-  -	Resultado: Devuelve un objeto con lo que se importa del módulo. En este caso, devuelve `{ sumar }`.
+  -	Resultado: Devuelve un objeto que contiene lo que se importa del módulo. En este caso, devuelve `{ sumar }`.
 - Desestructuración: `const { sumar } = ...` :
-  - Qué hace: Extrae la función sumar del objeto exportado por math.js.
-  - Equivalente: Este código:
-```js
-const module = await import('./math.js');
-const sumar = module.sumar;
-
-```
+  - Qué hace: Extrae la función sumar del objeto.
+  - Equivalente:
+  ```js
+  const module = await import('./math.js');
+  const sumar = module.sumar;
+  
+  ```
 - Manejo de errores: try...catch:
   - Si el archivo no existe o hay un problema de red, el dynamic import puede fallar. El bloque catch asegura que el error se maneje correctamente.
-- Botón con addEventListener:
-  - El código espera a que el usuario haga clic en el botón antes de cargar el módulo, haciendo la carga completamente bajo demanda.
 - Explicación completa de lo que hace el código:
-	- Carga inicial:
-	  - La página carga rápidamente porque el archivo math.js no se importa hasta que el botón sea presionado.
-	- Clic en el botón:
-	  - Al hacer clic, se llama a la función import('./math.js').
-	  - JavaScript carga el archivo math.js y extrae la función sumar.
-	- Uso del módulo:
-	  - Una vez que el archivo es cargado exitosamente, la función sumar(10, 15) se ejecuta y muestra el resultado en la consola.
+  - **Carga inicial:**
+    - La página carga rápidamente porque el archivo `math.js` no se carga al inicio.
+  - **Clic en el botón:**
+    - Al hacer clic, se ejecuta `import('./math.js')`.
+    - JavaScript carga el archivo `math.js` y obtiene la función `sumar`.
+  - **Uso del módulo:**
+    - Una vez que el módulo se carga correctamente, se ejecuta la función `sumar(10, 15)` y se muestra el resultado en la consola.
 
 
 
@@ -1371,7 +1378,7 @@ const sumar = module.sumar;
 ## Que es bundlers y code splitting
 
 #### Bundler
-- Un bundler (empaquetador) es una herramienta que combina múltiples archivos de tu proyecto (HTML, CSS, JavaScript, imágenes, etc.) en uno o más archivos llamados bundles. Su objetivo principal es optimizar la carga de recursos en la web.
+- Un bundler (empaquetador) es una herramienta que combina múltiples archivos de tu proyecto (HTML, CSS, JavaScript, imágenes, etc.) en uno o más archivos llamados bundles. Su objetivo principal es optimizar la carga de recursos.
 ##### Analogía
 - Imagina que vas a un supermercado a hacer tus compras semanales.
 -	Sin bundler:
@@ -1386,18 +1393,18 @@ const sumar = module.sumar;
 
 
 ##### Relación
-- Un bundler agrupa los archivos de tu proyecto (como JavaScript, CSS e imágenes) en un solo "paquete" optimizado, similar a cómo el supermercado reúne todos los productos en un solo lugar para tu conveniencia.
+- Un bundler toma los archivos de tu proyecto (como JavaScript, CSS e imágenes) y los coloca en un solo paquete (archivo) optimizado (o varios, según la configuración), similar a cómo el supermercado reúne todos los productos en un solo lugar para tu conveniencia.
 
 
 ##### ¿Por qué usar un bundler?
--	Agrupa y optimiza archivos:
-    -	En lugar de enviar muchos archivos pequeños al navegador, se agrupan en unos pocos más grandes, lo que mejora el rendimiento.
--	Minificación y compresión:
-    -	Reduce el tamaño de los archivos al eliminar espacios, comentarios y código innecesario.
--	Compatibilidad:
-    -	Convierte código moderno (como ES6+) a versiones compatibles con navegadores antiguos.
--	Soporte para módulos:
-    -	Permite usar módulos import/export en proyectos grandes.
+- **Combina y optimiza archivos:**
+  - En lugar de enviar muchos archivos pequeños al navegador, los combina en uno o más archivos optimizados, lo que mejora el rendimiento.
+- **Minificación y compresión:**
+  - Reduce el tamaño de los archivos al eliminar espacios, comentarios y código innecesario.
+- **Compatibilidad:**
+  - Convierte código moderno (como ES6+) a versiones compatibles con navegadores antiguos.
+- **Soporte para módulos:**
+  - Permite usar `import/export` en proyectos grandes.
 ##### Herramientas populares de bundlers
 -	Webpack: Muy potente y flexible.
 -	Vite: Rápido y moderno, ideal para proyectos React, Vue y Svelte.
@@ -1405,7 +1412,7 @@ const sumar = module.sumar;
 -	Rollup: Excelente para librerías y proyectos enfocados en JavaScript.
 
 #### ¿Qué es Code Splitting?
-- Code Splitting es una técnica que divide tu aplicación (código) en fragmentos más pequeños de código (chunks) para cargarlos de forma dinámica y solo cuando se necesite, en lugar de enviar todo el código de una vez al navegador.
+- Code Splitting es una técnica que divide tu aplicación (código) en fragmentos más pequeños de código (`chunks`) para cargarlos de forma dinámica y solo cuando se necesite, en lugar de cargar todo el código al inicio.
 - Eso se hace usando Dynamic import.
 ##### Analogía
 - Piensa en un restaurante donde puedes pedir un menú completo o platos individuales.
@@ -1417,29 +1424,29 @@ const sumar = module.sumar;
     -	Obtienes exactamente lo que pediste, cuando lo necesitas, sin desperdiciar dinero ni tiempo.
 
 ##### Relación
-- Con code splitting, solo se carga el código necesario en el momento en que se necesita. Esto es como pedir únicamente el plato que necesitas en un restaurante, en lugar de recibir todo el menú.
+- Con Code Splitting, solo se carga el código cuando la aplicación lo necesita. Esto es como pedir únicamente el plato que necesitas en un restaurante, en lugar de recibir todo el menú.
 
 ##### Ventajas del Code Splitting
--	Carga más rápida inicial:
-    -	Solo se carga el código necesario para mostrar la página actual, lo que mejora el rendimiento inicial.
--	Optimización del rendimiento:
-    -	Los fragmentos se cargan solo cuando son necesarios, reduciendo el uso de memoria.
--	Mejor experiencia de usuario:
-    -	Permite cargar nuevas funcionalidades (como rutas) sin recargar toda la página.
+- **Carga inicial más rápida:**
+  - Solo se carga el código necesario para mostrar la página actual, lo que mejora el rendimiento inicial.
+- **Optimización del rendimiento:**
+  - Los fragmentos se cargan solo cuando la aplicación los necesita, reduciendo el uso de memoria.
+- **Mejor experiencia de usuario:**
+  - Permite cargar nuevas funcionalidades (como rutas) sin recargar toda la página.
 
 
 ## Código síncrono y código asíncrono
 
 #### Código síncrono
-- El código síncrono se ejecuta de manera secuencial. Esto significa que cada instrucción se ejecuta una después de otra, y el programa espera a que termine una tarea antes de comenzar la siguiente. En otras palabras, el flujo de ejecución sigue un orden estricto y no se mueve a la siguiente tarea hasta que la actual no ha terminado.
+- El código síncrono se ejecuta de manera secuencial. Esto significa que cada instrucción se ejecuta después de otra, y el programa espera a que termine una tarea antes de comenzar la siguiente. En otras palabras, el flujo de ejecución sigue un orden estricto y no se mueve a la siguiente tarea hasta que la actual haya terminado.
 
 ##### Analogía
 - Imagina que estás en una tienda de comida rápida, y el empleado debe prepararte una hamburguesa. No puedes hacer otra cosa hasta que la hamburguesa esté lista. Mientras preparan la hamburguesa, tú solo puedes esperar en la cola. Una vez que la hamburguesa esté lista, puedes seguir con el proceso.
 - Síncrono = esperar hasta que algo termine para poder continuar
 
 ##### Características del código síncrono
--	Secuencial: Cada tarea se ejecuta en orden, una tras otra.
--	Bloqueante: Si una operación tarda (por ejemplo, leer un archivo o hacer una petición de red), el código se detiene hasta que esa operación termine.
+- **Secuencial:** Las tareas se ejecutan en orden, una tras otra.
+- **Bloqueante:** Si una operación tarda (por ejemplo, leer un archivo o hacer una petición de red), el código se detiene hasta que esa operación termine.
 
 ##### Ejemplo
 ```js
@@ -1470,12 +1477,12 @@ console.log("Fin");
 - El código asíncrono permite que ciertas tareas se realicen en segundo plano sin bloquear el flujo de ejecución del programa. Es decir, las tareas no se ejecutan de manera secuencial, sino que el programa puede continuar ejecutándose mientras espera que ciertas operaciones asíncronas (como leer un archivo o hacer una solicitud HTTP) terminen.
 
 ##### Analogía
-- Ahora, imagina que estás en una tienda de comida rápida y el empleado te dice que te avise cuando la hamburguesa esté lista, pero mientras tanto, puedes ir a hacer otras compras. Cuando te avisan que la hamburguesa está lista, vas a recogerla. No tienes que quedarte parado esperando mientras preparan la comida.
+- Ahora, imagina que estás en una tienda de comida rápida y el empleado te dice que te avisa cuando la hamburguesa esté lista, pero mientras tanto, puedes ir a hacer otras compras. Cuando te avisan que la hamburguesa está lista, vas a recogerla. No tienes que quedarte parado esperando mientras preparan la comida.
 -	Asíncrono = hacer otras cosas mientras esperas que algo termine.
 
-##### Características del código síncrono
--	No bloqueante: No se detiene el flujo de ejecución; las operaciones se gestionan en segundo plano.
--	Se maneja con callbacks, promesas o async/await: Se espera que el resultado de una operación asíncrona llegue en el futuro, pero el programa sigue su curso mientras tanto.
+##### Características del código asíncrono
+- **No bloqueante:** No se detiene el flujo de ejecución; las operaciones se realizan en segundo plano.
+- **Se maneja con callbacks, promesas o async/await:** Permite ejecutar una operación asíncrona y obtener su resultado cuando esté disponible, mientras tanto el resto del programa continúa ejecutándose.
 
 ##### Ejemplo
 
@@ -1504,9 +1511,10 @@ console.log("Fin");
 :::
 
 
-#### Como implementar código asíncrono
-- El código asíncrono permite que una tarea se ejecute en segundo plano y luego se ejecute una acción una vez que la operación asíncrona haya terminado.
-- Para especificar lo que se va a “ejecutar” después de que la operación asíncrona haya terminado, se utilizan principalmente callbacks, promesas y async/await.
+
+#### Cómo implementar código asíncrono
+- El código asíncrono permite que una tarea se ejecute en segundo plano y luego ejecutar una acción después de que haya terminado.
+- Para especificar qué se va a “ejecutar” después de que finalice una tarea asíncrona, se utilizan principalmente callbacks, promesas y async/await.
 
 #### Callbacks
 - Un callback es simplemente una función que se pasa como argumento a otra función, y esta función se ejecuta cuando la operación asíncrona haya terminado.
@@ -1532,16 +1540,16 @@ console.log("Fin");
 
 ```
 :::tip Explicación
--	El código imprime "Inicio".
--	Luego, la función tareaAsincrona se ejecuta, pero la operación dentro de setTimeout (que simula una tarea de 2 segundos) no bloquea el flujo de ejecución.
--	Mientras espera a que la tarea termine, se imprime "Fin".
--	Después de 2 segundos, el callback se ejecuta y muestra el mensaje "Acción después de la tarea asíncrona".
+- El código imprime `"Inicio"`.
+- Luego, ejecuta `tareaAsincrona`, que usa `setTimeout` para simular una tarea que toma 2 segundos. Sin embargo, el flujo de ejecución no se detiene.
+- Mientras espera a que la tarea termine, se imprime `"Fin"`.
+- Después de 2 segundos, se ejecuta el callback y muestra el mensaje `"Acción después de la tarea asíncrona"`.
 - En este caso, cuando la tarea asíncrona termine, se ejecutará la función que hemos pasado como callback.
 :::
 
 
 #### Usando Promesas
-- Las promesas son una forma más poderosa de manejar operaciones asíncronas y nos permiten manejar el código después de que la operación termine de manera más limpia que con callbacks.
+- Las promesas nos permiten trabajar con operaciones asíncronas de una forma más sencilla que los callbacks y permiten ejecutar código cuando la operación termina.
 - Ejemplo:
 ```js
 console.log("Inicio");
@@ -1565,17 +1573,22 @@ console.log("Fin");
 ```
 
 :::tip Observación
--	Imprime "Inicio".
--	La función tareaAsincronaConPromesa devuelve una promesa que se resuelve (se termina de ejecutar) después de 2 segundos.
--	Mientras tanto, el código sigue ejecutándose sin bloquearse, y se imprime "Fin".
--	Cuando la promesa se resuelve (se termina de ejecutar la tarea asíncrono), el método `.then()` se ejecuta y muestra "Acción después de la tarea asíncrona".
-- En este caso, cuando la promesa se resuelve, se ejecuta la acción que hemos puesto en `.then()`.
-
+- Imprime `"Inicio"`.
+- Luego, se ejecuta `tareaAsincronaConPromesa`, que devuelve una promesa y comienza una tarea que tarda 2 segundos en finalizar.
+- La promesa puede tener 3 estados:
+  - **Pendiente:** La tarea se está ejecutando.
+  - **Cumplida:** La tarea terminó correctamente y sin errores.
+  - **Rechazada:** Ocurrió un error durante la tarea y no pudo completarse.
+- Mientras la tarea sigue ejecutándose, el flujo del programa continúa y se imprime `"Fin"`.
+- Después de 2 segundos, la tarea termina y la promesa pasa al estado **Cumplida**.
+- Cuando una promesa pasa al estado **cumplida**, se ejecuta el código dentro de `.then()`.
+- Por lo tanto, cuando la promesa se cumple, se muestra `"Acción después de la tarea asíncrona"`.
 :::
 
 
 #### Usando async / await
-- El async/await es una sintaxis más moderna y conveniente para trabajar con promesas. `await` hace que el flujo de ejecución se ponga en "pausa" hasta  que la promesa se resuelva (se termine de ejecutar) , pero de una manera más legible y sin usar `.then()`.
+- `async/await` es una sintaxis más moderna para trabajar con promesas. Permite escribir código asíncrono de una forma más sencilla y parecida al código síncrono.
+- `await` nos permite esperar a que una promesa termine en estado **cumplida** o **rechazada** antes de continuar con la ejecución de la función `async`, evitando tener que usar `.then()`.
 - Ejemplo con async/await:
 ```js
 console.log("Inicio");
@@ -1599,45 +1612,48 @@ console.log("Fin");
 ```
 
 :::tip Observación
--	Se imprime "Inicio".
--	La función tareaAsincronaConAwait es una función asíncrona que usa await para esperar a que la promesa se resuelva (es decir, espera a que la tarea de 2 segundos termine).
--	Mientras la tarea está en ejecución, el flujo de ejecución no se bloquea pero se pone en "pausa" hasta que la tarea asíncrona termine.
--	Después de 2 segundos, se imprime "Acción después de la tarea asíncrona".
--	Finalmente, el código principal imprime "Fin".
-
+- Se imprime `"Inicio"`.
+- La función `tareaAsincronaConAwait` es una función asíncrona que usa `await` para esperar a que la promesa pase del estado **pendiente** a **cumplida** o **rechazada**.
+- Mientras la promesa está en estado **pendiente**, la función queda en pausa, pero el código fuera de ella continúa ejecutándose.
+- Por eso, se imprime `"Fin"` mientras la promesa todavía está pendiente.
+- Después de 2 segundos, la promesa pasa al estado **cumplida** y la función continúa ejecutándose, mostrando `"Acción después de la tarea asíncrona"`.
 :::
 
 ## Concepto de estándar
-- Un estándar en programación se refiere a un conjunto de normas, reglas, o prácticas recomendadas que se establecen para asegurar que el desarrollo del software sea consistente, de alta calidad y fácil de mantener. Los estándares en programación pueden abordar diversos aspectos del código, desde su estructura y estilo, hasta el comportamiento y la seguridad del software.
+- Un estándar en programación se refiere a un conjunto de normas, reglas, o prácticas recomendadas que se establecen para asegurar que el desarrollo del software sea consistente, de alta calidad y fácil de mantener. 
+- Los estándares en programación pueden abarcar distintos aspectos del código, como su estructura (organización de archivos y carpetas), estilo (forma de escribir el código), funcionamiento (cómo debe responder el software ante diferentes situaciones) y seguridad (validación de datos y protección contra vulnerabilidades).
+
+:::tip ¿Qué son las normas y reglas?
+- Ambos indican "como debe hacerse algo".
+- Una norma es establecida por una organización, comunidad o industria y define qué requisitos se deben cumplir.
+- Una regla es una indicacion especifica que se debe cumplir para lograr algo especifico.
+:::
+
+
 #### Tipos de estándares en programación
 1.	Estándares de código:
-  -	Se refieren a las normas (de estilo) que los desarrolladores siguen al escribir su código. Estas normas definen cómo debe ser la indentación (espacio en blanco), el naming convention (convención de nombres de variables, clases, etc), el uso de comentarios, y otros aspectos (visuales y estructurales) del código.
+    - Son normas que definen cómo debe escribirse el código. Indican aspectos como la indentación (espacios en blanco), la convención de nombres (naming convention) para variables, clases, etc., el uso de comentarios y otros aspectos visuales y estructurales del código.
 o	Ejemplo: En JavaScript, un estándar común es usar camelCase para las variables y PascalCase para los nombres de las clases.
 2.	Estándares de comportamiento:
-  -	Se refieren a las [reglas de diseño](../React/otros2.md#patrón-de-diseño) y [arquitectura](../Node/arquitecturas.md) que deben seguir los sistemas o aplicaciones, como el uso de ciertos patrones de diseño (por ejemplo, MVC o Singleton), el tratamiento de errores, y el flujo de la aplicación.
-o	Ejemplo: El uso de API RESTful es un estándar común para construir servicios web.
+    - Son reglas que definen cómo se debe desarrollar una aplicación. Indican aspectos como el uso de [patrones de diseño](../React/otros2.md#patrón-de-diseño) (por ejemplo, MVC o Singleton), [la arquitectura del sistema](../Node/arquitecturas.md), el tratamiento de errores y el flujo de la aplicación.
+    - **Ejemplo:** El uso de API RESTful es un estándar común para construir servicios web.
 3.	Estándares de seguridad:
-  -	Establecen las mejores prácticas para proteger el software contra vulnerabilidades y ataques maliciosos. Esto incluye la validación de entradas, la encriptación de datos sensibles, y el uso adecuado de autenticación y autorización.
-  -	Ejemplo: OWASP Top 10 es una lista de estándares y mejores prácticas relacionadas con la seguridad de las aplicaciones web.
+    - Son reglas que definen cómo **prevenir ataques y reducir vulnerabilidades** en una aplicación. Indican aspectos como la validación de datos, la protección de información sensible y el uso correcto de autenticación y autorización.
+    - **Ejemplo:** La lista **OWASP Top 10** reúne las vulnerabilidades más comunes en aplicaciones web y recomienda buenas prácticas para evitarlas.
 4.	Estándares de interoperabilidad:
-  -	Se refieren a las normas que aseguran que los sistemas o aplicaciones puedan interactuar de manera eficiente y sin problemas. Esto incluye la estandarización de formatos de datos (como JSON o XML), protocolos de comunicación (como HTTP o MQTT), y otras formas de intercambio de información.
-  -	Ejemplo: El uso de OAuth 2.0 para autorización en aplicaciones que interactúan con servicios externos.
+    - Son reglas que definen cómo diferentes sistemas o aplicaciones pueden comunicarse e intercambiar información entre sí. Indican aspectos como los formatos de datos (por ejemplo, JSON o XML), protocolos de comunicación (como HTTP o MQTT) y otras formas de intercambio de información.
+    - **Ejemplo:** OAuth 2.0 es un estándar que permite que una aplicación acceda a la información de otro servicio de forma segura, sin compartir la contraseña del usuario.
 5.	Estándares de documentación:
-  -	Se refieren a las normas que guían la creación de documentación técnica del código, como la descripción de funciones, clases, métodos, y el comportamiento del sistema. Un estándar común en este caso es JSDoc para JavaScript, o Javadoc para Java.
-  -	Ejemplo: Usar Swagger para documentar las APIs.
+    - Son normas que definen cómo documentar el código y los sistemas. Indican aspectos como la descripción de funciones, clases, métodos y el funcionamiento de una aplicación.
+    - **Ejemplo:** Usar Swagger para documentar APIs, indicando sus URIs, parámetros y respuestas.
 6.	Estándares de pruebas:
-  -	Son las mejores prácticas para probar el código y asegurar su correcto funcionamiento, como la escritura de pruebas unitarias, pruebas de integración y pruebas de rendimiento.
-  -	Ejemplo: El uso de frameworks como JUnit en Java o Jest en JavaScript para realizar pruebas.
+    - Son normas que definen cómo realizar pruebas para verificar que el código funcione correctamente. Indican aspectos como la creación de pruebas unitarias, pruebas de integración y pruebas de rendimiento.
+    - **Ejemplo:** Usar frameworks como JUnit en Java o Jest en JavaScript para realizar pruebas.
 
 #### Propósito de los estándares en programación
-1.	Consistencia: Aseguran que el código sea consistente y uniforme, lo que facilita la comprensión y el mantenimiento por parte de otros desarrolladores.
-2.	Colaboración: Facilitan el trabajo en equipo, ya que todos los miembros siguen las mismas normas, lo que reduce la probabilidad de errores y conflictos.
-3.	Mantenimiento: El software que sigue estándares es más fácil de mantener, ya que otros desarrolladores pueden leer y entender el código rápidamente, incluso si no lo escribieron originalmente.
-4.	Calidad: Los estándares ayudan a garantizar que el software tenga un nivel mínimo de calidad en términos de seguridad, rendimiento y usabilidad.
-5.	Escalabilidad: Aplicar estándares adecuados facilita la escalabilidad de las aplicaciones, ya que puede hacer que el sistema crezca de manera ordenada.
+1. **Consistencia:** Permite que el código mantenga una misma forma de escritura, facilitando su lectura y comprensión.
+2. **Colaboración:** Facilitan el trabajo en equipo, ya que todos los desarrolladores siguen las mismas normas y reducen posibles errores o conflictos.
+3. **Mantenimiento:** Hacen que el código sea más fácil de modificar y actualizar, incluso cuando lo realiza un desarrollador que no lo creó originalmente.
+4. **Calidad:** Ayudan a crear software más seguro, eficiente y fácil de usar.
+5. **Escalabilidad:** Permite que las aplicaciones puedan crecer manteniendo el código organizado.
 
-
-#### Ejemplos de estándares comunes
--	Estándares de estilo de código: En lenguajes como JavaScript, Python, o C#, existen guías de estilo específicas (como Airbnb JavaScript Style Guide o PEP 8 en Python) que describen cómo escribir el código de manera coherente.
--	Estándares de APIs: Al diseñar APIs, es común seguir los principios RESTful (estándar), que incluyen el uso de métodos HTTP como GET, POST, PUT, y DELETE y la estructuración adecuada de URLs.
--	Estándares de seguridad: Como se mencionó antes, el estándar OWASP proporciona reglas sobre cómo hacer que las aplicaciones sean más seguras.

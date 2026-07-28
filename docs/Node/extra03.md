@@ -504,3 +504,4 @@ urn:ietf:rfc:3986      // Documento RFC 3986 de la IETF
  - [Qué es una URL y cómo funciona en Internet](https://raiolanetworks.com/blog/que-es-url/)
 :::
 
+## Diseño   
