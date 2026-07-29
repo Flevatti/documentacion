@@ -2402,9 +2402,7 @@ switch(variable) {
 - Luego de la palabra clave switch entre paréntesis indicamos una variable.
 - Con una serie de case verificamos si dicha variable almacena un valor igual a [valor1, valor2, valor3 , ...] en el caso de ser igual se ejecutan las instrucciones contenidas en dicho case (luego de los “:”).
 - Si todos los case son falsos,  se ejecutan las instrucciones contenidas después de la palabra default (luego de los “:”).
-- Por último, debemos tener en cuenta la palabra clave “break” que se usa para indicar que el “case” ya ha terminado y se puede continuar con el siguiente. Es obligatorio usarlo, o si no, el sistema lo marcará como error.
-
-
+- Por último, debemos tener en cuenta la palabra clave `break`, que se usa para indicar que el `case` ha terminado y que empieza el siguiente `case`. En C#, es obligatorio utilizarla para finalizar cada `case`; de lo contrario, el sistema marcará un error.
 :::
 
 #### Ejemplo

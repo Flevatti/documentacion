@@ -2,20 +2,20 @@
 sidebar_position: 9
 ---
 # At Rules
-- Una regla-at es una declaración CSS que comienza con el símbolo arroba, '@'  seguido por un identificador, e incluye todo el contenido hasta el siguiente punto y coma, ';' o el siguiente bloque css , lo que sea primero. 
+- Una regla-at es una declaración CSS que comienza con el símbolo arroba (`@`) seguido de un identificador.
+- Después del identificador se indica su contenido, que puede ser un conjunto de reglas CSS o información que le indica a la regla-at qué debe hacer.
+- El contenido se puede especificar de dos formas:
+  - Después del identificador se especifica el contenido y después del contenido se coloca un punto y coma (`;`) para indicar el final del contenido.
+  - Dentro de un bloque CSS que se encuentra después del identificador.
 - Sintaxis:
 ```css
- @identificador (reglas);
+ @identificador contenido;
 ```
 - o Tambien puede ser:
 ```css
- @identificador {reglas}
+ @identificador {contenido}
 ```
-:::tip observacion
-- Es una declaracion CSS que comienza con arroba , seguido de un identificador.
-- Tiene como contenido (incluye) las "reglas"
 
-:::
 
 :::tip info
 - [Regla-At](https://developer.mozilla.org/es/docs/Web/CSS/At-rule)

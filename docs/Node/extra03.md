@@ -505,3 +505,94 @@ urn:ietf:rfc:3986      // Documento RFC 3986 de la IETF
 :::
 
 ## Diseño   
+- El diseño de software es el proceso que define la arquitectura del sistema, sus componentes, interfaces y datos para cumplir con requisitos específicos.
+- En esta etapa se decide qué componentes necesita el sistema y cómo interactuarán entre sí.
+- El diseño se realiza antes de la programación. Se enfoca en definir la estructura (cómo estará organizado el código) y el comportamiento (cómo funcionará internamente el sistema para cumplir su objetivo), mientras que programar consiste en escribir el código que implementa ese diseño.
+- Un buen diseño busca equilibrar los requisitos técnicos (como rendimiento, seguridad y escalabilidad) con las necesidades de los usuarios.
+#### Aspectos clave del diseño de software
+#### 1- Arquitectura de software
+- Define qué componentes tendrá el sistema, cuáles serán sus responsabilidades y cómo interactuarán entre sí.
+- [Más información](./arquitecturas.md)
+#### 2- Interfaces (UI)
+- Se refiere a los elementos visuales que verá el usuario, como botones, menús, formularios y otros componentes con los que podrá interactuar.
+- También define la apariencia de la aplicación, incluyendo la paleta de colores, la tipografía y el estilo visual.
+#### 3- Experiencia de usuario (UX)
+- Busca que la aplicación sea fácil de aprender y utilizar, evitando que el usuario necesite leer un manual para aprender a usarla.
+- Debe ser intuitiva para que el usuario pueda completar sus tareas con facilidad.
+- Analiza todo el recorrido del usuario, desde la primera interacción hasta la acción final.
+- Equilibrar la UI y la UX es fundamental, ya que una aplicación atractiva pero difícil de usar puede perder usuarios, mientras que una aplicación funcional pero con un diseño poco atractivo puede resultar menos competitiva.
+- Cuando la UI y la UX están bien diseñadas, los usuarios suelen completar sus tareas con mayor facilidad, seguir utilizando la aplicación y recomendarla a otras personas.
+#### 4- Consideraciones de seguridad
+- Las medidas de seguridad, como cifrar datos sensibles, validar la entrada de datos para prevenir ataques y aplicar mecanismos de autenticación y autorización, deben incorporarse desde la fase de diseño y no añadirse después.
+- Es más sencillo y económico desarrollar una aplicación segura desde el principio que corregir problemas de seguridad cuando el sistema ya está en funcionamiento.
+
+#### Proceso de diseño de software
+#### 1- Análisis de requisitos
+- Antes de escribir una sola línea de código, es necesario definir con claridad qué debe hacer el software y cómo lo hará, es decir, qué pasos seguirá para lograrlo.
+- Esto implica hablar con las partes interesadas y documentar los requisitos, que pueden ser de dos tipos:
+  - **Requisitos funcionales:** describen lo que el sistema debe hacer. Por ejemplo, una aplicación bancaria debe permitir consultar saldos y realizar transferencias.
+  - **Requisitos no funcionales:** describen cómo el sistema debe realizar esas funciones. Por ejemplo, la consulta de saldo debe mostrarse en menos de 2 segundos y las transferencias deben realizarse de forma segura, requiriendo autenticación del usuario.
+:::tip Esto toma su tiempo
+- Puedes desarrollar software de alta calidad, pero requerirá más tiempo y recursos. O puedes desarrollarlo rápidamente y obtener un sistema funcional, pero probablemente tendrás que sacrificar calidad.
+:::
+
+#### 2. Diseño de la arquitectura del sistema
+- Cuando ya tengas definidos los requisitos, el siguiente paso es elegir la arquitectura del sistema.
+- Esta decisión influirá en aspectos como la escalabilidad, el mantenimiento y el rendimiento del software.
+- La arquitectura se elige en función de los requisitos del proyecto. Por ejemplo:
+  - Si es un proyecto pequeño y se prioriza un desarrollo rápido y un despliegue sencillo, una arquitectura monolítica suele ser la mejor opción.
+  - Si el proyecto es grande y complejo, además de necesitar escalar rápidamente y soportar mucho tráfico, una arquitectura de microservicios suele ser la mejor opción.
+  - Si la aplicación necesita adaptarse a una demanda de uso impredecible, se recomienda una arquitectura basada en la nube.
+- [Ver todas las arquitecturas](./arquitecturas.md)
+
+#### 3. Diseño detallado
+- En esta etapa el software se divide en partes más pequeñas y fáciles de administrar, por ejemplo:
+  - **Módulos:** son bloques de código que se encargan de una tarea específica, como la autenticación de usuarios o el procesamiento de pagos.
+  - **Clases:** permiten crear objetos. Al crearlas, se agrupan propiedades y métodos relacionados para mantener el código organizado y reutilizable.
+  - **Interfaces:** definen los métodos que una clase debe implementar, sin indicar cómo deben funcionar. Se utilizan para establecer comportamientos comunes entre varias clases.
+- En esta etapa también se aplican [patrones de diseño](../React/otros2.md#patrón-de-diseño), como MVC, Singleton, Observer, entre otros.
+
+#### 4. Diseño UX/UI
+- Esta etapa consiste en crear interfaces (UI) para visualizar cómo se verá el software en diferentes situaciones.
+- Permite ver el recorrido que realiza una persona para completar una acción dentro de la aplicación.
+- También se tiene en cuenta y se trabaja la experiencia de usuario (UX).
+- Se prueba y ajusta el diseño según los comentarios de los usuarios para lograr una interfaz intuitiva y fácil de usar.
+
+#### 5. Planificación de seguridad
+- Se definen las medidas de seguridad que se van a implementar, como por ejemplo:
+  - **Validación de entradas:** valida los datos ingresados por el usuario para evitar ataques de inyección.
+  - **Cifrado de datos:** protege la información sensible mediante técnicas de cifrado.
+  - **Autenticación:** permite verificar la identidad del usuario para determinar si tiene acceso al sistema.
+  - **Seguridad en APIs:** utiliza mecanismos como tokens y límites de solicitudes para proteger los servicios.
+  - **Principio de privilegio mínimo:** otorga únicamente los permisos necesarios a cada usuario o componente.
+  - Entre otros.
+
+#### 6. Implementación (programación)
+- Durante la programación se aplican las decisiones tomadas en las etapas anteriores y se siguen buenas prácticas, como:
+  - **Escribir código modular:** divide el código en funciones y clases pequeñas con un único objetivo, que sean fáciles de leer, probar y mantener.
+  - **Implementar control de versiones:** utiliza herramientas como Git para realizar un seguimiento de los cambios y colaborar con otros desarrolladores.
+  - **Automatizar pruebas y despliegues:** crea scripts para ejecutar pruebas y realizar despliegues de forma automática.
+  - **Documentar el código:** agrega comentarios claros y documentación útil para facilitar el mantenimiento futuro y ayudar a que nuevos integrantes del equipo comprendan el proyecto.
+
+#### 7. Pruebas y validación
+- Las pruebas garantizan que el software cumpla con los requisitos y funcione correctamente. Permiten detectar errores, corregir problemas y verificar que todo esté listo para el lanzamiento.
+- Implica varios niveles, como:
+  - **Pruebas unitarias:** se centran en probar si cada módulo (parte del código) funciona como se espera. Esta etapa permite detectar errores a tiempo y evitar que pequeños problemas se conviertan en problemas mayores.
+  - **Pruebas de integración:** verifican cómo interactúan distintos módulos o servicios entre sí, asegurando que funcionen correctamente cuando se comunican.
+  - **Pruebas de sistema:** evalúan toda la aplicación para comprobar que todos los módulos funcionen correctamente juntos y cumplan con los requisitos.
+  - **Validación:** consiste en confirmar que el software cumple con los requisitos definidos y funciona como se espera. Para ello, se revisan los requisitos, se realizan pruebas y se reciben comentarios de los usuarios.
+
+#### 8. Despliegue y mantenimiento
+- Por último, se despliega el software en un entorno de producción.
+- Este paso incluye:
+  - **Configuración de servidores:** configura los servidores donde se ejecutará la aplicación. Esto implica configurar el sistema operativo, los protocolos y otros aspectos necesarios.
+  - **Configuración de bases de datos:** asegura que los datos se almacenen, puedan ser consultados y se gestionen correctamente.
+  - **Monitoreo del sistema:** supervisa el rendimiento, la seguridad y la disponibilidad para detectar problemas antes de que afecten a los usuarios.
+- Una vez que el software está en producción, es necesario actualizarlo regularmente, corregir errores y aplicar parches de seguridad para mantenerlo seguro y funcionando correctamente.
+- También puede incluir agregar nuevas funcionalidades según los comentarios de los usuarios y escalar el sistema cuando aumente la demanda.
+
+
+:::tip info
+- [Comprender el diseño de software: principios y prácticas clave](https://www.hostinger.com/ar/tutoriales/diseno-de-software/)
+
+:::

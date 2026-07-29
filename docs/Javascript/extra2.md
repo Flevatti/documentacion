@@ -1118,3 +1118,72 @@ requestAnimationFrame(() => {
   4. Se recalculan estilos y layout
   5. Se renderiza (se dibuja en pantalla) el nuevo estilo y layout
   6. Vuelve a comenzar el ciclo, tomando nuevas tareas de la cola de callbacks
+
+
+
+## Diferencia entre `break`, `continue` y `return`
+- Los tres pueden utilizarse dentro de un bucle (`for`, `while`, etc.), pero tienen comportamientos diferentes.
+
+#### `continue`
+- A diferencia de `break` y `return`, no sale del bucle.
+- `continue` permite abandonar la iteración actual (el bloque de código que se está ejecutando) y continuar con la siguiente iteración del bucle.
+- Ejemplo:
+```js
+for (let i = 0; i < 11; i++) {
+  if (i == 5) {
+    continue;
+  }
+  console.log("Valor de i:", i);
+}
+``` 
+:::tip Observación
+- El valor de `i` corresponde al número de iteración. Indica en qué ejecución del `for` nos encontramos: `0` corresponde a la primera ejecución, `1` a la segunda, y así sucesivamente.
+- En las iteraciones `0`, `1`, `2`, `3` y `4`, se ejecuta el `console.log()` normalmente.
+- En la iteración `5`, entra al `if` y, como la condición es verdadera, ejecuta `continue`. Esto hace que salga del bloque de código del bucle y continúe con la siguiente iteración del `for`.
+- Por lo tanto, el bucle continúa con las iteraciones `6`, `7`, `8`, `9` y `10`.
+- En resumen, la iteración `5` nunca llega al `console.log()`, por lo que ese valor no se muestra por pantalla.
+:::
+
+#### `break`
+- `break` sirve para salir del bucle y detener su ejecución.
+- Ejemplo:
+```js
+for (let i = 0; i < 11; i++) {
+  if (i == 5) {
+    break;
+  }
+  console.log("Valor de i:", i);
+}
+console.log("siguiente instrucción")
+``` 
+:::tip Observación
+- En las iteraciones `0`, `1`, `2`, `3` y `4`, se ejecuta el `console.log()` normalmente.
+- En la iteración `5`, entra al `if` y, como la condición es verdadera, ejecuta `break`. Esto hace que salga del bucle, por lo que el `for` deja de ejecutarse.
+- En resumen, cuando se ejecuta `break`, el `for` termina y el programa continúa con el código que se encuentra después del bucle.
+:::
+
+#### `return`
+- A diferencia de `break`, `return` sirve para salir de la función actual y detener su ejecución.
+- También puede devolver un valor desde la función.
+- Ejemplo:
+```js
+function mostrarValores() {
+  for (let i = 0; i < 11; i++) {
+    if (i == 5) {
+      return;
+    }
+    console.log("Valor de i:", i);
+  }
+
+ 
+}
+
+mostrarValores();
+ console.log("siguiente instrucción");
+``` 
+:::tip Observación
+- En las iteraciones `0`, `1`, `2`, `3` y `4`, se ejecuta el `console.log()` normalmente.
+- En la iteración `5`, entra al `if` y, como la condición es verdadera, ejecuta `return`. Esto hace que la función deje de ejecutarse.
+- Por lo tanto, el bucle `for` también deja de ejecutarse y las instrucciones que se encuentran después del `return` tampoco se ejecutan.
+- En resumen, cuando se ejecuta `return`, la función termina y el programa continúa con el código que se encuentra después de llamar a esa función.
+:::

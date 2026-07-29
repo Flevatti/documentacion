@@ -4,7 +4,7 @@ sidebar_position: 11
 # Arquitecturas
 - La arquitectura de un sistema de software define los componentes que lo conforman, sus responsabilidades y cómo se relacionan entre sí y dependen unos de otros. Es completamente independiente de la tecnología utilizada y no debe representar en ningún caso el framework, la base de datos o la forma de interacción con el usuario.
 - La arquitectura en el desarrollo de software se refiere a las reglas o normas que se siguen para diseñar y organizar un sistema, y que determinan cómo se eligen los componentes principales, cómo interactúan entre sí, las interfaces que se usarán y las tecnologías que se usarán.
-- La arquitectura define tanto la estructura como el comportamiento del sistema y establece las condiciones necesarias para satisfacer los requisitos técnicos y de negocio.
+- La arquitectura define tanto la estructura como el comportamiento  (cómo funcionará internamente para cumplir su objetivo) del sistema y establece las condiciones necesarias para satisfacer los requisitos técnicos y de negocio.
 
 
 :::tip
