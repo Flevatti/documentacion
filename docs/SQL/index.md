@@ -3,19 +3,21 @@ sidebar_position: 1
 ---
 # SQL
 
-SQL  o Structured Query Language, es un lenguaje diseñado para permitir que los usuarios técnicos y no técnicos consulten, manipulen y transformen datos de una base de datos relacional. Y debido a su simplicidad, las bases de datos SQL brindan almacenamiento seguro y escalable para millones de sitios web y aplicaciones móviles.
-
+- SQL  o Structured Query Language, es un lenguaje diseñado para permitir que los usuarios técnicos y no técnicos consulten, manipulen y transformen datos de una base de datos relacional. 
+- Debido a su simplicidad, las bases de datos que utilizan SQL ofrecen un almacenamiento seguro y escalable para millones de sitios web y aplicaciones móviles.
 :::tip
 ¿Sabías?
-Hay muchas bases de datos SQL populares, incluidas SQLite, MySQL, Postgres, Oracle y Microsoft SQL Server. Todos ellos admiten el estándar de lenguaje SQL común, que es lo que enseñará este sitio, pero cada implementación puede diferir en las características adicionales y los tipos de almacenamiento que admite.
+
+Existen diferentes bases de datos populares que utilizan SQL, como SQLite, MySQL, PostgreSQL, Oracle y Microsoft SQL Server.
+Todas utilizan el lenguaje SQL como base, aunque cada una puede agregar características propias y manejar los datos de forma diferente.
 :::
 
 ## Bases de datos Relacionales
-Una base de datos relacional representa una colección de tablas relacionadas (bidimensionales). Cada una de las tablas es similar a una hoja de cálculo de Excel, con un número fijo de columnas nombradas (los atributos o propiedades de la tabla) y cualquier número de filas de datos.
+- Una base de datos relacional organiza la información en tablas relacionadas entre sí.
+- Cada una de las tablas funciona de forma similar a una hoja de cálculo de Excel, con un número fijo de columnas con nombres definidos (los atributos o propiedades de la tabla) y una cantidad de filas que contienen los datos.
+- Por ejemplo, si el Departamento de Vehículos Motorizados tuviera una base de datos, podría existir una tabla que almacene información sobre los vehículos registrados en el estado. Esta tabla podría contener datos como el nombre del modelo, el tipo de vehículo, la cantidad de ruedas y el número de puertas de cada vehículo.
+- En dicha base de datos, también podrían existir tablas relacionadas que contengan información adicional, como los conductores registrados en el estado, los tipos de licencias de conducir disponibles o las infracciones asociadas a cada conductor.
 
-Por ejemplo, si el Departamento de Vehículos Motorizados tuviera una base de datos, es posible que encuentre una tabla que contenga todos los vehículos conocidos que conducen las personas en el estado. Esta tabla puede necesitar almacenar el nombre del modelo, el tipo, el número de ruedas y el número de puertas de cada vehículo.
-
-En dicha base de datos, puede encontrar tablas relacionadas adicionales que contengan información como una lista de todos los conductores registrados en el estado, los tipos de licencias de conducir que se pueden otorgar o incluso infracciones de conducción para cada conductor.
 
 
  Al aprender SQL, el objetivo es aprender a responder preguntas específicas sobre estos datos.
@@ -57,50 +59,74 @@ USE <nombre_bd>;
 - En resumen, el punto y coma es un carácter especial en SQL que se utiliza para separar sentencias SQL y para indicar el final de una sentencia. Aunque en algunos sistemas de gestión de bases de datos es opcional, es importante incluirlo para garantizar la claridad, la ejecución de sentencias múltiples y la compatibilidad con diferentes sistemas.
 
 ##  UUID / Auto Increment 
-- Una de las primeras cosas al diseñar un nuevo esquema de base de datos SQL es decidir qué tipo de primary key utilizar. Y el 99% de las veces, los desarrolladores deben elegir entre UUID o Auto Increment.
+- Al diseñar una nueva base de datos SQL, una de las primeras decisiones es elegir qué tipo de `primary key` utilizar.
+- Generalmente, las opciones más utilizadas son `UUID` y `Auto Increment`.
 
 
 #### UUID
-- Un UUID (Identificador Universalmente Único) es un número de 128 bits que se utiliza para identificar información en sistemas informáticos. Los UUID están diseñados para ser únicos en todo el espacio y el tiempo, lo que significa que la probabilidad de que dos UUID sean los mismos es extremadamente baja. Los UUID a menudo se utilizan como primary key en las bases de datos, así como en otras situaciones donde se requiere un identificador único.
-- Los UUID suelen representarse como una cadena de dígitos hexadecimales, separados por guiones. Aquí hay un ejemplo de un UUID:
+- Un UUID (Identificador Universalmente Único) es un número de 128 bits (una secuencia de 128 ceros y unos) utilizado para identificar un elemento.
+- Está diseñado para ser único, por lo que la probabilidad de que dos UUID sean iguales es extremadamente baja.
+- Los UUID suelen utilizarse como `primary key` en bases de datos y en otras situaciones donde se necesita un identificador único.
+- Aunque internamente está formado por 128 bits, normalmente se representa como una cadena (`string`) de caracteres hexadecimales separados por guiones para facilitar su lectura. Por ejemplo:
 ``` powershell
 1b4e67cd-bd2c-4ea8-8c8d-a0495f0c9ef3
 ```
-:::tip Observación
-- Los UUID se generan utilizando algoritmos que toman en cuenta diferentes fuentes de información, como la dirección MAC del adaptador de red, el tiempo actual y otros datos. Esto garantiza que los UUID generados en diferentes sistemas sean únicos.
+
+:::tip Hexadecimal
+- Al igual que el sistema decimal, es una manera de contar. La diferencia es que utiliza los números del `0` al `9` y además agrega 6 caracteres más:
+  - `A`: 10 en decimal.
+  - `B`: 11 en decimal.
+  - `C`: 12 en decimal.
+  - `D`: 13 en decimal.
+  - `E`: 14 en decimal.
+  - `F`: 15 en decimal.
+- Por ejemplo:
+  - `25`: En sistema decimal representa el número 25.
+  - `1A`: En sistema hexadecimal representa el número 26 en decimal.
+- Si convertimos 128 bits a hexadecimal:
+  - Cada carácter hexadecimal representa 4 bits.
+  - `128 bits ÷ 4 bits = 32 caracteres hexadecimales`.
+  - Por lo tanto, un UUID se representa utilizando 32 caracteres hexadecimales.
+  - Estos caracteres suelen separarse en grupos de `8-4-4-4-12`: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
 :::
 
-- Actualmente existen 5 formatos UUID estándar. La mayoría de las veces, la gente elige v4 (UUID aleatorio) o v1 (UUID de marca de tiempo).
+
+:::tip Observación
+- Los UUID se generan mediante algoritmos que utilizan diferentes datos para crear identificadores únicos, reduciendo la posibilidad de que dos UUID sean iguales.
+:::
+
+- Actualmente existen 5 versiones de UUID. Las más utilizadas son la versión 4 (`UUID` aleatorio) y la versión 1 (`UUID` basado en una marca de tiempo).
 - Algunas características:
-  - Único a nivel mundial. Por ejemplo, no hay falsos positivos al encontrar elementos utilizando el registro. Fácil para migrar datos entre sistemas ya que la colisión sólo es teóricamente posible.
-  - Sin estado, se puede generar sobre la marcha.
-  - Una sensación de seguridad ya que un usuario malintencionado no puede adivinar la identificación. Sin embargo, su equipo de seguridad siempre insistirá en que una ruta UUID accesible al público no cumple con el estándar de seguridad.
-  - La versión 1 del UUID almacena información de marca de tiempo, lo que a veces puede resultar útil.
-  - No se puede ordenar naturalmente según el tiempo de creación.
-  - Para bases de datos como MySQL, Oracle utiliza una  primary key agrupada, el UUID generado aleatoriamente de la versión 4 afectará el rendimiento de inserción si se usa como clave primaria. Esto se debe a que requiere reordenar las filas para colocar la fila recién insertada en la posición correcta dentro del índice agrupado. Por otro lado, PostgreSQL usa un heap en lugar de una  primary key agrupada, por lo que usar UUID como clave primaria no afectará el rendimiento de inserción de PostgreSQL.
+  - Son únicos a nivel mundial, por lo que la posibilidad de que dos UUID sean iguales es extremadamente baja.
+  - No dependen de un sistema centralizado, por lo que pueden generarse en cualquier momento.
+  - Son difíciles de adivinar, lo que puede aportar una capa adicional de privacidad. Sin embargo, no deben utilizarse como único mecanismo de seguridad.
+  - La versión 1 del UUID incluye información relacionada con la marca de tiempo, lo que puede ser útil en algunos casos.
+  - No se pueden ordenar según el momento de creación.
+  - En algunas bases de datos, como MySQL u Oracle, utilizar UUID aleatorios como `primary key` puede afectar el rendimiento de inserción debido a la forma en que se organizan los índices.
+
 
 #### Auto Increment
--  Permite que el valor de una columna se incremente en "uno" (se puede personalizar) cada vez que se inserta una nueva fila en la tabla.
-- Por ejemplo, supongamos que tenemos una tabla de usuarios en una base de datos, y queremos asignar un identificador único a cada usuario. Podemos crear una columna "id" en la tabla y marcarla como auto-incremental. Cuando insertamos una nueva fila en la tabla, el valor de la columna "id" se incrementará automáticamente en uno, garantizando así que cada usuario tenga un identificador único.
-- La configuración de un campo como auto-incremental varía dependiendo del sistema de gestión de bases de datos que se esté utilizando, pero generalmente se puede hacer mediante una declaración SQL o mediante una interfaz de usuario proporcionada por el sistema.
-- Es bastante común y todos los principales motores de bases de datos brindan soporte nativo. 
+- Permite asignar automáticamente el valor de una columna utilizando como referencia el valor anterior (de la fila anterior) y sumándole `1` (este valor puede personalizarse).
+- Por ejemplo, si tenemos una tabla de usuarios con una columna `id` configurada como `auto-incremental`, el primer usuario que se cree recibirá el valor `1`, el segundo recibirá el valor `2` y así sucesivamente. De esta forma, cada usuario obtiene automáticamente un identificador único.
+- La forma de configurar un campo como `auto-incremental` depende del sistema de gestión de bases de datos utilizado. Generalmente, se realiza mediante una declaración SQL o mediante las herramientas que proporciona el sistema.
+- Es una característica muy común y está soportada por los principales motores de bases de datos.
 - Algunas características:
-  - Legible. Esto es especialmente valioso si lo expusiéramos externamente. Obviamente, la id 123 es mucho más legible que la id -b1e92c3b-a44a-4856-9fe3-925444ac4c23.
-  - Menos espacio. UUID siempre ocupa 16 bytes. Para Auto Increment, cuando se almacena en formato largo, ocupa 8 bytes.
-  - No se puede utilizar en el sistema distribuido ya que es muy probable que diferentes hosts puedan producir exactamente el mismo número.
-  - No se puede generar sobre la marcha. En lugar de ello, debemos consultar la base de datos para determinar la siguiente clave primaria disponible. En un sistema distribuido, esto a menudo significa introducir un servicio separado para producir este número secuencial. Y ese servicio se convierte en un punto único de falla (SPOF).
-  - Algunos datos comerciales pueden quedar expuestos, ya que la última identificación podría representar la cantidad total de inventario. Los atacantes también pueden escanear el rango de números enteros para explorar fugas (aunque esto no debería suceder si ACL se implementa correctamente).
+  - Son fáciles de leer, especialmente si el identificador se muestra externamente. Por ejemplo, una `id` como `123` es más simple de entender que un UUID como `b1e92c3b-a44a-4856-9fe3-925444ac4c23`.
+  - Utilizan menos espacio de almacenamiento que un UUID.
+  - No son adecuados para sistemas distribuidos, ya que diferentes sistemas podrían generar el mismo identificador.
+  - Necesitan consultar a la base de datos para saber qué valor asignar.
+  - Pueden revelar información sobre la cantidad de registros existentes. Por ejemplo, una `id` alta podría indicar aproximadamente cuántos elementos hay almacenados.
 
 ## Crear usuario
-- La sintaxis para crear un usuario puede variar dependiendo de la versión del sistema de gestión de bases de datos que estés utilizando, así que es importante consultar la documentación oficial para obtener más información.
+- La sintaxis para crear un usuario puede variar según el sistema de gestión de bases de datos utilizado. Por eso, es recomendable consultar la documentación oficial.
 #### SQL
 ```sql
 CREATE USER 'nombre_usuario'@'localhost' IDENTIFIED BY 'contraseña';
 ```
 :::tip Observación
-- nombre_usuario es el nombre del usuario que deseas crear.
-- localhost es el host desde el que se conectará el usuario (puedes reemplazarlo por % para permitir conexiones desde cualquier host).
-- contraseña es la contraseña del usuario.
+- `nombre_usuario`: Es el nombre del usuario que se desea crear.
+- `localhost`: Indica desde qué host (equipo desde donde se realiza la conexión) puede conectarse el usuario. Puede reemplazarse por `%` para permitir conexiones desde cualquier host.
+- `contraseña`: Es la contraseña asignada al usuario.
 :::
 
 #### PostgreSQL
@@ -143,7 +169,7 @@ CREATE USER nombre_usuario USING contraseña;
 #### Roles
 - Un rol es un conjunto de permisos que se pueden asignar a un usuario o a otro rol. Hay dos tipos de roles: roles de servidor y roles de base de datos.
 #### Roles de servidor
-- Los roles de servidor se utilizan para asignar permisos a nivel de servidor. Puedes crear roles de servidor personalizados utilizando la instrucción CREATE SERVER ROLE. Por ejemplo:
+- Los roles de servidor se utilizan para asignar permisos a nivel de servidor. Puedes crear roles de servidor personalizados utilizando la instrucción CREATE SERVER ROLE [nombreRol]. Por ejemplo:
 ```sql
 CREATE SERVER ROLE serverrole
 ```
@@ -151,6 +177,12 @@ CREATE SERVER ROLE serverrole
 ```sql
 GRANT ALTER ANY DATABASE TO serverrole
 ```
+:::tip Observación
+- Después del comando `GRANT` se indica el permiso que se desea asignar.
+- `ALTER ANY DATABASE` significa que el usuario puede modificar cualquier base de datos.
+:::
+
+
 - Finalmente, puedes agregar un usuario al rol utilizando la instrucción ALTER SERVER ROLE. Por ejemplo:
 ```sql
 ALTER SERVER ROLE serverrole ADD MEMBER [testexampleuser]
@@ -170,10 +202,11 @@ GRANT SELECT ON DATABASE::TestDatabase TO dbrole
 ALTER ROLE dbrole ADD MEMBER exampleuser2
 ```
 #### Permisos
-- Los permisos son los tipos de acceso que se pueden asignar a un usuario o a un rol. Hay tres formas de controlar los permisos:
-  - GRANT: Asigna un permiso a un usuario o rol.
-  - DENY: Niega un permiso a un usuario o rol.
-  - REVOKE: Revoca un permiso previamente asignado o denegado.
+- Los permisos controlan qué acciones puede realizar un usuario o rol dentro de una base de datos.
+- Existen tres formas principales de gestionarlos:
+  - `GRANT`: Otorga un permiso.
+  - `DENY`: Niega un permiso.
+  - `REVOKE`: Elimina un permiso asignado o denegado previamente.
 
 #### Ejemplos
 - Recuerda que la sintaxis cambia entre diferentes sistemas de gestión de bases de datos (DBMS).
@@ -241,12 +274,9 @@ LIMIT num_limit OFFSET num_offset;
 
 ```
 
-:::tip Sabias?
-Siempre fijarse en la ID para conseguir los datos.
-
-Si se busca información de una persona, busca la ID de la persona sin importar en que tabla esta.
-
-
+:::tip ¿Sabías?
+- Siempre utiliza la `ID` como referencia para obtener datos.
+- Por ejemplo, si buscas información de una persona, utiliza su `ID` para encontrar sus datos, sin importar en qué tabla se encuentren.
 :::
 
 ## Orden
@@ -278,21 +308,20 @@ Las filas restantes después de WHERE se agrupan en función de los valores comu
 Si la consulta tiene una cláusula GROUP BY, las restricciones de la cláusula HAVING se aplican a las filas agrupadas; descarta las filas agrupadas que no satisfacen la restricción.
 
 ###  5. SELECT
-Finalmente, se calcula cualquier expresión en la parte de la consulta.
+Finalmente, se seleccionan los campos indicados.
 
 ### 6.DISTINCT
-De las filas restantes, las filas con valores duplicados en la columna marcada como DISTINCT se descartarán.
+De las filas obtenidas, elimina aquellas que tienen valores duplicados en la columna indicada con DISTINCT.
 
 ###  7. ORDER BY
-Si la cláusula ORDER BY especifica un orden , las filas se ordenan según los datos especificados en orden ascendente o descendente
+Ordena las filas del resultado según el campo indicado, ya sea en orden ascendente (`ASC`) o descendente (`DESC`).
 
 ###  8. LIMIT/OFFSET
-Finalmente, las filas que caen fuera del rango especificado por LIMITy OFFSET se descartan, dejando el conjunto final de filas para ser devuelto por la consulta.
+Finalmente, `LIMIT` y `OFFSET` permiten especificar qué filas del resultado se obtienen, descartando las que quedan fuera del rango indicado.
 
 
-:::tip 
-No todas las consultas deben tener todas las partes que enumeramos anteriormente, pero una parte de por qué SQL es tan flexible es que permite a los desarrolladores y analistas de datos manipular rápidamente los datos sin tener que escribir código adicional, todo simplemente usando las cláusulas anteriores.
-
+:::tip
+No todas las consultas deben incluir todas las partes mencionadas anteriormente. Una de las razones por las que SQL es tan flexible es que permite a los desarrolladores y analistas de datos manipular rápidamente la información utilizando estas cláusulas, sin necesidad de escribir código adicional.
 :::
 
 ## Cheatsheet

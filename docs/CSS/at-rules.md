@@ -22,7 +22,10 @@ sidebar_position: 9
 - [Las reglas at de CSS](https://css-tricks.com/the-at-rules-of-css/)
 :::
 ## @media
-- Las media queries (en español "consultas de medios") son útiles cuando deseas modificar tu página web o aplicación en función del tipo de dispositivo (como una impresora o una pantalla) o de características y parámetros específicos (como la resolución de la pantalla o el ancho del viewport del navegador).
+- Las media queries (en español, "consultas de medios") permiten aplicar reglas CSS según el tipo de dispositivo o las características de la pantalla.
+- Por ejemplo, puedes cambiar los estilos cuando el ancho de la pantalla es menor a `768px`, en la vista previa que aparece cuando quieres imprimir algo o según la orientación del dispositivo.
+
+
   
 :::tip info
 - [developer mozilla](https://developer.mozilla.org/es/docs/Web/CSS/Media_Queries/Using_media_queries)
@@ -53,9 +56,10 @@ sidebar_position: 9
 :::
 
 ## @layer
-- La regla @layer de CSS, permite declarar una capa de cascada. Estas capas son muy similares y funcionan de forma muy parecida a las capas de cualquier editor gráfico.
-- Permiten agrupar código CSS en el interior de una capa, y finalmente, fusionarlo todo manteniendo el orden especificado, algo que puede hacer mucho más fácil el organizar CSS, sobretodo de cara a la especificidad.
-
+- La regla `@layer` permite crear capas para organizar el código CSS.
+- Cada capa puede contener reglas CSS y el navegador las aplica siguiendo el orden en que fueron definidas.
+- Esto facilita organizar los estilos y controlar qué reglas tienen prioridad cuando varias afectan al mismo elemento.
+- Si alguna vez utilizaste un editor gráfico como Photoshop o GIMP, el funcionamiento es muy similar al de las capas de esos programas.
 #### Ejemplo
 ```css
   @layer reset {
@@ -66,8 +70,8 @@ sidebar_position: 9
     }
 
 ```
-- En este caso, estamos creando una capa llamada reset que va a incluir código CSS que realiza un reseteo en ciertas propiedades sobre la forma que funciona un navegador. 
-- El nombre reset lo establece el desarrollador, y puede ser cualquier otro nombre que desee. Esto significa que, a partir de ahora, existirá una capa reset que incluye los estilos indicados en el interior de dicha regla.
+- En este caso, se crea una capa llamada `reset` que contiene reglas CSS para modificar algunos estilos que define el navegador por defecto.
+- El nombre `reset` lo establece el desarrollador y puede ser cualquier otro. A partir de ese momento, existirá una capa llamada `reset` que contiene los estilos definidos dentro de esa regla.
 - Entonces la sintaxis seria:
 ```css
     @layer nombre-de-la-capa {
@@ -86,14 +90,18 @@ sidebar_position: 9
     }
 
 ```
-- En el caso de crear capas anónimas, no existe ninguna forma de hacer referencia a ellas posteriormente para añadir más código CSS o reordenarlas. Recuerda que, si creamos múltiples capas anónimas como en el ejemplo anterior, el navegador creará múltiples capas anónimas diferentes.
+- En el caso de crear capas anónimas, no es posible hacer referencia a ellas más adelante para agregar más reglas CSS o cambiar el orden de las capas.
+- Si se crean varias capas anónimas, el navegador las considera capas diferentes e independientes.
 
 
 #### Orden de las capas
-- Las capas en cascada se procesan en el orden en que aparecen por primera vez. La primera capa que se encuentra es la “menos poderosa” (la que tiene menos prioridad) y la última capa  que se encuentra es la “más poderosa” (la que tiene mas prioridad)
-- Podemos cambiar el orden de las capas, si establecemos una regla @layer con las diferentes capas (nombre-de-la-capa) separadas por coma. Hay que asegurarse que esto ocurre antes de la creación de las capas, ya que una vez están declaradas, no se puede cambiar su orden:
+- Cada vez que se procesa una capa, se aplican los estilos CSS que contiene.
+- Las capas se procesan según el orden en que aparecen por primera vez. La primera capa tiene menor prioridad y la última tiene mayor prioridad.
+- Es posible modificar el orden de las capas mediante una regla `@layer`, indicando sus nombres separados por comas.
+- Esta regla debe declararse antes de crear las capas, ya que una vez declaradas no es posible cambiar su orden.
+
 :::tip
-cualquier estilo con ¡important se aplica en orden inverso
+Los estilos que utilizan `!important` se aplican en el orden inverso de las capas. Es decir, la primera capa tiene más prioridad que la última.
 :::
 
 ```html
@@ -135,8 +143,8 @@ cualquier estilo con ¡important se aplica en orden inverso
 :::
 
 :::tip Consejos
-- En el caso de indicar múltiples veces una misma capa, el navegador fusionará los estilos en la misma capa. Esto permitirá que en algunos casos podamos añadir más estilos a una capa ya definida
-- Ten en cuenta que cualquier estilo declarado sin capa, independientemente del orden de aparición, se agrupará en una capa anónima y se aplicará siempre al final del resto de capas declaradas.
+- Si se indica varias veces una misma capa, el navegador fusionará sus estilos dentro de la misma capa. Esto permite agregar nuevos estilos a una capa ya creada.
+- Los estilos declarados fuera de una capa se agrupan en una capa anónima y se aplican después de todas las capas declaradas.
 :::
 
 #### La especificidad en capas CSS 
@@ -165,9 +173,9 @@ button.primary {
 
 ```
 :::tip Observación
-- La capa texts será la primera en procesarse.
-- Lo primero que hará es agrupar todos los estilos en dicha capa, calcular sus especificidades y aplicarlas
-- Luego, buscará si existen otras capas diferentes para procesarlas. Si no existen más, agrupará el resto de los estilos fuera de capas en una capa anónima y los aplicará después de los anteriores.
+- La capa `texts` será la primera en procesarse.
+- El navegador calcula la especificidad de las reglas CSS que contiene y aplica los estilos CSS.
+- Luego, busca si existen otras capas para procesarlas. Si no existen más, agrupa los estilos que no pertenecen a ninguna capa en una capa anónima y los aplica después de las capas anteriores.
 :::
 
 #### Prueba
@@ -207,8 +215,9 @@ Quita  la capa texts
 - [How To Use CSS Layers](https://blog.webdevsimplified.com/2022-04/css-cascade-layers/)
 :::
 ## @import
-- La regla @import es una regla de CSS que permite cargar un fichero .css externo, leer sus líneas de código e incorporarlo al archivo actual. Estas reglas CSS se suelen indicar en las primeras líneas del fichero, ya que deben figurar antes de otras reglas CSS o contenido CSS similar.
-- La regla @import se evalua en el navegador a la hora de cargar la página, por lo que cada regla @import equivale a una petición al servidor de un nuevo archivo .css.
+- La regla `@import` permite cargar un archivo CSS externo e incorporar sus reglas dentro del archivo actual.
+- Estas reglas suelen escribirse al principio del archivo CSS, ya que deben aparecer antes que otras reglas CSS.
+- Cada regla `@import` genera una solicitud al servidor para cargar el archivo CSS indicado.
 
 #### Sintaxis #01
 ```css
@@ -230,10 +239,13 @@ Ejemplo:
 ```
 #### Sintaxis #03
 ```css
-import url  supports(condición)
+import url  supports(propiedad:valor)
 ```
-- Importamos una hoja de estilos CSS sólo si el navegador soporta la condición.
-  
+- Importamos una hoja de estilos CSS solo si el navegador soporta la propiedad y el valor indicado.
+- Ejemplo:
+```css
+@import url("grid.css") supports(display: grid);
+```
 #### Sintaxis #04
 ```css
 @import  url layer(nombre)
@@ -258,9 +270,9 @@ Ejemplo:
 - [Regla para incluir CSS externo de otros archivos](https://lenguajecss.com/css/reglas-css/la-regla-import/)
 :::
 ## @supports
-- CSS tiene una característica interesante que nos permite probar si el navegador es compatible con una propiedad en particular o una combinación de propiedad:valor antes de aplicar un bloque de estilos
-- Básicamente la regla @supports indica al navegador que si la propiedad  y el valor indicado son soportados, lea las reglas css que  contiene en el bloque ({})
-
+- La regla `@supports` permite comprobar si el navegador soporta una propiedad CSS o una propiedad y un valor indicado antes de aplicar las reglas CSS que contiene.
+- Básicamente, le indica al navegador que, si la propiedad y el valor indicado son compatibles, aplique las reglas CSS que se encuentran dentro del bloque (`{}`).
+- Ejemplo:
 ```css
 .p-ejemplo-supports {
     color: red;
@@ -287,20 +299,20 @@ Ejemplo:
 :::
 
 ## @namespace
-- En CSS, @namespace es una regla at-rule que se utiliza para declarar un espacio de nombres (namespace) en un archivo CSS, lo cual es útil cuando se trabaja con documentos XML que pueden incluir múltiples espacios de nombres, como en SVG o XHTML.
-- Gracias a @namespace podes aplicar estilos css solo a elementos que estén dentro de un espacio de nombre.
-- El objetivo de @namespace es evitar conflictos entre estilos cuando se trabaja con documentos que contienen elementos de diferentes espacios de nombres.
+- La regla `@namespace` permite declarar un espacio de nombres dentro de un archivo CSS.
+- Esto permite aplicar estilos CSS solo a elementos que pertenecen a un espacio de nombres específico.
+- Su objetivo es evitar conflictos cuando un documento contiene elementos de diferentes espacios de nombres, como puede ocurrir en documentos XML, SVG o XHTML.
 - Sintaxis
 ```css
 @namespace [prefix] "namespace-uri";
 ```
 :::tip Observación
--  prefix (opcional): Un prefijo que se puede usar en los selectores para referirse a un elemento que pertenece espacio de nombres específico.
--  namespace-uri: La URI del espacio de nombres que deseas declarar.
+- `prefix` (opcional): Es un nombre que permite identificar el espacio de nombres indicado en `namespace-uri` dentro de los selectores CSS.
+- `namespace-uri`: Es la URI del espacio de nombres que se quiere declarar.
 :::
 
 
-:::tip ¿Qué es una URI de espacio de nombres?
+:::tip ¿Qué es una URI del espacio de nombres?
 - Es una dirección (parecida a una URL) que actúa como un identificador único para un conjunto de elementos o atributos.
 - No significa que haya un archivo o página en esa dirección; solo se usa como un nombre único para identificar algo.
 - Por ejemplo:
@@ -314,7 +326,7 @@ Ejemplo:
   - Sin un namespace, no podrías diferenciar entre ambos. Con espacios de nombres, los navegadores pueden saber cuál es cuál porque cada uno está asociado con una URI única.
 ##### Entonces, ¿qué son esas URLs?
 - Son identificadores globales que ayudan a distinguir elementos. Aunque parecen direcciones web, no necesitas visitarlas; son solo nombres únicos estándar creados por la W3C (World Wide Web Consortium).
-- En resumen: la URI es como una etiqueta única que le dice al navegador qué "tipo de lenguaje" está usando cada elemento.
+- En resumen: la URI le indica al navegador a qué espacio de nombres pertenece cada elemento.
 :::
 
 
