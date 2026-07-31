@@ -20,7 +20,7 @@ Una entidad es cualquier objeto, persona, concepto o cosa que puede ser identifi
 
 
 
-Y dada una tabla de datos, la consulta más básica que podríamos escribir sería una que seleccione un par de columnas (propiedades) por fila (instancia):
+La consulta más básica consiste en seleccionar una o varias columnas de una tabla:
 
 ```sql
 SELECT column, another_column, …

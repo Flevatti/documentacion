@@ -9,23 +9,23 @@ sidebar_position: 5
 
 ### Normalización de la base de datos
 
-La normalización de la base de datos es útil porque minimiza los datos duplicados en una sola tabla y permite que los datos de la base de datos crezcan independientemente unos de otros (es decir, los tipos de motores de automóvil pueden crecer independientemente de cada tipo de automóvil)
+La normalización de una base de datos es útil porque reduce los datos duplicados dentro de una tabla y permite que los datos de la base de datos crezcan de forma independiente unos de otros (por ejemplo, los tipos de motores de automóvil pueden crecer independientemente de cada tipo de automóvil).
 
-Como compensación, las consultas se vuelven un poco más complejas, ya que tienen que poder encontrar datos de diferentes partes de la base de datos, y pueden surgir problemas de rendimiento cuando se trabaja con muchas tablas grandes.
-Para responder preguntas sobre una entidad que tiene datos que abarcan varias tablas en una base de datos normalizada, debemos aprender a escribir una consulta que pueda combinar todos esos datos y extraer exactamente la información que necesitamos.
+Como desventaja, las consultas se vuelven un poco más complejas, ya que deben encontrar datos que se encuentran en diferentes partes de la base de datos, y pueden surgir problemas de rendimiento al trabajar con muchas tablas grandes.
+
+Para responder preguntas sobre una entidad cuyos datos se encuentran distribuidos en varias tablas dentro de una base de datos normalizada, debemos aprender a escribir consultas que puedan combinar esos datos y obtener exactamente la información que necesitamos.
 
 ##  Inner Join
 
-Cada fila de una tabla debe tener una clave principal que identifique esa entidad de forma única en la base de datos. Es una clave primaria  que puede ser un entero que se incrementa automáticamente (porque ahorran espacio), pero también puede ser una cadena, valor hash, siempre que sea único.
+Cada fila de una tabla debe tener una clave primaria que identifique esa entidad de forma única dentro de la tabla. Esta clave puede ser un número entero autoincremental (ya que ocupa menos espacio), pero también puede ser una cadena de texto, un hash u otro valor, siempre que sea único.
 
 
-
-:::tip cláusula ON
-Al usar la cláusula JOIN en una consulta, podemos combinar filas de dos tablas (o más) separadas usando esta clave única. 
-
+:::tip Cláusula ON
+Al utilizar la cláusula `JOIN` en una consulta, podemos combinar filas de dos o más tablas utilizando la clave primaria.
 :::
+
 :::tip Uniones
-Se puede  hacer dos join a la misma tabla pero con diferente relación (el país de un empleado y de un cliente).
+Se pueden realizar dos `JOIN` de la misma tabla usando diferentes cláusulas `ON`. Por ejemplo, un empleado y un cliente pueden tener un país asociado.
 :::
 
 
@@ -40,7 +40,9 @@ LIMIT num_limit OFFSET num_offset;
 
 ```
 
-El INNER JOIN es un proceso que hace coincidir las filas de la primera tabla y las filas de la segunda tabla que tienen  una columna (cada una de las tablas) con el mismo valor (Las columnas que deben tener el mismo valor la establece la restricción ON) para crear una fila  con las columnas combinadas de ambas tablas. Después de unir las tablas, se aplican las otras cláusulas.
+El `INNER JOIN` es un proceso que busca filas de la primera tabla y de la segunda tabla que tengan una columna de cada tabla con el mismo valor. Las columnas que deben tener el mismo valor las establece la cláusula `ON`.
+
+Por cada coincidencia, se crea una fila con las columnas combinadas de ambas tablas. Después de unir las tablas, se aplican las demás cláusulas.
 
 
 :::tip ¿Sabías?
@@ -79,18 +81,16 @@ LIMIT num_limit OFFSET num_offset;
 
 ```
 ## Left / Right / Full
-Al igual que INNER JOIN
-estas tres nuevas uniones, deben especificar en qué columna se unirán los datos(que columnas (una de cada tabla) tendran el mismo valor).
+Al igual que `INNER JOIN`, estas tres nuevas uniones deben especificar qué columnas se usarán para unir los datos (qué columnas, una de cada tabla, tendrán el mismo valor).
 
 Al unir la tabla A a la tabla B,  LEFT JOIN simplemente incluye filas de A independientemente de si se encuentra una fila coincidente en B. RIGHT JOIN es lo mismo, pero invertido, incluyendo filas en B independientemente de si se encuentra una coincidencia en A. Finalmente tenemos,  FULL JOIN en donde  las filas de ambas tablas se mantienen, independientemente de si existe una fila coincidente en la otra tabla.
 
 :::tip
-Cuando use cualquiera de estas nuevas uniones, probablemente tendrá que escribir lógica adicional para lidiar con NULLs en el resultado y las restricciones
+Cuando use cualquiera de estas nuevas uniones, probablemente tendrá que escribir lógica adicional para lidiar con NULLs en el resultado.
 :::
 
 :::tip ¿Sabías?
-Es posible que vea las consultas con estas uniones se escriban como LEFT OUTER JOIN, RIGHT OUTER JOIN o FULL OUTER JOIN, pero la palabra clave OUTER mantiene la compatibilidad de SQL-92 y estas consultas son simplemente equivalente a LEFT JOIN, RIGHT JOIN y FULL JOIN respectivamente.
-
+Es posible que vea que las consultas con estas uniones se escriban como `LEFT OUTER JOIN`, `RIGHT OUTER JOIN` o `FULL OUTER JOIN`, pero la palabra clave `OUTER` se mantiene por compatibilidad con SQL-92. Estas consultas son simplemente equivalentes a `LEFT JOIN`, `RIGHT JOIN` y `FULL JOIN`, respectivamente.
 :::
 
 ```sql
@@ -104,11 +104,11 @@ FROM buildings
 
 ## Valores Null
 
-Siempre es bueno reducir la posibilidad de valores NULL en las bases de datos porque requieren una atención especial al construir consultas, restricciones (ciertas funciones se comportan de manera diferente con valores nulos) y al procesar los resultados.
+Siempre es bueno reducir la posibilidad de valores `NULL` en las bases de datos porque requieren una atención especial al construir consultas, restricciones (ciertas funciones se comportan de manera diferente con valores nulos) y al procesar los resultados.
 
-Una alternativa a los valores NULL en su base de datos es tener valores predeterminados, como 0 para datos numéricos, cadenas vacías para datos de texto, etc. Pero si su base de datos necesita almacenar datos incompletos, entonces los valores NULL pueden ser apropiados si los valores predeterminados sesgarán el análisis posterior (por ejemplo, al tomar promedios de datos numéricos).
+Una alternativa a los valores `NULL` en una base de datos es utilizar valores predeterminados, como `0` para datos numéricos, cadenas vacías para datos de texto, etc. Sin embargo, si la base de datos necesita almacenar datos incompletos, los valores `NULL` pueden ser apropiados si los valores predeterminados afectan el análisis posterior (por ejemplo, al calcular promedios de datos numéricos).
 
-A veces, tampoco es posible evitar valores NULL, al unir dos tablas con datos asimétricos. En estos casos, puede buscar valores NULL con la cláusula WHERE mediante la restricción IS NULL o IS NOT NULL.
+A veces tampoco es posible evitar valores `NULL`, como al unir dos tablas con datos asimétricos. En estos casos, se pueden buscar valores que sean o no `NULL` en la consulta utilizando la cláusula `WHERE` junto con `IS NULL` o `IS NOT NULL`.
 
 ```sql
 SELECT column, another_column, …
@@ -132,8 +132,9 @@ WHERE role IS NULL;
 ```
 
 ## Uniones, intersecciones y excepciones
-Cuando se trabaja con varias tablas, el operador UNION y UNION ALL permite agregar los resultados de una consulta a otra asumiendo que tienen el mismo recuento de columnas, orden y tipo de datos(no verifica). Si usa UNION sin el ALL, las filas duplicadas entre las tablas se eliminarán del resultado.
+Cuando se trabaja con varias tablas, los operadores `UNION` y `UNION ALL` permiten combinar los resultados de una consulta con otra, siempre que ambas consultas devuelvan la misma cantidad de columnas y que sus tipos de datos sean compatibles (aunque no lo verifican).
 
+Si se utiliza `UNION` sin `ALL`, las filas duplicadas entre los resultados se eliminan.
 ```sql
 SELECT column, another_column
    FROM mytable
@@ -147,15 +148,15 @@ UNION ocurre antes de ORDER BY y LIMIT. No es común usar UNION, pero si tiene d
 
 
 
-De manera similar a UNION, el operador  INTERSECT se asegurará de que solo se devuelvan las filas que sean idénticas en ambos conjuntos de resultados, y el  operador EXCEPT se asegurará de que solo se devuelvan las filas del primer conjunto de resultados que no están en el segundo.
+De manera similar a UNION, el operador  INTERSECT se asegurará de que solo se devuelvan las filas que están  en ambos conjuntos de resultados, y el  operador EXCEPT se asegurará de que solo se devuelvan las filas del primer conjunto de resultados que no están en el segundo.
 
 Ambos INTERSECT y EXCEPT también descartan filas duplicadas después de sus respectivas operaciones, aunque algunas bases de datos también admiten INTERSECT ALL y EXCEPT ALL permiten que los duplicados no se descarten.
 
 ## Join Lateral
-- Una unión lateral en PostgreSQL es como ese amigo que siempre trae otro amigo a la fiesta. En términos de SQL, permite que una subconsulta en la cláusula FROM haga referencia a columnas  de las filas de la tabla anterior en la cláusula FROM. Esto es muy útil cuando deseas generar una serie de valores para cada fila de una tabla.
-- En otras palabras, LATERAL JOIN te permite crear una subconsulta que se evalúa por cada fila de la tabla anterior, lo que significa que la subconsulta puede utilizar valores de la fila actual de la tabla anterior en su consulta.
-- Esto es útil en situaciones en las que necesitas realizar una consulta compleja que depende de los valores de la fila actual de la tabla anterior.
-- La sintaxis de LATERAL JOIN es la siguiente:
+- `LATERAL JOIN` permite que una subconsulta use valores de las columnas de la tabla especificada por `FROM` (tabla anterior).
+- La subconsulta se ejecuta una vez por cada fila de esa tabla, utilizando sus valores. El resultado se combina con la fila actual y se agrega al resultado de la consulta.
+- Es útil cuando necesitamos realizar una consulta utilizando los valores de la fila actual de la tabla indicada por `FROM`.
+- La sintaxis de `LATERAL JOIN` es la siguiente:
 
 ```sql
 SELECT *
@@ -172,7 +173,7 @@ FROM table1,
 - Entonces sería como: FROM table1 , [Resultado de la subconsulta]. Él [Resultado de la subconsulta] cambia por cada fila de table1. Por lo tanto, es como si se nos permitiera especificar dos tablas en el FROM.
 :::
 
-- Aquí hay otro ejemplo de un joint lateral en PostgreSQL:
+- Aquí hay otro ejemplo de un join lateral en PostgreSQL:
 
 ```sql
 SELECT main.id, sub.sub_value
@@ -184,7 +185,10 @@ JOIN LATERAL (
 ) AS sub ON TRUE;
 ```
 :::tip observación
-- En este ejemplo, la subconsulta en la cláusula FROM (sub) hace referencia a la columna id de la tabla main_table (main). La palabra clave LATERAL permite que esta referencia sea válida.
+- En este ejemplo, la subconsulta utiliza el valor de la columna `id` de la tabla `main_table` a través de `main.id`. La palabra clave `LATERAL` permite que esto sea válido.
+
+
+
 - El joint lateral puede ser útil en situaciones en las que necesita realizar una subconsulta correlacionada, que es una subconsulta que depende de valores de la consulta exterior. Al utilizar un joint lateral, puede evitar la necesidad de repetir la misma subconsulta para cada fila de la consulta exterior.
 :::
 

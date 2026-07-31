@@ -302,7 +302,7 @@ FROM mytable
 Una vez que tenemos el conjunto de datos , las restricciones  WHERE  se aplican a las filas individuales y las filas que no satisfacen la restricción se descartan.
 
 ###  3. GROUP BY
-Las filas restantes después de WHERE se agrupan en función de los valores comunes en la columna especificada en la cláusula GROUP BY. Como resultado de la agrupación, solo habrá tantas filas como valores únicos haya en esa columna. Implícitamente, esto significa que solo debería necesitar usar esto cuando tenga funciones agregadas en su consulta.
+Después de aplicar WHERE, las filas se agrupan según los valores de la columna indicada en GROUP BY, obteniendo una fila por cada valor único. Generalmente, GROUP BY se utiliza junto con funciones agregadas como `COUNT`, `SUM`, `AVG`, `MIN` o `MAX`.
 
 ###  4. HAVING
 Si la consulta tiene una cláusula GROUP BY, las restricciones de la cláusula HAVING se aplican a las filas agrupadas; descarta las filas agrupadas que no satisfacen la restricción.

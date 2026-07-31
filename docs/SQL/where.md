@@ -69,11 +69,10 @@ SELECT * FROM movies where ID in (1,2,3,4,5)
 | `!=` o `<>` | Funciona como el `!==` de JavaScript. Distingue entre mayúsculas y minúsculas. | `col_name != "abc"` |
 | `LIKE` | Es similar al operador `=`, pero permite utilizar comodines para realizar búsquedas más flexibles. | `col_name LIKE "ABC"` |
 | `NOT LIKE` | Es similar al operador `!=`, pero permite utilizar comodines para realizar búsquedas más flexibles. | `col_name NOT LIKE "ABC"` |
-| `%` | Representa cero o más caracteres dentro de un texto (se utiliza con `LIKE` o `NOT LIKE`). | `col_name LIKE "%at%"` |
-| `_` | Representa un único carácter dentro de un texto (se utiliza con `LIKE` o `NOT LIKE`). | `col_name LIKE "AN_"` |
-| `IN (...)` | La cadena coincide con alguno de los valores dentro de una lista. | `col_name IN ("a","b","c")` |
-| `NOT IN (...)` | La cadena no coincide con ninguno de los valores dentro de una lista. | `col_name NOT IN ("a","b","c")` |
-
+| `%` | Es un **comodín**. Representa cero o más caracteres dentro de un texto (se utiliza con `LIKE` o `NOT LIKE`). | `col_name LIKE "%at%"` |
+| `_` | Es un **comodín**. Representa un solo carácter dentro de un texto (se utiliza con `LIKE` o `NOT LIKE`). | `col_name LIKE "AN_"` |
+| `IN (...)` | El texto es igual a uno de los valores de la lista (equivale a aplicar varias comparaciones con `=`). | `col_name IN ("a","b","c")` |
+| `NOT IN (...)` | El texto no es igual a ninguno de los valores de la lista (equivale a aplicar varias comparaciones con `!=`). | `col_name NOT IN ("a","b","c")` |
 
 
 
@@ -84,10 +83,7 @@ Para optimizar el LIKE, trata que no arranque con un comodín (% o _)
 
 
 :::tip ¿Sabías?
-
-Todas las cadenas deben estar entre comillas para que el analizador de consultas pueda distinguir las palabras de la cadena de las palabras clave SQL.
-
-
+- Todas las cadenas de texto (`string`) deben escribirse entre comillas para que SQL pueda distinguirlas de las palabras clave y de otros elementos del lenguaje.
 :::
 
 Ejemplos:
