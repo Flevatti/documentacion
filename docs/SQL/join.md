@@ -154,7 +154,7 @@ Ambos INTERSECT y EXCEPT también descartan filas duplicadas después de sus res
 
 ## Join Lateral
 - `LATERAL JOIN` permite que una subconsulta use valores de las columnas de la tabla especificada por `FROM` (tabla anterior).
-- La subconsulta se ejecuta una vez por cada fila de esa tabla, utilizando sus valores. El resultado se combina con la fila actual y se agrega al resultado de la consulta.
+- La subconsulta se ejecuta una vez por cada fila de la tabla (especificada por `FROM`), utilizando sus valores (de la fila). El resultado se combina con la fila actual y se agrega al resultado de la consulta.
 - Es útil cuando necesitamos realizar una consulta utilizando los valores de la fila actual de la tabla indicada por `FROM`.
 - La sintaxis de `LATERAL JOIN` es la siguiente:
 
@@ -186,17 +186,16 @@ JOIN LATERAL (
 ```
 :::tip observación
 - En este ejemplo, la subconsulta utiliza el valor de la columna `id` de la tabla `main_table` a través de `main.id`. La palabra clave `LATERAL` permite que esto sea válido.
+- Como estamos usando `JOIN`, SQL nos pide una condición para unir las filas. Al escribir `ON TRUE`, básicamente le estamos diciendo que una siempre las filas que devuelve la subconsulta con las filas de la consulta principal.
+- `LATERAL JOIN` es útil cuando una subconsulta necesita utilizar valores de la consulta principal.
 
 
-
-- El joint lateral puede ser útil en situaciones en las que necesita realizar una subconsulta correlacionada, que es una subconsulta que depende de valores de la consulta exterior. Al utilizar un joint lateral, puede evitar la necesidad de repetir la misma subconsulta para cada fila de la consulta exterior.
 :::
 
 
 
-- LATERAL JOIN es una característica que PostgreSQL  implemento, sin embargo, luego surgieron otros motores de base de datos también la han adoptado.
-- Es posible que otros motores de base de datos, como SQL Server, admitan características similares, aunque no necesariamente con el mismo nombre.
-- aquí hay un ejemplo de una característica similar en SQL Server, llamada "APPLY":
+- `LATERAL JOIN` fue implementado por PostgreSQL, pero otros motores de bases de datos implementaron la misma funcionalidad con otro nombre.
+- En SQL Server, esta característica se llama `APPLY`:
 
 
 ```sql
@@ -208,8 +207,15 @@ CROSS APPLY (
   WHERE sub_table.main_id = m.id
 ) sub;
 ```
+:::tip Observación
+- En este ejemplo, `CROSS APPLY` ejecuta la subconsulta una vez por cada fila de `main_table`.
+- El resultado de la subconsulta se combina con la fila actual de `main_table`.
+- `sub` es lo mismo que `AS sub`; es el alias del resultado de la subconsulta.
+:::
 
-:::tip
-- Aunque el LATERAL JOIN se originó en PostgreSQL, no es exclusivo de este motor de base de datos y otros motores de base de datos también lo han adoptado o tienen características similares.
-- Es importante destacar que LATERAL JOIN solo está disponible en algunos sistemas de bases de datos, como PostgreSQL y SQL Server. Si estás utilizando otro sistema de base de datos, como MySQL o Oracle, deberás utilizar una subconsulta tradicional o una consulta más compleja para lograr el mismo resultado.
+
+:::tip Compatibilidad
+- Aunque `LATERAL JOIN` se originó en PostgreSQL, otros motores de bases de datos implementan la misma funcionalidad con otro nombre.
+- En SQL Server, esta funcionalidad se implementa mediante `CROSS APPLY` (actúa como `INNER JOIN`) y `OUTER APPLY` (actúa como `OUTER JOIN`).
+- Por este motivo, se recomienda leer la documentación de cada motor de base de datos.
 :::

@@ -4,35 +4,33 @@ sidebar_position: 6
 # Expresiones y funciones
 
 ## Expresiones/funciones
-
-Se puede usar expresiones para escribir una lógica más compleja que se aplica en los valores devuelto por una consulta. Estas expresiones pueden usar funciones matemáticas y de cadena junto con aritmética básica para transformar valores cuando se ejecuta la consulta, como se muestra en este ejemplo de física.
-
-
+Las expresiones permiten modificar los valores devueltos por una consulta. Para ello, podemos utilizar operadores aritméticos y funciones matemáticas o de cadena de texto, como se muestra en el siguiente ejemplo:
 ```sql
 SELECT particle_speed / 2.0 AS half_particle_speed
 FROM physics_data
 WHERE ABS(particle_position) * 10.0 > 500;	
 
 ```
-:::tip funcion ABS()
-La función ABS () devuelve el valor absoluto (positivo) de un número.
+:::tip Función `ABS()`
+- La función `ABS()` devuelve el valor absoluto de un número, es decir, elimina su signo (positivo o negativo) y obtiene su valor numérico.
+- El resultado siempre es un número positivo o cero.
+:::
 
-El valor absoluto de un número consiste en su valor, sin importar su signo. Cuando tomamos el valor absoluto de un número, éste es siempre positivo o cero
 
-::: 
 :::tip
 Se pueden usar funciones y operaciones aritméticas en las consultas 
 :::
 ## As
-Cada base de datos tiene sus propias funciones matemáticas, de cadena y de fecha que se pueden usar en una consulta, que puede encontrar en sus propios documentos respectivos.
-El uso de expresiones puede ahorrar tiempo y un posprocesamiento adicional de los datos de resultado, pero también puede hacer que la consulta sea más difícil de leer, por lo que recomendamos que cuando se usen expresiones en SELECT, también se les asigne un alias descriptivo. usando la  palabra clave AS.
+Cada base de datos tiene sus propias funciones matemáticas, de cadena y de fecha que se pueden utilizar en una consulta. Estas funciones se pueden consultar en la documentación de cada motor.
+
+El uso de expresiones puede ahorrar tiempo y evitar un procesamiento adicional de los datos obtenidos, pero también puede hacer que la consulta sea más difícil de leer. Por eso, cuando se utilicen expresiones en `SELECT`, se recomienda asignarles un alias más descriptivo utilizando la palabra clave `AS`.
 
 ```sql
 SELECT col_expression AS expr_description, …
 FROM mytable;
 
 ```
-Además de las expresiones, las columnas regulares e incluso las tablas también pueden tener alias para facilitar su referencia en la salida y como parte de la simplificación de consultas más complejas.
+Además de las expresiones, las columnas e incluso las tablas también pueden tener alias para simplificar consultas más complejas:
 
 ```sql
 SELECT column AS better_column_name, …
@@ -41,12 +39,15 @@ INNER JOIN widget_sales
   ON mywidgets.id = widget_sales.widget_id;
 ```
 :::tip
-Se utiliza el punto para acceder a una columna especifica de una tabla en particular.
+Se utiliza el punto para acceder a una columna específica de una tabla.
 
-Sirve para evitar ambiguedades cuando dos tablan tiene una columna con el mismo nombre
+Sirve para evitar ambigüedades cuando dos tablas tienen una columna con el mismo nombre.
 
-tabla.columna 
+`tabla.columna`
 
+También podemos utilizar el alias como reemplazo del nombre de una tabla:
+
+`alias.columna`
 :::
 
 ```sql
