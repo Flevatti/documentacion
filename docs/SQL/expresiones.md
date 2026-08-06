@@ -72,9 +72,7 @@ WHERE year % 2 = 0;
 
 ```
 ## Funciones de grupo 
-
-
- SQL también admite el uso de expresiones (o funciones) agregadas que  permiten resumir información sobre un grupo de filas (ENTIDADES).
+SQL también admite funciones agregadas o de grupo, que permiten resumir la información de un grupo de filas.
 
 ```sql
 SELECT AGG_FUNC(column_or_expression) AS aggregate_description, …
@@ -83,21 +81,23 @@ WHERE constraint_expression;
 
 ```
 
-Sin una agrupación especificada, cada función agregada se ejecutará en todo el conjunto de filas de la consulta y devolverá un solo valor. Y al igual que las expresiones normales, asignar un alias a sus funciones agregadas garantiza que los resultados sean más fáciles de leer y procesar.
+Sin una agrupación especificada por `GROUP BY` (lo veremos en la siguiente sección), la función agregada se ejecuta utilizando todas las filas devueltas por la consulta y devuelve un único valor.
+
+Al igual que con las expresiones, asignar un alias a una función agregada facilita la lectura de los resultados.
 
 :::tip
-La función se aplica a un conjunto de filas y devuelve un valor(una fila).
+La función utiliza un conjunto de filas y devuelve un único valor.
 :::
 
-### Aquí hay algunas funciones agregadas comunes que usaremos en nuestros ejemplos:
+#### Estas son algunas de las funciones agregadas más usadas:
 
-| Funcion      | Descripcion     | 
-| :-------------: |:-------------:| 
-| COUNT(*) , COUNT(Columna)             | Si no se especifica ningun nombre de columna  ,se utiliza para contar el número de filas en el grupo  . De lo contrario , cuenta el número de filas en el grupo con valores NO NULL de la columna especificada | 
-| MIN(Columna)            | Encuentra el valor numérico más pequeño de la columna especificada     de todas las filas del grupo | 
-| MAX(Columna)            | Encuentra el valor numérico más grande de la columna especificada     de todas las filas del grupo | 
-| AVG(Columna)            | Encuentra el valor numérico promedio en la columna especificada   del grupo de filas |
-| SUM(Columna)            | Devuelve la suma de todos los valores numéricos de la columna especificada del grupo de filas |
+| Función | Descripción |
+| :------: | :---------- |
+| `COUNT(*)`, `COUNT(columna)` | Si no se especifica ninguna columna (`COUNT(*)`), cuenta el número de filas del grupo. De lo contrario (`COUNT(columna)`), cuenta únicamente las filas cuyo valor en la columna especificada no es `NULL`. |
+| `MIN(columna)` | Devuelve el valor numérico más pequeño de la columna especificada en el grupo de filas. |
+| `MAX(columna)` | Devuelve el valor numérico más grande de la columna especificada en el grupo de filas. |
+| `AVG(columna)` | Devuelve el valor numérico promedio de la columna especificada en el grupo de filas. |
+| `SUM(columna)` | Devuelve la suma de todos los valores numéricos de la columna especificada en el grupo de filas. |
 
 ## Group By 
 Además de aplicar una función agregada en todas las filas de una tabla, se  puede aplicar las funciones agregadas a grupos  de datos dentro de ese grupo (es decir, ventas de taquilla para películas de acción y comedias).
