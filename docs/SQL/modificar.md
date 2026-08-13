@@ -6,15 +6,15 @@ sidebar_position: 7
 
 ## ¿Qué es un esquema?
 
-En SQL, el esquema de la base de datos es lo que describe la estructura de cada tabla y los tipos de datos que puede contener cada columna de la tabla.
+En SQL, el esquema de la base de datos describe la estructura de cada tabla (es decir, cómo está formada y qué columnas tiene) y los tipos de datos que puede contener cada columna.
 
-Esta estructura fija es lo que permite que una base de datos sea eficiente y consistente a pesar de almacenar millones o incluso miles de millones de filas.
+Esta estructura fija permite que la base de datos sea eficiente y consistente, incluso al almacenar millones o miles de millones de filas.
 
 ## Insert
 
-Al insertar datos en una base de datos, necesitamos usar la declaración INSERT, que declara en qué tabla insertar, las columnas de datos que estamos llenando y una o más filas de datos para insertar. En general, cada fila de datos que inserte debe contener valores para cada columna correspondiente en la tabla.
+Para insertar datos en una base de datos, necesitamos usar la declaración `INSERT` e indicar en qué tabla insertar los datos, las columnas que estamos llenando y una o más filas de datos para insertar.
 
-Puede insertar varias filas a la vez simplemente enumerándolas secuencialmente(separándolo con coma)
+Podemos insertar varias filas a la vez simplemente enumerándolas secuencialmente, separándolas con comas:
 
 ```sql
 
@@ -25,7 +25,7 @@ VALUES (value_or_expr, another_value_or_expr, …),
 
 ```
 
-En algunos casos, si tiene datos incompletos y la tabla contiene columnas que admiten valores predeterminados, puede insertar filas solo con las columnas que tiene especificado explícitamente. (crear una fila especificando que columna llenar)
+En algunos casos, si tiene datos incompletos y la tabla contiene columnas con valores predeterminados, puede insertar una fila especificando solo las columnas que desea llenar.
 
 ```sql
 INSERT INTO mytable
@@ -36,11 +36,13 @@ VALUES (value_or_expr, another_value_or_expr, …),
 
 ```
 
-En estos casos, el número de valores debe coincidir con el número de columnas especificadas. A pesar de ser una declaración más detallada de escribir, insertar valores de esta manera tiene la ventaja de ser compatible con versiones posteriores. Por ejemplo, si agrega una nueva columna a la tabla con un valor predeterminado, INSERT no tendrá que cambiar ninguna declaración codificada como resultado para adaptarse a ese cambio.
+En estos casos, el número de valores debe coincidir con el número de columnas especificadas.
 
-Además, puede utilizar expresiones (o funciones) matemáticas y de cadena con los valores que está insertando.
+Aunque esta forma de insertar datos requiere escribir un poco más, tiene la ventaja de seguir funcionando si la tabla cambia. Por ejemplo, si se agrega una nueva columna con un valor predeterminado, no es necesario modificar la declaración `INSERT`.
 
-Esto puede resultar útil para garantizar que todos los datos insertados tengan un formato determinado.
+También podemos usar expresiones y funciones matemáticas o de cadena al insertar valores.
+
+Esto puede ser útil para asegurarse de que todos los datos insertados tengan un formato determinado.
 
 ```sql
 INSERT INTO boxoffice
@@ -59,7 +61,11 @@ INSERT INTO boxoffice VALUES (4, 8.7, 340000000, 270000000);
 
 ## UPDATE
 
-Además de agregar nuevos datos, una tarea común es actualizar los datos existentes, lo que se puede hacer mediante una declaración UPDATE. De manera similar a la declaración INSERT, debe especificar exactamente qué tabla, columnas y filas actualizar. Además, los datos que está actualizando deben coincidir con el tipo de datos de las columnas en el esquema de la tabla.
+Además de agregar nuevos datos, también podemos actualizar los datos existentes mediante la declaración `UPDATE`.
+
+Al igual que con `INSERT`, debemos especificar qué tabla, columnas y filas queremos actualizar.
+
+Los nuevos valores deben coincidir con el tipo de datos definido para cada columna en la tabla.
 
 ```sql
 UPDATE mytable
@@ -70,13 +76,12 @@ WHERE condition;
 
 ```
 
-La declaración funciona tomando múltiples pares de columnas / valores y aplicando esos cambios a todas y cada una de las filas que satisfacen la restricción de la cláusula WHERE.
+La declaración funciona tomando pares de columnas y valores y aplicando esos cambios a todas las filas que cumplen la condición de la cláusula `WHERE`.
 
-:::warning Teniendo Cuidado
-La mayoría de las personas que trabajan con SQL cometen errores de actualización de datos en un momento u otro. Ya sea actualizar el conjunto incorrecto de filas en una base de datos de producción o de omitir accidentalmente la cláusula WHERE (lo que hace que la actualización se aplique a todas las filas), debe tener mucho cuidado al construir declaraciones UPDATE.
+:::warning Teniendo cuidado
+Es común cometer errores al actualizar datos con SQL. Por ejemplo, podemos actualizar las filas incorrectas o incluso olvidarnos de la cláusula `WHERE`, haciendo que la actualización se aplique a todas las filas.
 
-Un consejo útil es escribir siempre la restricción primero y probarla en una consulta SELECT para asegurarse de que está actualizando las filas correctas y solo luego escribir los pares de columna / valor para actualizar.
-
+Un consejo útil es escribir primero la condición del `WHERE` y probarla con una consulta `SELECT`. De esta forma, podemos comprobar que estamos seleccionando las filas correctas antes de realizar la actualización.
 :::
 
 ```sql
@@ -110,8 +115,8 @@ Para modificar un dato se recomienda usar la ID (WHERE ID = identificador)
 
 ## Delete
 
-Cuando necesite eliminar datos de una tabla en la base de datos, puede usar una declaración DELETE, que describe la tabla sobre la que actuar y las filas de la tabla que serán eliminadas a través de la cláusula WHERE.
-
+- Cuando necesitemos eliminar datos de una tabla, podemos utilizar la declaración `DELETE`, indicando la tabla y las filas que queremos eliminar mediante la cláusula `WHERE`.
+- La declaración funciona eliminando todas las filas que cumplen la condición de la cláusula `WHERE`.
 ```sql
 DELETE FROM mytable
 WHERE condition;
@@ -119,11 +124,13 @@ WHERE condition;
 ```
 
 :::warning
-Si decide omitir la restricción WHERE, se eliminan todas las filas, lo que es una forma rápida y fácil de borrar una tabla por completo (si es intencional).
+Si omitimos la cláusula `WHERE`, se eliminarán todas las filas de la tabla.
 :::
 
 :::warning Teniendo especial cuidado
-Al igual que la declaración UPDATE, se recomienda que primero ejecute una consulta SELECT con restricciones (WHERE) para asegurarse de que está eliminando las filas correctas. Sin una copia de seguridad adecuada o una base de datos de prueba, es muy fácil eliminar datos de forma irrevocable, por lo que siempre lea sus declaraciones DELETE dos veces y ejecútelas una vez.
+Al igual que con `UPDATE`, se recomienda probar primero la condición con una consulta `SELECT` para asegurarnos de que estamos seleccionando las filas correctas.
+
+Una vez eliminados los datos, puede ser difícil recuperarlos, por lo que debemos revisar las declaraciones `DELETE` antes de ejecutarlas.
 :::
 
 ```sql
@@ -141,7 +148,7 @@ where year < 2005;
 
 ## Create table
 
-Cuando tenga nuevas entidades y relaciones para almacenar en su base de datos, puede crear una nueva tabla utilizando la declaración CREATE TABLE.
+Podemos crear una nueva tabla utilizando la declaración `CREATE TABLE`:
 
 ```sql
 CREATE TABLE IF NOT EXISTS mytable (
@@ -152,34 +159,44 @@ CREATE TABLE IF NOT EXISTS mytable (
 
 ```
 
-La estructura de la nueva tabla está definida por su esquema de tabla, que define una serie de columnas. Cada columna tiene un nombre, el tipo de datos permitidos en esa columna, una restricción sobre los valores que se insertan (opcional) y un valor predeterminado (opcional)
+- Entre los paréntesis se indica la estructura de la tabla.
+- La estructura especifica el nombre de cada columna, el tipo de dato que contiene y, opcionalmente, restricciones y un valor predeterminado.
 
-Si ya existe una tabla con el mismo nombre, SQL generalmente arrojará un error, por lo que para suprimir el error y omitir la creación de una tabla si existe, puede usar la cláusula IF NOT EXISTS
+:::tip
+Si ya existe una tabla con el mismo nombre, SQL generará un error.
+
+Para evitarlo y crear la tabla solo si no existe, podemos utilizar la cláusula `IF NOT EXISTS`.
+:::
 
 ### Tipos de datos de tabla
 
-Las diferentes bases de datos admiten diferentes tipos de datos, pero los tipos comunes admiten números, cadenas y otras cosas diversas como fechas, valores booleanos o incluso datos binarios. A continuación, se muestran algunos ejemplos que puede utilizar en código real.
+Las diferentes bases de datos admiten distintos tipos de datos. Algunos de los más comunes son números, cadenas (`strings`), fechas, valores booleanos y datos binarios.
 
-|                  Tipo de dato                   |                                                                                                                                                                                                                                                            Descripcion                                                                                                                                                                                                                                                            |
-| :---------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                Integer , Boolean                |                                                                                                                                                         Los tipos de datos enteros pueden almacenar valores enteros como el recuento de un número o una edad. En algunas implementaciones, el valor booleano se representa simplemente como un valor entero de solo 0 o 1                                                                                                                                                         |
-|              Float , Double , Real              |                                                                                                                                                 Los tipo de datos de coma flotante pueden almacenar datos numéricos más precisos , como medidas o valores fraccionarios . Se pueden usar diferentes tipos dependiendo de la precisión de coma flotante requerida para ese valor.                                                                                                                                                  |
-| Character (num_chars) , VARCHAR(num_chars),TEXT | Los tipos de datos basados en texto pueden almacenar cadenas y textos en todo tipo de configuraciones regionales. La distinción entre los diversos tipos generalmente equivale a la eficiencia subyacente de la base de datos cuando se trabaja con estas columnas --- Tanto los tipos CHARACTER como VARCHAR (cáracter variable) se especifican con el número maximo de caracteres que pueden almacenar (los valores más largos pueden truncarse) , por lo que puede ser más eficiente almacenar y consultas con tablas grandes. |
-|                 DATE , DATETIME                 |                                                                                                                                                 SQL también puede almacenar fechas y horas para realizar un seguimiento de la fecha y/o hora de los eventos . Puede resultar complicado trabajar con ellos, especialmente cuando se manipulan datos en distintas zonas horarias.                                                                                                                                                  |
-|                      BLOB                       |                                                                                                                                            Finalmente , SQL puede almacenar datos binarios en blobs directamente en la base de datos. Estos valores a menudo son opacos para la BD, por lo que generalmente debe almacenarlos con los metadatos correctos para volver a consultarlos.                                                                                                                                             |
+A continuación, se muestran algunos de los más comunes:
+
+| Tipo de dato | Descripción |
+| :---: | :--- |
+| `INTEGER` | Almacena números enteros, es decir, números sin decimales, como cantidades o edades. |
+| `BOOLEAN` | Almacena valores booleanos, como `TRUE` o `FALSE`. En algunas bases de datos, se representan como `0` y `1`. |
+| `FLOAT`, `DOUBLE`, `REAL` | Almacenan números que pueden tener decimales, como medidas o valores fraccionarios. Los diferentes tipos permiten trabajar con distintos niveles de precisión. |
+| `CHARACTER(num_chars)`, `VARCHAR(num_chars)`, `TEXT` | Almacenan cadenas de caracteres (`strings`). `CHARACTER` y `VARCHAR` permiten especificar una cantidad máxima de caracteres, mientras que `TEXT` permite almacenar textos de mayor longitud. |
+| `DATE`, `DATETIME` | Almacenan fechas y horas, por ejemplo, para registrar cuándo ocurrió un evento. |
+| `BLOB` | Permite almacenar datos binarios directamente en la base de datos, como archivos o imágenes. |
 
 ### Restricciones de la tabla
 
-No vamos a profundizar demasiado en las restricciones de la tabla en esta lección, pero cada columna puede tener restricciones que limitan los valores que se pueden insertar en esa columna. Esta no es una lista completa, pero mostrará algunas restricciones comunes que pueden resultarle útiles.
+No vamos a profundizar demasiado en las restricciones de las tablas en esta lección, pero cada columna puede tener restricciones que limitan los valores que se pueden insertar en ella.
 
-|    Restricción     |                                                                                                                                                                                                     Descripcion                                                                                                                                                                                                     |
-| :----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|    PRIMARY KEY     |                                                                                                                                       Esto significa que los valores de esta columna son únicos y cada valor se puede utilizar para identificar una sola fila en esta tabla.                                                                                                                                        |
-|   AUTO_INCREMENT   |                                                                                                                     Para valores enteros, esto significa que el valor se completa "SOLO" e incrementa automaticamente con cada inserción de fila. No es compatible con todas las bases de datos                                                                                                                     |
-|       UNIQUE       |                                                                                                                           Esto significa que los valores en está columna deben ser únicos , por lo que no puede insertar una fila con el mismo valor de otra fila (valor de la columna).                                                                                                                            |
-|      NOT NULL      |                                                                                                                                                                               Esto significa que el valor insertado no puede ser NULL                                                                                                                                                                               |
-| CHECK (expression) |                                                                               Esto le permite ejecutar una expresión mas compleja para probar si los valores insertados son válidos . Por ejemplo , puede verificar que los valores sean positivos o mayores que un tamaño especifico , o comenzar con un prefijo determinado , etc.                                                                                |
-|    FOREIGN KEY     | Se trata de una comprobación de coherencia que garantiza que cada valor de esta columna se corresponda con otro valor de una columna de otra tabla. -- Por ejemplo, si hay dos tablas, una que enumera todos los Empleados por ID y otra que enumera la información de la nómina , la "FOREIGN KEY" puede garantizar que cada fila en la tabla de nómina corresponda a un empleado válido en la lista de Empleados. |
+A continuación, veremos algunas de las restricciones más comunes.
+
+| Restricción | Descripción |
+| :---: | :--- |
+| `PRIMARY KEY` | Indica que los valores de esta columna son únicos (no pueden repetirse) dentro de esta tabla y que cada valor puede utilizarse para identificar una sola fila de la tabla. |
+| `AUTO_INCREMENT` | Asigna automáticamente un valor entero a la columna. [Más información](index.md#auto-increment) |
+| `UNIQUE` | Indica que los valores de esta columna deben ser únicos, por lo que no se puede insertar una fila con un valor que ya exista en otra fila. |
+| `NOT NULL` | Indica que la columna no puede contener valores `NULL`. |
+| `CHECK (expression)` | Permite comprobar que los valores insertados cumplan una condición. Por ejemplo, que sean positivos, mayores que un valor determinado o que comiencen con un prefijo específico. |
+| `FOREIGN KEY` | Verifica que cada valor de esta columna exista en una columna de otra tabla. Por ejemplo, puede garantizar que cada fila de una tabla de pedidos corresponda a un cliente válido. |
 
 ```sql
 CREATE TABLE movies (
@@ -205,11 +222,15 @@ CREATE TABLE Database (
 
 ### Modificación de tablas
 
-A medida que sus datos cambian con el tiempo, SQL le proporciona una forma de actualizar sus tablas y esquemas de base de datos correspondientes mediante el uso de la declaración ALTER TABLE para agregar, eliminar o modificar columnas y restricciones de tabla
+A medida que los datos cambian con el tiempo, podemos actualizar la estructura de las tablas mediante la declaración `ALTER TABLE`, que permite agregar, eliminar o modificar columnas y restricciones.
 
-## ALTER TABLE ADD
+### ALTER TABLE ADD
 
-La sintaxis para agregar una nueva columna es similar a la sintaxis al crear nuevas columnas en la declaración CREATE TABLE. Debe especificar el nombre de la columna, el tipo de datos de la columna junto con las posibles restricciones de la tabla y los valores predeterminados que se aplicarán a las filas nuevas y existentes. En algunas bases de datos como MySQL, incluso puede especificar dónde insertar la nueva columna usando las cláusulas FIRST o AFTER, aunque esta no es una característica estándar.
+La sintaxis para agregar una nueva columna es similar a la utilizada en `CREATE TABLE`.
+
+Debemos especificar el nombre de la columna, su tipo de dato y, opcionalmente, sus restricciones y valor predeterminado.
+
+En algunas bases de datos, como MySQL, también podemos indicar dónde colocar la nueva columna usando `FIRST` o `AFTER`, aunque esta característica no es estándar.
 
 ```sql
 ALTER TABLE mytable
@@ -229,18 +250,20 @@ ALTER TABLE Movies
   ADD COLUMN Language TEXT DEFAULT "English";
 ```
 
-## ALTER TABLE DROP
+### ALTER TABLE DROP
 
-Eliminar columnas es tan fácil como especificar la columna que se eliminará, sin embargo, algunas bases de datos (incluida SQLite) no admiten esta función. En su lugar, es posible que deba crear una nueva tabla y migrar los datos.
+Para eliminar una columna, solo debemos especificar qué columna queremos eliminar. Sin embargo, algunas bases de datos, como SQLite, no admiten esta función.
+
+En estos casos, puede ser necesario crear una nueva tabla y migrar los datos.
 
 ```sql
 ALTER TABLE mytable
 DROP column_to_be_deleted;
 ```
 
-## ALTER TABLE RENAME TO
+### ALTER TABLE RENAME TO
 
-Si necesita cambiar el nombre de la tabla, también puede hacerlo usando la cláusula RENAME TO
+Si necesitamos cambiar el nombre de una tabla, podemos hacerlo utilizando la cláusula `RENAME TO`:
 
 ```sql
 ALTER TABLE mytable
@@ -248,23 +271,24 @@ RENAME TO new_table_name;
 
 ```
 
-## ALTER TABLE Otros
+### ALTER TABLE Otros
 
-Cada implementación de base de datos admite diferentes métodos para alterar sus tablas, por lo que siempre es mejor consultar los documentos de su base de datos antes de continuar.
+Cada base de datos admite diferentes formas de modificar sus tablas, por lo que es recomendable consultar su documentación antes de realizar cambios.
 
 ## DROP TABLE
 
-En algunos casos raros, es posible que desee eliminar una tabla completa, incluidos todos sus datos y metadatos, y para hacerlo, puede usar la declaración DROP TABLE, que difiere de la declaración DELETE en que también elimina el esquema de la tabla de la base de datos por completo.
+En algunos casos, puede ser necesario eliminar una tabla completa junto con sus datos y estructura. Para esto, podemos utilizar la declaración `DROP TABLE`.
 
-La diferencia entre DROP TABLE y DELETE en SQL es que DELETE se utiliza para eliminar uno o más registros de una tabla según una condición especificada, mientras que DROP TABLE se utiliza para eliminar una tabla completa, incluyendo todos sus datos y estructura.
+A diferencia de `DELETE`, que elimina filas de una tabla, `DROP TABLE` elimina la tabla completa:
 
 ```sql
 DROP TABLE IF EXISTS mytable;
 ```
 
 :::tip
-Al igual que la declaración CREATE TABLE, la base de datos puede arrojar un error si la tabla especificada no existe, y para suprimir ese error, puede usar la cláusula IF EXISTS
-Además, si tiene otra tabla que depende de las columnas de la tabla que está eliminando (por ejemplo, con una FOREIGN KEY), primero deberá actualizar todas las tablas dependientes para poder eliminar la tabla deseada.
+Si la tabla no existe, la base de datos puede arrojar un error. Para evitarlo, podemos utilizar la cláusula `IF EXISTS`.
+
+Si otra tabla depende de la tabla que queremos eliminar, por ejemplo mediante una `FOREIGN KEY`, primero debemos actualizar la tabla dependiente.
 :::
 
 ```sql
@@ -276,10 +300,24 @@ DROP TABLE BoxOffice;
 ```
 
 ## Añadir llave foranea
-
+- Sintaxis para agregar una `FOREIGN KEY`:
 ```sql
-ALTER TABLE `nombre_tabla` ADD CONSTRAINT `nombre_llave_foranea` FOREIGN KEY (`atributo`) REFERENCES `tabla referenciada`(`atributo referenciado`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `nombre_tabla`
+ADD CONSTRAINT `nombre_llave_foranea`
+FOREIGN KEY (`columna`)
+REFERENCES `tabla_referenciada`(`columna_referenciada`)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
 ```
+
+:::tip Observación
+- `nombre_tabla`: tabla donde se agrega la `FOREIGN KEY`.
+- `nombre_llave_foranea`: nombre de la restricción. Suele ser `fk_nombreTabla_tablaReferenciada`.
+- `columna`: columna que contendrá la restricción `FOREIGN KEY`.
+- `tabla_referenciada` y `columna_referenciada`: especifican en qué tabla y columna debe existir el valor para que sea válido.
+:::
+
+- Ejemplo:
 
 ```sql
 ALTER TABLE `veterinaria` ADD CONSTRAINT `fk_veterinaria_localidad` FOREIGN KEY (`id_localidad`) REFERENCES `localidad`(`id_localidad`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -287,24 +325,22 @@ ALTER TABLE `veterinaria` ADD CONSTRAINT `fk_veterinaria_localidad` FOREIGN KEY 
 
 ## Restricciones para modificar y eliminar
 
-- La restricción "foreign key" tiene las cláusulas "on delete" y "on update" que son opcionales.
-- Estas cláusulas especifican cómo se debe actuar frente a eliminaciones y modificaciones de las tablas "padres".
+- La restricción `FOREIGN KEY` tiene las cláusulas `ON DELETE` y `ON UPDATE`, que son opcionales.
+- Estas cláusulas especifican qué hacer cuando se elimina o modifica un valor de la tabla "padre".
 
 :::tip En una relación puede existir un "padre" y un "hijo"
-
-- La tabla que tiene la fk es la "tabla hija"
-- La tabla que tiene la pk es la "tabla padre"
+- La tabla que contiene la `FOREIGN KEY` es la **tabla hija**.
+- La tabla que contiene la `PRIMARY KEY` es la **tabla padre**.
 :::
 
-- Las opciones de estan cláusulas son:
-  - "no action" o "restrict": indica que si intentamos eliminar o actualizar la primary key que se usa como foreign key en otras filas, se genere un error y la acción no se realice; es la opción predeterminada.
-  - "cascade": indica que si eliminamos o actualizamos la primary key ,las foreign key que hacen referencia a la pk  modificada/eliminada tambien se modificaran o eliminaran.
-  - "set null": indica que si eliminamos o actualizamos la primary key, el valor de todas las foreign key que hacen referencia a la pk modificada/eliminada sera null.
-  - "set default": indica que si eliminamos o actualizamos la primary key, el valor de todas las foreign key que hacen referencia a la pk modificada/eliminada  sera el por defecto.
+- Las opciones de estas cláusulas son:
+    - `NO ACTION` o `RESTRICT`: si intentamos eliminar o actualizar un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla, se genera un error y la acción no se realiza. Es la opción predeterminada.
+    - `CASCADE`: si eliminamos o actualizamos un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla, también se eliminan o actualizan los valores de esas `FOREIGN KEY`.
+    - `SET NULL`: si eliminamos o actualizamos un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla, los valores de esas `FOREIGN KEY` se establecen como `NULL`.
+    - `SET DEFAULT`: si eliminamos o actualizamos un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla, los valores de esas `FOREIGN KEY` se establecen con su valor predeterminado.
 
 :::tip
-
-- ON DELETE: Es para especificar que se hara cuando se elimine una primary key.
-- ON UPDATE: Es para especificar que se hara cuando se actualice una primary key.
+- `ON DELETE`: especifica qué hacer cuando se elimina un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla.
+- `ON UPDATE`: especifica qué hacer cuando se actualiza un valor que tiene la restricción `PRIMARY KEY` y se está usando en alguna `FOREIGN KEY` de otra tabla.
 - Ambas tienen las mismas opciones.
 :::

@@ -100,9 +100,9 @@ La función utiliza un conjunto de filas y devuelve un único valor.
 | `SUM(columna)` | Devuelve la suma de todos los valores numéricos de la columna especificada en el grupo de filas. |
 
 ## Group By 
-Además de aplicar una función agregada en todas las filas de una tabla, se  puede aplicar las funciones agregadas a grupos  de datos dentro de ese grupo (es decir, ventas de taquilla para películas de acción y comedias).
-
-Esto generaría tantos resultados como grupos definidos por la cláusula GROUP BY.
+- Con `GROUP BY` podemos dividir el resultado en "grupos de filas" (por ejemplo, ventas de películas de acción y comedias).
+- Lo que hace `GROUP BY` es generar grupos con filas que tengan una columna (que especificamos en la cláusula `GROUP BY`) con el mismo valor.
+- Si utilizamos funciones agregadas o expresiones, obtendremos un resultado por grupo. Es decir, las funciones agregadas se ejecutan una vez por cada grupo.
 
 ```sql
 SELECT AGG_FUNC(column_or_expression) AS aggregate_description, …
@@ -111,7 +111,7 @@ WHERE constraint_expression
 GROUP BY column;
 ```
 :::tip Group By
-La cláusula GROUP BY funciona agrupando filas que tienen el mismo valor en la columna especificada.
+La cláusula `GROUP BY` funciona agrupando filas que tienen el mismo valor en la columna especificada.
 :::
 
 ```sql
@@ -130,18 +130,14 @@ GROUP BY building;
 ```
 
 ## Having 
-si la cláusula  GROUP BY se ejecuta después de la cláusula WHERE (que filtra las filas), ¿cómo filtramos exactamente las filas agrupadas(grupo)?
-
-Afortunadamente, SQL nos permite hacer esto agregando una  cláusula HAVING adicional que se usa específicamente con la  cláusula GROUP BY para permitirnos filtrar grupos de filas.
+- Si la cláusula `GROUP BY` se ejecuta después de `WHERE`, que filtra las filas, ¿cómo podemos filtrar los grupos?
+- Para esto, SQL permite utilizar la cláusula `HAVING`, que se utiliza junto con `GROUP BY` para filtrar los grupos de filas.
 
 :::tip
-WHERE = Filtra las filas
-
-Los que pasen el WHERE, forman grupos (segun la columna especificada)
-
-HAVING = Filtra los grupos (conjuntos de filas).
-
-Para que el grupo no se descarte, la condición debe ser true.
+- `WHERE` = Filtra las filas.
+- Las filas que pasan el `WHERE` forman grupos según la columna especificada en `GROUP BY`.
+- `HAVING` = Filtra los grupos (conjuntos de filas).
+- Para que un grupo no sea descartado, la condición debe ser `TRUE`.
 :::
 
 ```sql
@@ -153,7 +149,8 @@ HAVING group_condition;
 
 ```
 
- HAVING se escribe de la misma forma que WHERE y se aplican a las filas agrupadas.  A menudo es necesario poder aplicar restricciones adicionales para entender rápidamente los datos.
+- `HAVING` se escribe de la misma forma que `WHERE`, pero se aplica a los grupos de filas.
+- A veces es necesario aplicar filtros adicionales para analizar los datos.
 
 :::tip ¿Sabías?
 Si no está utilizando la cláusula `GROUP BY`, una cláusula simple como ` WHERE` será suficiente.

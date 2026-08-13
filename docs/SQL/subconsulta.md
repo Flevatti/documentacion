@@ -2,20 +2,24 @@
 sidebar_position: 8
 ---
 # SubConsultas
-Es posible que haya notado que incluso con una consulta completa, hay muchas preguntas que no podemos responder sobre nuestros datos sin una consulta adicional o un procesamiento previo. En estos casos, puede realizar varias consultas y procesar los datos usted mismo, o puede crear una consulta más compleja utilizando subconsultas SQL.
+- A veces necesitamos tanta información que una sola consulta no es suficiente.
+- En estos casos, podemos realizar varias consultas y procesar los datos nosotros mismos, o utilizar subconsultas para crear una consulta más compleja.
 
-:::tip Ejemplo 
 
-Supongamos que su empresa tiene una lista de todos los asociados de ventas, con datos sobre los ingresos que genera cada asociado y su salario individual. Los tiempos son ajustados y ahora desea saber cuáles de sus Asociados le están costando a la empresa más que el ingreso promedio generado por Asociado.
+
+:::tip Ejemplo
+Supongamos que su empresa tiene una lista de todos los **vendedores**, con información sobre los ingresos que genera cada uno y su salario.
+
+Los tiempos son ajustados y ahora desea saber cuáles de sus **vendedores** le cuestan a la empresa más que el ingreso promedio de todos los vendedores.
 :::
 
-1. Calcular los ingresos promedio que están generando todos los Asociados.
+1. Calcular el ingreso promedio generado por todos los vendedores.
 ```sql
 SELECT AVG(revenue_generated)
 FROM sales_associates;
 
 ```
-2. Luego , usando ese resultado , podemos comparar los costos de cada uno de los Asociados con ese valor. Para usarlo como una subconsulta, podemos escribirlo directamente en la cláusula  WHERE de la consulta:
+2. Luego, usando ese resultado, podemos comparar el salario de cada vendedor con ese valor. Para usarlo como una subconsulta, podemos escribirlo directamente en la cláusula `WHERE` de la consulta:
 
 ```sql
 SELECT *
@@ -25,26 +29,27 @@ WHERE salary >
     FROM sales_associates);
 
 ```
-A medida que se ejecuta la restricción, el salario de cada Asociado se comparará con el valor consultado de la subconsulta interna.
+A medida que se ejecuta la consulta, el salario de cada vendedor se comparará con el valor obtenido por la subconsulta interna.
 
 
-:::tip Parentesis()
+:::tip Paréntesis()
+Las subconsultas pueden utilizarse en diferentes partes de una consulta, como `WHERE`, `SELECT`, `FROM` o `HAVING`, dependiendo de lo que necesitemos obtener. 
 
-Se puede hacer una subconsulta en cualquier lugar (AVERIGUALO) 
-
-Debido a que las subconsultas se pueden anidar, cada subconsulta debe estar completamente encerrada entre paréntesis para establecer la jerarquía adecuada. De lo contrario, las subconsultas pueden hacer referencia a cualquier tabla en la base de datos y hacer uso de las construcciones de una consulta normal (aunque algunas implementaciones no permiten que las subconsultas usen LIMIT o OFFSET).
-
-
+Como las subconsultas pueden anidarse, cada una debe estar encerrada entre paréntesis para indicar dónde comienza y termina.
 :::
 
 ## Subconsultas correlacionadas
+- Una subconsulta correlacionada es una subconsulta que utiliza información de la consulta externa (anterior) para poder ejecutarse.
+- A diferencia de las subconsultas anteriores, la subconsulta se ejecuta por cada fila de la consulta externa, ya que utiliza información de la fila.
 
-Un tipo de subconsulta más potente es la subconsulta correlacionada en la que la consulta interna depende de una columna o alias de la consulta externa. A diferencia de las subconsultas anteriores, cada una de estas consultas internas debe ejecutarse para cada una de las filas de la consulta externa, ya que la consulta interna depende de la fila de consulta externa actual.
+
 :::tip Ejemplo
-En lugar de la lista de Asociados de ventas anterior, imagínese si tiene una lista general de Empleados, sus departamentos (ingeniería, ventas, etc.), ingresos y salario. Esta vez, ahora está buscando en toda la empresa para encontrar empleados que se desempeñen mejor (mas salario) que el promedio en su departamento.
+Ahora supongamos que tenemos una lista de empleados de toda la empresa, junto con su departamento, los ingresos que generan y su salario.
+
+Ahora queremos encontrar los empleados que tienen un salario mayor al salario promedio de su departamento.
 :::
 
-Para cada empleado, necesitaría calcular su costo en relación con los ingresos promedio generados por todas las personas en su departamento. Para tomar el promedio del departamento, la subconsulta deberá saber en qué departamento se encuentra cada empleado:
+Para cada empleado, necesitamos comparar su salario con el ingreso promedio de las personas de su departamento. Para calcular ese promedio, la subconsulta necesita saber en qué departamento se encuentra cada empleado:
 
 ```sql
 SELECT *
@@ -55,13 +60,19 @@ WHERE salary >
     WHERE dept_employees.department = employees.department);
 
 ```
-:::tip 
-Este tipo de consultas complejas pueden ser poderosas, pero también difíciles de leer y comprender, por lo que debe tener cuidado al usarlas. Si es posible, intente dar alias significativos a las tablas y valores temporales. Además, las subconsultas correlacionadas pueden ser difíciles de optimizar, por lo que las características de rendimiento pueden variar entre diferentes bases de datos.
+:::tip
+Las subconsultas correlacionadas pueden ser útiles, pero también pueden hacer que una consulta sea más difícil de entender.
+
+- Es recomendable usar alias descriptivos para facilitar la lectura.
+- El rendimiento puede variar según la base de datos.
+- Este tipo de subconsultas puede ser más difícil de optimizar.
 :::
 
 ## Pruebas de existencia
 
-El operador IN se usa para probar si el valor de la columna en la fila actual existía en una lista fija de valores. En consultas complejas, esto se puede ampliar utilizando subconsultas para probar si un valor de columna existe en una lista dinámica de valores.
+El operador `IN` se utiliza para comprobar si el valor de una columna se encuentra dentro de una lista de valores.
+
+En consultas más complejas, podemos utilizar subconsultas para obtener una lista de valores y comprobar si el valor de la columna se encuentra en ella.
 
 ```sql
 SELECT *, …
@@ -71,6 +82,51 @@ WHERE column
                FROM another_table);
 
 ```
+
 :::tip
-Al hacer esto, observe que la subconsulta interna debe seleccionar los valores de la columna  o los valores de una expresión para producir una lista con la que se pueda probar el valor de la columna externa. Este tipo de restricción es de gran alcance cuando las restricciones se basan en datos actuales.
+La subconsulta debe seleccionar columnas o usar expresiones para generar una lista que usará el `IN`.
+
+Este tipo de restricción es útil cuando la condición depende de los datos actuales.
+:::
+
+## Indexación 
+- Es una técnica que utilizan las bases de datos para encontrar datos más rápido. De manera resumida, un índice contiene:
+  - Los valores de una o más columnas específicas.
+  - Referencias que apuntan a las filas donde se encuentran dichos valores.
+  - Permite una búsqueda más rápida sin necesidad de recorrer **toda la tabla**.
+
+:::tip Analogía
+- La analogía más usada para entender la indexación es el **índice de un libro**. Si quieres encontrar el capítulo sobre "normalización" en un libro de 600 páginas, tienes dos opciones:
+  - 📖 **Sin índice:** leer el libro hasta encontrarlo (`full table scan`).
+  - 📑 **Con índice:** buscar `"normalización → página 342"` en el índice e ir directamente a esa página.
+
+- En las bases de datos ocurre algo similar:
+  - **Sin índice:** el motor revisa las filas una por una.
+  - **Con índice:** el motor puede encontrar directamente dónde están los datos.
+:::
+
+
+#### Características de la indexación
+
+- Pueden afectar la velocidad y el espacio que utiliza un índice.
+
+1. **Tipos de acceso:** indica cómo se pueden buscar los datos, por ejemplo, por un valor específico o por un rango de valores.
+2. **Tiempo de acceso:** tiempo que tarda el índice en encontrar los datos.
+3. **Tiempo de inserción:** tiempo que tarda en agregar nuevos datos y actualizar el índice.
+4. **Tiempo de eliminación:** tiempo que tarda en eliminar datos y actualizar el índice.
+5. **Espacio adicional:** espacio que ocupa el índice en la base de datos.
+
+
+
+
+
+
+
+
+:::tip info
+- [Indexación en bases de datos](https://www.geeksforgeeks.org/dbms/indexing-in-databases-set-1/)
+- [Tipos de índices en SQL Server](https://www.onlinemanipal.com/blogs/important-types-of-indexes-in-sql-server)
+- [INDEX](https://aprendersql.es/glosario-sql/index/)
+- [Índices en SQL: Qué son y cómo aceleran tus consultas](https://escueladeprogramacion.net/blog/indices-en-sql-que-son-y-como-aceleran-tus-consultas)
+- [¿Qué es un índice de base de datos?](https://www.codecademy.com/article/sql-indexes)
 :::
