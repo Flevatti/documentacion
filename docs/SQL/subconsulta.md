@@ -106,6 +106,56 @@ Este tipo de restricción es útil cuando la condición depende de los datos act
 :::
 
 
+#### Cómo funciona un índice por dentro: el árbol B
+- La mayoría de los índices en MySQL, PostgreSQL, SQL Server y Oracle utilizan internamente una estructura llamada **árbol B** (*B-tree*).
+- Un árbol B es una estructura que organiza los valores de forma **ordenada y balanceada**, permitiendo encontrar los datos rápidamente.
+
+:::tip
+- Un árbol B tiene un grupo principal que contiene subgrupos (ramas).
+- Esas ramas pueden tener otras ramas.
+- Cuando decimos que es balanceado, significa que cada rama tiene una cantidad similar de subgrupos.
+:::
+
+Para entenderlo, imaginemos que tenemos que buscar el número `42` entre 1 millón de números.
+
+- **Sin índice:** la base de datos tendría que revisar los valores uno por uno hasta encontrar `42`. En el peor caso, tendría que revisar 1.000.000 de valores.
+- **Con un árbol B:** los valores están organizados de forma que la base de datos puede descartar grandes grupos de valores en cada paso. Por eso, puede encontrar `42` en muchos menos pasos, aproximadamente 20 en este ejemplo.
+- Ejemplo:
+
+```txt
+Funcionamiento de un árbol B para buscar email='m@mail.com'
+Los valores están ordenados en el árbol.
+
+                    [g@mail.com]
+                   /            \
+        [b@mail.com]            [s@mail.com]
+        /         \              /         \
+     [a...]      [d...]       [m@mail.com]  [z...]
+                                  ↑
+                         ¡Encontrado en 3 pasos!
+
+```
+
+:::tip Observación
+- 1.er paso: Comparamos `m@mail.com` con `g@mail.com`. Como `m` es mayor que `g`, seguimos por la rama derecha.
+- 2.º paso: Ahora comparamos `m@mail.com` con `s@mail.com`. Como `m` es menor que `s`, seguimos por la rama izquierda.
+- 3.er paso: Lo comparamos con `m@mail.com` y encontramos el dato.
+- Sin índice, habría que revisar las filas una por una.
+- Esta estructura permite buscar datos mucho más rápido, incluso con millones de registros. Una búsqueda de 46 segundos puede tardar solo 15 milisegundos.
+:::
+
+
+
+:::tip En tu base de datos ya tienes índices
+
+- Antes de crear tus índices de forma manual, debes saber que **la base de datos** crea índices automáticamente en dos situaciones:
+  - **Primary Key:** Cuando definís una `Primary Key`, la base de datos crea automáticamente un índice único (no permite valores repetidos) de esa columna. Por eso, buscar por `ID` es muy rápido.
+  - **Restricción UNIQUE:** Las restricciones `UNIQUE` también crean un índice automáticamente.
+:::
+
+
+
+
 #### Características de la indexación
 
 - Pueden afectar la velocidad y el espacio que utiliza un índice.
@@ -220,7 +270,7 @@ Este tipo de restricción es útil cuando la condición depende de los datos act
 CREATE INDEX nombre_indice
 ON nombre_tabla (columna, columna, columna, ...);
 
-PRAGMA index_list('nombre_tabla');
+
 ```
 :::tip Observación
 - `CREATE INDEX` es el comando para crear un **índice normal**. Con `CREATE UNIQUE INDEX` creamos un **índice único**.
@@ -228,7 +278,6 @@ PRAGMA index_list('nombre_tabla');
 - `nombre_tabla`: el índice creado tendrá valores y referencias de filas de esta tabla.
 - `columna`: es la columna cuyos valores se utilizarán para crear el índice. Los valores pueden estar repetidos y se pueden especificar más de una columna.
 - El índice creado almacenará los valores de las columnas especificadas y referencias a los registros correspondientes.
-- Por último, `PRAGMA index_list('nombre_tabla');` permite ver los índices de la tabla y comprobar si el nuestro se creó correctamente.
 :::
 
 #### Orden
@@ -252,6 +301,7 @@ ON pedidos (cliente_id, fecha, id);
 ```
 - Es decir, se agrupan todos los `id` que pertenecen a la misma fecha y se agrupan todas las fechas que pertenecen al mismo `cliente_id`.
 - Nos quedaría una organización como esta:
+
 | cliente_id | fecha      | id |
 | ---------: | ---------- | -: |
 |          1 | 2026-01-01 | 10 |
@@ -260,6 +310,14 @@ ON pedidos (cliente_id, fecha, id);
 |          2 | 2026-01-01 | 11 |
 |          2 | 2026-01-04 | 18 |
 
+
+:::tip Observación
+- Todas las filas que tienen `cliente_id` con el mismo valor pertenecen al mismo grupo.
+- Dentro de ese grupo hay subgrupos: las filas que tienen `fecha` con el mismo valor pertenecen al mismo subgrupo.
+- Dentro de ese subgrupo hay otros subgrupos: las filas que tienen `id` con el mismo valor pertenecen al mismo subgrupo.
+:::
+
+
 - Al ejecutar la consulta:
 ```sql
 WHERE cliente_id = 1
@@ -267,7 +325,7 @@ ORDER BY fecha, id
 ```
 - La BD aprovecha muy bien el índice: se accede directamente al grupo `cliente_id = 1` y, dentro de ese grupo, los registros ya están ordenados por `fecha` e `id` (por defecto, el índice los ordena teniendo en cuenta el valor de cada columna).
 
-#### ¿Qué pasa si cambiamos el orden? (Seguir aca)
+#### ¿Qué pasa si cambiamos el orden? 
 - Si hacemos:
 ```sql
 CREATE INDEX idx_pedidos_fecha_cliente
@@ -279,8 +337,9 @@ ON pedidos (fecha, cliente_id, id);
    └── 2. cliente_id
         └── 3. id
 ```
-- Es decir se agrupan todas lass id que pertenecen al mismo cliente_id y se agrupan todos los cliente_id que pertenecen a la misma fecha.
-- Nos quedaria una tabla como:
+- Es decir, se agrupan todas las `id` que pertenecen al mismo `cliente_id` y se agrupan todos los `cliente_id` que pertenecen a la misma `fecha`.
+- Nos quedaría una organización como esta:
+
 | fecha      | cliente_id | id |
 | ---------- | ---------: | -: |
 | 2026-01-01 |          1 | 10 |
@@ -289,19 +348,293 @@ ON pedidos (fecha, cliente_id, id);
 | 2026-01-04 |          2 | 18 |
 | 2026-01-05 |          1 | 20 |
 
-- Ahora los registros de cliente_id = 1 ya no están juntos. Están repartidos entre diferentes fechas.
+:::tip Observación
+- Todas las filas que tienen `fecha` con el mismo valor pertenecen al mismo grupo.
+- Dentro de ese grupo hay subgrupos: las filas que tienen `cliente_id` con el mismo valor pertenecen al mismo subgrupo.
+- Dentro de ese subgrupo hay otros subgrupos: las filas que tienen `id` con el mismo valor pertenecen al mismo subgrupo.
+:::
+
+
+- Ahora los registros de `cliente_id = 1` ya no están juntos. Están repartidos entre diferentes fechas (grupos).
 - Entonces, cuando hacemos:
 ```sql
 WHERE cliente_id = 1
 ```
-- El índice no puede simplemente ir al bloque donde están todos los registros que pertenecen al cliente 1, porque no existe un único bloque para ese cliente. Tiene que buscar entre diferentes fechas.
-- De esta manera el indice en lugar de optimizar, estamos haciendo mas lenta la consulta.
-- Por lo tanto es importante tener en cuenta cada parte de la consulta que se quiere optimizar antes de crear un indice.
+- El índice no puede simplemente ir al grupo donde están todos los registros que pertenecen al `cliente_id = 1`, porque no existe un grupo que contenga todos los registros de ese cliente. Tiene que buscar entre diferentes fechas.
+- De esta manera, el índice en lugar de optimizar la búsqueda, puede hacer que la consulta sea menos eficiente.
+- Por lo tanto, es importante tener en cuenta cada parte de la consulta que se quiere optimizar antes de crear un índice.
 
 
 :::tip
 - `CREATE INDEX` ultimamente es compatible con la mayoria de las bases de datos pero por las dudas se recomienda leer la documentacion de como crear indices para optimizar las consultas.
 :::
+
+
+
+#### Búsqueda de texto largo
+- Para buscar palabras dentro de **textos largos**, usamos la palabra clave `FULLTEXT`.
+- Primero creamos el índice sobre las columnas de texto:
+```sql
+CREATE FULLTEXT INDEX idx_articulos_contenido
+ON articulos(titulo, contenido);
+```
+- Luego podemos realizar una búsqueda de texto:
+```sql
+SELECT * FROM articulos
+WHERE MATCH(titulo, contenido) AGAINST('inteligencia artificial' IN BOOLEAN MODE);
+```
+:::tip Observación
+- `MATCH` indica las columnas donde se realizará la búsqueda.
+- `AGAINST` indica el texto que queremos buscar. En este caso `'inteligencia artificial'` es el texto que queremos buscar.
+- `IN BOOLEAN MODE` nos permite usar operadores dentro de `AGAINST`, como `+` (la palabra debe aparecer), `-` (la palabra no debe aparecer) o `*` (permite buscar palabras que comiencen con el texto indicado).
+- Esta sintaxis puede variar según la base de datos, así que conviene consultar su documentación.
+:::
+#### Implementar el WHERE
+- Se puede crear un índice que solo contenga las filas que cumplen una condición. Esta característica no está disponible en todas las bases de datos:
+```sql
+-- Solo incluye en el índice las filas que cumplen la condición.
+-- Soportado en PostgreSQL y SQL Server, pero no en MySQL.
+CREATE INDEX idx_pedidos_pendientes
+ON pedidos(fecha)
+WHERE estado = 'pendiente';
+```
+:::tip Observación
+- En este caso, el índice solo contiene la `fecha` de los pedidos cuyo `estado` es `'pendiente'`.
+:::
+
+
+#### Ver y eliminar índices
+- Esto varía según la base de datos, así que se recomienda consultar la documentación.
+
+```sql
+-- MySQL: ver los índices de una tabla
+SHOW INDEX FROM nombreTabla;
+SHOW INDEX FROM productos;
+
+-- PostgreSQL: ver los índices de una tabla
+SELECT indexname, indexdef
+FROM pg_indexes
+WHERE tablename = 'nombreTabla';
+
+SELECT indexname, indexdef
+FROM pg_indexes
+WHERE tablename = 'productos';
+
+-- Eliminar un índice
+
+-- MySQL
+DROP INDEX nombre_indice ON nombreTabla;
+DROP INDEX idx_clientes_apellido ON clientes;
+
+-- PostgreSQL / SQL Server
+DROP INDEX nombre_indice;
+DROP INDEX idx_clientes_apellido;              
+```
+
+#### Comando EXPLAIN
+- `EXPLAIN` es un comando muy útil para saber si tus índices están siendo utilizados.
+- Te indica cómo la base de datos ejecuta tu consulta.
+- **Sintaxis:**
+```sql
+EXPLAIN consulta;
+```
+- Ejemplo:
+```sql
+-- Antes de crear el índice
+EXPLAIN SELECT * FROM clientes WHERE ciudad = 'Madrid';
+
+-- Resultado típico sin índice:
+-- +----+-------------+----------+------+-------+---------+-------------+
+-- | id | select_type | table    | type | key   | rows    | Extra       |
+-- +----+-------------+----------+------+-------+---------+-------------+
+-- |  1 | SIMPLE      | clientes | ALL  | NULL  | 1000000 | Using where |
+-- +----+-------------+----------+------+-------+---------+-------------+
+
+-- ↑ type=ALL significa FULL TABLE SCAN:
+--   revisa las 1,000,000 filas ❌
+
+
+-- Después de crear el índice
+CREATE INDEX idx_clientes_ciudad ON clientes(ciudad);
+
+EXPLAIN SELECT * FROM clientes WHERE ciudad = 'Madrid';
+
+-- Resultado con índice:
+-- +----+-------------+----------+------+----------------------+------+
+-- | id | select_type | table    | type | key                  | rows |
+-- +----+-------------+----------+------+----------------------+------+
+-- |  1 | SIMPLE      | clientes | ref  | idx_clientes_ciudad  | 847  |
+-- +----+-------------+----------+------+----------------------+------+
+
+-- ↑ type=ref y key=idx_clientes_ciudad:
+--   usa el índice y estima revisar solo 847 filas ✅
+```
+- Los valores de la columna `type` de mejor a peor:
+
+| `type` | ¿Qué significa? | ¿Es bueno? |
+|---|---|---|
+| `const` | Se accedió a una fila a través de una columna que contiene una `Primary Key` o `UNIQUE`. Devuelve solo 1 fila. | Óptimo (lo ideal) |
+| `eq_ref` | Se realizó un `JOIN` utilizando una `Primary Key` o un índice `UNIQUE`. Devuelve una fila por cada unión. | Muy bueno |
+| `ref` | Usa un índice no único (los valores pueden repetirse). Puede devolver varias filas. | Bueno |
+| `range` | Usa el índice para buscar un rango de valores (`BETWEEN`, `>`, `<`, etc.). | Aceptable |
+| `index` | Recorre el índice completo. Es mejor que `ALL`, pero todavía puede ser lento. | Regular |
+| `ALL` | `Full Table Scan`: revisa toda la tabla fila por fila. | Evitar |
+
+:::warning
+- Si ves `type: ALL` en una tabla grande, casi siempre es señal de que falta un índice.
+:::
+
+
+#### ¿Cuándo usarlo?
+- Los índices optimizan las consultas para obtener datos, pero también tienen algunas desventajas: hacen que las operaciones `INSERT`, `UPDATE` y `DELETE` sean ligeramente más lentas y ocupan espacio adicional en el disco.
+- Esto no significa que no debas usar índices; significa que debes crearlos con criterio, solo en las columnas que realmente los necesitan.
+#### 5 reglas para crear índices
+##### 1- Siempre indexá las Foreign Keys (claves foráneas)
+```sql
+-- Las claves foráneas se usan frecuentemente en JOINs
+-- Sin índice, cada JOIN puede hacer un FULL TABLE SCAN de la tabla hija
+CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
+CREATE INDEX idx_detalle_pedido ON detalle_pedidos(pedido_id);
+CREATE INDEX idx_detalle_producto ON detalle_pedidos(producto_id);
+```
+##### 2- Indexá columnas que aparecen frecuentemente en `WHERE`
+
+```sql
+-- Si esta consulta se ejecuta miles de veces al día, conviene crear un índice
+SELECT * FROM usuarios WHERE email = ?;
+SELECT * FROM pedidos WHERE estado = 'pendiente';
+SELECT * FROM logs WHERE fecha >= ? AND fecha < ?;
+
+CREATE INDEX idx_usuarios_email ON usuarios(email);
+CREATE INDEX idx_pedidos_estado ON pedidos(estado);
+CREATE INDEX idx_logs_fecha ON logs(fecha);
+```
+
+##### 3- Indexá las columnas usadas en `ORDER BY` y `GROUP BY`
+
+```sql
+-- Sin un índice, la base de datos puede tener que ordenar o agrupar los resultados
+SELECT producto_id, SUM(total) FROM ventas
+GROUP BY producto_id ORDER BY SUM(total) DESC;
+
+-- Con un índice, la operación puede ser más eficiente
+CREATE INDEX idx_ventas_producto ON ventas(producto_id);
+```
+##### 4- **NO** indexes columnas de baja cardinalidad (es decir, columnas que tienen pocos valores únicos posibles).
+
+```sql
+-- BAJA CARDINALIDAD = pocos valores únicos posibles
+-- Ejemplo: columna "activo" con solo valores TRUE/FALSE
+-- El índice puede ayudar poco porque muchos registros tienen el mismo valor.
+
+-- ❌ Índice poco útil — activo solo tiene 2 valores posibles
+CREATE INDEX idx_usuarios_activo ON usuarios(activo);
+
+-- ✅ Mejor opción: índice parcial (si la mayoría son activos y buscas inactivos)
+CREATE INDEX idx_usuarios_inactivos
+ON usuarios(email)
+WHERE activo = FALSE;
+```
+##### 5- **NO** indexes todas las columnas por si acaso.
+
+```sql
+-- ❌ Sobreindexación: 8 índices en una tabla con muchas escrituras
+CREATE INDEX idx1 ON productos(nombre);
+CREATE INDEX idx2 ON productos(precio);
+CREATE INDEX idx3 ON productos(stock);
+CREATE INDEX idx4 ON productos(categoria_id);
+CREATE INDEX idx5 ON productos(proveedor_id);
+CREATE INDEX idx6 ON productos(peso);
+CREATE INDEX idx7 ON productos(color);
+CREATE INDEX idx8 ON productos(fecha_creacion);
+-- Cada INSERT/UPDATE/DELETE debe mantener actualizados los índices ← puede ser más lento
+
+-- ✅ Solo crea índices para las columnas que realmente se necesitan
+CREATE INDEX idx_productos_categoria ON productos(categoria_id);  -- JOIN frecuente
+CREATE INDEX idx_productos_nombre ON productos(nombre);            -- búsqueda frecuente
+```
+  
+  
+
+#### Errores comunes
+
+- Hay situaciones donde tienes un índice, pero la base de datos no lo usa.
+
+##### 1- Usar funciones sobre la columna indexada
+
+```sql
+-- ❌ El índice en fecha NO se usa porque la función YEAR() se aplica sobre la columna
+SELECT * FROM pedidos WHERE YEAR(fecha) = 2026;
+
+-- ✅ Reescribir usando un rango para que el índice pueda usarse
+SELECT * FROM pedidos
+WHERE fecha >= '2026-01-01' AND fecha < '2027-01-01';
+```
+##### 2- Usar `LIKE` con comodín al inicio
+
+```sql
+-- ❌ El índice NO se usa: el % al inicio impide la búsqueda por el árbol B
+SELECT * FROM productos WHERE nombre LIKE '%laptop%';
+
+-- ✅ El índice SÍ se usa: el % está solo al final (busca por prefijo)
+SELECT * FROM productos WHERE nombre LIKE 'laptop%';
+
+-- Para búsquedas dentro del texto, usa un índice FULLTEXT
+SELECT * FROM productos
+WHERE MATCH(nombre) AGAINST('laptop' IN BOOLEAN MODE);
+```
+
+##### 3- Operaciones matemáticas sobre la columna indexada
+
+```sql
+-- ❌ El índice en precio NO se usa porque hacemos una operación sobre la columna
+SELECT * FROM productos WHERE precio * 1.21 > 100;
+
+-- ✅ Mover la operación al otro lado de la comparación
+SELECT * FROM productos WHERE precio > 100 / 1.21;
+```
+
+##### 4- Conversiones de tipo
+
+```sql
+-- ❌ Si cliente_id es INT pero pasas un string, el índice puede no usarse
+SELECT * FROM pedidos WHERE cliente_id = '101';  -- '101' es string
+
+-- ✅ Usar el tipo correcto
+SELECT * FROM pedidos WHERE cliente_id = 101;    -- 101 es integer
+```
+##### 5- Usar `OR` en lugar de `UNION` para columnas diferentes
+
+```sql
+-- ❌ OR entre columnas diferentes puede hacer un FULL TABLE SCAN aunque haya índices
+SELECT * FROM clientes
+WHERE ciudad = 'Madrid' OR email = 'ana@mail.com';
+
+-- ✅ UNION permite aprovechar cada índice por separado
+SELECT * FROM clientes WHERE ciudad = 'Madrid'
+UNION
+SELECT * FROM clientes WHERE email = 'ana@mail.com';
+```
+
+
+
+
+#### Tipos de índices
+
+| **Tipo de índice** | **¿Para qué sirve?** | **¿Cuándo usarlo?** | **Sintaxis** |
+|---|---|---|---|
+| **Simple (B-tree)** | Búsquedas exactas y rangos de valores en una columna | Columnas frecuentes en `WHERE`, `JOIN`, `ORDER BY` | `CREATE INDEX nombre ON tabla(columna);` |
+| **UNIQUE** | Garantiza unicidad y acelera búsquedas | Email, DNI, código de producto | `CREATE UNIQUE INDEX nombre ON tabla(columna);` |
+| **Compuesto** | Consultas que utilizan varias columnas para filtrar | `WHERE col1 = ? AND col2 = ?` | `CREATE INDEX nombre ON tabla(col1, col2);` |
+| **FULLTEXT** | Búsqueda de palabras dentro de texto largo | Buscadores, artículos, descripciones | `CREATE FULLTEXT INDEX nombre ON tabla(columna);` |
+| **Parcial** | Solo indexa filas que cumplen una condición | Cuando solo consultas un subconjunto | `CREATE INDEX nombre ON tabla(columna) WHERE condición;` |
+| **Hash** | Búsquedas exactas muy rápidas (no funciona para rangos de valores) | Búsquedas exactas por hash | `CREATE INDEX nombre ON tabla USING HASH (columna);` |
+
+:::tip
+- La sintaxis y disponibilidad de algunos tipos de índices pueden variar según la base de datos. Por eso, conviene consultar la documentación de la base de datos que estés utilizando.
+:::
+
+
 
 
 #### Ventajas
