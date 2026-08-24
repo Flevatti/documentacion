@@ -596,3 +596,162 @@ urn:ietf:rfc:3986      // Documento RFC 3986 de la IETF
 - [Comprender el diseño de software: principios y prácticas clave](https://www.hostinger.com/ar/tutoriales/diseno-de-software/)
 
 :::
+
+## Sistemas de numeración
+- Un sistema de numeración define los caracteres que se van a usar para **escribir un número**.
+- Por ejemplo:
+  - En el sistema decimal, el número 10 se escribe como `10`.
+  - En el sistema binario, el número 10 se escribe como `1010`.
+  - En el sistema hexadecimal, el número 10 se escribe como `A`.
+- Los sistemas de numeración se pueden clasificar principalmente en:
+  - **Sistemas no posicionales:** el valor de un símbolo no cambia según la posición que ocupa.
+    - Ejemplo: sistema romano (`I`, `V`, `X`, `L`, etc.).
+  - **Sistemas posicionales:** el valor de un símbolo depende de la posición que ocupa dentro del número.
+    - Ejemplo: sistema decimal, binario y hexadecimal.
+- Los sistemas posicionales también se pueden diferenciar por su **base**, que indica cuántos símbolos diferentes se pueden utilizar para escribir un número:
+  - **Decimal (base 10):** utiliza `0–9`.
+  - **Binario (base 2):** utiliza `0–1`.
+  - **Octal (base 8):** utiliza `0–7`.
+  - **Hexadecimal (base 16):** utiliza `0–9` y `A–F`.
+
+#### Sistema decimal
+- Tiene una base de 10, por lo que permite usar 10 caracteres para escribir cualquier número: `0, 1, 2, 3, 4, 5, 6, 7, 8, 9`.
+- Este es el sistema que usamos las personas, así que es el más fácil de entender.
+- El valor de cada dígito depende de la posición que ocupa dentro del número. Por ejemplo, el `1` no tiene el mismo valor en `10` (su valor es `10`) que en `01` (su valor es `1`).
+- Para obtener su valor, multiplicamos el dígito por una potencia de 10:
+  - Unidades (primer dígito contando desde la derecha) → `10⁰`
+  - Decenas (segundo dígito contando desde la derecha) → `10¹`
+  - Centenas (tercer dígito contando desde la derecha) → `10²`
+  - Unidades de millar (cuarto dígito contando desde la derecha) → `10³`
+  - Decenas de millar (quinto dígito contando desde la derecha) → `10⁴`
+  - Centenas de millar (sexto dígito contando desde la derecha) → `10⁵`
+  - Unidades de millón (séptimo dígito contando desde la derecha) → `10⁶`
+  - A partir de ahí, se sigue el mismo patrón: **cada dígito hacia la izquierda aumenta `1` el exponente** (`10⁷`, `10⁸`, `10⁹`, etc.).
+:::tip ¿Qué es una potencia de 10?
+- Una potencia de 10 significa **multiplicar el 10 por sí mismo** la cantidad de veces que indica el exponente (el número que está arriba).
+  - `10⁰ = 1`
+  - `10¹ = 10`
+  - `10² = 10 × 10 = 100`
+  - `10³ = 10 × 10 × 10 = 1000`
+- Cuanto mayor es el exponente, mayor es el valor.
+:::
+
+- Por ejemplo, el número `23519` está formado por:
+  - `2` decenas de millar
+  - `3` unidades de millar
+  - `5` centenas
+  - `1` decena
+  - `9` unidades
+- Para obtener el valor real de cada dígito, multiplicamos el dígito por la potencia de 10 correspondiente:
+  - `2 × 10⁴ = 20000`
+  - `3 × 10³ = 3000`
+  - `5 × 10² = 500`
+  - `1 × 10¹ = 10`
+  - `9 × 10⁰ = 9`
+- Por lo tanto:
+  - `23519 = 20000 + 3000 + 500 + 10 + 9`
+
+#### Sistema binario
+- Es el sistema que usan las computadoras para guardar datos numéricos y también otros tipos de datos.
+- Su base es `2`, por lo que para escribir cualquier número solo se usan dos caracteres: `0` y `1`.
+- El valor de cada dígito depende de la posición que ocupa dentro del número. Por ejemplo, el `1` no tiene el mismo valor en `10` (su valor es `2`) que en `01` (su valor es `1`).
+- Para obtener su valor, multiplicamos el dígito por una potencia de `2`:
+  - Primer dígito contando desde la derecha → `2⁰`
+  - Segundo dígito contando desde la derecha → `2¹`
+  - Tercer dígito contando desde la derecha → `2²`
+  - Cuarto dígito contando desde la derecha → `2³`
+  - Quinto dígito contando desde la derecha → `2⁴`
+  - Sexto dígito contando desde la derecha → `2⁵`
+  - Séptimo dígito contando desde la derecha → `2⁶`
+  - A partir de ahí, se sigue el mismo patrón: **cada dígito hacia la izquierda aumenta `1` el exponente** (`2⁷`, `2⁸`, `2⁹`, etc.).
+
+:::tip ¿Qué es una potencia de 2?
+- Una potencia de 2 significa **multiplicar el 2 por sí mismo** la cantidad de veces que indica el exponente (el número que está arriba).
+  - `2⁰ = 1`
+  - `2¹ = 2`
+  - `2² = 2 × 2 = 4`
+  - `2³ = 2 × 2 × 2 = 8`
+- Cuanto mayor es el exponente, mayor es el valor.
+:::
+
+- Por ejemplo, el número binario `1011` está formado por:
+  - `1` → `2³`
+  - `0` → `2²`
+  - `1` → `2¹`
+  - `1` → `2⁰`
+- Para obtener el valor de cada dígito, multiplicamos el dígito por la potencia de 2 correspondiente:
+  - `1 × 2³ = 8`
+  - `0 × 2² = 0`
+  - `1 × 2¹ = 2`
+  - `1 × 2⁰ = 1`
+- Por lo tanto:
+  - `1011 = 8 + 0 + 2 + 1 = 11`
+
+:::tip
+
+- Al hacer estas operaciones matemáticas, estamos convirtiendo el número binario a un número decimal.
+:::
+
+
+- Para convertir un número decimal a binario:
+  - Se divide el número por `2` (la base del sistema binario): el sobrante es el primer número que va a tener el número binario (contando desde la derecha).
+  - El resultado de la división anterior se vuelve a dividir por `2`: el sobrante es el segundo número que va a tener el número binario (contando desde la derecha).
+  - El resultado de la división anterior se vuelve a dividir por `2`: el sobrante es el tercer número que va a tener el número binario (contando desde la derecha).
+  - Repetimos este proceso hasta que el resultado de la división sea `1`.
+  - Ese `1` será el último dígito del número binario (contando desde la derecha).
+
+:::tip
+- Todo número binario, excepto el `0`, empieza por `1`.
+:::
+
+- Por ejemplo, para convertir el número decimal `11` a binario:
+  - `11 ÷ 2 = 5` → sobrante `1`
+  - `5 ÷ 2 = 2` → sobrante `1`
+  - `2 ÷ 2 = 1` → sobrante `0`
+  - El resultado `1` es el último dígito del número binario.
+- Según los resultados obtenidos:
+  - `1` (resultado de la última división) → `0` (sobrante de la última división) → `1` → `1`
+  - `11` en decimal = `1011` en binario.
+
+
+
+#### Hexadecimal, Octal y más.
+- Todos los sistemas de numeración que vas a usar para programar tienen una **base**, que indica cuántos caracteres diferentes se pueden utilizar para escribir un número. Por ejemplo:
+  - **Hexadecimal:** tiene base `16`, es decir, para escribir un número se pueden utilizar `16` caracteres: `0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F`.
+  - **Octal:** tiene base `8`, es decir, para escribir un número se pueden utilizar `8` caracteres: `0, 1, 2, 3, 4, 5, 6, 7`.
+
+
+#### Conversiones
+- Para convertir un número de un sistema de numeración a otro, primero tenemos que tener en cuenta la **base** de los dos sistemas de numeración involucrados en la conversión.
+- En segundo lugar, si la base es mayor a `10`, debemos tener en cuenta el valor que tiene cada carácter que no es un número cuando es el primer dígito contando desde la derecha.
+- Por ejemplo, en hexadecimal:
+  - `A` → `10`
+  - `B` → `11`
+  - `C` → `12`
+  - `D` → `13`
+  - `E` → `14`
+  - `F` → `15`
+- A partir de ahí, para hacer las conversiones:
+  - Para convertir un número a decimal, usamos la **multiplicación**. Mira el ejemplo de número binario a decimal. Solo tienes que cambiar el `2` de las potencias por la **base del sistema que estés utilizando**. Por ejemplo:
+    - Octal → usamos potencias: `8⁰`, `8¹`, `8²`, etc.
+    - Hexadecimal → usamos potencias: `16⁰`, `16¹`, `16²`, etc.
+  - Para convertir un número de otro sistema a decimal, usamos **divisiones sucesivas**. Mira el ejemplo de número decimal a binario. Solo tienes que cambiar el `2` de las divisiones por la **base del sistema que estés utilizando**. Por ejemplo:
+    - Octal → dividimos los resultados por `8`.
+    - Hexadecimal → dividimos los resultados por `16`.
+  - Para convertir un número de un sistema a otro, podemos:
+    - **Pasar primero por decimal:** por ejemplo, para convertir de binario a hexadecimal:
+        - Binario → Decimal → Hexadecimal
+  - **Convertir directamente:** cuando podemos pasar de un sistema a otro sin pasar por decimal, Por ejemplo:
+    - Binario → Octal
+    - Octal → Binario
+    - Binario → Hexadecimal
+    - Hexadecimal → Binario
+
+
+:::tip info
+- [Sistemas Binarios y Decimales](https://ed.team/blog/sistemas-binarios-y-decimales)
+- [SISTEMAS DE NUMERACIONES Y SUS COVERSIONES](https://docs.google.com/document/d/1SRMLOgXZla0iZh29o5cy-zkhiaSOgq557Y7mzb9ivMA/preview?hgd=1&tab=t.0)
+- [Sistemas numéricos](https://informaticabasica.home.blog/2018/12/19/sistemas-numericos/)
+- [Sistemas de Numeración | Serie Computación y Programación #1](https://steemit.com/castellano/@abdulmath/sistemas-de-numeracion-or-serie-computacion-y-programacion-1)
+- [Sistema Binario, Decimal, Octal y Hexadecimal qué es y cómo funciona](https://www.profesionalreview.com/2018/12/11/sistema-binario-decimal-octal-hexadecimal/)
+:::
