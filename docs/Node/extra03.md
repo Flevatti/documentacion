@@ -735,17 +735,169 @@ urn:ietf:rfc:3986      // Documento RFC 3986 de la IETF
   - Para convertir un número a decimal, usamos la **multiplicación**. Mira el ejemplo de número binario a decimal. Solo tienes que cambiar el `2` de las potencias por la **base del sistema que estés utilizando**. Por ejemplo:
     - Octal → usamos potencias: `8⁰`, `8¹`, `8²`, etc.
     - Hexadecimal → usamos potencias: `16⁰`, `16¹`, `16²`, etc.
-  - Para convertir un número de otro sistema a decimal, usamos **divisiones sucesivas**. Mira el ejemplo de número decimal a binario. Solo tienes que cambiar el `2` de las divisiones por la **base del sistema que estés utilizando**. Por ejemplo:
+  - Para convertir un número decimal a otro sistema, usamos **divisiones sucesivas**. Mira el ejemplo de número decimal a binario. Solo tienes que cambiar el `2` de las divisiones por la **base del sistema que estés utilizando**. Por ejemplo:
     - Octal → dividimos los resultados por `8`.
     - Hexadecimal → dividimos los resultados por `16`.
   - Para convertir un número de un sistema a otro, podemos:
     - **Pasar primero por decimal:** por ejemplo, para convertir de binario a hexadecimal:
         - Binario → Decimal → Hexadecimal
-  - **Convertir directamente:** cuando podemos pasar de un sistema a otro sin pasar por decimal, Por ejemplo:
-    - Binario → Octal
-    - Octal → Binario
-    - Binario → Hexadecimal
-    - Hexadecimal → Binario
+    - **Convertir directamente:** cuando podemos pasar de un sistema a otro sin pasar por decimal, Por ejemplo:
+      - Binario → Octal
+      - Octal → Binario
+      - Binario → Hexadecimal
+      - Hexadecimal → Binario
+
+#### Convertir número de binario a octal
+- La conversión es sencilla porque la base del sistema octal es `8` y `2³ = 8`.
+- Por eso, podemos **agrupar los dígitos binarios de 3 en 3**, empezando desde la derecha hacia la izquierda.
+- Después, convertimos cada grupo de 3 dígitos binarios a su valor decimal.
+- Veamos el ejemplo con el número `100110`:
+  - Lo dividimos en dos grupos: `100` y `110`.
+  - A cada grupo lo convertimos en un número decimal:
+    - `100` = `1 × 2² + 0 × 2¹ + 0 × 2⁰` = `4 + 0 + 0` = `4`
+    - `110` = `1 × 2² + 1 × 2¹ + 0 × 2⁰` = `4 + 2 + 0` = `6`
+    - Cada número decimal obtenido forma parte del número octal. El resultado del primer grupo, contando desde la derecha, será el primer dígito del número octal (también empezando desde la derecha), y así consecutivamente.
+    - Por lo tanto:
+        - `100110` en binario = `46` en octal.
+- ¿Y si no podemos agruparlos de a `3`? Por ejemplo, `1001101` tiene dos grupos de `3` y uno de `1`. Veamos cómo proceder:
+  - Lo dividimos en tres grupos: `001` (el `1` queda solo, pero rellenamos los otros dos dígitos con `0`), `001` y `101`.
+  - A cada grupo lo convertimos en un número decimal:
+    - `001` = `0 × 2² + 0 × 2¹ + 1 × 2⁰` = `0 + 0 + 1` = `1`
+    - `001` = `0 × 2² + 0 × 2¹ + 1 × 2⁰` = `0 + 0 + 1` = `1`
+    - `101` = `1 × 2² + 0 × 2¹ + 1 × 2⁰` = `4 + 0 + 1` = `5`
+  - Cada número decimal obtenido forma parte del número octal, formando el `115`.
+  - Por lo tanto, cuando queda un grupo incompleto, **agregamos a la izquierda todos los `0` necesarios para llenarlo**.
+
+#### Convertir número de octal a binario
+- El procedimiento es el contrario al de binario a octal: **convertimos cada dígito octal a un grupo de `3` dígitos binarios**.
+- Esto es posible porque `2³ = 8`. Por lo tanto, cada dígito octal puede expresarse utilizando exactamente `3` dígitos binarios.
+- Para convertir cada dígito octal a binario, podemos hacer **divisiones consecutivas por `2`** (la base del sistema binario). Básicamente, usamos el mismo procedimiento que para convertir un número decimal a binario.
+- Veamos el ejemplo con el número `115`:
+  - `5`:
+    - `5 ÷ 2 = 2` → sobrante `1`
+    - `2 ÷ 2 = 1` → sobrante `0`
+    - Entonces, el número binario es: `101`
+  - `1`:
+    - `1 ÷ 2 = 0` → sobrante `1`
+    - Como necesitamos `3` dígitos binarios, agregamos un `0` a la izquierda:
+    - Entonces, el número binario es: `001`
+  - `1`:
+    - `1 ÷ 2 = 0` → sobrante `1`
+    - Como necesitamos `3` dígitos binarios, agregamos un `0` a la izquierda:
+  - Cada grupo de números binarios obtenido forma parte del número binario. El resultado del primer dígito octal, contando desde la derecha, serán los primeros `3` dígitos binarios (también empezando desde la derecha), y así consecutivamente.
+  - Por lo tanto, el número binario es: `001001101`.
+  - Si un grupo queda incompleto (no se llega a dividir el número `2` veces, lo que pasa cuando el número es menor o igual que `2`), simplemente agregamos todos los `0` necesarios a la izquierda para llenarlo.
+  - Ya vimos que los ceros que están a la izquierda no modifican el valor, solo sirven para hacer conversiones, por lo que podemos quitarlos:
+    - `001001101` → `1001101`
+- Por último, como el sistema octal utiliza solo `8` dígitos, podemos usar esta tabla rápida para ver qué grupo de `3` dígitos binarios corresponde a cada uno:
+
+| Octal | Binario |
+| ----- | ------- |
+| `0`   | `000`   |
+| `1`   | `001`   |
+| `2`   | `010`   |
+| `3`   | `011`   |
+| `4`   | `100`   |
+| `5`   | `101`   |
+| `6`   | `110`   |
+| `7`   | `111`   |
+
+
+
+#### Convertir número de binario a hexadecimal
+- La conversión es sencilla porque la base del sistema hexadecimal es `16` y `2⁴ = 16`.
+- Por eso, podemos **agrupar los dígitos binarios de `4` en `4`**, empezando desde la derecha hacia la izquierda.
+- Si un grupo no llega a tener `4` dígitos, agregamos todos los `0` necesarios a la izquierda para completarlo.
+- Después, convertimos cada grupo de `4` dígitos binarios en un dígito hexadecimal.
+- Para convertir `4` dígitos binarios a hexadecimal, hacemos lo mismo que en la conversión de binario a octal, pero ahora cada grupo tiene `4` dígitos en lugar de `3`. Por lo tanto, tenemos una posición más para calcular su valor.
+- Si el resultado de la conversión está entre `0` y `9`, mantenemos el mismo número, pero si está entre `10` y `15`, lo cambiamos por su correspondiente carácter hexadecimal:
+  - `10` → `A`
+  - `11` → `B`
+  - `12` → `C`
+  - `13` → `D`
+  - `14` → `E`
+  - `15` → `F`
+- Por ejemplo `101011001111`:
+  - Lo dividimos en tres grupos de `4`: `1010`, `1100` y `1111`.
+  - `1010`:
+    - `1 × 2³ + 0 × 2² + 1 × 2¹ + 0 × 2⁰`
+    - `8 + 0 + 2 + 0 = 10`
+    - En hexadecimal, `10` se escribe como `A`.
+    - Por lo tanto: `1010` → `A`
+  - `1100`:
+    - `1 × 2³ + 1 × 2² + 0 × 2¹ + 0 × 2⁰`
+    - `8 + 4 + 0 + 0 = 12`
+    - En hexadecimal, `12` se escribe como `C`.
+    - Por lo tanto: `1100` → `C`
+  - `1111`:
+    - `1 × 2³ + 1 × 2² + 1 × 2¹ + 1 × 2⁰`
+    - `8 + 4 + 2 + 1 = 15`
+    - En hexadecimal, `15` se escribe como `F`.
+    - Por lo tanto: `1111` → `F`
+  - El resultado del primer grupo, contando desde la derecha, corresponde al primer dígito del número hexadecimal (también empezando desde la derecha), y así consecutivamente. Por lo tanto:
+    - `101011001111` en binario = `ACF` en hexadecimal.
+- Por último, como cada `4` dígitos binarios corresponden a un dígito hexadecimal, usamos la fórmula `2⁴ = 16`. Esto quiere decir que hay `16` combinaciones posibles y cada una corresponde a un dígito hexadecimal:
+
+| Binario | Decimal | Hexadecimal |
+| ------- | ------: | ----------: |
+| `0000`  |     `0` |         `0` |
+| `0001`  |     `1` |         `1` |
+| `0010`  |     `2` |         `2` |
+| `0011`  |     `3` |         `3` |
+| `0100`  |     `4` |         `4` |
+| `0101`  |     `5` |         `5` |
+| `0110`  |     `6` |         `6` |
+| `0111`  |     `7` |         `7` |
+| `1000`  |     `8` |         `8` |
+| `1001`  |     `9` |         `9` |
+| `1010`  |    `10` |         `A` |
+| `1011`  |    `11` |         `B` |
+| `1100`  |    `12` |         `C` |
+| `1101`  |    `13` |         `D` |
+| `1110`  |    `14` |         `E` |
+| `1111`  |    `15` |         `F` |
+
+
+#### Convertir número hexadecimal a binario
+- El procedimiento es el contrario al de binario a hexadecimal. En lugar de **agrupar los dígitos binarios de `4` en `4`**, ahora **tomamos cada dígito hexadecimal por separado y lo convertimos en un grupo de `4` dígitos binarios**.
+- Esto es posible porque `2⁴ = 16 `. Por lo tanto, cada dígito hexadecimal puede expresarse utilizando exactamente `4` dígitos binarios.
+- Para convertir un número hexadecimal a binario, hay dos pasos:
+  - Primero: si el dígito es una letra, lo convertimos a su valor decimal. Solo tenemos que hacer esto con los caracteres `A`, `B`, `C`, `D`, `E` y `F`.
+  - Luego hacemos **divisiones consecutivas por `2`** (la base del sistema binario). Básicamente, usamos el mismo procedimiento que para convertir un número decimal a binario.
+- Veamos el ejemplo con el número hexadecimal `ACF`:
+  - `F`:
+    - `F = 15` en decimal.
+    - `15 ÷ 2 = 7` → sobrante `1`
+    - `7 ÷ 2 = 3` → sobrante `1`
+    - `3 ÷ 2 = 1` → sobrante `1`
+    - El resultado `1` es el último dígito.
+    - Entonces el número binario es: `1111`
+  - `C`:
+    - `C = 12` en decimal.
+    - `12 ÷ 2 = 6` → sobrante `0`
+    - `6 ÷ 2 = 3` → sobrante `0`
+    - `3 ÷ 2 = 1` → sobrante `1`
+    - El resultado `1` es el último dígito.
+    - Entonces el número binario es: `1100`
+  - `A`:
+    - `A = 10` en decimal.
+    - `10 ÷ 2 = 5` → sobrante `0`
+    - `5 ÷ 2 = 2` → sobrante `1`
+    - `2 ÷ 2 = 1` → sobrante `0`
+    - El resultado `1` es el último dígito.
+    - Entonces el número binario es: `1010`
+- Cada grupo de números binarios obtenido forma parte del número binario. El resultado del primer dígito hexadecimal, contando desde la derecha, serán los primeros `4` dígitos binarios (también empezando desde la derecha), y así consecutivamente.
+- Si un grupo queda incompleto (no se llega a dividir el número `3` veces), simplemente agregamos todos los `0` necesarios a la izquierda para llenarlo.
+- Por lo tanto:
+  - `ACF` en hexadecimal = `101011001111` en binario.
+
+:::tip
+- Para hacer la conversión, podemos usar la tabla anterior.
+:::
+
+
+
+
 
 
 :::tip info

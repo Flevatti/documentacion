@@ -519,9 +519,8 @@ const gameBoard: GameBoard = [
 
 :::tip Tuplas
 - El type de GameBoard se llama tupla.
-- Una tupla es un array con un límite fijado de longitud.
-- Basicamente en typescript un array que tiene una cantidad de posiciones fijas, es una tupla.
-
+- Una tupla es un array cuya longitud y tipos de dato de cada elemento están definidos.
+- Básicamente, en TypeScript, una tupla es un array con una cantidad fija de elementos y tipos definidos para cada uno.
 :::
 
 

@@ -1,10 +1,11 @@
-# Guia de VUEPRESS
+# Guía de VUEPress
 
-1. Es una forma de documentar nuestros proyectos.
-2. Es para hacer paginas estáticas.
-3. Se puede compartir código , establecer el layout.
-4. Se puede subir a github page.
-5. Trabaja con vue.js
+1. Es una herramienta para documentar nuestros proyectos.
+2. Permite crear páginas estáticas.
+3. Permite reutilizar código y definir el diseño de las páginas.
+4. Permite publicar el sitio en GitHub Pages.
+5. Está basado en Vue.js.
+
 
 ## Generacion
 :::warning
@@ -26,175 +27,270 @@ Control + C -- Para detener el yarn dev
 
 
 
-
 ## Markdown
 
-Trabaja con markdown
+VuePress trabaja con **Markdown**. Es un lenguaje de marcado (como HTML) que permite definir el contenido de la página. VuePress lo lee y lo convierte en HTML.
 
-Markdown = Es un lenguaje de hipermarcado (como HTML).
+### Documentación
 
-[Sintaxis](https://markdown.es/sintaxis-markdown/)
+* [Sintaxis de Markdown](https://markdown.es/sintaxis-markdown/)
+* [Sintaxis de Markdown en VuePress](https://vuepress.vuejs.org/guide/markdown.html#header-anchors)
 
-[Sintaxis de la documentacion](https://vuepress.vuejs.org/guide/markdown.html#header-anchors)
+### Encabezados
 
-``` markdown
- # espacio texto  ---  h1
- ##  espacio texto -- h2
+La cantidad de `#` indica el nivel del encabezado. Por ejemplo:
+
+```markdown
+# Título
 ```
-La cantidad de # representa el numero del H# (Encabezado).
 
-``` markdown
- Paraffo 1
+Representa un **`<h1>`**.
 
- Parrafo 2
+```markdown
+## Subtítulo
 ```
-Para hacer parrafos, pones el texto y lo vas separando por al menos un reglon de diferencia.
 
+Representa un **`<h2>`**.
 
-``` markdown
- * Espacio texto  
- - Espacio texto 
+Por lo tanto:
+
+* `#` → H1
+* `##` → H2
+* `###` → H3
+* `####` → H4
+* `#####` → H5
+* `######` → H6
+
+### Párrafos
+
+Para crear párrafos, simplemente escribimos el texto y dejamos **una línea en blanco** entre cada párrafo.
+
+```markdown
+Párrafo 1
+
+Párrafo 2
 ```
-Haces una lista
 
+### Listas
 
-``` markdown
-1. Espacio texto
+Para crear una lista sin ordenar, podemos utilizar `*`, `-` o `+` seguido de un espacio:
+
+```markdown
+* Elemento 1
+* Elemento 2
+* Elemento 3
 ```
-Haces una lista ordenada
 
-``` markdown
-![descripción](ruta de la imagen)
+También podemos utilizar `-`:
+
+```markdown
+- Elemento 1
+- Elemento 2
+- Elemento 3
 ```
-Insertas una imagen
 
+### Listas ordenadas
 
-``` html
-<img :src="$withBase('/img/main-start.png')" >
+Para crear una lista ordenada, utilizamos un número seguido de un punto y un espacio:
+
+```markdown
+1. Primer elemento
+2. Segundo elemento
+3. Tercer elemento
 ```
-Podes usar esto tambien para insertar imagenes, por defecto esta en la carpeta public(QUE HAY QUE CREARLA)
-:::warning
-En .vuepress/public/img van las imágenes.
 
-:::
+### Insertar una imagen
 
-``` markdown
-``` X
- codigo
-```\
+Para insertar una imagen utilizamos la siguiente sintaxis:
+
+```markdown
+![Descripción de la imagen](ruta/de/la/imagen.png)
 ```
-:::warning
- La \ borrala , no va
-:::
-Para poner codigo , la X representa el lenguaje (CSS , HTML , JS , ETC) .
 
-Es para detallar codigo , la X representa la extension del codigo (HTML , CSS , js , etc)
+El texto entre `[]` es la **descripción de la imagen**, mientras que la ruta entre `()` indica dónde se encuentra la imagen.
 
-## Configuracion
-1. Borramos las carpetas que estan al pedo.
-2. Tocamos el config.js que esta adentro de la carpeta vuepress .
+### Imágenes en VuePress
 
-### config.js
-Esta toda la configuracion .
+También podemos utilizar una etiqueta `<img>` para insertar imágenes.
 
-Es todo lo que nosotros vemos
+Por defecto, VuePress utiliza la carpeta `public` para almacenar archivos estáticos. Esta carpeta debe crearse dentro de `.vuepress`:
 
-Cada configuracion resetea el yarn dev
-#### Borramos el require.
-#### Borramos el repo y docsDir.
-
-``` js
- title: Es el titulo
- description: Es la descripcion
- head : [ metas ]
- /*  Github lee esta ruta (en este ejemplo 'docs') , para que la tengamos como publica */
- dest : 'docs' 
-
- /* Ponemos el base , que es en enlace del repositorio */
- base:'/url/'
+```text
+.vuepress/
+└── public/
+    └── img/
+        └── main-start.png
 ```
-#### Configuracion recomendada (Podes modificar los nombre)
+
+Para insertar una imagen que se encuentra en esa carpeta, podemos utilizar:
+
+```html
+<img :src="$withBase('/img/main-start.png')">
+```
+
+
+
+
+
+## Configuración
+
+### 1. Limpiar el proyecto
+
+Primero, podemos borrar las carpetas y archivos que no vamos a utilizar.
+
+### 2. Configurar `config.js`
+
+La configuración de VuePress se encuentra en:
+
+```text
+.vuepress/config.js
+```
+
+En este archivo configuramos VuePress para decirle cómo queremos que cree el sitio web.
+
+Cada vez que modificamos la configuración, debemos reiniciar el servidor de desarrollo (`yarn dev`) para ver los cambios.
+
+### `config.js`
+
+Primero, podemos eliminar configuraciones que no vamos a utilizar:
+
+* Borrar el `require`.
+* Borrar `repo`.
+* Borrar `docsDir`.
+
+### Configuración básica
+
 ```js
- module.exports = {
-  dest: 'docs' ,
-  base:'/url/' ,
-  title: 'Titulo',
+title: 'Título',
+description: 'Descripción',
+head: [
+  // Metadatos
+],
 
+/* Carpeta donde se genera el sitio */
+/* GitHub utiliza esta ruta (en este ejemplo, 'docs') para publicar el sitio en GitHub Pages */
+dest: 'docs',
+
+/* URL para acceder al sitio web en GitHub Pages */
+base: '/url/'
 ```
-#### Mas configuracion
+
+### Configuración recomendada
+
+Podemos utilizar esta configuración como base y modificar los valores según nuestro proyecto:
+
 ```js
- nav : es el menu
+module.exports = {
+  dest: 'docs',
+  base: '/url/',
+  title: 'Título',
+  description: 'Descripción',
+}
 ```
-#### Sidebar(Menu)
+
+### Más configuraciones
+
+#### `nav`
+
+`nav` permite configurar el **menú de navegación** de la página.
 
 ```js
-   sidebar: 
-    [
-      '/' ,
-      '/01-paginauno/'
-    ]
+nav: [
+  // Elementos del menú
+]
 ```
-Cada carpeta que creamos la ponemos en el sidebar.
 
-En la carpeta src añadimos las carpetas
+### Sidebar (menú lateral)
 
-En las carpetas ponemos el README.md
+`sidebar` permite configurar el **menú lateral** de la documentación.
 
-El index.md lo podes dejar o no.
-
-#### Plantilla que generalmente esta en el README.md
 ```js
-	
+sidebar: [
+  '/',
+  '/01-paginauno/'
+]
+```
+
+Cada página o carpeta que queramos mostrar en el menú lateral debe agregarse al `sidebar`.
+
+### Crear las páginas
+
+Dentro de la carpeta `src` podemos crear las carpetas que necesitemos.
+
+Por ejemplo:
+
+```text
+src/
+├── 01-paginauno/
+│   └── README.md
+├── 02-paginados/
+│   └── README.md
+└── README.md
+```
+
+Dentro de cada carpeta podemos colocar un `README.md`, que será el contenido de esa sección.
+
+El `index.md` se puede dejar o eliminar, dependiendo de si lo vamos a utilizar.
+
+### Plantilla de `README.md`
+
+Generalmente, el `README.md` puede contener una configuración como esta:
+
+```yaml
 ---
 home: true
 heroImage: https://v1.vuepress.vuejs.org/hero.png
-tagline: 
+tagline:
 actionText: Quick Start →
 actionLink: /guide/
 features:
-- title: Feature 1 Title
-  details: Feature 1 Description
-- title: Feature 2 Title
-  details: Feature 2 Description
-- title: Feature 3 Title
-  details: Feature 3 Description
-footer: Made by  with ❤️
+  - title: Feature 1 Title
+    details: Feature 1 Description
+  - title: Feature 2 Title
+    details: Feature 2 Description
+  - title: Feature 3 Title
+    details: Feature 3 Description
+footer: Made by with ❤️
 ---
-
 ```
-Lo podes borrar
+
+Esta plantilla se puede **borrar** si no vamos a utilizarla.
+
+
+
 
 ## Descargar plugin
 
-```yarn
+Para instalar un plugin, utilizamos:
 
+```bash
 yarn add nombre
 ```
-Descargar plugin
 
-## Compilarlo
-```yarn
+## Compilar el proyecto
 
-yarn build 
+Para compilar el proyecto, utilizamos:
+
+```bash
+yarn build
 ```
-- Es para compilarlo.
-- Si lo hiciste bien , se crea una carpeta con el mismo nombre que especificaste en la opcion dest
-- La carpeta nueva contiene archivos estaticos (HTML , CSS , JAVASCRIPT) 
-- Los archivos estaticos se deben subir al hosting
-## Subilo a github
 
-1. Lo compilamos (con el comando yarn build)
-2. Creamos un repositorio en github con el mismo nombre que pusimos en base(Sin los //).
-3. Hacemos un init en el proyecto(carpeta docs)
-4. Nos fijamos que la carpeta dist y node modules esten ignorados
-5. Hacemos un push (git push).
-6. en la opcion Branch del apartado pages de github , deberas  verificar que  esta la carpeta que especificaste en la opcion dest
-:::tip 
-Por cada deploy , se debe hacer un push
-:::
-:::tip
-Las carpetas deben estar al mismo nivel que el README.md (index)
-:::
+
+* Se crea una carpeta con el mismo nombre que especificamos en la opción `dest`.
+* Esta carpeta contiene los archivos estáticos del sitio, como **HTML, CSS y JavaScript**.
+* Estos archivos estáticos son los que debemos subir al hosting.
+
+## Subirlo a GitHub Pages
+
+Para publicar el sitio en GitHub Pages:
+
+1. Compilamos el proyecto con `yarn build`.
+2. Creamos un repositorio en GitHub con el mismo nombre que especificamos en `base`, sin las `/`.
+3. Inicializamos Git en la carpeta del proyecto con `git init`.
+4. Verificamos que las carpetas `dist` y `node_modules` estén incluidas en `.gitignore`.
+5. Agregamos los cambios, hacemos un commit y realizamos un `git push`.
+6. En **Settings → Pages → Branch** de GitHub, verificamos que esté seleccionada la carpeta especificada en `dest`.
+
 
 
 

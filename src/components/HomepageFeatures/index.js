@@ -10,9 +10,9 @@ const FeatureList = [
     description: (
       <>
         Es el pilar del sitio web <br />
-        Es el lenguaje de marcado que usamos para estructurar y dar significado
-        a nuestro contenido web, por ejemplo, definiendo párrafos, encabezados y
-        tablas de datos, o insertando imágenes y videos en la página.
+     Es el lenguaje de marcado que define la estructura y el contenido de una página web. Permite crear elementos como títulos, párrafos, imágenes, enlaces, tablas, listas y formularios.
+
+
       </>
     ),
   },
@@ -22,10 +22,9 @@ const FeatureList = [
     Svg: require("@site/static/img/logo_css.svg").default,
     description: (
       <>
-        Se utiliza para el diseño del sitio web <br />
-        Es un lenguaje de reglas de estilo que usamos para aplicar estilo a
-        nuestro contenido HTML, por ejemplo, establecer colores de fondo y tipos
-        de letra, y distribuir nuestro contenido en múltiples columnas.
+        Es el lenguaje que se utiliza para dar estilo a una página web. Permite definir colores, fuentes, tamaños, márgenes, posiciones, animaciones y cómo se verán los elementos HTML.
+
+
       </>
     ),
   },
@@ -35,12 +34,7 @@ const FeatureList = [
     Svg: require("@site/static/img/logo_js.svg").default,
     description: (
       <>
-        Añade dinamica al sitio web.
-        <br />
-        Es un lenguaje de secuencias de comandos que te permite crear contenido
-        de actualización dinámica, controlar multimedia, animar imágenes y
-        prácticamente todo lo demás. (Está bien, no todo, pero es sorprendente
-        lo que puedes lograr con unas pocas líneas de código JavaScript).
+     Es el lenguaje de programación que hace que una página web sea interactiva (que pueda interactuar con el usuario). Permite ejecutar código en respuesta a las acciones del usuario, cambiar el contenido de la página, validar formularios, crear animaciones y comunicarse con servidores.
       </>
     ),
   },

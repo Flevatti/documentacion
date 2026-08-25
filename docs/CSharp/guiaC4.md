@@ -180,13 +180,14 @@ string[] nombres = new string[3]; // Un array de 3 cadenas
 
 ```
 #### Arrays multidimensionales
-- Son arrays que tienen más de una dimensión y pueden visualizarse como un cubo o una tabla.
-- Los arrays multidimensionales también pueden almacenar elementos de cualquier tipo y se accede a sus elementos utilizando múltiples índices, uno por cada dimensión.
-- Cada dimensión es un array.
-- En un array de dos dimensiones: En las posiciones de un array tiene otro array.
-- En un array de tres dimensiones: En las posiciones de un array tiene un array y ese también en sus posiciones tiene otro array
-- Y de la misma forma, se pueden crear Arrays de 4 dimensiones o más.
-- Entonces es multidimensional cuando hay varios Arrays anidados.
+
+- Son arrays que tienen **más de una dimensión** y pueden visualizarse como una tabla, un cubo, etc.
+- Los arrays multidimensionales pueden almacenar elementos de cualquier tipo y se accede a ellos utilizando **múltiples índices**, uno por cada dimensión.
+- Cada dimensión está representada por un **array anidado** (un array dentro de otro).
+- En un array de **dos dimensiones**, cada posición contiene otro array.
+- En un array de **tres dimensiones**, cada posición contiene un array que, a su vez, contiene otros arrays.
+- De la misma forma, se pueden crear arrays de **4 dimensiones o más**.
+- Entonces, un array es multidimensional cuando tiene **varios arrays anidados**.
 - Ejemplo:
 
 

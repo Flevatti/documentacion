@@ -4,7 +4,7 @@
 const { themes } = require("prism-react-renderer");
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
-
+const isDev = process.env.NODE_ENV === 'development';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Documentacion",
@@ -16,7 +16,8 @@ const config = {
   markdown: {
     hooks: {
       onBrokenMarkdownLinks: "throw",
-    },
+      onBrokenMarkdownImages: "throw",
+    }
   },
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -42,7 +43,10 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+             exclude : isDev ? [] : ["CSharp/C13.md"],
+            
         },
+     
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
