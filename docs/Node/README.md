@@ -1787,4 +1787,4 @@ res.status(400).json({error: 'token no es válido'})
 1.	Flexibilidad: Los params permiten que una sola ruta maneje múltiples solicitudes. En lugar de tener una ruta diferente para cada recurso, puedes tener una ruta dinámica que se ajuste a diferentes valores.
 2.	Claridad en la URL: Los params permiten que los datos se incorporen directamente en la URL, lo que hace que las URLs sean más claras y fáciles de leer.
 3. Organización de rutas: Te ayuda a organizar rutas de manera lógica, donde la estructura de la URL refleja la relación entre los recursos (por ejemplo, usuarios y sus pedidos).
-- [Ejemplo](./mongo.md#get-único-documento)
+- [Ejemplo](./mongo.md#get-único-documento-params)

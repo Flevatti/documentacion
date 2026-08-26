@@ -4,7 +4,7 @@
 const { themes } = require("prism-react-renderer");
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === "development";
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Documentacion",
@@ -12,12 +12,14 @@ const config = {
   url: "https://flevatti.github.io",
   baseUrl: "/documentacion/",
   onBrokenLinks: "throw",
+  onBrokenAnchors: "throw",
   favicon: "img/favicon.ico",
   markdown: {
     hooks: {
       onBrokenMarkdownLinks: "throw",
       onBrokenMarkdownImages: "throw",
-    }
+  
+    },
   },
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -28,10 +30,21 @@ const config = {
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: "es",
+    locales: ["es"],
   },
-
+  themes: [
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      ({
+        indexBlog : false ,
+        hashed: true,
+        language: ["en" , "es"],
+        searchBarShortcutKeymap: "ctrl+shift+f", 
+        explicitSearchResultPath : true,
+      }),
+    ],
+  ],
   presets: [
     [
       "classic",
@@ -43,10 +56,9 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
-             exclude : isDev ? [] : ["CSharp/C13.md"],
-            
+          exclude: isDev ? [] : ["CSharp/C13.md"],
         },
-     
+
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
@@ -64,13 +76,6 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      algolia: {
-        appId: "7KL6IQT2TV",
-        apiKey: "0e0214c26197198d4aadaacea20230af",
-        indexName: "search_documentacion",
-        contextualSearch: true,
-        placeholder: "Busca en la documentacion",
-      },
       navbar: {
         title: "Presentacion",
         logo: {
