@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Array
+# JavaScript / Array
 
 
 - Los arrays son objetos que permiten almacenar múltiples valores en una sola variable.

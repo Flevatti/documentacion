@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Actividades  
+# Vue / Actividades  
 ## Actividades CDN / API Options
 
 ## Fetch user

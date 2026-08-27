@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# Funciones CSS
+# CSS / Funciones CSS
 
 - En CSS, muchas veces necesitaremos realizar operaciones más cercanas a un lenguaje de programación que a un lenguaje de estilos, como pueden ser cálculos o utilizar valores precalculados. Por esta razón, con el tiempo, se han ido añadiendo funciones CSS.
 - Las funciones CSS se utilizan como valor de algunas propiedades CSS.

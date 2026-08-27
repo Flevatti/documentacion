@@ -3,7 +3,7 @@ sidebar_position: 2
 ---
 
 
-# Etiquetas
+# HTML / Etiquetas
 ## Estructura Basica
  ```html
  <!DOCTYPE html>

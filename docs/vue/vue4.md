@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Vue #4
+# Vue / Extra #4
 
 ## Vue Router --  components/children
 

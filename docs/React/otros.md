@@ -1,7 +1,7 @@
 ---
 sidebar_position: 12
 ---
-# Otros
+# React / Otros
 
 ## Props
 

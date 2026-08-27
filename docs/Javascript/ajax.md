@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# AJAX Y FETCH
+# JavaScript / AJAX Y FETCH
 
 ## JS - FETCH 
 

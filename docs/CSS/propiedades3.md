@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Propiedades #3
+# CSS / Propiedades #3
 
 ## Propiedad filter
 - Aplica efectos gráficos como desenfoque o cambio de color a un elemento.

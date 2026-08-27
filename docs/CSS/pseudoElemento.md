@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Pseudo-elementos
+# CSS / Pseudo-elementos
 
 ## After y Before
 - Son pseudos-elementos

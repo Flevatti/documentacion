@@ -1,7 +1,7 @@
 ---
 sidebar_position: 12
 ---
-# API y mas
+# JavaScript / API y mas
 
 ## Navigator GeoLocation
 - La API de geolocalización se usa para recuperar la ubicación del usuario

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# Redux
+# React / Redux
 - Es un conjunto de patrones de como debes tratar el estado de tu app.
 
 ## Conceptos

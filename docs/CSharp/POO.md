@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Poo
+# C# / Poo
 ## Progamación Orientada a Objetos
 - Primero surgió la “Progamación Estructurada” que consistía en crear programas en base a variables y funciones. 
 - La evolución de este paradigma es la “Progamación Orientada a Objetos” (POO).

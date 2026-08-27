@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# Lo Basico de Node
+# Node / Basico
 
 ## ¿Qué es node?
 - [Info en Ingles](https://nodejs.org/en/about)

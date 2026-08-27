@@ -1,41 +1,66 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+Este sitio web está construido con [Docusaurus 3](https://docusaurus.io/), un generador de sitios web estáticos moderno.
 
-### Installation
+### Instalación
 
-```
-$ yarn
-```
+Este comando instala todas las dependencias necesarias para ejecutar el proyecto.
 
-### Local Development
-
-```
-$ yarn start
+```bash
+npm i
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+### Iniciar el servidor de desarrollo
 
-### Build
+Este comando inicia un servidor local en la PC para visualizar el sitio web y aplicar los cambios automáticamente.
 
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
+```bash
+npm start
 ```
 
-Not using SSH:
+### Compilación
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
+Este comando genera los archivos HTML, CSS, JavaScript y otros recursos necesarios para publicar el sitio web en un servicio de hosting. Estos archivos se generan en una carpeta cuyo nombre y ubicación se especifican mediante la opción `outDir` de `docusaurus.config.js`. Por defecto, se utiliza la carpeta `build`.
+
+
+```bash
+npm run build
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### Despliegue en GitHub Pages
+
+**NOTA IMPORTANTE ⚠️**: Antes de subir tus archivos locales a tu repositorio de GitHub, debes agregar cierta información al archivo **`docusaurus.config.js`**, específicamente en los parámetros relacionados con **`organizationName`**, **`projectName`**, **`url`** y **`baseUrl`**.
+
+```js
+module.exports = {
+  // ...
+  url: 'https://endiliey.github.io', // URL de tu sitio web
+  baseUrl: '/',
+  projectName: 'endiliey.github.io',
+  organizationName: 'endiliey',
+  // ...
+};
+```
+
+Donde:
+
+- **`organizationName`**: El nombre de usuario u organización de GitHub que posee el repositorio.
+- **`projectName`**: El nombre del repositorio de GitHub.
+- **`url`**: Indica la URL de GitHub Pages del usuario u organización. Generalmente sigue el formato `https://username.github.io`.
+- **`baseUrl`**: Indica la ruta que se utiliza para acceder al sitio web dentro de GitHub Pages. Si el repositorio tiene el mismo nombre que el usuario, se utiliza `/`. En caso contrario, se utiliza `/nombre-del-repositorio/`.
+
+Luego de configurar estos parámetros y compilar el sitio con el comando `build`, puedes desplegarlo en GitHub Pages.
+#### Formas de desplegar en GitHub Pages
+**Utilizando SSH:**
+```bash
+USE_SSH=true yarn deploy
+```
+**Sin utilizar SSH:**
+```bash
+GIT_USER=<Tu nombre de usuario de GitHub> yarn deploy
+```
+
+El comando `deploy` genera los archivos necesarios para publicar el sitio web y los almacena en la rama `gh-pages`. A su vez, activa GitHub Pages, que utiliza esta rama para publicar el sitio web y realizar el despliegue.
+
+
+Por cada actualización del sitio web, debes ejecutar nuevamente los comandos `build` y `deploy` para generar y publicar los archivos actualizados.

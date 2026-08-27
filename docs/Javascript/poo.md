@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# JS POO
+# JavaScript / POO
 - La programación orientada a objetos (POO) es un paradigma de programación basado en la creación de objetos que encapsulan datos (propiedades) y comportamientos (métodos).
 - JavaScript no es un lenguaje orientado a objetos basado originalmente en clases. Sin embargo, permite aplicar los principios de la programación orientada a objetos.
 - JavaScript es un lenguaje basado en prototipos.

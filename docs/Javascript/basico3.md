@@ -2,7 +2,7 @@
 sidebar_position: 11
 ---
 
-# Tipos de datos / Objetos /  API
+# JavaScript / Tipos de datos, Objetos y API
 ## Typeof
 ```js
     typeof X

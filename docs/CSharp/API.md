@@ -1,7 +1,7 @@
 ---
 sidebar_position: 12
 ---
-# API con .NET Core
+# C# / API con .NET Core
 
 ## Teoria
 #### ¿Qué es una API?

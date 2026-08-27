@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Base de datos
+# C# / Base de datos
 ## Qué es una base de datos (BD)
 - Es un lugar donde podemos guardar datos de una forma ordenada.
 - Al comienzo, los datos se guardaban en blogs de notas y Excels.

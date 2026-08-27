@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# React 
+# React / Inicio
 -	React es una biblioteca(librería) Javascript para crear interfaces de usuario.
 -	React no es un framework (a diferencia de Angular o Vue).
 -	React es un proyecto de código abierto creado por Facebook.

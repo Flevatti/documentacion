@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Typescript  - Parte 3
+# Typescript / Parte 3
 ## operador `satisfies`
 - El operador `satisfies` de TypeScript permite comprobar si un valor cumple con un tipo o interfaz específica.
 - Se utiliza para verificar que un valor cumpla con una estructura específica sin modificar el tipo que TypeScript infirió (detectó) automáticamente al comienzo, es decir, no cambia el tipo de dato original.

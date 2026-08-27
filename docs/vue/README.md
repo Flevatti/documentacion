@@ -1,7 +1,7 @@
 ---
 sidebar_position: 0
 ---
-# Vue #1 -- CDN con Options API
+# Vue / #1 -- CDN con Options API
 - Es un framework de javascript que nos facilita el desarrollo de interfaces.
 -  Esta enfocado en el frontend y en el desarollo de aplicaciones SPA
 -  Vue.js (comúnmente conocido como Vue) es un framework de JavaScript de código abierto para la construcción de interfaces de usuario y aplicaciones de una sola página. 

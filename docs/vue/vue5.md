@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# Vue #5
+# Vue / Extra #5
 
 ## Mixins
 - Esto se utiliza con la options API

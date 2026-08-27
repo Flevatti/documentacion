@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# Vue #2 -- VUE CLI con Options API
+# Vue /  #2 -- VUE CLI con Options API
 
 ## Vue CLI
 

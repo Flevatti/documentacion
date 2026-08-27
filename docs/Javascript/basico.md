@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# JavaScript Basico
+# JavaScript / Basico
 
 ## Como agregamos js?
 

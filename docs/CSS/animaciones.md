@@ -1,7 +1,7 @@
 ---
 sidebar_position: 12
 ---
-# Animaciones
+# CSS / Animaciones
 
 - En este apartado habra animaciones utilizando HTML , CSS Y JAVASCRIPT
 - Se ubicara en la documentacion de CSS porque este es crucial para cualquier animación.

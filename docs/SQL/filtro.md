@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Distinct  / Order By / Limit / Offset
+# SQL / Distinct, Order By, Limit y Offset
 
 ## Distinct
 - En algunas consultas, es posible que varias filas tengan el mismo valor en una determinada columna. Por ejemplo, varias películas pueden haberse estrenado en el mismo año.

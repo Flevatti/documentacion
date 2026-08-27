@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# Reducer
+# React / Reducer
 
 ## useReducer
 - useReducer es un hook de React que se utiliza para manejar el estado en componentes más complejos, especialmente cuando el estado se puede modificar de varias manera o cuando el estado tiene una estructura más compleja que simplemente un valor primitivo o un objeto.

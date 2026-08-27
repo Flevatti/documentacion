@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# Conceptos de "C#" - Parte 3
+# C# / Conceptos - Parte 3
 
 ## Palabra clave nameof
 - La palabra clave nameof genera el nombre de una variable, un tipo de dato  , un miembro , un espacio de nombre , etc como un String.

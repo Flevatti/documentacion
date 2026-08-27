@@ -1,4 +1,4 @@
-# Guía de VUEPress
+# Vuepress / Guía 
 
 1. Es una herramienta para documentar nuestros proyectos.
 2. Permite crear páginas estáticas.

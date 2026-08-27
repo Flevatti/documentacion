@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Guia Git
+# Git / Guia
 
 ## Control de versiones
 - Un sistema de control de versiones (VCS) es un programa o conjunto de programas que realiza un seguimiento de los cambios en una colección de archivos.

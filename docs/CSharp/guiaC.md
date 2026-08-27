@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Conceptos de "C#"
+# C# / Conceptos 
 - Los  apartados anteriores contienen los aspectos básicos de C#.
 ## Try Catch
 - Al ejecutar código C#, pueden ocurrir diferentes errores: errores de codificación realizados por el programador, errores debido a una entrada incorrecta u otros imprevistos.
@@ -916,12 +916,12 @@ La multidifusión de los Delegates es la característica que permite suscribirse
 
 ```
 - Como vemos, un indexer debe contener los siguientes términos:
-   -	Modificador de acceso:  puede ser público, privado, protected o internal. 
-   -	Tipo de retorno: cualquier tipo de dato C# es válido.
-   -	This: palabra clave que apunta al objeto de la clase actual.
-   -	Index: indicamos la posición en la lista(array) al que vamos a acceder. No tiene por qué ser un entero como hacemos en los arrays, puede ser cualquier tipo de dato. 
-   -	Get, set : propiedades de acceso a los elementos. 
-   -	Cuando asignamos valor, lo hacemos a través de la palabra clave value. 
+   - **Modificador de acceso:** puede ser `public`, `private`, `protected` o `internal`.
+   - **Tipo de retorno:** cualquier tipo de dato válido en C#.
+   - **`this`:** palabra clave que apunta al objeto actual de la clase.
+   - **`index`:** representa el valor que será utilizado como índice. En `[index]` se declara también el tipo de dato que tendrá dicho índice. Puede ser cualquier tipo de dato válido en C#, no necesariamente un entero.
+   - **`get`, `set`:** permiten obtener y asignar valores.
+   - **`value`:** palabra clave que representa el valor que se está asignando mediante `set`.
 
 #### Ejemplo
 ```csharp

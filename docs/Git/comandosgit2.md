@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Comandos de Git -- Parte 2
+# Git / Comandos -- Parte 2
 
 ## git request-pull
 - El comando **git request-pull** se utiliza para generar un resumen de los cambios que has realizado en una rama local y enviar una solicitud de extracción (pull request) al propietario del repositorio original.

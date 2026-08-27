@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Reactividad vue 3
+# Vue / Reactividad de Vue 3
 
 ## ref()
 - Las variables de la composition API (ya sea con el hook setup() o el &lt;script setup>) que utilizamos en el &lt;template> No tienen reactividad.

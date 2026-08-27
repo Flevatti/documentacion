@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Token y Practica API REST
+# Node / Token y Practica API REST
 ## JWT(JSON WEB TOKEN)
 -	Es un token de seguridad que nosotros creamos al momento que el usuario se registra con sus credenciales(inicia sesion)
 -	Este token se devuelve al cliente el cual tendrá que enviar cada vez que solicita información al servidor.

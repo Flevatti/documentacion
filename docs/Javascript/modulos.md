@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 ---
-# Export/Import/LocalStorage
+# JavaScript / Import, Export y LocalStorage
 
 ## JS Módulos
 

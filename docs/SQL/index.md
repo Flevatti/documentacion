@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# SQL
+# SQL / Inicio
 
 - SQL  o Structured Query Language, es un lenguaje diseñado para permitir que los usuarios técnicos y no técnicos consulten, manipulen y transformen datos de una base de datos relacional. 
 - Debido a su simplicidad, las bases de datos que utilizan SQL ofrecen un almacenamiento seguro y escalable para millones de sitios web y aplicaciones móviles.

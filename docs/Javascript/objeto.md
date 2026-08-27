@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Objeto
+# JavaScript / Objeto
 
 -	JavaScript está diseñado en un paradigma simple basado en objetos.
 -	Un objeto es una colección de propiedades, y una propiedad es una asociación entre una clave(nombre)  y un valor (CLAVE Y VALOR).

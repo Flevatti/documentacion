@@ -2,7 +2,7 @@
 sidebar_position: 11
 ---
 
-# Hooks y CSS 
+# React / Hooks y CSS 
 - Un hook es una función especial de React que te permite "enganchar" (de ahí el término hook, que significa gancho) funcionalidades de React, como el manejo de estado y el ciclo de vida, en componentes funcionales.
 -	Los hooks no funcionan dentro de las clases.
 -	Proporcionan un estado y un ciclo de vida a los componentes evitándonos a los desarrolladores el uso de las clases.

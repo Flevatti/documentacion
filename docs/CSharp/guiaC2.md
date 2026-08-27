@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Conceptos de "C#" - Parte 2
+# C# / Conceptos - Parte 2
 
 ## Action, Func Y Predicate
 

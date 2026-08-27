@@ -2,7 +2,7 @@
 sidebar_position: 13
 ---
 
-# Autenticación JWT y Refresh Token en API REST
+# C# / Autenticación JWT y Refresh Token en API REST
 
 - Con la autenticación JWT podemos confirmar el acceso a nuestras API solo a los usuarios autorizados.
 - Se usará el Refresh Token para generar el token sin preguntar las credenciales al usuario.

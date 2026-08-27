@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# Docker
+# Docker / Inicio
 ## Contenedor
 - Antes de descubrir Docker, hay que entender qué es un contenedor.
 - Los contenedores de Docker son una tecnología que permite empaquetar aplicaciones y sus dependencias en un entorno aislado y consistente. Esto garantiza que la aplicación se ejecutará de la misma manera en cualquier entorno, ya sea en una máquina de desarrollo local, un servidor de pruebas, o en producción.

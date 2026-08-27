@@ -1,7 +1,7 @@
 ---
 sidebar_position: 13
 ---
-# Otros #2
+# React / Otros #2
 ## React.Component
 - Un componente se crea con una [función](https://beta.es.reactjs.org/learn/your-first-component)   , pero también se puede crear uno a través de clases
 - Para esto , necesitamos crear una clase con el nombre del componente que herede React.component.

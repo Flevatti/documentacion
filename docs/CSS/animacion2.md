@@ -1,7 +1,7 @@
 ---
 sidebar_position: 13
 ---
-# Animaciones #2
+# CSS / Animaciones #2
 
 ## Hover en imagenes
 ```html

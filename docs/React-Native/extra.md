@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Extra
+# React native / Extra
 ## MapView
 - react-native-maps proporciona un componente MapView que utiliza Google Maps en Android y Apple Maps o Google Maps en iOS.
 - No se requiere configuración adicional al probar su proyecto con Expo Go. Sin embargo, para implementar el binario de la aplicación en las tiendas de aplicaciones, [se requieren pasos adicionales para Google Maps](https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps).

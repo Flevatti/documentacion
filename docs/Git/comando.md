@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-#  CMD VS  POWERSHELL
+#  Git / CMD VS  POWERSHELL
 ## CMD
 - Mas antiguo.
 - Mas limitado.

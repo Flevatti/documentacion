@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# At Rules
+# CSS / At Rules
 - Una regla-at es una declaración CSS que comienza con el símbolo arroba (`@`) seguido de un identificador.
 - Después del identificador se indica su contenido, que puede ser un conjunto de reglas CSS o información que le indica a la regla-at qué debe hacer.
 - El contenido se puede especificar de dos formas:
@@ -51,8 +51,7 @@ sidebar_position: 9
 - Max-width:1200px;
 
 :::tip Imagenes
-- [Responsive Screen Size BreakPoints](../static/img/../../../FeC2NvSakAAo84f.jpg)
-
+- [Responsive Screen Size BreakPoints](../../static/img/FeC2NvSakAAo84f.jpg)
 :::
 
 ## @layer

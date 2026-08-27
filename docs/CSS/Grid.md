@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 ---
-# Grid
+# CSS / Grid
 Es un valor de la propiedad display
 Nos permite trabajar en el Layout(maquetación) a través de grilla(grid)
 ## Grilla

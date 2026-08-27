@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Etiquetas #03
+# HTML / Etiquetas #03
 
 ## HTML semantico
 

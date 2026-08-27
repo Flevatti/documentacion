@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Options API / Composition API
+# Vue / Options API y Composition API
 
 ## Options API
 

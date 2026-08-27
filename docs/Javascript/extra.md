@@ -2,7 +2,7 @@
 sidebar_position: 15
 ---
 
-# Extra
+# JavaScript / Extra
 
 ## Pagina primer plano
 - Podemos detectar si una página web está en primer plano utilizando los eventos `blur` y `focus`, o la API de visibilidad de página:
@@ -579,7 +579,7 @@ console.log(suma(2, 3)); // 5
 ## Interfaz
 - En programación, una interfaz es una estructura que define un conjunto de métodos y propiedades que una clase debe implementar, sin proporcionar la implementación de esos métodos. De esta forma, garantiza que todas las clases que la implementen ofrezcan los mismos métodos y propiedades con la misma firma (nombre, parámetros y tipo de retorno). Este concepto es especialmente común en lenguajes orientados a objetos como Java, C# y TypeScript.
 - También se puede usar el término "interfaz" para referirse a un "intermediario" entre dos partes de un sistema o entre distintos programas. Permite interactuar con otra parte del sistema o con otro software sin conocer los detalles de su implementación. En programación, una interfaz suele estar formada por un conjunto de métodos o propiedades que nos permiten comunicarnos con la otra parte sin necesidad de conocer cómo funciona internamente esa otra parte.
-
+- En **Frontend**, una interfaz es todo lo que el usuario puede **ver**, por ejemplo, **botones, formularios, tablas**, etc. El usuario puede **interactuar con estos elementos y realizar acciones** en la aplicación. Por lo tanto, este concepto está relacionado con la idea de **intermediario**, ya que la interfaz permite al usuario comunicarse con la aplicación sin necesidad de conocer cómo funciona internamente.
 
 
 

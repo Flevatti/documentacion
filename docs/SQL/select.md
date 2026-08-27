@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Select
+# SQL / Select
 
 - Para recuperar datos de una base de datos SQL, necesitamos usar SELECT, que a menudo se denomina coloquialmente como consulta.
 - Una consulta  es solo una declaración que declara qué datos estamos buscando (SELECT), dónde encontrarlos en la base de datos (FROM) y, opcionalmente, cómo transformarlos antes de que sean devueltos. 

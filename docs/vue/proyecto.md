@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# Proyecto #1
+# Vue / Proyecto #1
 
 
 

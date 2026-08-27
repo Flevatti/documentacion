@@ -1,7 +1,7 @@
 ---
 sidebar_position: 0
 ---
-# JavaScript
+# JavaScript / Inicio
 
 - **JavaScript** es un lenguaje de programación utilizado principalmente para permitir que el usuario interactúe con una página web.
 - Puede ejecutarse tanto en el **frontend** (en el navegador) como en el **backend** (por ejemplo, con **Node.js**).

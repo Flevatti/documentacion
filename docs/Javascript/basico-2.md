@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# JavaScript Basico 2 
+# JavaScript / Basico 2 
 
 :::tip
 

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# API REST 2022
+# Node / API REST 2022
 - Separaremos lo que es backend del frontend, por ende este mismo proyecto de back nos servirá tanto para Vue o React.
 ### Normas a seguir 
 - No se puede guardar la sesion del usuario en el servidor

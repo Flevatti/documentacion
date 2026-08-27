@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Introduccion
+# React / Introduccion
 
 ## Como crear un proyecto con React
 - React es una librería centrada exclusivamente en la construcción de interfaces de usuario, y no cubre todas las funcionalidades necesarias para construir una aplicación web completa. Debido a esta limitación, es recomendable usarlo con un framework cuando se requiere más funcionalidades/herramientas o mejorar la estructura del código. Aquí algunas razones clave:

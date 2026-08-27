@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# DOM 
+# JavaScript / DOM 
 
 ### Dom / Dom Real / Arbol Dom
 - El DOM Real (Document Object Model) es una representación de la estructura de un documento HTML o XML en la que los navegadores web crean un árbol de nodos que representan los elementos HTML  del documento. Este árbol permite que los scripts y el navegador interactúen con el contenido y la estructura de la página. Cuando se modifica el DOM Real, el navegador tiene que volver a renderizar la página, lo que puede ser costoso en términos de rendimiento, especialmente si hay muchas modificaciones.

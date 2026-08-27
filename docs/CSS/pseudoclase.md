@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# PseudoClase
+# CSS / PseudoClase
 
 
 ## `:is()` y `:where()` 

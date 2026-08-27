@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# App todo
+# React / App todo
 ## Iniciar App 
 En la carpeta raiz (que contiene los proyectos(app))
 ```powershell

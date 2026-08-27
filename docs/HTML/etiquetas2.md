@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Etiquetas #02
+# HTML / Etiquetas #02
 
 ## Multimedia
 ### Imagenes

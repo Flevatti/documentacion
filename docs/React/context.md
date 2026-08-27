@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Context API
+# React / Context API
 - Context en React es una herramienta que permite que los datos estén disponibles en todos los componentes (árbol de componente) sin la necesidad de pasar props de manera explícita en cada nivel. Esto resulta útil para gestionar datos que deben ser accesibles globalmente, como el usuario autenticado, el tema de la aplicación o el idioma seleccionado. Context se utiliza especialmente cuando diferentes vistas o componentes necesitan acceder a estos datos, incluso si no están anidados directamente.
 - Context permite que los datos importantes de tu aplicación estén disponibles para cualquier componente, sin importar en qué parte se encuentren. Esto significa que no tienes que pasar información de un componente a otro; simplemente defines el dato en un lugar, y cualquier componente que lo necesite puede obtenerlo directamente. Es ideal para datos como el usuario actual, el idioma o el tema visual.
 

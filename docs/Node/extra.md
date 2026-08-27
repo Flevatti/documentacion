@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# Extra
+# Node / Extra
 ## Buffer
 - Es una tira de bytes (datos binarios)
 - Similar a un array de enteros donde cada posición es un byte.

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# MongoDB
+# Node / MongoDB
 - Es una base de datos que puede trabajar en la nube.
 - [info](https://www.mongodb.com/)
 - Tiene un plan gratis.

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# Vue #3
+# Vue / Extra #3
 ## watchEffect()
 - Es como watch
 - Recibe un callback

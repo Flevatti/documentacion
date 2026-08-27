@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# Expresiones y funciones
+# SQL / Expresiones y funciones
 
 ## Expresiones/funciones
 Las expresiones permiten modificar los valores devueltos por una consulta. Para ello, podemos utilizar operadores aritméticos y funciones matemáticas o de cadena de texto, como se muestra en el siguiente ejemplo:

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 ---
-#  Proyecto
+#  React / Proyecto
 
 ## Vite
 - [Sitio web](https://vitejs.dev/)

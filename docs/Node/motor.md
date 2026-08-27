@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Motores de plantillas/vistas
+# Node / Motores de plantillas y vistas
 - Si bien podríamos trabajar con archivos estáticos HTML, existe una forma más dinámica de crear sitios web utilizando motores de plantillas.
 - Algunos de los más populares son: `ejs`, `hbs`, `hjs`, `jade`, `pug`, `twig`, `vash`.
 - Express tiene soporte para estos *template engines* (motores de plantillas).

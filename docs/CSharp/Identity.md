@@ -2,7 +2,7 @@
 sidebar_position: 14
 ---
 
-# Autenticación JWT y Identity Core
+# C# / Autenticación JWT y Identity Core
 ## ¿Qué es un Json Web Token?
 - Un JSON Web Token (JWT) es un estándar (RFC 7519) que define una forma segura y compacta de transmitir información entre dos entidades en forma de un objeto JSON.
 - Esta información puede ser verificada y es confiable ya que está firmada digitalmente. Los JWTs pueden ser firmados utilizando una llave privada (con un algoritmo HMAC) o con llaves públicas y privadas utilizando RSA o ECDSA.

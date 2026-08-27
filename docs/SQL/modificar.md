@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# Manipulacion de tablas
+# SQL / Manipulacion de tablas
 
 ## ¿Qué es un esquema?
 

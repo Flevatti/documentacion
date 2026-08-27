@@ -1,7 +1,7 @@
 ---
 sidebar_position: 11
 ---
-# Conceptos de "C#" - Parte 6
+# C# / Conceptos de "C#" - Parte 6
 
 ## Palabra clave virtual
 - La palabra clave virtual en C# se utiliza para permitir que un método, propiedad, índice o evento en una clase base pueda ser anulado (sobrescrito) en una clase derivada. Esto es parte del mecanismo de polimorfismo en la programación orientada a objetos y permite que una clase derivada proporcione una implementación específica de un método que ya está definido en su clase base.

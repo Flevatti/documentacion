@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Comandos de Git
+# Git / Comandos 
 ## Git init
 - Inicializa un repositorio.
 - Ejecutar este comando crea el subdirectorio. git en el  directorio en el que se ejecuta (el  directorio del proyecto); no se agregan ni cambian archivos que no sean en el subdirectorio .git

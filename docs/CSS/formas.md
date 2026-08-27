@@ -2,7 +2,7 @@
 sidebar_position: 14
 ---
 
-# Formas
+# CSS / Formas
 ## Luna
 ```html
 <!DOCTYPE html>

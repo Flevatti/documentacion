@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# Conceptos de "C#" - Parte 4
+# C# / Conceptos - Parte 4
 
 ## Params
 - Params es una palabra clave importante en C# . Se utiliza como un argumento que puede tomar los valores de varias variables que se pasan como parámetro. Ósea puede tratar varios parámetros como un array (matriz).

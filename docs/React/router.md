@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# React Router v6
+# React / React Router v6
 - Los ejemplos pueden estar escritos en TypeScript.
 ## Router v6
 - [Documentación](https://reactrouter.com/en/main)

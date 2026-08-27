@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Promesas, Async, Await , API
+# JavaScript / Promesas, Async, Await , API
 
 ## CallBack
 

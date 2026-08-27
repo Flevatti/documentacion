@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# Typescript
+# Typescript / Inicio
 - Typescript es un superconjunto de javascript.
 - Typescript hace que javascript sea fuertemente tipado y que tenga algunas funcionalidades POO (Orientado a Objetos).
 - Typescript es un lenguaje compilado, [javascript es un lenguaje interpretado](https://developer.mozilla.org/es/docs/Learn/JavaScript/First_steps/What_is_JavaScript#c%C3%B3digo_interpretado_versus_compilado).

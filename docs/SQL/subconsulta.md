@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 ---
-# SubConsultas
+# SQL / SubConsultas
 - A veces necesitamos tanta información que una sola consulta no es suficiente.
 - En estos casos, podemos realizar varias consultas y procesar los datos nosotros mismos, o utilizar subconsultas para crear una consulta más compleja.
 

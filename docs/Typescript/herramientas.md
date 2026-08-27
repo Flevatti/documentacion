@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Herramientas
+# Typescript / Herramientas
 
 ## Compodoc
 - Compodoc es una herramienta enfocada en la documentación de proyectos construidos en Angular, la cual genera una serie de archivos estáticos muy hermosos (HTMLs, Css o Sass, Js) , pues genera un menú de navegación, barra de búsqueda, y otras secciones super importantes en donde podemos analizar la arquitectura del proyecto, la estructura modular o las dependencias que utiliza la App. 

@@ -2,16 +2,15 @@
 sidebar_position: 1
 ---
 
-# Proyecto 1 
-## React native
-- React Native, es un framework de código abierto creado por Meta Platforms, Inc. Se utiliza para desarrollar aplicaciones para Android,  Android TV,  iOS, macOS,  tvOS, Web,  Windows y UWP al permitir que los desarrolladores usen React con las características nativas de estas plataformas.
-- El código se ejecutara de manera nativa para Android y iOS.
-- React native te permite  renderizar un componente especifico dependiendo en que sistema operativo estes.
+# React native / Proyecto 1 
+- **React Native** es un framework de código abierto creado por **Meta Platforms, Inc.** Se utiliza para desarrollar aplicaciones para **Android, Android TV, iOS, macOS, tvOS, Web, Windows y UWP**, permitiendo utilizar **React para crear aplicaciones que pueden utilizar las funciones específicas que brinda cada sistema operativo**.
+- React Native permite crear aplicaciones que pueden utilizar **funciones específicas que brinda cada sistema operativo**, como **Android e iOS**.
+- React Native permite **renderizar un componente específico dependiendo del sistema operativo** en el que se ejecute la aplicación.
 - [Guia de instalación](https://reactnative.dev/docs/environment-setup)
 #### ¿Qué es app nativa?
-- Una app nativa es aquella que ha sido desarrollada en el lenguaje de programación específico de un sistema operativo. Es decir, si hablamos de Android, la app nativa habrá sido desarrollada con el lenguaje de programación Kotlin o Java
-- La aplicación nativa está desarrollada y optimizada específicamente para el sistema operativo determinado y la plataforma de desarrollo del fabricante (Android, iOS, etc). 
-- Este tipo de aplicaciones se adapta al 100% con las funcionalidades y características del dispositivo obteniendo así una mejor experiencia de uso
+- Una **app nativa** es una aplicación desarrollada específicamente para que funcione en un **sistema operativo** determinado. Cada sistema operativo recomienda **lenguajes de programación específicos** para tener acceso a las **funciones específicas** de este. Por ejemplo, en **Android** se recomienda utilizar **Kotlin o Java**.
+- La aplicación nativa está desarrollada y optimizada específicamente para un **sistema operativo** determinado, utilizando las **herramientas y lenguajes de programación recomendados** por este.
+- Este tipo de aplicaciones puede usar las **funciones y características que brinda el sistema operativo y el dispositivo**.
 
 :::tip Info
 - [¿Qué es una App Nativa? Características y ventajas](https://actualizatec.com/blog/app-nativa/#:~:text=Una%20app%20nativa%20es%20aquella,de%20programaci%C3%B3n%20Kotlin%20o%20Java)
@@ -20,8 +19,8 @@ sidebar_position: 1
 
 
 ## Instalación
-- Vamos a utilizar [Expo](https://expo.dev/) , que es una plataforma que utiliza react native y que además le prevé diferentes librerías, bibliotecas y diferentes tipos de mejoras.
-- Es la plataforma por defecto para desarollar en react native.
+- Vamos a utilizar [Expo](https://expo.dev/), que es una **herramienta** que utiliza **React Native** y que además **ofrece** diferentes **librerías, herramientas y mejoras** para facilitar el desarrollo de aplicaciones.
+- Es la **herramienta utilizada por defecto** para desarrollar con **React Native**.
 #### 1- Instalación
 ```powershell
 npm install -g expo-cli 
@@ -76,13 +75,14 @@ En un celular con “control + m” abrís un menu de expo
 ## Componentes
 - [Componentes Basicos y APIs](https://reactnative.dev/docs/components-and-apis)
 #### Componente StatusBar
-- Nos permite controlar la barra de estado de la app dependiendo del dispositivo. 
+- Nos permite controlar la barra de estado. 
 - La barra de estado es la zona, generalmente en la parte superior de la pantalla, que muestra la hora actual, la información de la red Wi-Fi y celular, el nivel de la batería y/u otros íconos de estado.
 #### Componente Text
 - El componente Text, tiene el texto que se va a mostrar.
 - Text es el único componente de React Native, para renderizar texto
 #### Componente View
-- Es el componente básico para crear cualquier interfaz.
+- Es el componente utilizado para **agrupar otros componentes**.
+- Se utiliza para **crear una interfaz**.
 - Una vista (view) puede tener varios componentes adentro (incluso una vista)
 - Se podría decir que es una etiqueta &lt;div> con flexbox.
 #### Componente textInput
@@ -175,11 +175,11 @@ export default function App() {
 
 ```
 ### expo-constants
-- El codigo anterior tiene un problema: el texto se renderiza en el punto 0 0 y no se ve.
-- Para solucionar el problema , tenemos que usar las constantes de expo-constants
-- De forma nativa, no se puede usar CSS. Pero el componente View tiene la props style para manejar el “estilo” de la APP.
-- Dependiendo de la plataforma en la que ejecutes el programa , los valores de las constantes de  expo-constants son diferentes. Estos valores son útiles para la props Style.
-- Por ejemplo : la constante (propiedad) statusBarHeight es la altura predeterminada de la barra de estado para el dispositivo.
+- El código anterior tiene un problema: el texto se renderiza en el punto **(0, 0)** y no se ve correctamente.
+- Para solucionar este problema, tenemos que utilizar las **constantes de `expo-constants`**.
+- En React Native no se utiliza **CSS**. Sin embargo, el componente `View` tiene la **prop `style`**, que permite definir el estilo de la aplicación.
+- Dependiendo de la **plataforma** en la que ejecutes el programa, los valores de las constantes de `expo-constants` son diferentes. Estos valores son útiles para utilizarse en la **prop `style`**.
+- Por ejemplo, la constante (propiedad) `statusBarHeight` representa la **altura de la barra de estado** del dispositivo.
 
 Main.jsx
 

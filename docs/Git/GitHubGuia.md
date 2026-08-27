@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Guia GitHub 
+# Git / Guia GitHub 
 ## GitHub
 - GitHub es una plataforma de desarrollo que permite hospedar y revisar código, administrar proyectos y compilar software junto con 50 millones desarrolladores.
 - ¿Por qué todo el mundo compila en GitHub? Porque proporciona las características más importantes de DevOps que las empresas y las organizaciones de todos los tamaños necesitan para sus proyectos públicos y privados. Ya sea para planificar características, corregir errores o colaborar en cambios, GitHub es el lugar en el que los desarrolladores de software de todo el mundo se reúnen para trabajar y mejorar las cosas.

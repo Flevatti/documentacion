@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Router
+# Node / Router
 
 - El Router sirve para organizar y ordenar las rutas de una aplicación (URLs/URIs).
 - [Info](https://expressjs.com/es/guide/routing.html)

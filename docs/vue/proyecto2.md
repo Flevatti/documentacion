@@ -2,7 +2,7 @@
 sidebar_position: 10
 ---
 
-# Proyecto 2 -- ShortUrl
+# Vue / Proyecto 2 -- ShortUrl
 
 ## API a consumir 
 - [Guia de la Api ](https://flevatti.github.io/documentacion/docs/Node/apiRest)

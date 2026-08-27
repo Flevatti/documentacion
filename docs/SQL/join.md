@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Join
+# SQL / Join
 
 ## Normalizacion
 

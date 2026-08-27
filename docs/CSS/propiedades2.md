@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Propiedades #2
+# CSS / Propiedades #2
 ## Animaciones
 ### Propiedad animation-name y animation-duration
 #### Propiedad animation-name

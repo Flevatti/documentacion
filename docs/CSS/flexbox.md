@@ -1,7 +1,7 @@
 ---
 sidebar_position: 11
 ---
-# Flexbox
+# CSS / Flexbox
 
 Viene de una __caja flexible__
 Requiere de un __conteiner y de items(hijos del conteiner)__

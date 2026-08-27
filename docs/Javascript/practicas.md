@@ -1,7 +1,7 @@
 ---
 sidebar_position: 14
 ---
-# Buenas practicas
+# JavaScript / Buenas practicas
 
 
 - No se debe usar if/else ANIDADOS . En su lugar usamos la tecnica Guard Clauses.

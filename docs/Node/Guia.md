@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# Guia practica - 2022
+# Node / Guia practica - 2022
  Iniciamos el proyecto 
  ```powershell
  npm init -y

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 ---
-# Validaciones (Formulario)
+# JavaScript / Validaciones (Formulario)
 
 ## Expresiones Regulares
 - Las expresiones regulares (a menudo llamadas `RegExp` o `RegEx`) son patrones utilizados para buscar combinaciones de caracteres dentro de cadenas de texto (`string`).

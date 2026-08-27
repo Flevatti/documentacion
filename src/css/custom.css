@@ -31,9 +31,7 @@
 }
 
 
-svg {
-  width:150px !important;
-}
+
 
 .DocSearch-Hit-icon {
   display:none !important;
@@ -48,10 +46,16 @@ article {
 }
 
 .navbar__search-input {
-   width:25vw;
+   width:25vw !important;
 }
 
 .searchIcon_T3tP {
   width:20px !important;
   left:10px !important;
+}
+
+@media (max-width: 1000px) {
+ .navbar__search-input {
+   width:50vw !important;
+}
 }

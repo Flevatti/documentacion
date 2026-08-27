@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Propiedades
+# CSS / Propiedades
 ## Propiedad `aspect-ratio`
 
 #### Razón (ratio) en matemáticas

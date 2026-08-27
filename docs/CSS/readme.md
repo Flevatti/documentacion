@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# CSS
+# CSS / Inicio
 
 :::tip Consejo
 Siempre como primera linea se debe aplicar:

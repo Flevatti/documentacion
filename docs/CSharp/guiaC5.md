@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 ---
-# Conceptos de "C#" - Parte 5
+# C# / Conceptos - Parte 5
 
 ## Atributos
 - En C#, los atributos son metadatos que se asignan a elementos del código, como clases, tipos, métodos y campos.

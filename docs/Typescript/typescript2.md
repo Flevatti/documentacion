@@ -6,7 +6,7 @@ sidebar_position: 2
 
 
 
-# Typescript  - Parte 2
+# Typescript / Parte 2
 ## Typeof 
 - Sirve para crear un tipo de dato a partir de una constante (variable):
 

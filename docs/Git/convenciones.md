@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 ---
-# Estándar
+# Git / Estándar
 ## Nombre de Proyecto
 #### Reglas generales
 - Usar siempre nombres en minúsculas y en slug-case (palabras separadas por guiones).​

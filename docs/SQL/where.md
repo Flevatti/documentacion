@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Where
+# SQL / Where
 ## Consultas con restricciones
 - Si una tabla tuviera millones de filas, leer todos los datos sería ineficiente.
 - Para obtener solo los datos que necesitamos, utilizamos la cláusula `WHERE` en la consulta. Esta evalúa cada fila y, si cumple la condición indicada, la incluye en el resultado; de lo contrario, la descarta.

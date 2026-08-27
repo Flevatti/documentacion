@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Propiedades #4
+# CSS / Propiedades #4
 
 ## Propiedad text-decoration
 - Establece la apariencia de las líneas decorativas en el texto.

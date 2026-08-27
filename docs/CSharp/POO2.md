@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Conceptos de POO - Parte 2
+# C# / Conceptos de POO - Parte 2
 
 ## Abstracción
 - Si nuevamente nos vamos al diccionario tenemos que abstraer significa dejar de lado lo poco relevante y enfocarnos en lo más importante o relevante para un fin buscado.

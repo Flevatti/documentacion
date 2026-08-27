@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 ---
-# Extra #03
+# Node / Extra #03
 ## Uso de la Carpeta "Service"
 - La carpeta `service` en proyectos de Node.js y Express.js es una convención común utilizada para organizar el código. En ella se almacenan los archivos que contienen la lógica de negocio que puede ser utilizada en diferentes partes de la aplicación.
 - Cada archivo representa un servicio dentro de la aplicación.

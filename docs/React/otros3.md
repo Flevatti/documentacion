@@ -1,7 +1,7 @@
 ---
 sidebar_position: 14
 ---
-# Otros #3
+# React / Otros #3
 
 ## Componente
 #### Que es un Componente

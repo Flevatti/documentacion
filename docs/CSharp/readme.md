@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# "C#"
+# C# / Inicio
 ## Historia
 #### .NET (en general)
 - Es una plataforma de desarrollo para construir cualquier cosa:

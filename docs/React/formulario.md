@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Formulario
+# React / Formulario
 
 Configuracion Inicial
 

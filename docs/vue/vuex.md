@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 ---
-# Vuex
+# Vue / Vuex
 
 
 - Vuex es un patrón de gestión de estado + biblioteca para aplicaciones Vue.js. Sirve como un almacén centralizado para todos los componentes de una aplicación, con reglas que garantizan que el estado solo se puede modificar de forma predecible.

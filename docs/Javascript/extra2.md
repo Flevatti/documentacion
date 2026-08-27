@@ -2,7 +2,7 @@
 sidebar_position: 16
 ---
 
-# Extra 2
+# JavaScript / Extra 2
 ## Tipos de modulos
 #### ¿Que es un modulo?
 - Un módulo en JavaScript es, esencialmente, un archivo de código que contiene funcionalidades específicas (como clases, funciones o variables) diseñadas para ser utilizadas en otros archivos.
