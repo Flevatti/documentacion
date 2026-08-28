@@ -64,9 +64,8 @@ Si utilizas la consola de Windows (CMD), ejecuta el siguiente comando:
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && npm run deploy"
 ```
 
-:::tip
-Se recomienda ingresar el nombre de usuario en **minúsculas** para evitar posibles inconvenientes.
-:::
+> [!TIP]
+> Se recomienda ingresar el nombre de usuario en **minúsculas** para evitar posibles inconvenientes.
 
 
 
