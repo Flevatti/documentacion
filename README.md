@@ -53,12 +53,22 @@ Luego de configurar estos parámetros y compilar el sitio con el comando `build`
 #### Formas de desplegar en GitHub Pages
 **Utilizando SSH:**
 ```bash
-USE_SSH=true yarn deploy
+USE_SSH=true npm run deploy
 ```
 **Sin utilizar SSH:**
 ```bash
-GIT_USER=<Tu nombre de usuario de GitHub> yarn deploy
+GIT_USER=<Tu nombre de usuario de GitHub> npm run deploy
 ```
+Si utilizas la consola de Windows (CMD), ejecuta el siguiente comando:
+```bash
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && npm run deploy"
+```
+
+:::tip
+Se recomienda ingresar el nombre de usuario en **minúsculas** para evitar posibles inconvenientes.
+:::
+
+
 
 El comando `deploy` genera los archivos necesarios para publicar el sitio web y los almacena en la rama `gh-pages`. A su vez, activa GitHub Pages, que utiliza esta rama para publicar el sitio web y realizar el despliegue.
 

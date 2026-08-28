@@ -12,7 +12,7 @@ Es un software de control de versiones, su propósito es llevar registro de los 
 - Las "branches" o ramas, permiten trabajar con una base de código paralela al proyecto en sí.
 - [8 Razones para usar GIT.](https://blog.coffeedevs.com/8-razones-para-usar-git/)
 ## Para usar GIT hay que saber los comandos basicos de la Consola
-- [Comandos.](comando)
+- [Comandos.](./comando.md)
 
 ## Comandos basicos de git
 
